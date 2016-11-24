@@ -1,0 +1,156 @@
+body{
+	font:80% "Microsoft JhengHei" , sans-serif;
+	background-color:#A3A3FF;
+	
+	font-size: 18px;
+}
+span,label{
+	cursor:pointer;	
+}
+td:hover{
+	background-color:#E3E3E3;
+	cursor:pointer;
+}
+
+table{
+	border-radius:10px;
+	/*text-align:center;*/
+	border-collapse:separate;	/* 使border不聽操控 */
+	border-spacing:0;  /* 使表格間沒有空隙 */ 
+	table-layout:fixed;		/*防止內容被撐開*/
+	word-wrap:break-word;   /* 不執行換行 */
+	
+	
+}
+table td{
+	padding:0 0 0 0;
+}
+
+/*
+	td,th{
+	vertical-align:middle;
+	width:200px;
+	
+	}
+*/
+/*
+	tr:first-child th:first-child{
+	border-top-left-radius:20px;
+	}
+	tr:first-child th:last-child{
+	border-top-right-radius:20px;
+	}
+*/
+tr:last-child th:first-child{
+	border-bottom-left-radius:20px;
+}
+tr:last-child th:last-child{
+	border-bottom-right-radius:20px;
+}
+
+#mainDiv{
+	border-bottom-left-radius:20px;	
+	border-bottom-right-radius:20px;	
+	margin-left:40px;
+	margin-right:40px;
+	margin-top:80px;
+}
+
+#header{		/* 上方div */
+	background-color:#FFFFFF;
+	text-align:center;
+	font-size:20px;
+	top:0px;
+	position:fixed;
+	height:50px;
+	line-height:50px;
+	display:inline-block;
+	vertical-align:middle;
+	
+	
+	border-bottom-left-radius:1em;
+	border-bottom-right-radius:1em;
+	
+	-webkit-user-select:none;  /* 禁止反白 */ 
+	
+	
+	/*-webkit-box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);*/
+	
+	
+    -webkit-transition-property: all;
+	transition-property: all;
+    -webkit-transition-duration: .15s;
+	transition-duration: .15s;
+    -webkit-box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+#admin_hide{	/* 左邊選單 */
+	margin-left:20px;
+	float:left;
+	
+}
+
+#index{		/* 回首頁 福智基金會 */
+	margin-left:20px;
+	cursor:pointer;
+	font-size:24px;
+	color:#4F709F;
+	float:left;
+	
+}
+#index:hover{
+	cursor:pointer;
+	font-size:24px;
+	color:#4F709F;
+	float:left;
+	position:relative;
+	top:2px;
+	left:2px;
+}
+#admin_authority{		/*右邊選單*/
+	float:right;
+	margin-right:45px;
+}
+#message{		/*使用者訊息 時間*/
+	float:right;
+	font-size:12px;
+	margin-right:10px;
+	color:#4F709F;
+}
+#mainDropdown ul li{
+	-webkit-box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	border:1px dashed black;
+	border-radius:10px;
+	
+	
+}
+#main{		/* 主頁面 */
+	margin-top:60px;
+	margin-left:10px;
+	margin-right:10px;
+	/*border:1px solid black;*/
+	height:1500px;
+	-webkit-user-select:none;  /* 禁止反白 */ 
+}
+#footer{		/* 下面 */
+	border-radius:10px;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:10px;
+	margin-right:10px;
+	border:1px solid black;
+	height:100px;
+	background-color:#95A5A6;
+	text-align:center;
+	
+	-webkit-user-select:none;  /* 禁止反白 */ 
+}
+
+#goTop{
+	display:none;
+	position:absolute;
+}
+#top{
+}

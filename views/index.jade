@@ -1,0 +1,14 @@
+extends layout
+
+block main
+    script(src='javascripts/page_js/master.js')
+    script(src='javascripts/layer/layer.js')
+    div
+      if user
+        a(href="/logout?user=#{user}")
+          | Logout
+      else
+        a(href="/sign")
+          | Sign In
+        a(href="/login")
+          | Login

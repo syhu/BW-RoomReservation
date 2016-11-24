@@ -1,0 +1,48 @@
+body{
+	font:80% "Microsoft JhengHei" , sans-serif;
+	background-color:#8C8CFF;
+	font-size: 20px;
+	-webkit-user-select:none;
+}
+label{
+	cursor:pointer;
+}
+
+#main{
+	text-align:left;
+	margin:0px auto;
+	width:1000px;
+	height:600px;
+	font-size:20px;
+	float:center;
+	margin-top:20px;
+}
+	
+#index{		/* 回首頁 福智基金會 */
+
+	cursor:pointer;
+	font-size:28px;
+	color:#4F709F;
+	float:left;
+	
+}
+#index:hover{
+	cursor:pointer;
+	color:#4F709F;
+	float:left;
+	position:relative;
+	top:2px;
+	left:2px;
+}
+#title{
+	
+	color:#4F709F;
+	font-size:24px;
+	text-align:center;
+}
+
+.check_registered:hover{
+	position:relative;
+	top:1px;
+	left:1px;
+}

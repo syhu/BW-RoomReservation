@@ -1,0 +1,161 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='stylesheets/page_css/master.css')
+    // Loading Flat UI
+    link(href='stylesheets/dist/css/flat-ui.css', rel='stylesheet')
+    link(href='stylesheets/docs/assets/css/demo.css', rel='stylesheet')
+    script(src='javascripts/jquery.js')
+    script(src='javascripts/bootstrap.min.js')
+    
+    title 福智基金會
+  body
+    #page
+      #header
+        #admin_hide.nav.navbar-nav
+          #list.dropdown
+            span.fui-list-small-thumbnails.dropdown-toggle(data-toggle='dropdown')
+            table.dropdown-menu(cellpadding='5', style='border-radius:10px;line-height:10px;')
+              tr
+                th(colspan='4') 教室調動
+              tr(style='border-bottom:1px solid black;')
+                td(style='border-bottom:1px solid black;')
+                  label#func1
+                    img(src='images/num/01.png')
+                    p(style='font-size:12px;') 功能1
+                td(style='border-bottom:1px solid black;')
+                  label#func2
+                    img(src='images/num/02.png')
+                    p(style='font-size:12px;') 功能2
+                td(style='border-bottom:1px solid black;')
+                  label#func3
+                    img(src='images/num/03.png')
+                    p(style='font-size:12px;') 功能3
+              tr
+                th(colspan='4') 後台系統
+              tr
+                td
+                  label#admin_data
+                    img(src='images/num/04.png')
+                    p(style='font-size:12px;') 管理者資料
+                td
+                  label#user_data
+                    img(src='images/num/05.png')
+                    p(style='font-size:12px;') 使用者資料
+                td
+                  label#user_sql
+                    img(src='images/num/06.png')
+                    p(style='font-size:12px;') SQL模式
+              tr
+                td(style='border-bottom:1px solid black;')
+                  label#user_sql_track
+                    img(src='images/num/04.png')
+                    p(style='font-size:12px;') SQL track
+                td(style='border-bottom:1px solid black;')
+                  label(id='')
+                td(style='border-bottom:1px solid black;')
+                  label(id='')
+              tr
+                th(colspan='4') 使用統計
+              tr
+                td
+                  label(id='')
+                    img(src='images/num/07.png')
+                    p(style='font-size:12px;') 功能1
+                td
+                  label(id='')
+                    img(src='images/num/08.png')
+                    p(style='font-size:12px;') 功能2
+                td
+                  label(id='')
+                    img(src='images/num/09.png')
+                    p(style='font-size:12px;') 功能3
+        #title
+          b#index(title='Copyright © 2016 福智 All rights reserved')
+            a(href='/')
+              img(src='images/open-book.png')
+              |  福智基金會
+        #myexample
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                | 報名專區
+                b.caret
+              ul.dropdown-menu
+                li
+                  a#sign_rervation(href='#', style='font-size:15px;')
+                    img
+                    |    預約報名
+                li.divider
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                | 課程查詢
+                b.caret
+              ul.dropdown-menu
+                li
+                  a#lesson_time(href='#', style='font-size:15px;')
+                    img(src='images/time.png')
+                    |    時段查詢
+                li.divider
+                li
+                  a#lesson_place(href='#', style='font-size:15px;')
+                    img(src='images/place.png')
+                    |    地點查詢
+                li.divider
+                li
+                  a#lesson_name(href='#', style='font-size:15px;')
+                    img(src='images/lesson.png')
+                    |    類別查詢
+                li.divider
+                li
+                  a#lesson_detail(href='#', style='font-size:15px;')
+                    img(src='images/detail.png')
+                    |    細節查詢
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                | 其他資訊
+                b.caret
+              ul.dropdown-menu
+                li
+                  a#opinion(href='#', style='font-size:15px;')
+                    img(src='images/opinion.png')
+                    |    填寫意見
+                li.divider
+                li
+                  a(href='#', style='font-size:15px;')
+                    img(src='images/contact.png')
+                    |    聯絡我們
+        #admin_authority
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(style='font-size:20px;cursor:pointer;', data-toggle='dropdown')
+                span.fui-list
+              ul.dropdown-menu
+                li
+                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown') ID:王帥帥
+                li.divider
+                li
+                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  設定
+                li
+                  a.dropdown-toggle(href='/logout?user=#{user}', style='font-size:15px;', data-toggle='dropdown')  登出
+                li.divider
+                li
+                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  使用說明
+                li
+                  a#question.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  回報問題
+        #message
+          font#time Hi~ #{user}
+      #main
+          block main
+      #footer
+        p
+          | 福智基金會  聯絡地址:台中市台灣大道一段XXX號
+          br
+          | 					電話:04-23445567
+          br
+          em
+            b Copyright © 2016 福智 All rights reserved
