@@ -4,11 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
+var app = express();
+
+app.use(session({
+  store: new redisStore(),
+  secret: 'If you very ugly, You will guess what is secret'
+}));
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var mongoose = require('mongoose');
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

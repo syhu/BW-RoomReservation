@@ -26,7 +26,7 @@ var registered = (function(){
 		this._id = null;
 		this._birthday = null;
 		this._address = null;
-		
+
 		//icon 勾勾 叉叉
 		this._icon_name = null;
 		this._icon_account = null;
@@ -38,22 +38,22 @@ var registered = (function(){
 		this._icon_birthday = null;
 		this._icon_address = null;
 		this._icon_all = null;
-		
-		this._agree = "";	//註冊同意 
+
+		this._agree = "";	//註冊同意
 		this._checked_button = "";	//判斷性別radio
 		this._check_psd = "";	//確認密碼
-		
+
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
 		for(i=0;i<4;i++){
 			this._checkNum[i] = 0;
 		}
-		
+
 		//驗證身分
 		this._identity =this._getPara["identity"];
-		
-		
+
+
 		this._construct();
 	}
 	_const.prototype = {
@@ -82,7 +82,7 @@ var registered = (function(){
 			this._id = $("#id");
 			this._birthday = $("#birthday");
 			this._address = $("#address");
-			
+
 			//icon 勾勾 叉叉
 			this._icon_name = $("#icon_name");
 			this._icon_account = $("#icon_account");
@@ -94,7 +94,7 @@ var registered = (function(){
 			this._icon_birthday = $("#icon_birthday");
 			this._icon_address = $("#icon_address");
 			this._icon_all = $(".icon_all");
-			
+
 			this._start();	//開始網頁執行function
 		},
 		_start:function(){
@@ -107,33 +107,33 @@ var registered = (function(){
 		},
 		_initialAll:function(){
 			var objThis = this;
-			
+
 			//$(".reset").click();
-			
+
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
 				if(objThis._name.val() != ""){
 					objThis._icon_name.empty();
-					objThis._icon_name.append("<img src='img/success.png' />");
+					objThis._icon_name.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_name.empty();
-					objThis._icon_name.append("<img src='img/fail.png' />");
+					objThis._icon_name.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//帳號 blur
 			objThis._account.on("blur",$.proxy(function(event){
-				
-				
+
+
 				if(objThis._account.val() != ""){
 					objThis._icon_account.empty();
-					objThis._icon_account.append("<img src='img/success.png' />");
+					objThis._icon_account.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_account.empty();
-					objThis._icon_account.append("<img src='img/fail.png' />");
+					objThis._icon_account.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//密碼 blur
 			objThis._psd.on("blur",$.proxy(function(event){
 				if(objThis._psd.val() != ""){
@@ -148,7 +148,7 @@ var registered = (function(){
 							//layer.msg('確認密碼錯誤');
 							objThis._check_psd = "";
 							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='img/fail.png' />");
+							objThis._icon_psd.append("<img src='images/fail.png' />");
 						}
 						},function(value,index,elem){
 						if(objThis._psd.val() != value) {
@@ -156,128 +156,128 @@ var registered = (function(){
 							layer.msg('確認密碼錯誤');
 							objThis._check_psd = "";
 							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='img/fail.png' />");
+							objThis._icon_psd.append("<img src='images/fail.png' />");
 							}else{
 							layer.msg('確認密碼正確');
 							objThis._check_psd = "true";
 							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='img/success.png' />");
+							objThis._icon_psd.append("<img src='images/success.png' />");
 						}
-						
+
 						layer.close(index)
 					})
 				}
-				
+
 			},this));
-			
+
 			//E-mail  blur
 			objThis._mail.on("blur",$.proxy(function(event){
 				if(objThis._mail.val() != ""){
 					objThis._icon_mail.empty();
-					objThis._icon_mail.append("<img src='img/success.png' />");
+					objThis._icon_mail.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_mail.empty();
-					objThis._icon_mail.append("<img src='img/fail.png' />");
+					objThis._icon_mail.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//電話 blur
 			objThis._phone.on("blur",$.proxy(function(event){
 				if(objThis._phone.val() != ""){
 					objThis._icon_phone.empty();
-					objThis._icon_phone.append("<img src='img/success.png' />");
+					objThis._icon_phone.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_phone.empty();
-					objThis._icon_phone.append("<img src='img/fail.png' />");
+					objThis._icon_phone.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//性別 click
 			objThis._sex.on("blur",$.proxy(function(event){
-				
+
 				objThis._icon_sex.empty();
-				objThis._icon_sex.append("<img src='img/success.png' />");
+				objThis._icon_sex.append("<img src='images/success.png' />");
 			},this));
-			
+
 			objThis._sex.on("mouseover",$.proxy(function(event){
 				if($(".check_sex").is(":checked") && objThis._checked_button == ""){
 					objThis._checked_button	= "check";
 					objThis._icon_sex.empty();
-					objThis._icon_sex.append("<img src='img/success.png' />");
+					objThis._icon_sex.append("<img src='images/success.png' />");
 				}
 			},this));
-			
+
 			//身分證 blur
 			objThis._id.on("blur",$.proxy(function(event){
 				if(objThis._id.val() != ""){
 					objThis._icon_id.empty();
-					objThis._icon_id.append("<img src='img/success.png' />");
+					objThis._icon_id.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_id.empty();
-					objThis._icon_id.append("<img src='img/fail.png' />");
+					objThis._icon_id.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//生日 blur
 			objThis._birthday.on("blur",$.proxy(function(event){
 				if(objThis._birthday.val() != ""){
 					objThis._icon_birthday.empty();
-					objThis._icon_birthday.append("<img src='img/success.png' />");
+					objThis._icon_birthday.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_birthday.empty();
-					objThis._icon_birthday.append("<img src='img/fail.png' />");
+					objThis._icon_birthday.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
+
 			//地址 blur
 			objThis._address.on("blur",$.proxy(function(event){
 				if(objThis._address.val() != ""){
 					objThis._icon_address.empty();
-					objThis._icon_address.append("<img src='img/success.png' />");
+					objThis._icon_address.append("<img src='images/success.png' />");
 					}else{
 					objThis._icon_address.empty();
-					objThis._icon_address.append("<img src='img/fail.png' />");
+					objThis._icon_address.append("<img src='images/fail.png' />");
 				}
 			},this));
-			
-			
-			
+
+
+
 			//註冊同意 視窗
 			objThis._bounce_registered.modal('show');
-			
+
 			$("body").on("click",$.proxy(function(event){
 				if(objThis._agree == "" && objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = 'login.html'",1500);
+					setTimeout("location.href = '/'",1500);
 				}
 			},this));
 			//註冊同意 X
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = 'login.html'",1500);
+					setTimeout("location.href = '/'",1500);
 				}
 			},this));
-			
-			
+
+
 			//註冊同意 Checkbox
 			objThis._check_registered.on("mousedown",$.proxy(function(event){
-				
+
 				if(!$('#check_registered').is(":checked"))
 				{
 					$('#check_registered').removeAttr('disabled')
 					//$('.icheckbox_flat-blue').removeClass('disabled')
 					objThis._next.removeAttr('disabled');
-					
+
 				}else
 				{
 					objThis._next.attr('disabled','false');
 					$('#icheckbox_flat-blue').addClass('disabled')
 				}
 			},this));
-			
-			
-			
+
+
+
 			//註冊同意  下一步
 			objThis._next.on("click",$.proxy(function(event){
 				if($('#check_registered').is(":checked")){
@@ -288,28 +288,28 @@ var registered = (function(){
 					objThis._check_registered.attr("style","color:red;");
 					objThis._check_registered.focus();
 				}
-				
+
 			},this))
-			
+
 			//標題 回首頁
-			objThis._index.on("click",$.proxy(function(event){	
-				location.href="master.html?identity=visitor";
+			objThis._index.on("click",$.proxy(function(event){
+				location.href="/?identity=visitor";
 			},this))
-			
+
 			//驗證碼初始化
-			objThis._check1.append("<img src='img/num/00.png'>")
-			objThis._check2.append("<img src='img/num/00.png'>")
-			objThis._check3.append("<img src='img/num/00.png'>")
-			objThis._check4.append("<img src='img/num/00.png'>")
+			objThis._check1.append("<img src='images/num/00.png'>")
+			objThis._check2.append("<img src='images/num/00.png'>")
+			objThis._check3.append("<img src='images/num/00.png'>")
+			objThis._check4.append("<img src='images/num/00.png'>")
 			//
 			objThis._getRandom();
-			
-			
+
+
 			//檢驗驗證碼
-			
+
 			objThis._chk.on("mousedown",$.proxy(function(event){
 				if(objThis._correctNum != objThis._currentNum.val()){
-					
+
 					layer.msg('驗證碼錯誤');
 					objThis._getRandom();
 					objThis._chk.attr("type","button")
@@ -324,7 +324,7 @@ var registered = (function(){
 					layer.tips('透過點擊數字增加，與右邊驗證碼相同即可', objThis._checkTip,{tips:4});
 				}
 			},this))
-			
+
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
 				objThis._getRandom();
@@ -345,21 +345,21 @@ var registered = (function(){
 			objThis._check4.on("click",$.proxy(function(event){
 				objThis._getNumAdd(4);
 			},this))
-			
+
 		},
 		_getRandom:function(){
 			var objThis = this;
 			objThis._correctNum="";
 			objThis._currentNum.val("");
-			
+
 			objThis._check_img.empty();
 			//驗證碼
 			for(i=0;i<4;i++){
 				objThis._checkNum[i] = 0;
 				var rand = Math.floor(Math.random() * 10);
-				objThis._check_img.append("<img src='img/num/0" + rand + ".png'>")
+				objThis._check_img.append("<img src='images/num/0" + rand + ".png'>")
 				$(".check" + (i+1)).empty();
-				$(".check" + (i+1)).append("<img src='img/num/00.png'>");
+				$(".check" + (i+1)).append("<img src='images/num/00.png'>");
 				objThis._correctNum += rand;
 			}
 		},
@@ -369,7 +369,7 @@ var registered = (function(){
 			objThis._checkNum[num-1]++;
 			if(objThis._checkNum[num-1]>9) objThis._checkNum[num-1]=0;
 			$(".check" + num).empty();
-			$(".check" + num).append("<img src='img/num/0" + objThis._checkNum[num-1] + ".png'>");
+			$(".check" + num).append("<img src='images/num/0" + objThis._checkNum[num-1] + ".png'>");
 			for(i=0;i<4;i++){
 				tmp += objThis._checkNum[i];
 			}
@@ -380,7 +380,7 @@ var registered = (function(){
 			var strUrl = location.search;
 			var getPara,ParaVal;
 			var aryPara = [];
-			
+
 			if(strUrl.indexOf("?") != -1){
 				var getSearch = strUrl.split("?");
 				getPara = getSearch[1].split("&");
@@ -407,7 +407,7 @@ var registered = (function(){
 			return null;
 		},
 		_setCookies:function(name,value,expires){
-			document.cookie = name + "=" + escape(value) + 
+			document.cookie = name + "=" + escape(value) +
 			((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
 			"; path=/";
 		},
@@ -419,12 +419,12 @@ var registered = (function(){
 		}
 	}
 	return _const;
-}());	
+}());
 var registered
 $(function(){
 	registered = new registered();
 	//listCookie();
-})																								
+})
 
 
 function resetForm(){
@@ -470,4 +470,4 @@ function clear (el,message)
 			obj.value = message;
 		}
 	}
-}																
+}

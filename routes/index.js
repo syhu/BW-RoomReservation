@@ -1,10 +1,16 @@
+/******************   System settings   ******************/
+
+/*** Include plugin ***/
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+
+/*** Include javascript file ***/
 var user = require('./user.js');
-var login = require('./login.js')
-var logout = require('./logout.js')
+var login = require('./login.js');
+
+/*** Variable ***/
 
 /******************   functions   ******************/
 function hashPW(account, password)
@@ -15,23 +21,57 @@ function hashPW(account, password)
 }
 
 /******************   Routes   ******************/
-router.get('/', function(req, res, next) {
-  if(req.query.User == "")
+
+/*** Home Page ***/
+router.get('/',  function(req, res, next) {
+  if(req.session.account)
   {
-    res.render('index', { title: 'Express' });
+    req.session.browseCount++;
+    if(req.session.browseCount === 1)
+    {
+      res.render('index', { title: 'foundation', user: req.session.userName, popup: 'true'});
+    }
+    else if (req.session.browseCount > 1)
+    {
+      res.render('index', { title: 'foundation', user: req.session.userName});
+    }
+  }
+  else if(req.query.identity)
+  {
+    if(req.session.account)
+    {
+      res.redirect('/');
+    }
+    else if (req.query.identity == 'visitor')
+    {
+      res.render('index', { title: 'Express', identity: 'visitor'});
+    }
+    else
+    {
+      res.redirect('/?identity=visitor');
+    }
   }
   else
   {
-    res.render('index', { title: 'Express', user: req.query.User})
+    if(req.session.account)
+    {
+      res.redirect('/');
+    }
+    else
+    {
+      res.redirect('/?identity=visitor');
+    }
   }
 });
 
+/*** Loading ***/
 router.get('/loading',function(req, res, next)
 {
   res.render('loading', { title: 'Loading'});
 })
 
-router.get('/login',function(req, res, next) {
+/*** Login Page ***/
+router.get('/login', function(req, res, next) {
   if (req.query.error == 'passwordError')
   {
     res.render('login', { title: 'Login', err: '密碼錯誤' });
@@ -40,24 +80,22 @@ router.get('/login',function(req, res, next) {
   {
     res.render('login', { title: 'Login', err: '無此使用者'})
   }
-  else if (req.query.error == 'alreadyLogin')
-  {
-    res.render('login', { title: 'Login', err: '此帳號已在其他裝置使用中'})
-  }
   else
   {
     res.render('login', { title: 'Login'})
   }
 });
 
-router.post('/login',function(req, res, next) {
+router.post('/login', function(req, res, next) {
   var account = req.body.account;
   var password = req.body.password;
   login.loginCheck(account, hashPW(account, password), function(err, situation, user)
   {
     if(situation == 0)
     {
-      res.redirect('/?User=' + user);
+      req.session.account = account;
+      req.session.userName = user;
+      res.redirect('/');
     }
     else if(situation == 1)
     {
@@ -67,25 +105,22 @@ router.post('/login',function(req, res, next) {
     {
       res.redirect('/login?error=userNotFound');
     }
-    else if(situation == 3)
-    {
-      res.redirect('/login?error=alreadyLogin');
-    }
   });
 })
 
-router.get('/sign',function(req, res, next) {
-  if (req.query.error == 'accountRepeat')
+/*** Register Page ***/
+router.get('/register',function(req, res, next) {
+  if (res.locals.error == 'accountRepeat')
   {
-    res.render('sign', { title: 'Sign', sign: '帳號重複' })
+    res.render('register', { title: 'Register', register: '帳號重複' })
   }
   else
   {
-    res.render('sign', { title: 'Sign' })
+    res.render('register', { title: 'Register' })
   }
 })
 
-router.post('/sign',function(req, res, next) {
+router.post('/register',function(req, res, next) {
   var name = req.body.name;
   var account = req.body.account;
   var password = req.body.password;
@@ -106,23 +141,26 @@ router.post('/sign',function(req, res, next) {
   console.log("身分證 -> " + identity);
   console.log("生日 -> " + birthday);
   console.log("地址 -> " + address);
-  user.userSave(name, account, hash, email, telphone, sex, identity, birthday, address, function(err, repeat)
+  user.userSave(name, account, hash, email, telphone, sex, identity, birthday, address, function(err, repeat, userAccount , userName)
   {
     if(repeat == 0)
     {
+      nowUseAccount = userAccount;
+      nowUserName = userName;
       res.redirect('/');
     }
     else
     {
-      res.redirect('/sign?error=accountRepeat');
+      res.locals.error = 'accountRepeat';
+      res.redirect('/register');
     }
   });
 })
 
+/*** Log out ***/
 router.get('/logout',function(req, res, next){
-  var name = req.query.user;
-  logout.logout(name);
-  res.redirect('/');
+  req.session.destroy();
+  res.redirect('/?identity=visitor');
 })
 
 module.exports = router;

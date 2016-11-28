@@ -23,7 +23,6 @@ module.exports = {
         birthday: birthday,
         address: address,
         authenticate: false,
-        loginSituation: false,
         createTime: now
       });
       User.find({account: account}, function(err, data)

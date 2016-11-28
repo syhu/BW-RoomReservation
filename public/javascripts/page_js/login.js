@@ -1,7 +1,7 @@
 var login = (function(){
 	var _const;
 	_const = function(){
-		
+
 		this._check1 = null;
 		this._check2 = null;
 		this._check3 = null;
@@ -14,18 +14,18 @@ var login = (function(){
 		this._registered2 = null;
 		this._index = null;
 		this._currentNum = null;
-		
+
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
 		for(i=0;i<4;i++){
 			this._checkNum[i] = 0;
 		}
-		
+
 		//驗證身分
 		this._identity =this._getPara["identity"];
-		
-		
+
+
 		this._construct();
 	}
 	_const.prototype = {
@@ -42,42 +42,42 @@ var login = (function(){
 			this._registered2 = $("#registered2");
 			this._index = $("#index");
 			this._currentNum = $(".currentNum");
-			
+
 			this._start();	//開始網頁執行function
 		},
 		_start:function(){
 			var objThis = this;
 			this._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
-			
-			
-			
-			
-			
+
+
+
+
+
 		},
 		_initialAll:function(){
 			var objThis = this;
-			
+
 			//$(".windows8").show();
 			//標題 回首頁
-			objThis._index.on("click",$.proxy(function(event){	
-				location.href="master.html?identity=visitor";
+			objThis._index.on("click",$.proxy(function(event){
+				location.href="/?identity=visitor";
 			},this))
 
 			//
 			objThis._getRandom();
 			/*
 			$('#myTab a:first').tab('show');// 學員 使用者切換
-			
-			$('#myTab a').click(function (e) { 
-				e.preventDefault();		//讓超連結失效 
+
+			$('#myTab a').click(function (e) {
+				e.preventDefault();		//讓超連結失效
 				$(this).tab('show');
 			});
 				*/
 			//檢驗驗證碼
-			
+
 			objThis._chk.on("mousedown",$.proxy(function(event){
 				if(objThis._correctNum != objThis._currentNum.val()){
-					
+
 					layer.msg('驗證碼錯誤');
 					objThis._currentNum.val("");
 					objThis._getRandom();
@@ -94,7 +94,7 @@ var login = (function(){
 					layer.tips('可以透過註冊帳號來登入', objThis._registered1 ,{tips:1});
 				}
 			},this))
-			
+
 			//註冊提示  管理者
 			objThis._registered2.on("mouseover",$.proxy(function(event){
 				objThis._mouseoverNum++;
@@ -104,26 +104,26 @@ var login = (function(){
 			},this))
 			//註冊
 			objThis._registered.on("click",$.proxy(function(event){
-				location.href = "registered.html";
+				location.href = "/register";
 			},this))
-			
+
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
 				objThis._getRandom();
 			},this))
-			
-			
+
+
 		},
 		_getRandom:function(){
 			var objThis = this;
 			objThis._correctNum="";
-			
+
 			objThis._check_img.empty();
 			//驗證碼
 			for(i=0;i<4;i++){
 				objThis._checkNum[i] = 0;
 				var rand = Math.floor(Math.random() * 10);
-				objThis._check_img.append("<img src='img/num/0" + rand + ".png'>");
+				objThis._check_img.append("<img src='images/num/0" + rand + ".png'>");
 				objThis._correctNum += rand;
 			}
 		},
@@ -132,7 +132,7 @@ var login = (function(){
 			var strUrl = location.search;
 			var getPara,ParaVal;
 			var aryPara = [];
-			
+
 			if(strUrl.indexOf("?") != -1){
 				var getSearch = strUrl.split("?");
 				getPara = getSearch[1].split("&");
@@ -144,13 +144,11 @@ var login = (function(){
 			}
 			return aryPara[para];
 		}
-		
+
 	}
 	return _const;
-}());	
+}());
 var login
 $(function(){
 	login = new login();
-})																								
-
-
+})

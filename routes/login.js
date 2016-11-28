@@ -22,30 +22,15 @@ module.exports = {
           }
           if(counts != 0)
           {
-            if (data[0].loginSituation == false)
+            if(hash == data[0].hash)
             {
-              if(hash == data[0].hash)
-              {
-                User.update({account: account}, {$set: {loginSituation: true}}, function(err)
-                {
-                  if (err) {console.log(err);}
-                  else
-                  {
-                    mongoose.disconnect();
-                    callback(err, 0, data[0].name);
-                  }
-                });
-              }
-              else
-              {
-                mongoose.disconnect();
-                callback(err, 1, null);
-              }
+              mongoose.disconnect();
+              callback(err, 0, data[0].account);
             }
             else
             {
               mongoose.disconnect();
-              callback(err, 3, null);
+              callback(err, 1, null);
             }
           }
           else

@@ -5,11 +5,25 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/master.css')
     // Loading Flat UI
-    link(href='stylesheets/dist/css/flat-ui.css', rel='stylesheet')
-    link(href='stylesheets/docs/assets/css/demo.css', rel='stylesheet')
+    link(href='stylesheets/flat-ui/dist/css/flat-ui.css', rel='stylesheet')
+    link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
+    link(href='stylesheets/bootcss.css', rel='stylesheet')
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
-    
+    script.
+      function logout()
+      {
+      location.href = '/logout';
+      }
+      function login()
+      {
+      location.href = '/login';
+      }
+      function signin()
+      {
+      location.href = '/register';
+      }
+    // 彈出視窗
     title 福智基金會
   body
     #page
@@ -74,10 +88,9 @@ html
                     p(style='font-size:12px;') 功能3
         #title
           b#index(title='Copyright © 2016 福智 All rights reserved')
-            a(href='/')
-              img(src='images/open-book.png')
-              |  福智基金會
-        #myexample
+            img(src='images/open-book.png')
+            |  福智基金會
+        #mainDropdown
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
@@ -88,7 +101,6 @@ html
                   a#sign_rervation(href='#', style='font-size:15px;')
                     img
                     |    預約報名
-                li.divider
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
@@ -99,17 +111,14 @@ html
                   a#lesson_time(href='#', style='font-size:15px;')
                     img(src='images/time.png')
                     |    時段查詢
-                li.divider
                 li
                   a#lesson_place(href='#', style='font-size:15px;')
                     img(src='images/place.png')
                     |    地點查詢
-                li.divider
                 li
                   a#lesson_name(href='#', style='font-size:15px;')
                     img(src='images/lesson.png')
                     |    類別查詢
-                li.divider
                 li
                   a#lesson_detail(href='#', style='font-size:15px;')
                     img(src='images/detail.png')
@@ -124,7 +133,6 @@ html
                   a#opinion(href='#', style='font-size:15px;')
                     img(src='images/opinion.png')
                     |    填寫意見
-                li.divider
                 li
                   a(href='#', style='font-size:15px;')
                     img(src='images/contact.png')
@@ -135,27 +143,38 @@ html
               a.dropdown-toggle(style='font-size:20px;cursor:pointer;', data-toggle='dropdown')
                 span.fui-list
               ul.dropdown-menu
-                li
-                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown') ID:王帥帥
-                li.divider
-                li
-                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  設定
-                li
-                  a.dropdown-toggle(href='/logout?user=#{user}', style='font-size:15px;', data-toggle='dropdown')  登出
-                li.divider
+                if user
+                  li
+                    a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown') ID:#{user}
+                  li
+                    a.dropdown-toggle(href='#', style='font-size:15px', data-toggle='dropdown')  登入紀錄
+                  li
+                    a.dropdown-toggle(href='#', style='font-size:15px', data-toggle='dropdown')  設定
+                  li
+                    a.dropdown-toggle(href='#', onclick='logout()', style='font-size:15px;', data-toggle='dropdown')  登出
+                else if identity
+                  li
+                    a.dropdown-toggle(href='#', onclick='login()', style='font-size:15px', data-toggle='dropdown')  登入
+                  li
+                    a.dropdown-toggle(href='#', onclick='signin()', style='font-size:15px', data-toggle='dropdown')  註冊
                 li
                   a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  使用說明
                 li
                   a#question.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message
-          font#time Hi~ #{user}
+          if user
+            font#time Hi~ #{user}
+          else
+            font#time Hi~ 訪客
       #main
-          block main
+        block main
       #footer
         p
           | 福智基金會  聯絡地址:台中市台灣大道一段XXX號
           br
-          | 					電話:04-23445567
+          | 				電話:04-23445567
           br
           em
             b Copyright © 2016 福智 All rights reserved
+      #goTop
+        img#top(src='images/up.png')

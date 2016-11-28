@@ -5,32 +5,31 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/login.css')
     script(src='javascripts/jquery.js')
+    script(src='javascripts/layer/layer.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/page_js/login.js')
-    script(src='javascripts/layer/layer.js')
     title 登入
   body
     #main.well.well-lg(align='center')
       #title
         b#index(title='Copyright © 2016 福智 All rights reserved')
-          a(href='/')
-            img(src='images/open-book.png')
-            |  福智基金會
+          img(src='images/open-book.png')
+          |  福智基金會
       br
       br
       br
-      if err
-        p
-          font(color='red')= err
       ul#myTab.nav.nav-tabs
         li.active
           a(href='#user') 使用者登入
         li
-          a(href='#admin') 管理員登入
+          a(href='/?identity=vistor') 直接登入
       .tab-content
         // 使用者登入
         #user.tab-pane.active
           br
+          if err
+            p
+              font(color='red')= err
           form(action='/login', method='post')
             table
               tr
@@ -61,7 +60,7 @@ html
                   img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
               tr
                 td
-                  a#registered.sign(style='cursor:pointer;font-size:12px;float:right;') 還沒有帳號
+                  a#registered1.registered(href='/register', style='cursor:pointer;font-size:12px;float:right;') 還沒有帳號
               tr
                 td
                   input.btn.btn-primary.chk(type='submit', value='登入', style='width:250px;')
@@ -70,47 +69,3 @@ html
               tr
                 td
                   input.btn.btn-info(type='button', value='忘記密碼', style='width:250px;')
-        // 管理者登入
-        #admin.tab-pane
-          br
-          form(action='loading.html?condition=login', method='post')
-            table
-              tr
-                td(align='center')
-                  img.img-circle(src='images/admin.png')
-                input(type='hidden', name='identity', value='admin')
-              tr
-                td  
-              tr
-                td
-                  b 帳號
-              tr
-                td
-                  input.form-control(type='text', placeholder='請輸入帳號', name='account', required='')
-              tr
-                td
-                  b 密碼
-              tr
-                td
-                  input.form-control(type='password', placeholder='請輸入密碼', name='password', required='')
-              tr
-                td
-                  br
-                  b 驗證碼
-                  input.form-control.input-sm.currentNum(type='text')
-                  br
-                  .check_img(style='float:left;') 
-                  &nbsp;&nbsp;
-                  img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
-              tr
-                td
-                  a#registered.sign(style='cursor:pointer;font-size:12px;float:right;') 還沒有帳號
-              tr
-                td
-                  input.btn.btn-primary.chk(type='submit', value='登入', style='width:250px;')
-              tr
-                td  
-              tr
-                td
-                  input.btn.btn-info(type='button', value='忘記密碼', style='width:250px;')
-    // 彈出視窗
