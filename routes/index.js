@@ -131,16 +131,6 @@ router.post('/register',function(req, res, next) {
   var identity = req.body.identity;
   var birthday = req.body.birthday;
   var address = req.body.address
-  console.log("名字 -> " + name);
-  console.log("帳號 -> " + account);
-  console.log("密碼 -> " + password);
-  console.log("變種密碼 -> " + hash);
-  console.log("信箱 -> " + email);
-  console.log("電話 -> " + telphone);
-  console.log("性別 -> " + sex);
-  console.log("身分證 -> " + identity);
-  console.log("生日 -> " + birthday);
-  console.log("地址 -> " + address);
   user.userSave(name, account, hash, email, telphone, sex, identity, birthday, address, function(err, repeat, userAccount , userName)
   {
     if(repeat == 0)
