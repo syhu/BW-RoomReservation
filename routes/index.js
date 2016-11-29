@@ -27,7 +27,7 @@ router.get('/',  function(req, res, next) {
   if(req.session.account)
   {
     req.session.browseCount++;
-    if(req.session.browseCount === 1)
+    if(req.session.browseCount == 1)
     {
       res.render('index', { title: 'foundation', user: req.session.userName, popup: 'true'});
     }
