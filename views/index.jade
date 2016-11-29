@@ -2,11 +2,15 @@ extends layout
 
 block main
     script(src='javascripts/page_js/master.js')
-    if popup
-      script(src='javascripts/layer/layer.js')
-      input#welcome(type='hidden', value="<div style='margin:15px;'><span class='fui-user'></span>#{user}，歡迎進入福智基金會網站。<br/><br/><br/>淺水值增加10點<span class='fui-star'></span>。<br/><br/></div>")  
+    script(src='javascripts/layer/layer.js')
+    input#welcome(type='hidden', value="<div style='margin:15px;'><span class='fui-user'></span>#{user}，歡迎進入福智基金會網站。<br/><br/><br/>淺水值增加10點<span class='fui-star'></span>。<br/><br/></div>")  
     div
       if user
         | Hi~ #{user}
       else
         | HI~ 訪客
+    p
+      if popup
+        | =popup
+      
+        
