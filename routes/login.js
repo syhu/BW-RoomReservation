@@ -25,7 +25,7 @@ module.exports = {
             if(hash == data[0].hash)
             {
               mongoose.disconnect();
-              callback(err, 0, data[0].account);
+              callback(err, 0, data[0].name);
             }
             else
             {

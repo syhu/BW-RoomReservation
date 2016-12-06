@@ -15,6 +15,7 @@ var master = (function(){
 		this._condition = 0;
 		//驗證身分
 		this._identity =this._getPara("identity");
+		this._loginTimes = this._getPara("a");
 
 
 		this._construct();
@@ -36,7 +37,7 @@ var master = (function(){
 			_width = $top.width(),
 			_height = $top.height(),
 			_diffY = 20,_diffX = 20,
-			_moveSpeed = 800;
+			_moveSpeed = 600;
 
 			$top.css({
 				top:$(document).height(),
@@ -44,6 +45,7 @@ var master = (function(){
 				opacity:1,
 			});
 
+			this._start();	//開始網頁執行function
 			$window.bind("scroll resize",function(){
 				var $this = $(this);
 				$top.stop().animate({
@@ -51,8 +53,6 @@ var master = (function(){
 					left:$this.scrollLeft() + $this.width() - _width - _diffX
 				},_moveSpeed)
 			}).scroll();
-
-			this._start();	//開始網頁執行function
 		},
 		_start:function(){
 			var objThis = this;
@@ -60,18 +60,21 @@ var master = (function(){
 
 			//歡迎視窗
 			if(objThis._identity != "visitor"){
-				layer.open({
-					type: 1,
-					title:"<b>登入成功</b>",
-					skin: 'layui-layer-lan',
-					shade: false,
-					area: ['400px', '200px'], //宽高
-					content: objThis._welcome.val(),
+				if(objThis._loginTimes == 0){
+					layer.open({
+						type: 1,
+						title:"<b>登入成功</b>",
+						skin: 'layui-layer-lan',
+						shade: false,
+						area: ['400px', '200px'], //宽高
+						content: objThis._welcome.val(),
+						time:3000,
 
-					cancel: function(){
-						layer.msg('您可以進行課程查詢或教室調動', {time: 3000, icon:1});
-					}
-				});
+						cancel: function(){
+							layer.msg('您可以進行課程查詢或教室調動', {time: 3000, icon:1});
+						}
+					})
+				};
 				}else{
 				layer.open({
 					type: 1,
@@ -80,6 +83,7 @@ var master = (function(){
 					shade: false,
 					area: ['400px', '200px'], //宽高
 					content: "<div style='margin:15px;'><span class='fui-user'></span>訪客，歡迎進入福智基金會網站。<br/><br/><br/>您可以選擇<a href='/login'>登入</a>或<a href='/register'>註冊</a></span>。<br/><br/></div>",
+
 					cancel: function(){
 						layer.msg('您可以進行課程查詢', {time: 3000, icon:4});
 					}
@@ -100,21 +104,6 @@ var master = (function(){
 			var nowTime = new Date();
 			objThis._time.append(" , 今天日期:" + nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
 
-
-
-			//事件
-			//選單滑鼠滑進
-			/*
-				objThis._header.on("mouseenter",$.proxy(function(event){
-				objThis._option.slideDown();
-
-				},this))
-				//選單滑鼠滑出
-				objThis._header.on("mouseleave",$.proxy(function(event){
-				objThis._option.hide();
-				},this))
-			*/
-
 			//top
 			objThis._top.on("click",$.proxy(function(event){
 
@@ -132,24 +121,24 @@ var master = (function(){
 		_getPara:function(para){
 			var strUrl = location.search;
 			var getPara,ParaVal;
-		var aryPara = [];
+			var aryPara = [];
 
-		if(strUrl.indexOf("?") != -1){
-		var getSearch = strUrl.split("?");
-		getPara = getSearch[1].split("&");
-		for(i=0;i<getPara.length;i++){
-		ParaVal = getPara[i].split("=");
-		aryPara.push(ParaVal[0]);
-		aryPara[ParaVal[0]] = ParaVal[1];
-		}
-		}
-		return aryPara[para];
+			if(strUrl.indexOf("?") != -1){
+				var getSearch = strUrl.split("?");
+				getPara = getSearch[1].split("&");
+				for(i=0;i<getPara.length;i++){
+					ParaVal = getPara[i].split("=");
+					aryPara.push(ParaVal[0]);
+					aryPara[ParaVal[0]] = ParaVal[1];
+				}
+			}
+			return aryPara[para];
 		}
 
-		}
-		return _const;
-		}());
-		var myMaster
-		$(function(){
-		myMaster = new master();
-		})
+	}
+	return _const;
+}());
+var myMaster
+$(function(){
+	myMaster = new master();
+})

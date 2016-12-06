@@ -3,13 +3,14 @@ html
   head
     meta(charset='utf-8')
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
-    link(rel='stylesheet', href='stylesheets/page_css/registered.css')
+    link(rel='stylesheet', href='stylesheets/page_css/register.css')
     link(rel='stylesheet', href='stylesheets/icheck/blue.css')
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/icheck.js')
-    script(src='javascripts/page_js/registered.js')
+    script(src='javascripts/page_js/register.js')
     script(src='javascripts/layer/layer.js')
+    // 彈出視窗
     script.
       $(document).ready(function(){
       $("input").iCheck({
@@ -20,15 +21,12 @@ html
     title 註冊
   body
     #main.well.well-lg(align='center')
-      #title
+      label#title
         b#index(title='Copyright © 2016 福智 All rights reserved')
           img(src='images/open-book.png')
           |  福智基金會
       br
       br
-      if sign
-        p
-          font(color='red')= sign
       form.registerForm(action='/register', onreset='resetForm()', method='post')
         table
           tr

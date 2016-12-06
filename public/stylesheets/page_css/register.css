@@ -11,6 +11,11 @@ body{
 	height:100%;
 	
 }
+
+label{
+	cursor:pointer;
+}
+
 #title{
 	
 	cursor:pointer;
@@ -22,6 +27,13 @@ body{
 	position:relative;
 	top:2px;
 	left:2px;
+}
+
+
+.check_registered:hover{
+	position:relative;
+	top:1px;
+	left:1px;
 }
 
 @media (min-height: 1024px) and (min-height: 768px) { body { background-color:red; } } /* 1024 x 768 */

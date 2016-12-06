@@ -14,6 +14,8 @@ var login = (function(){
 		this._registered2 = null;
 		this._index = null;
 		this._currentNum = null;
+		this._account = null;
+		this._psd = null;
 
 		this._mouseoverNum = 0;
 		this._correctNum = "";
@@ -23,8 +25,10 @@ var login = (function(){
 		}
 
 		//驗證身分
-		this._identity =this._getPara["identity"];
+		this._identity =this._getPara("identity");
 
+		//顯示錯誤
+		this._error = this._getPara("error");
 
 		this._construct();
 	}
@@ -42,6 +46,9 @@ var login = (function(){
 			this._registered2 = $("#registered2");
 			this._index = $("#index");
 			this._currentNum = $(".currentNum");
+			this._account = $("#account");
+			this._psd = $("#psd");
+
 
 			this._start();	//開始網頁執行function
 		},
@@ -49,10 +56,16 @@ var login = (function(){
 			var objThis = this;
 			this._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
 
+			setTimeout("$('#account').val('')",200);
+			setTimeout("$('#psd').val('')",200);
 
-
-
-
+			//顯示錯誤
+			if(objThis._error == "userNotFound"){
+				layer.msg('無此使用者', {area: '130px'});
+			}
+			else if(objThis._error == "passwordError"){
+				layer.msg('密碼錯誤', {area: '130px'});
+			}
 		},
 		_initialAll:function(){
 			var objThis = this;
@@ -63,16 +76,7 @@ var login = (function(){
 				location.href="/?identity=visitor";
 			},this))
 
-			//
 			objThis._getRandom();
-			/*
-			$('#myTab a:first').tab('show');// 學員 使用者切換
-
-			$('#myTab a').click(function (e) {
-				e.preventDefault();		//讓超連結失效
-				$(this).tab('show');
-			});
-				*/
 			//檢驗驗證碼
 
 			objThis._chk.on("mousedown",$.proxy(function(event){
@@ -81,9 +85,8 @@ var login = (function(){
 					layer.msg('驗證碼錯誤');
 					objThis._currentNum.val("");
 					objThis._getRandom();
-					objThis._chk.attr("type","button")
-					}else{
-					objThis._chk.attr("type","submit")
+					objThis._chk.attr("type","button");
+					return false;
 				}
 			},this));
 			//註冊提示  學員
@@ -99,12 +102,12 @@ var login = (function(){
 			objThis._registered2.on("mouseover",$.proxy(function(event){
 				objThis._mouseoverNum++;
 				if(objThis._mouseoverNum<3){
-					layer.tips('可以透過註冊帳號來登入', objThis._registered2 ,{tips:1});
+	layer.tips('可以透過註冊帳號來登入', objThis._registered2 ,{tips:1});
 				}
 			},this))
-			//註冊
-			objThis._registered.on("click",$.proxy(function(event){
-				location.href = "/register";
+		//註冊
+		objThis._registered.on("click",$.proxy(function(event){
+		location.href = "/register";
 			},this))
 
 			//reload

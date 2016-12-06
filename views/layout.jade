@@ -7,6 +7,7 @@ html
     // Loading Flat UI
     link(href='stylesheets/flat-ui/dist/css/flat-ui.css', rel='stylesheet')
     link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
+    // bootcss
     link(href='stylesheets/bootcss.css', rel='stylesheet')
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
@@ -22,6 +23,14 @@ html
       function signin()
       {
       location.href = '/register';
+      }
+      function manage()
+      {
+      location.href = '/lessonManage';
+      }
+      function information()
+      {
+      location.href = '/information';
       }
     // 彈出視窗
     title 福智基金會
@@ -88,7 +97,7 @@ html
                     p(style='font-size:12px;') 功能3
         #title
           b#index(title='Copyright © 2016 福智 All rights reserved')
-            img(src='images/open-book.png')
+            img(src='images/open-book.png', href='/')
             |  福智基金會
         #mainDropdown
           ul.nav.navbar-nav
@@ -126,6 +135,16 @@ html
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                | 管理專區
+                b.caret
+              ul.dropdown-menu
+                li
+                  a#lesson_time(href='#', onclick='manage();', style='font-size:15px;')
+                    img(src='images/time.png')
+                    |    教室調動
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
                 | 其他資訊
                 b.caret
               ul.dropdown-menu
@@ -147,20 +166,20 @@ html
                   li
                     a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown') ID:#{user}
                   li
-                    a.dropdown-toggle(href='#', style='font-size:15px', data-toggle='dropdown')  登入紀錄
+                    a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  登入紀錄
                   li
-                    a.dropdown-toggle(href='#', style='font-size:15px', data-toggle='dropdown')  設定
+                    a.dropdown-toggle(href='#', onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
                   li
-                    a.dropdown-toggle(href='#', onclick='logout()', style='font-size:15px;', data-toggle='dropdown')  登出
+                    a.dropdown-toggle(href='#', onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
                 else if identity
                   li
-                    a.dropdown-toggle(href='#', onclick='login()', style='font-size:15px', data-toggle='dropdown')  登入
+                    a.dropdown-toggle(href='#', onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
                   li
-                    a.dropdown-toggle(href='#', onclick='signin()', style='font-size:15px', data-toggle='dropdown')  註冊
+                    a.dropdown-toggle(href='#', onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
                 li
-                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  使用說明
+                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  使用說明
                 li
-                  a#question.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  回報問題
+                  a#question.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message
           if user
             font#time Hi~ #{user}
@@ -169,12 +188,23 @@ html
       #main
         block main
       #footer
-        p
-          | 福智基金會  聯絡地址:台中市台灣大道一段XXX號
+        #footer-context
+          span
+            b 電話:04-23445567
           br
-          | 				電話:04-23445567
+          span
+            b 福智基金會  聯絡地址:台中市台灣大道一段XXX號     
+            em
+              b Copyright © 2016 福智 All rights reserved
+          span(style='float:right;')
+            a(href='http://www.blisswisdom.org/', target='_blank') 福智全球資訊網
+            b |
+            a(href='http://bwsangha.org/', target='_blank') 福智僧團全球資訊網
+            b |
+            a(href='http://lrannotations.org/', target='_blank') 《廣論．四家合註》淺釋
+            b |
           br
-          em
-            b Copyright © 2016 福智 All rights reserved
-      #goTop
-        img#top(src='images/up.png')
+          span
+          br
+    #goTop
+      img#top(src='images/up.png')

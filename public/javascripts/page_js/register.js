@@ -255,28 +255,9 @@ var registered = (function(){
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = '/'",1500);
+					setTimeout("location.href = '/login'",1500);
 				}
 			},this));
-
-
-			//註冊同意 Checkbox
-			objThis._check_registered.on("mousedown",$.proxy(function(event){
-
-				if(!$('#check_registered').is(":checked"))
-				{
-					$('#check_registered').removeAttr('disabled')
-					//$('.icheckbox_flat-blue').removeClass('disabled')
-					objThis._next.removeAttr('disabled');
-
-				}else
-				{
-					objThis._next.attr('disabled','false');
-					$('#icheckbox_flat-blue').addClass('disabled')
-				}
-			},this));
-
-
 
 			//註冊同意  下一步
 			objThis._next.on("click",$.proxy(function(event){

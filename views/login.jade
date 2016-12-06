@@ -5,31 +5,26 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/login.css')
     script(src='javascripts/jquery.js')
-    script(src='javascripts/layer/layer.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/page_js/login.js')
+    script(src='javascripts/layer/layer.js')
     title 登入
   body
     #main.well.well-lg(align='center')
-      #title
+      label#title
         b#index(title='Copyright © 2016 福智 All rights reserved')
           img(src='images/open-book.png')
           |  福智基金會
-      br
-      br
       br
       ul#myTab.nav.nav-tabs
         li.active
           a(href='#user') 使用者登入
         li
-          a(href='/?identity=vistor') 直接登入
+          a(href='/?identity=visitor') 直接登入
       .tab-content
         // 使用者登入
         #user.tab-pane.active
           br
-          if err
-            p
-              font(color='red')= err
           form(action='/login', method='post')
             table
               tr
@@ -43,13 +38,13 @@ html
                   b 帳號
               tr
                 td
-                  input.form-control(type='text', placeholder='請輸入帳號', name='account', required='')
+                  input#account.form-control(type='text', placeholder='請輸入帳號', name='account', required='')
               tr
                 td
                   b 密碼
               tr
                 td
-                  input.form-control(type='password', placeholder='請輸入密碼', name='password', required='')
+                  input#psd.form-control(type='password', placeholder='請輸入密碼', name='password', required='')
               tr
                 td
                   br
@@ -69,3 +64,4 @@ html
               tr
                 td
                   input.btn.btn-info(type='button', value='忘記密碼', style='width:250px;')
+        

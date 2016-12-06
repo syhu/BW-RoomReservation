@@ -1,0 +1,26 @@
+extends layout
+
+block main
+  link(rel='stylesheet', href='stylesheets/fullcalendar.css')
+  link(rel='stylesheet', href='stylesheets/fullcalendar.print.css', media='print')
+  link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
+  script(src='javascripts/moment.js')
+  script(src='javascripts/jquery-ui.js')
+  script(src='javascripts/fullcalendar.js')
+  script(src='javascripts/page_js/lessonManage.js')
+  div
+    | 教室調動
+  #wrap
+    #external-events
+      h4 課程內容
+      .fc-event 課程1
+      .fc-event 課程2
+      .fc-event 課程3
+      .fc-event 課程4
+      .fc-event 課程5
+      .fc-event 自訂課程
+      p
+        input#drop-remove(type='checkbox')
+        label(for='drop-remove') remove after drop
+    #calendar
+    div(style='clear:both')

@@ -26,13 +26,24 @@ function hashPW(account, password)
 router.get('/',  function(req, res, next) {
   if(req.session.account)
   {
-    res.render('index', { title: 'foundation', user: req.session.userName});
+    if (req.session.logining == req.query.a)
+    {
+      if(req.session.logining == 0)
+      {
+        req.session.logining = 1;
+      }
+      res.render('index', { title: 'foundation', user: req.session.userName});
+    }
+    else
+    {
+      res.redirect('/?a=' + req.session.logining);
+    }
   }
   else if(req.query.identity)
   {
     if(req.session.account)
     {
-      res.redirect('/');
+      res.redirect('/?a=' + req.session.logining);
     }
     else if (req.query.identity == 'visitor')
     {
@@ -47,7 +58,7 @@ router.get('/',  function(req, res, next) {
   {
     if(req.session.account)
     {
-      res.redirect('/');
+      res.redirect('/?a=' + req.session.logining);
     }
     else
     {
@@ -64,13 +75,26 @@ router.get('/loading',function(req, res, next)
 
 /*** Login Page ***/
 router.get('/login', function(req, res, next) {
-  if (req.query.error == 'passwordError')
+  if (req.session.error == req.query.error)
   {
-    res.render('login', { title: 'Login', err: '密碼錯誤' });
+    req.session.error = "";
+    console.log(req.session.error);
+    res.render('login', { title: 'Login'})
   }
-  else if (req.query.error == 'userNotFound')
+  else if(req.query.error !=  req.session.error)
   {
-    res.render('login', { title: 'Login', err: '無此使用者'})
+    if(!req.query.error)
+    {
+      res.render('login', { title: 'Login'})
+    }
+    else if(req.session.error == "")
+    {
+      res.redirect('/login');
+    }
+    else
+    {
+      res.redirect('/login?error=' + req.session.error);
+    }
   }
   else
   {
@@ -87,14 +111,17 @@ router.post('/login', function(req, res, next) {
     {
       req.session.account = account;
       req.session.userName = user;
-      res.redirect('/');
+      req.session.logining = 0;
+      res.redirect('/?a=0');
     }
     else if(situation == 1)
     {
+      req.session.error = 'passwordError';
       res.redirect('/login?error=passwordError');
     }
     else if(situation == 2)
     {
+      req.session.error = 'userNotFound';
       res.redirect('/login?error=userNotFound');
     }
   });
@@ -139,10 +166,22 @@ router.post('/register',function(req, res, next) {
   });
 })
 
+/*** Register successful page ***/
+
 /*** Log out ***/
 router.get('/logout',function(req, res, next){
   req.session.destroy();
   res.redirect('/?identity=visitor');
+})
+
+/*** Lessson manage page***/
+router.get('/lessonManage', function(req, res, next){
+  res.render('lessonManage', { title: 'lessonManage'});
+})
+
+/*** Personal information page***/
+router.get('/information', function(req, res, next){
+  res.render('information', { title: 'information'});
 })
 
 module.exports = router;
