@@ -16,33 +16,34 @@ var registered = (function(){
 		this._close = null;
 		this._check_registered = null;
 		this._next = null;
-		//input欄位
+		//input欄位 標籤
 		this._name = null;
 		this._account = null;
-		this._psd = null;
-		this._mail = null;
-		this._phone = null;
+		this._password = null;
+		this._email = null;
+		this._telephone = null;
 		this._sex = null;
-		this._id = null;
+		this._identity = null;
 		this._birthday = null;
 		this._address = null;
+		//form error
+		this._form_name = null;
+		this._form_account = null;
+		this._form_password = null;
+		this._form_email = null;
+		this._form_telephone = null;
+		this._form_sex = null;
+		this._form_identity = null;
+		this._form_birthday = null;
+		this._form_address = null;
 
-		//icon 勾勾 叉叉
-		this._icon_name = null;
-		this._icon_account = null;
-		this._icon_psd = null;
-		this._icon_mail = null;
-		this._icon_phone = null;
-		this._icon_sex = null;
-		this._icon_id = null;
-		this._icon_birthday = null;
-		this._icon_address = null;
-		this._icon_all = null;
-
-		this._agree = "";	//註冊同意
-		this._checked_button = "";	//判斷性別radio
-		this._check_psd = "";	//確認密碼
-
+		//
+		this._selectPhone = null;
+		this._promptText = null;
+		this._agree = "";							//註冊同意
+		this._checked_button = "";		//判斷性別radio
+		this._check_psd = "";					//確認密碼
+		this._psdReset = null; 				//密碼重新輸入
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
@@ -73,28 +74,30 @@ var registered = (function(){
 			this._close = $(".close");
 			this._check_registered = $('.check_registered');
 			this._next = $("#next");
+			//欄位標籤
 			this._name = $("#name");
 			this._account = $("#account");
-			this._psd = $("#psd");
-			this._mail = $("#mail");
-			this._phone = $("#phone");
+			this._password = $("#password");
+			this._email = $("#email");
+			this._telephone = $("#telephone");
 			this._sex = $(".sex");
-			this._id = $("#id");
+			this._identity = $("#identity");
 			this._birthday = $("#birthday");
 			this._address = $("#address");
-
-			//icon 勾勾 叉叉
-			this._icon_name = $("#icon_name");
-			this._icon_account = $("#icon_account");
-			this._icon_psd = $("#icon_psd");
-			this._icon_mail = $("#icon_mail");
-			this._icon_phone = $("#icon_phone");
-			this._icon_sex = $("#icon_sex");
-			this._icon_id = $("#icon_id");
-			this._icon_birthday = $("#icon_birthday");
-			this._icon_address = $("#icon_address");
-			this._icon_all = $(".icon_all");
-
+			//form error
+			this._form_name = $(".form_name");
+			this._form_account = $(".form_account");
+			this._form_password = $(".form_password");
+			this._form_email = $(".form_email");
+			this._form_telephone = $(".form_telephone");
+			this._form_sex = $(".form_sex");
+			this._form_identity = $(".form_identity");
+			this._form_birthday = $(".form_birthday");
+			this._form_address = $(".form_address");
+			//
+			this._selectPhone = $("#selectPhone");
+			this._promptText = $("#promptText");
+			this._psdReset = $(".psdReset");
 			this._start();	//開始網頁執行function
 		},
 		_start:function(){
@@ -103,40 +106,89 @@ var registered = (function(){
 			//this._resetForm();
 			//objThis._delCookie(objThis._account.val())
 			setTimeout("$('#account').val('')",500);
-			setTimeout("$('#psd').val('')",500);
+			setTimeout("$('#password').val('')",500);
+
 		},
 		_initialAll:function(){
 			var objThis = this;
+
+			$("input").iCheck({
+				checkboxClass:"icheckbox_flat-blue",
+				radioClass:"iradio_flat-blue"
+			});
 
 			//$(".reset").click();
 
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
-				if(objThis._name.val() != ""){
-					objThis._icon_name.empty();
-					objThis._icon_name.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_name.empty();
-					objThis._icon_name.append("<img src='images/fail.png' />");
+				//判斷姓名長度是否大於2，小於30  不能輸入特殊字元
+				if(objThis._name.val().length > 2 && objThis._name.val().length < 30 &&
+				!objThis._getSpeStr(objThis._name.val()))
+				{
+					objThis._form_name.removeClass("has-error");
+					objThis._form_name.addClass("has-success");
+				}
+				else if(objThis._name.val() == ""){
+					objThis._form_name.removeClass("has-error");
+					objThis._form_name.removeClass("has-success");
+				}
+				else{
+					objThis._form_name.addClass("has-error");
+					objThis._form_name.removeClass("has-success");
 				}
 			},this));
-
+			//姓名 focue
+			objThis._name.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:姓名請輸入兩個字以上");
+			},this));
+			//姓名 限制長度輸入
+			objThis._name.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>30){
+					o.val(v.slice(0,30));
+					evt.preventDefault();
+				}
+			});
 			//帳號 blur
 			objThis._account.on("blur",$.proxy(function(event){
-
-
-				if(objThis._account.val() != ""){
-					objThis._icon_account.empty();
-					objThis._icon_account.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_account.empty();
-					objThis._icon_account.append("<img src='images/fail.png' />");
+				//判斷帳號長度是否大於6，小於20  帳號包含數字  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
+				if(objThis._account.val().length > 6 && objThis._account.val().length < 20 &&
+				objThis._account.val().match(/\d/) && objThis._account.val().match(/[a-z]/i) &&
+				!objThis._getSpeStr2(objThis._account.val()))
+				{
+					objThis._form_account.removeClass("has-error");
+					objThis._form_account.addClass("has-success");
+				}
+				else if(objThis._account.val() == ""){
+					objThis._form_account.removeClass("has-error");
+					objThis._form_account.removeClass("has-success");
+				}
+				else{
+					objThis._form_account.addClass("has-error");
+					objThis._form_account.removeClass("has-success");
 				}
 			},this));
-
+			//帳號 focus
+			objThis._account.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上");
+			},this));
+			//帳號 限制長度輸入
+			objThis._account.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>20){
+					o.val(v.slice(0,20));
+					evt.preventDefault();
+				}
+			});
 			//密碼 blur
-			objThis._psd.on("blur",$.proxy(function(event){
-				if(objThis._psd.val() != ""){
+			objThis._password.on("blur",$.proxy(function(event){
+				//判斷密碼長度是否大於8，小於100  密碼包含數字  密碼包含英文字母(不分大小寫) 接受所有特殊字元
+				if(objThis._password.val().length > 8 && objThis._password.val().length < 100 &&
+				objThis._password.val().match(/\d/) && objThis._password.val().match(/[a-z]/i) )
+				{
+					objThis._form_password.removeClass("has-error");
 					layer.prompt({
 						closeBtn:0,
 						formType:1,
@@ -147,99 +199,204 @@ var registered = (function(){
 							//objThis._psd.focus();
 							//layer.msg('確認密碼錯誤');
 							objThis._check_psd = "";
-							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='images/fail.png' />");
+							objThis._form_password.removeClass("has-success");
+							objThis._form_password.addClass("has-error");
+
 						}
 						},function(value,index,elem){
-						if(objThis._psd.val() != value) {
+						if(objThis._password.val() != value) {
 							//objThis._psd.focus();
 							layer.msg('確認密碼錯誤');
 							objThis._check_psd = "";
-							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='images/fail.png' />");
-							}else{
+
+						}
+						else{
 							layer.msg('確認密碼正確');
 							objThis._check_psd = "true";
-							objThis._icon_psd.empty();
-							objThis._icon_psd.append("<img src='images/success.png' />");
+							objThis._form_password.addClass("has-success");
+							objThis._password.attr("disabled","true")
 						}
 
 						layer.close(index)
 					})
 				}
-
+				else if(objThis._password.val() == ""){
+					objThis._form_password.removeClass("has-error");
+					objThis._form_password.removeClass("has-success");
+				}
+				else{
+					objThis._form_password.addClass("has-error");
+					objThis._form_password.removeClass("has-success");
+				}
 			},this));
-
+			//密碼 focus
+			objThis._password.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:密碼請輸入八個字以上");
+			},this));
+			//密碼 限制長度輸入
+			objThis._password.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>100){
+					o.val(v.slice(0,100));
+					evt.preventDefault();
+				}
+			});
+			//密碼 重新輸入
+			objThis._psdReset.on("click",$.proxy(function(event){
+				objThis._password.val("")
+				objThis._form_password.removeClass("has-error");
+				objThis._form_password.removeClass("has-success");
+				objThis._password.removeAttr("disabled");
+			},this));
 			//E-mail  blur
-			objThis._mail.on("blur",$.proxy(function(event){
-				if(objThis._mail.val() != ""){
-					objThis._icon_mail.empty();
-					objThis._icon_mail.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_mail.empty();
-					objThis._icon_mail.append("<img src='images/fail.png' />");
+			objThis._email.on("blur",$.proxy(function(event){
+				var email = objThis._email.val();
+				var email_font = email.substr(0,email.indexOf("@"))
+				var email_format = email.substr(email.indexOf("@")+1)
+				//判斷是否為空  檢驗email格式 前面字串 + @ + domain .com
+				if(
+				(email_font != "" && email_font.match(/\d/) && email_font.match(/[a-z]/i) && !objThis._getSpeStr2(email_font)) &&
+				(email_format != "" && email_format.search(/[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) != -1))
+				{
+					objThis._form_email.removeClass("has-error");
+					objThis._form_email.addClass("has-success");
+				}
+				else if(objThis._email.val() == ""){
+					objThis._form_email.removeClass("has-error");
+					objThis._form_email.removeClass("has-success");
+				}
+				else{
+					objThis._form_email.addClass("has-error");
+					objThis._form_email.removeClass("has-success");
 				}
 			},this));
-
+			//信箱 focus
+			objThis._email.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:Email請輸入信箱正確格式，a123456789 + @ + domain .com");
+			},this));
+			//信箱 限制長度輸入
+			objThis._name.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>50){
+					o.val(v.slice(0,50));
+					o.val(v.slice(0,50));
+					evt.preventDefault();
+				}
+			});
+			//電話選單 change
+			objThis._selectPhone.on("change",$.proxy(function(event){
+				objThis._telephone.val(objThis._selectPhone.val()) ;
+				objThis._form_telephone.removeClass("has-error");
+				objThis._form_telephone.removeClass("has-success");
+			},this))
 			//電話 blur
-			objThis._phone.on("blur",$.proxy(function(event){
-				if(objThis._phone.val() != ""){
-					objThis._icon_phone.empty();
-					objThis._icon_phone.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_phone.empty();
-					objThis._icon_phone.append("<img src='images/fail.png' />");
+			objThis._telephone.on("blur",$.proxy(function(event){
+				if(objThis._telephone.val().length > 8 && objThis._telephone.val().length < 12 &&
+				objThis._telephone.val().match(/\d$/))
+				{
+					objThis._form_telephone.removeClass("has-error");
+					objThis._form_telephone.addClass("has-success");
+				}
+
+				else if(objThis._telephone.val() == ""){
+					objThis._form_telephone.removeClass("has-error");
+					objThis._form_telephone.removeClass("has-success");
+				}
+				else{
+					objThis._form_telephone.addClass("has-error");
+					objThis._form_telephone.removeClass("has-success");
 				}
 			},this));
-
-			//性別 click
-			objThis._sex.on("blur",$.proxy(function(event){
-
-				objThis._icon_sex.empty();
-				objThis._icon_sex.append("<img src='images/success.png' />");
+			objThis._telephone.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("");
 			},this));
-
+			//電話 限制長度輸入
+			objThis._telephone.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>12){
+					o.val(v.slice(0,12));
+					evt.preventDefault();
+				}
+			});
+			//性別 mouseover
 			objThis._sex.on("mouseover",$.proxy(function(event){
 				if($(".check_sex").is(":checked") && objThis._checked_button == ""){
 					objThis._checked_button	= "check";
-					objThis._icon_sex.empty();
-					objThis._icon_sex.append("<img src='images/success.png' />");
+
 				}
 			},this));
 
 			//身分證 blur
-			objThis._id.on("blur",$.proxy(function(event){
-				if(objThis._id.val() != ""){
-					objThis._icon_id.empty();
-					objThis._icon_id.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_id.empty();
-					objThis._icon_id.append("<img src='images/fail.png' />");
+			objThis._identity.on("blur",$.proxy(function(event){
+				if(objThis._getCheckIdentity(objThis._identity.val())){
+					objThis._form_identity.removeClass("has-error");
+					objThis._form_identity.addClass("has-success");
+				}
+				else if(objThis._identity.val() == ""){
+					objThis._form_identity.removeClass("has-error");
+					objThis._form_identity.removeClass("has-success");
+				}
+				else{
+					objThis._form_identity.addClass("has-error");
+					objThis._form_identity.removeClass("has-success");
 				}
 			},this));
-
+			//身分證 focus
+			objThis._identity.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:身分證須符合正確格式。");
+			},this));
+			//身分證 限制長度輸入
+			objThis._identity.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>10){
+					o.val(v.slice(0,10));
+					evt.preventDefault();
+				}
+			});
 			//生日 blur
 			objThis._birthday.on("blur",$.proxy(function(event){
 				if(objThis._birthday.val() != ""){
-					objThis._icon_birthday.empty();
-					objThis._icon_birthday.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_birthday.empty();
-					objThis._icon_birthday.append("<img src='images/fail.png' />");
+					objThis._form_birthday.removeClass("has-error");
+					objThis._form_birthday.addClass("has-success");
+				}
+
+				else if(objThis._birthday.val() == ""){
+					objThis._form_birthday.removeClass("has-error");
+					objThis._form_birthday.removeClass("has-success");
+				}
+				else{
+					objThis._form_birthday.addClass("has-error");
+					objThis._form_birthday.removeClass("has-success");
 				}
 			},this));
 
 			//地址 blur
 			objThis._address.on("blur",$.proxy(function(event){
-				if(objThis._address.val() != ""){
-					objThis._icon_address.empty();
-					objThis._icon_address.append("<img src='images/success.png' />");
-					}else{
-					objThis._icon_address.empty();
-					objThis._icon_address.append("<img src='images/fail.png' />");
+				if(objThis._address.val().length > 6 && !objThis._getSpeStr2(objThis._address.val())){
+					objThis._form_address.removeClass("has-error");
+					objThis._form_address.addClass("has-success");
+				}
+				else if(objThis._address.val() == ""){
+					objThis._form_address.removeClass("has-error");
+					objThis._form_address.removeClass("has-success");
+				}
+				else{
+					objThis._form_address.addClass("has-error");
+					objThis._form_address.removeClass("has-success");
 				}
 			},this));
-
+			//地址 限制長度輸入
+			objThis._address.bind("input",function(evt){
+				var o = $(this),v=o.val();
+				if(v.length>100){
+					o.val(v.slice(0,100));
+					evt.preventDefault();
+				}
+			});
 
 
 			//註冊同意 視窗
@@ -255,7 +412,7 @@ var registered = (function(){
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = '/login'",1500);
+					setTimeout("location.href = '/'",1500);
 				}
 			},this));
 
@@ -302,7 +459,7 @@ var registered = (function(){
 			objThis._checkTip.on("mouseenter",$.proxy(function(event){
 				objThis._mouseoverNum++;
 				if(objThis._mouseoverNum<3){
-					layer.tips('透過點擊數字增加，與右邊驗證碼相同即可', objThis._checkTip,{tips:4});
+					layer.tips('透過點擊數字增加，與上方驗證碼相同即可', objThis._checkTip,{tips:4});
 				}
 			},this))
 
@@ -397,7 +554,63 @@ var registered = (function(){
 			expires.setTime(expires.getTime()-1);
 			document.cookie = name + "=;expires=" + expires.toGMTString();
 			alert(document.cookie);
+		},
+		//判斷特殊字元  (有底線)
+		_getSpeStr:function(str){
+			var reg = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
+			return (reg.test(str))
+		},
+		//判斷特殊字元  (無 _ - )
+		_getSpeStr2:function(str2){
+			var reg2 = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
+			return (reg2.test(str2))
+		},
+		//判斷身分證格式
+		_getCheckIdentity:function(id){
+			var city = new Array(1,10,19,28,37,46,55,64,39,73,
+			82,2,11,20,48,29,38,47,56,65,74,83,21,3,12,30)
+			id = id.toUpperCase();
+			if(id.search(/^[A-Z](1|2)\d{8}$/i) == -1){
+				return false;
+			}else
+			{
+				id = id.split('');
+				var total = city[id[0].charCodeAt(0)-65];
+				for(var i=1;i<=8;i++){
+					total+= eval(id[i] * (9-i));
+				}
+				total+=eval(id[9]);
+				return (total%10 == 0);
+			}
+		},
+		//身分證產生
+		_getTwID:function(){
+			//建立字母分數陣列(A~Z)
+			var city = new Array(1,10,19,28,37,46,55,64,39,73,82, 2,11,
+			20,48,29,38,47,56,65,74,83,21, 3,12,30)
+			//建立隨機身份證碼
+			var id = new Array();
+			id[0] = String.fromCharCode(Math.floor(Math.random() * (26)) + 65);
+			id[1] = Math.floor(Math.random() * (2)) + 1;
+			for(var i=2; i<9; i++){
+				id[i] = Math.floor(Math.random() * (9)) + 0;
+			}
+			//計算總分
+			var total = city[id[0].charCodeAt(0)-65];
+			for(var i=1; i<=8; i++){
+				total += eval(id[i]) * (9 - i);
+			}
+			//計算最尾碼
+			var total_arr = (total+'').split('');
+			var lastChar = eval(10-total_arr[total_arr.length-1]);
+			var lastChar_arr = (lastChar+'').split('');
+			//補上最後檢查碼
+			id[id.length++] = lastChar_arr[lastChar_arr.length-1];
+			//回傳結果
+			return id.join('');
 		}
+
+
 	}
 	return _const;
 }());
@@ -413,7 +626,8 @@ function resetForm(){
 	event.preventDefault();	//停用原本reset功能
 	//radio 取消樣式
 	$(".sex .iradio_flat-blue").removeClass("checked");
-	registered._icon_all.empty();
+	$(".form-group").removeClass("has-success");
+	$(".form-group").removeClass("has-error");
 	registered._getRandom();
 	registered._checked_button = "";
 	$(':input',form).not(':button,:submit,:reset,:hidden').val("").removeAttr("checked").removeAttr("selected");
@@ -428,27 +642,9 @@ function listCookie() {
 	cookieArray = document.cookie.split(";");
 	for (var i = 0; i < cookieArray.length; i++) {
 		thisCookie = cookieArray[i].split("=");
-		cName = unescape(thisCookie[0]);
-		cValue = unescape(thisCookie[1]);
-		document.writeln("<tr><td>" + cName + "</td><td>" + cValue + "</td>");
+	cName = unescape(thisCookie[0]);
+	cValue = unescape(thisCookie[1]);
+	document.writeln("<tr><td>" + cName + "</td><td>" + cValue + "</td>");
 	}
 	document.writeln("</table>");
-}
-
-function clear (el,message)
-{
-	var obj = el;
-	if(typeof(el) == "string")
-	obj = document.getElementByIdx_x("account");
-	if(obj.value == message)
-	{
-		obj.value = "";
 	}
-	obj.onblur = function()
-	{
-		if(obj.value == "")
-		{
-			obj.value = message;
-		}
-	}
-}

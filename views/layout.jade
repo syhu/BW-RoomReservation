@@ -2,6 +2,7 @@ doctype html
 html
   head
     meta(charset='utf-8')
+    // CSS
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/master.css')
     // Loading Flat UI
@@ -9,6 +10,7 @@ html
     link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
     // bootcss
     link(href='stylesheets/bootcss.css', rel='stylesheet')
+    // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script.
@@ -31,6 +33,14 @@ html
       function information()
       {
       location.href = '/information';
+      }
+      function lessonCRUD()
+      {
+      location.href = '/lesson';
+      }
+      function userManage()
+      {
+      location.href = '/userManage'
       }
     // 彈出視窗
     title 福智基金會
@@ -109,6 +119,10 @@ html
                 li
                   a#sign_rervation(href='#', style='font-size:15px;')
                     img
+                    |    立刻報名
+                li
+                  a#sign_rervation(href='#', style='font-size:15px;')
+                    img
                     |    預約報名
           ul.nav.navbar-nav
             li.dropdown
@@ -132,16 +146,25 @@ html
                   a#lesson_detail(href='#', style='font-size:15px;')
                     img(src='images/detail.png')
                     |    細節查詢
-          ul.nav.navbar-nav
-            li.dropdown
-              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
-                | 管理專區
-                b.caret
-              ul.dropdown-menu
-                li
-                  a#lesson_time(href='#', onclick='manage();', style='font-size:15px;')
-                    img(src='images/time.png')
-                    |    教室調動
+          if user
+            ul.nav.navbar-nav
+              li.dropdown
+                a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                  | 管理專區
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a#lesson_time(href='#', onclick='manage();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      |    教室調動
+                  li
+                    a#lesson_time(href='#',onclick='lessonCRUD();' style='font-size:15px;')
+                      img(src='images/time.png')
+                      |    CRUD
+                  li
+                    a#lesson_time(href='#', onclick='userManage();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      |    使用者管理
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')

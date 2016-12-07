@@ -75,6 +75,10 @@ router.get('/loading',function(req, res, next)
 
 /*** Login Page ***/
 router.get('/login', function(req, res, next) {
+  if(req.session.account)
+  {
+    res.redirect('/?a=' + req.session.logining);
+  }
   if (req.session.error == req.query.error)
   {
     req.session.error = "";
@@ -129,6 +133,10 @@ router.post('/login', function(req, res, next) {
 
 /*** Register Page ***/
 router.get('/register',function(req, res, next) {
+  if(req.session.account)
+  {
+    res.redirect('/?a=' + req.session.logining);
+  }
   if (res.locals.error == 'accountRepeat')
   {
     res.render('register', { title: 'Register', register: '帳號重複' })
@@ -176,12 +184,50 @@ router.get('/logout',function(req, res, next){
 
 /*** Lessson manage page***/
 router.get('/lessonManage', function(req, res, next){
-  res.render('lessonManage', { title: 'lessonManage'});
+  if(req.session.account)
+  {
+    res.render('lessonManage', { title: 'lessonManage'});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
 })
 
 /*** Personal information page***/
 router.get('/information', function(req, res, next){
-  res.render('information', { title: 'information'});
+  if(req.session.account)
+  {
+    res.render('information', { title: 'information'});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
 })
+
+/*** Lesson Manage System ***/
+router.get('/lesson', function(req, res, next){
+  if(req.session.account)
+  {
+    res.render('lesson', { title: 'lesson'});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+});
+
+/*** User Manage ***/
+router.get('/userManage', function(req, res, next){
+  if(req.session.account)
+  {
+    res.render('userManage', { title: 'userManage'});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+});
 
 module.exports = router;

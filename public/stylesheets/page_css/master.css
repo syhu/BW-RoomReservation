@@ -92,6 +92,15 @@ tr:last-child th:last-child{
 	float:left;
 	
 }
+#list table{
+	
+	 -webkit-transition-property: all;
+	transition-property: all;
+    -webkit-transition-duration: .15s;
+	transition-duration: .15s;
+    -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+}
 
 #index{		/* 回首頁 福智基金會 */
 	margin-left:20px;
@@ -113,6 +122,22 @@ tr:last-child th:last-child{
 #admin_authority{		/*右邊選單*/
 	float:right;
 	margin-right:45px;
+	
+	-webkit-transition-property: all;
+	transition-property: all;
+    -webkit-transition-duration: .15s;
+	transition-duration: .15s;
+    -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+#admin_authority ul{		/*右邊選單*/
+	
+	-webkit-transition-property: all;
+	transition-property: all;
+    -webkit-transition-duration: .15s;
+	transition-duration: .15s;
+    -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 #message{		/*使用者訊息 時間*/
 	float:right;
@@ -123,7 +148,6 @@ tr:last-child th:last-child{
 #mainDropdown ul li{
 	-webkit-box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
-	border:1px dashed black;
 	border-radius:10px;
 	
 	
