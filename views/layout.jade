@@ -13,35 +13,7 @@ html
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
-    script.
-      function logout()
-      {
-      location.href = '/logout';
-      }
-      function login()
-      {
-      location.href = '/login';
-      }
-      function signin()
-      {
-      location.href = '/register';
-      }
-      function manage()
-      {
-      location.href = '/lessonManage';
-      }
-      function information()
-      {
-      location.href = '/information';
-      }
-      function lessonCRUD()
-      {
-      location.href = '/lesson';
-      }
-      function userManage()
-      {
-      location.href = '/userManage'
-      }
+    script(src='javascripts/location.js')
     // 彈出視窗
     title 福智基金會
   body
@@ -156,11 +128,11 @@ html
                   li
                     a#lesson_time(href='#', onclick='manage();', style='font-size:15px;')
                       img(src='images/time.png')
-                      |    教室調動
+                      |    教室調動
                   li
                     a#lesson_time(href='#',onclick='lessonCRUD();' style='font-size:15px;')
                       img(src='images/time.png')
-                      |    CRUD
+                      |    CRUD
                   li
                     a#lesson_time(href='#', onclick='userManage();', style='font-size:15px;')
                       img(src='images/time.png')

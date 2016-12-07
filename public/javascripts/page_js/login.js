@@ -70,7 +70,6 @@ var login = (function(){
 		_initialAll:function(){
 			var objThis = this;
 
-			//$(".windows8").show();
 			//標題 回首頁
 			objThis._index.on("click",$.proxy(function(event){
 				location.href="/?identity=visitor";
@@ -85,6 +84,7 @@ var login = (function(){
 					layer.msg('驗證碼錯誤');
 					objThis._currentNum.val("");
 					objThis._getRandom();
+					objThis._chk.attr("type","button")
 					return false;
 				}
 			},this));
@@ -97,14 +97,6 @@ var login = (function(){
 				}
 			},this))
 
-			//註冊提示  管理者
-			objThis._registered2.on("mouseover",$.proxy(function(event){
-				objThis._mouseoverNum++;
-				if(objThis._mouseoverNum<3){
-					layer.tips('可以透過註冊帳號來登入', objThis._registered2 ,{tips:1});
-				}
-			},this))
-			
 			//註冊
 			objThis._registered.on("click",$.proxy(function(event){
 				location.href = "/register";

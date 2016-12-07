@@ -121,8 +121,8 @@ var registered = (function(){
 
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
-				//判斷姓名長度是否大於2，小於30  不能輸入特殊字元
-				if(objThis._name.val().length > 2 && objThis._name.val().length < 30 &&
+				//判斷姓名長度是否大於1，小於30  不能輸入特殊字元
+				if(objThis._name.val().length > 1 && objThis._name.val().length < 30 &&
 				!objThis._getSpeStr(objThis._name.val()))
 				{
 					objThis._form_name.removeClass("has-error");
@@ -451,7 +451,7 @@ var registered = (function(){
 					layer.msg('驗證碼錯誤');
 					objThis._getRandom();
 					objThis._chk.attr("type","button")
-					}else{
+				}else{
 					objThis._chk.attr("type","submit")
 				}
 			},this));
@@ -465,21 +465,21 @@ var registered = (function(){
 
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
-				objThis._getRandom();
+			objThis._getRandom();
 			},this))
-			//
+			// Number 1st
 			objThis._check1.on("click",$.proxy(function(event){
 				objThis._getNumAdd(1);
 			},this))
-			//
+			// Number 2ed
 			objThis._check2.on("click",$.proxy(function(event){
 				objThis._getNumAdd(2);
 			},this))
-			//
+			// Number 3th
 			objThis._check3.on("click",$.proxy(function(event){
 				objThis._getNumAdd(3);
 			},this))
-			//
+			// Number 4th
 			objThis._check4.on("click",$.proxy(function(event){
 				objThis._getNumAdd(4);
 			},this))
@@ -609,17 +609,13 @@ var registered = (function(){
 			//回傳結果
 			return id.join('');
 		}
-
-
 	}
 	return _const;
 }());
 var registered
 $(function(){
 	registered = new registered();
-	//listCookie();
 })
-
 
 function resetForm(){
 	var form = $(".registerForm");
@@ -634,17 +630,3 @@ function resetForm(){
 	form.find('input:text,input:password,input:file,select,textarea').val("");
 	form.find('input:radio,input:checkbox').removeAttr('checked').removeAttr('selected');
 }
-
-
-function listCookie() {
-	document.writeln("<table>");
-	document.writeln("<tr><th>Name<th>Value");
-	cookieArray = document.cookie.split(";");
-	for (var i = 0; i < cookieArray.length; i++) {
-		thisCookie = cookieArray[i].split("=");
-	cName = unescape(thisCookie[0]);
-	cValue = unescape(thisCookie[1]);
-	document.writeln("<tr><td>" + cName + "</td><td>" + cValue + "</td>");
-	}
-	document.writeln("</table>");
-	}
