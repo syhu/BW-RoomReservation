@@ -214,7 +214,7 @@ var registered = (function(){
 							layer.msg('確認密碼正確');
 							objThis._check_psd = "true";
 							objThis._form_password.addClass("has-success");
-							objThis._password.attr("disabled","true")
+							// objThis._password.attr("disabled","true")
 						}
 
 						layer.close(index)

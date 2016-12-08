@@ -157,7 +157,7 @@ router.get('/register',function(req, res, next) {
 router.post('/register',function(req, res, next) {
   var name = req.body.name;
   var account = req.body.account;
-  var password = req.body.password;
+  var password = req.body.fuck;
   var pwHash = hashPW(account, password);
   var email = req.body.email;
   var telephone = req.body.telephone;
@@ -166,17 +166,6 @@ router.post('/register',function(req, res, next) {
   var idHash = hashID(pwHash, identity);
   var birthday = req.body.birthday;
   var address = req.body.address
-  console.log(name)
-  console.log(account)
-  console.log(password)
-  console.log(pwHash)
-  console.log(email)
-  console.log(telephone)
-  console.log(sex)
-  console.log(identity)
-  console.log(idHash)
-  console.log(birthday)
-  console.log(address)
   user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, repeat, userAccount , userName)
   {
     if(repeat == 0)
