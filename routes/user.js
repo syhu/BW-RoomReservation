@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  userSave : function(name, account, hash, email, telphone, sex, identity, birthday, address, callback)
+  userSave : function(name, account, pwHash, email, telephone, sex, idHash, birthday, address, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -15,15 +15,16 @@ module.exports = {
       ({
         name: name,
         account: account,
-        hash: hash,
+        pwHash: pwHash,
         email: email,
-        telphone: telphone,
+        telephone: telephone,
         sex: sex,
-        identity: identity,
+        idHash: idHash,
         birthday: birthday,
         address: address,
         authenticate: false,
-        createTime: now
+        createTime: now,
+        lastLoginTime: now
       });
       User.find({account: account}, function(err, data)
       {

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  loginCheck : function(account, hash, callback)
+  loginCheck : function(account, pwHash, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -22,10 +22,18 @@ module.exports = {
           }
           if(counts != 0)
           {
-            if(hash == data[0].hash)
+            if(pwHash == data[0].pwHash)
             {
-              mongoose.disconnect();
-              callback(err, 0, data[0].name);
+              var now = new Date();
+              User.update({account: account}, {$set: {lastLoginTime: now}}, function(err)
+              {
+                if(err){console.log(err);}
+                else
+                {
+                  mongoose.disconnect();
+                  callback(err, 0, data[0].name);
+                }
+              })
             }
             else
             {

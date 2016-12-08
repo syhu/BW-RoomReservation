@@ -20,6 +20,13 @@ function hashPW(account, password)
   return hash.digest('hex');
 }
 
+function hashID(pwHash, identity)
+{
+  var hash = crypto.createHash('md5');
+  hash.update(pwHash + identity);
+  return hash.digest('hex');
+}
+
 /******************   Routes   ******************/
 
 /*** Home Page ***/
@@ -151,20 +158,32 @@ router.post('/register',function(req, res, next) {
   var name = req.body.name;
   var account = req.body.account;
   var password = req.body.password;
-  var hash = hashPW(account, password);
+  var pwHash = hashPW(account, password);
   var email = req.body.email;
-  var telphone = req.body.telphone;
+  var telephone = req.body.telephone;
   var sex = req.body.sex;
   var identity = req.body.identity;
+  var idHash = hashID(pwHash, identity);
   var birthday = req.body.birthday;
   var address = req.body.address
-  user.userSave(name, account, hash, email, telphone, sex, identity, birthday, address, function(err, repeat, userAccount , userName)
+  console.log(name)
+  console.log(account)
+  console.log(password)
+  console.log(pwHash)
+  console.log(email)
+  console.log(telephone)
+  console.log(sex)
+  console.log(identity)
+  console.log(idHash)
+  console.log(birthday)
+  console.log(address)
+  user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, repeat, userAccount , userName)
   {
     if(repeat == 0)
     {
       nowUseAccount = userAccount;
       nowUserName = userName;
-      res.redirect('/');
+      res.redirect('/successful');
     }
     else
     {
@@ -175,6 +194,17 @@ router.post('/register',function(req, res, next) {
 })
 
 /*** Register successful page ***/
+router.get('/successful', function(req, res, next){
+
+  if(!req.session.account)
+  {
+    res.render('successful', {title: 'Successful'})
+  }
+  else
+  {
+    res.redirect('/');
+  }
+})
 
 /*** Log out ***/
 router.get('/logout',function(req, res, next){
@@ -186,7 +216,7 @@ router.get('/logout',function(req, res, next){
 router.get('/lessonManage', function(req, res, next){
   if(req.session.account)
   {
-    res.render('lessonManage', { title: 'lessonManage'});
+    res.render('lessonManage', { user: req.session.userName});
   }
   else
   {
@@ -198,7 +228,7 @@ router.get('/lessonManage', function(req, res, next){
 router.get('/information', function(req, res, next){
   if(req.session.account)
   {
-    res.render('information', { title: 'information'});
+    res.render('information', { user: req.session.userName});
   }
   else
   {
@@ -210,7 +240,7 @@ router.get('/information', function(req, res, next){
 router.get('/lesson', function(req, res, next){
   if(req.session.account)
   {
-    res.render('lesson', { title: 'lesson'});
+    res.render('lesson', { user: req.session.userName});
   }
   else
   {
@@ -222,7 +252,7 @@ router.get('/lesson', function(req, res, next){
 router.get('/userManage', function(req, res, next){
   if(req.session.account)
   {
-    res.render('userManage', { title: 'userManage'});
+    res.render('userManage', { user: req.session.userName});
   }
   else
   {
