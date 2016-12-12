@@ -1,7 +1,7 @@
 html{height:100%;}
 body{
 	font:80% "Microsoft JhengHei" , sans-serif;
-	background-color:#8C8CFF;
+	/*background-color:#8C8CFF;*/
 	font-size: 18px;
 	margin:0px;
 	height:100%;
@@ -9,7 +9,7 @@ body{
 }
 #main{
 	height:100%;
-	
+
 }
 
 label{
@@ -17,7 +17,7 @@ label{
 }
 
 #title{
-	
+
 	cursor:pointer;
 	color:#4F709F;
 	font-size:24px;
@@ -33,7 +33,7 @@ label{
 		margin-left:20px;
 		font-size:15px;
 		color:#828282;
-		
+
 }
 
 .check_registered:hover{
@@ -42,7 +42,6 @@ label{
 	left:1px;
 }
 
-@media (min-height: 1024px) and (min-height: 768px) { body { background-color:red; } } /* 1024 x 768 */
-@media (min-height: 1440px) and (min-height: 900px) { body { background-color:blue; } } /* 1440 x 900 */
-@media (min-height: 1920px) and (min-height: 1080px) { body { background-color:green; } } /* 1920 x 1080 */
-
+@media (min-height: 1024px) and (min-height: 768px) { /*body { background-color:red; }*/ } /* 1024 x 768 */
+@media (min-height: 1440px) and (min-height: 900px) { /*body { background-color:blue; }*/ } /* 1440 x 900 */
+@media (min-height: 1920px) and (min-height: 1080px) { /*body { background-color:green; }*/ } /* 1920 x 1080 */

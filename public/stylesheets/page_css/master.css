@@ -6,7 +6,7 @@ body{
 	vertical-align:middle;
 }
 span,label{
-	cursor:pointer;	
+	cursor:pointer;
 }
 td:hover{
 	background-color:#E3E3E3;
@@ -17,11 +17,11 @@ table{
 	border-radius:10px;
 	/*text-align:center;*/
 	border-collapse:separate;	/* 使border不聽操控 */
-	border-spacing:0;  /* 使表格間沒有空隙 */ 
+	border-spacing:0;  /* 使表格間沒有空隙 */
 	table-layout:fixed;		/*防止內容被撐開*/
 	word-wrap:break-word;   /* 不執行換行 */
-	
-	
+
+
 }
 table td{
 	padding:0 0 0 0;
@@ -31,7 +31,7 @@ table td{
 	td,th{
 	vertical-align:middle;
 	width:200px;
-	
+
 	}
 */
 /*
@@ -50,8 +50,8 @@ tr:last-child th:last-child{
 }
 
 #mainDiv{
-	border-bottom-left-radius:20px;	
-	border-bottom-right-radius:20px;	
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
 	margin-left:40px;
 	margin-right:40px;
 	margin-top:80px;
@@ -68,18 +68,18 @@ tr:last-child th:last-child{
 	line-height:50px;
 	display:inline-block;
 	vertical-align:middle;
-	
-	
+
+
 	border-bottom-left-radius:1em;
 	border-bottom-right-radius:1em;
-	
-	-webkit-user-select:none;  /* 禁止反白 */ 
-	
-	
+
+	-webkit-user-select:none;  /* 禁止反白 */
+
+
 	/*-webkit-box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);
 	box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);*/
-	
-	
+
+
     -webkit-transition-property: all;
 	transition-property: all;
     -webkit-transition-duration: .15s;
@@ -90,10 +90,10 @@ tr:last-child th:last-child{
 #admin_hide{	/* 左邊選單 */
 	margin-left:20px;
 	float:left;
-	
+
 }
 #list table{
-	
+
 	 -webkit-transition-property: all;
 	transition-property: all;
     -webkit-transition-duration: .15s;
@@ -108,7 +108,7 @@ tr:last-child th:last-child{
 	font-size:24px;
 	color:#4F709F;
 	float:left;
-	
+
 }
 #index:hover{
 	cursor:pointer;
@@ -122,22 +122,22 @@ tr:last-child th:last-child{
 #admin_authority{		/*右邊選單*/
 	float:right;
 	margin-right:45px;
-	
+/*
 	-webkit-transition-property: all;
 	transition-property: all;
     -webkit-transition-duration: .15s;
 	transition-duration: .15s;
     -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
 }
 #admin_authority ul{		/*右邊選單*/
-	
-	-webkit-transition-property: all;
-	transition-property: all;
-    -webkit-transition-duration: .15s;
-	transition-duration: .15s;
-    -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
+border-radius:10px;
+	/*-webkit-transition-property: all;*/
+/*	transition-property: all;*/
+  /*  -webkit-transition-duration: .15s;*/
+/*	transition-duration: .15s;*/
+  /*  -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
+/*	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
 }
 #message{		/*使用者訊息 時間*/
 	float:right;
@@ -146,15 +146,15 @@ tr:last-child th:last-child{
 	color:#4F709F;
 }
 #mainDropdown{
-margin-left:100px;	
+margin-left:100px;
 }
 
 #mainDropdown ul li{
-	-webkit-box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	/*-webkit-box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);*/
+	/*box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);*/
 	border-radius:10px;
-	
-	
+
+
 }
 #main{		/* 主頁面 */
 	margin-top:60px;
@@ -162,7 +162,7 @@ margin-left:100px;
 	margin-right:10px;
 	/*border:1px solid black;*/
 	height:1500px;
-	-webkit-user-select:none;  /* 禁止反白 */ 
+	-webkit-user-select:none;  /* 禁止反白 */
 }
 #footer{		/* 下面 */
 	font-size:15px;
@@ -175,8 +175,8 @@ margin-left:100px;
 	height:100px;
 	/*background-color:#95A5A6;*/
 	/*text-align:center;*/
-	
-	/*-webkit-user-select:none;  /* 禁止反白 */ 
+
+	/*-webkit-user-select:none;  /* 禁止反白 */
 }
 #footer-context{
 		margin:10px;
@@ -184,14 +184,18 @@ margin-left:100px;
 		margin-right:100px;
 }
 #goTop{
-	display:none;
-	position:absolute;
+
+	position:fixed;
+	bottom:0;
+	right:0;
+	margin:10px;
+	/*background-color:black;*/
 }
 #top{
 	cursor:pointer;
 	border-radius:36px;
-	border:2px black solid;
+	border:2px black dsdh;
 }
 #top:hover{
-	width:110%
+	width:90%
 }

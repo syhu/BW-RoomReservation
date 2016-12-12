@@ -31,7 +31,7 @@ var master = (function(){
 			this._time = $("#time");
 			this._welcome = $("#welcome");
 			this._top = $("#top");
-
+/*
 			var $window = $(window),
 			$top = $("#goTop").css('opacity',0).show(),
 			_width = $top.width(),
@@ -44,15 +44,16 @@ var master = (function(){
 				left:$window.width()-_width-_diffX,
 				opacity:1,
 			});
-
+*/
 			this._start();	//開始網頁執行function
+			/*
 			$window.bind("scroll resize",function(){
 				var $this = $(this);
 				$top.stop().animate({
 					top:$this.scrollTop() + $this.height() - _height - _diffY,
 					left:$this.scrollLeft() + $this.width() - _width - _diffX
 				},_moveSpeed)
-			}).scroll();
+			}).scroll();*/
 		},
 		_start:function(){
 			var objThis = this;

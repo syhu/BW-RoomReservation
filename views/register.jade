@@ -20,8 +20,6 @@ html
         b#index(title='Copyright © 2016 福智 All rights reserved')
           img(src='images/open-book.png')
           |  福智基金會
-      br
-      br
       hr
       form.registerForm(action='/register', onreset='resetForm()', method='post')
         table(cellpadding='5')
@@ -80,15 +78,13 @@ html
             th
             th
               b(style='color:red;') *
-              | 電話
-            th
-            th
-              b(style='color:red;') *
               | 身分證
             th
-            th
+            th(colspan='3')
               b(style='color:red;') *
               | 生日
+            
+            
           tr
             th
               .form-inline
@@ -102,99 +98,124 @@ html
             th
             th
               .form-inline
-                .form-group.form_telephone
-                  select#selectPhone.form-control
-                    option(value='02')
-                      | 02      
-                      font(style='float:right;') 台北&新北&基隆市
-                    option(value='03')
-                      | 03      
-                      font(style='float:right;') 桃園市
-                    option(value='03')
-                      | 03      
-                      font(style='float:right;') 新竹縣市
-                    option(value='03')
-                      | 03      
-                      font(style='float:right;') 花蓮縣
-                    option(value='03')
-                      | 03      
-                      font(style='float:right;') 宜蘭縣
-                    option(value='037')
-                      | 037    
-                      font(style='float:right;') 苗栗縣
-                    option(value='04')
-                      | 04      
-                      font(style='float:right;') 台中市
-                    option(value='04')
-                      | 04      
-                      font(style='float:right;') 彰化縣
-                    option(value='049')
-                      | 049    
-                      font(style='float:right;') 南投縣
-                    option(value='05')
-                      | 05      
-                      font(style='float:right;') 嘉義縣市
-                    option(value='05')
-                      | 05      
-                      font(style='float:right;') 雲林縣市
-                    option(value='06')
-                      | 06      
-                      font(style='float:right;') 台南市
-                    option(value='06')
-                      | 06      
-                      font(style='float:right;') 澎湖縣
-                    option(value='07')
-                      | 07      
-                      font(style='float:right;') 高雄市
-                    option(value='08')
-                      | 08      
-                      font(style='float:right;') 屏東縣
-                    option(value='089')
-                      | 089    
-                      font(style='float:right;') 台東縣
-                    option(value='09')
-                      | 09      
-                      font(style='float:right;') 手機
-                .form-group.form_telephone
-                  input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone', value='02', required='')
-            th
-            th
-              .form-inline
                 .form-group.form_identity
                   input#identity.form-control(type='text', placeholder='請輸入您的身分證', name='identity', required='')
             th
-            th
+            th(colspan='3')
               .form-inline
                 .form-group.form_birthday
-                  input#birthday.form-control(type='date', placeholder='請輸入您的生日', name='birthday', required='')
+                  select#birthday1.form-control(name='birthday1',class='birthday', required='') 
+                  | /
+                  select#birthday2.form-control(name='birthday2',class='birthday', required='') 
+                  | /
+                  select#birthday3.form-control(name='birthday3',class='birthday', required='') 
+
+              
           tr
             th(colspan='7')
               hr
           tr
-            th(colspan='4')
-              b(style='color:red;') *
-              | 現居地址
             th(colspan='3')
-              .form-inline
+              b(style='color:red;') *
+              | 電話
+            th
+            th
                 b.form-group(style='color:red;') *
                 | 驗證碼 
-                .form-group.check_img
-                img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
+            th
+            th
           tr
-            th(colspan='4')
+              th(colspan='3')
+                
+                select#selectPhone.form-control
+                  option(value='02')
+                    | 02      
+                    font(style='float:right;') 台北&新北&基隆市
+                  option(value='03')
+                    | 03      
+                    font(style='float:right;') 桃園市
+                  option(value='03')
+                    | 03      
+                    font(style='float:right;') 新竹縣市
+                  option(value='03')
+                    | 03      
+                    font(style='float:right;') 花蓮縣
+                  option(value='03')
+                    | 03      
+                    font(style='float:right;') 宜蘭縣
+                  option(value='037')
+                    | 037    
+                    font(style='float:right;') 苗栗縣
+                  option(value='04')
+                    | 04      
+                    font(style='float:right;') 台中市
+                  option(value='04')
+                    | 04      
+                    font(style='float:right;') 彰化縣
+                  option(value='049')
+                    | 049    
+                    font(style='float:right;') 南投縣
+                  option(value='05')
+                    | 05      
+                    font(style='float:right;') 嘉義縣市
+                  option(value='05')
+                    | 05      
+                    font(style='float:right;') 雲林縣市
+                  option(value='06')
+                    | 06      
+                    font(style='float:right;') 台南市
+                  option(value='06')
+                    | 06      
+                    font(style='float:right;') 澎湖縣
+                  option(value='07')
+                    | 07      
+                    font(style='float:right;') 高雄市
+                  option(value='08')
+                    | 08      
+                    font(style='float:right;') 屏東縣
+                  option(value='089')
+                    | 089    
+                    font(style='float:right;') 台東縣
+                  option(value='09')
+                    | 09      
+                    font(style='float:right;') 手機
+                    .form-group.form_telephone
+                      input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone', value='02', required='')
+                th
+                th#checkTip
+                    .form-inline
+                      .form-group.check_img
+                      |    
+                      img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
+                th
+                th
+                  .form-inline
+                    label.check1
+                    |       
+                    label.check2
+                    |   
+                    label.check3
+                    |   
+                    label.check4
+                    input#currentNum(type='hidden', value='0000')
+          tr
+            th(colspan='3')
+              b(style='color:red;') *
+              | 現居地址
+            th
+            th(colspan='3')
+              
+                
+          tr
+            th(colspan='3')
               .form-inline
                 .form-group.form_address
                   input#address.form-control(type='text', style='width:500px;', placeholder='請輸入您的地址', name='address', required='')
-            th#checkTip(colspan='3')
-              .form-inline
-                label.check1
-                label.check2
-                label.check3
-                label.check4
-                input#currentNum(type='hidden', value='0000')
-        br
-        input.btn.btn-default.btn.reset(type='reset', style='float:right;margin-right:100px;', value='重新填寫')
-        input.btn.btn-primary.chk(type='submit', style='float:right;margin-right:20px;', value='送出')
+            th
+            th(colspan='3')
+              input.btn.btn-default.btn.reset(type='reset', style='float:right;', value='重新填寫')
+              input.btn.btn-primary.chk(type='submit', style='float:right;margin-right:20px;', value='送出')
+        
       // 彈跳視窗 註冊
       #bounce_registered.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
