@@ -86,6 +86,8 @@ var login = (function(){
 					objThis._getRandom();
 					objThis._chk.attr("type","button")
 					return false;
+				}else{
+					objThis._chk.attr("type","submit")
 				}
 			},this));
 			//註冊提示  學員
