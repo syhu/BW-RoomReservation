@@ -25,6 +25,9 @@ var registered = (function(){
 		this._sex = null;
 		this._identity = null;
 		this._birthday = null;
+		this._birthday1 = null;
+		this._birthday2 = null;
+		this._birthday3 = null;
 		this._address = null;
 		//form error
 		this._form_name = null;
@@ -82,7 +85,10 @@ var registered = (function(){
 			this._telephone = $("#telephone");
 			this._sex = $(".sex");
 			this._identity = $("#identity");
-			this._birthday = $("#birthday");
+			this._birthday = $(".birthday");
+			this._birthday1 = $("#birthday1");
+			this._birthday2 = $("#birthday2");
+			this._birthday3 = $("#birthday3");
 			this._address = $("#address");
 			//form error
 			this._form_name = $(".form_name");
@@ -118,7 +124,21 @@ var registered = (function(){
 			});
 
 			//$(".reset").click();
+			//bitthday 年
+			var date = new Date();
+			var day = "";
+			for(var i=1916; i <= date.getFullYear();i++){
+				objThis._birthday1.append("<option value='" + i + "'>" + i + "</option>")
+			}
+			//月
+			for(var i=1;i<=12;i++){
+					objThis._birthday2.append("<option value='" + i + "'>" + i + "</option>")
+			}
 
+			//日
+			for(var i=1;i<=31;i++){
+				objThis._birthday3.append("<option value='" + i + "'>" + i + "</option>");
+			}
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
 				//判斷姓名長度是否大於1，小於30  不能輸入特殊字元
@@ -359,12 +379,11 @@ var registered = (function(){
 			});
 			//生日 blur
 			objThis._birthday.on("blur",$.proxy(function(event){
-				if(objThis._birthday.val() != ""){
+				if(objThis._birthday1.val() != "" && objThis._birthday2.val() != null && objThis._birthday3.val() != null){
 					objThis._form_birthday.removeClass("has-error");
 					objThis._form_birthday.addClass("has-success");
 				}
-
-				else if(objThis._birthday.val() == ""){
+				else if(objThis._birthday1.val() == ""){
 					objThis._form_birthday.removeClass("has-error");
 					objThis._form_birthday.removeClass("has-success");
 				}
@@ -459,7 +478,7 @@ var registered = (function(){
 			objThis._checkTip.on("mouseenter",$.proxy(function(event){
 				objThis._mouseoverNum++;
 				if(objThis._mouseoverNum<3){
-					layer.tips('透過點擊數字增加，與上方驗證碼相同即可', objThis._checkTip,{tips:4});
+					layer.tips('透過點擊數字增加，與左方驗證碼相同即可', objThis._checkTip,{tips:4});
 				}
 			},this))
 
