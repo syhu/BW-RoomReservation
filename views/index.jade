@@ -7,6 +7,9 @@ block main
     div
       if user
         | Hi~ #{user}
+        - a=[1,2,3]
+        - for b in a
+          p=b
       else
         | HI~ 訪客
     p

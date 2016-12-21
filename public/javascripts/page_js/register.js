@@ -1,52 +1,9 @@
 var registered = (function(){
 	var _const;
 	_const = function(){
-		this._index = null;
-		this._check1 = null;
-		this._check2 = null;
-		this._check3 = null;
-		this._check4 = null;
-		this._reload = null;
-		this._check_img = null;
-		this._currentNum = null;
-		this._chk = null;
-		this._sign = null;
-		this._checkTip = null;
-		this._bounce_registered = null;
-		this._close = null;
-		this._check_registered = null;
-		this._next = null;
-		//input欄位 標籤
-		this._name = null;
-		this._account = null;
-		this._password = null;
-		this._email = null;
-		this._telephone = null;
-		this._sex = null;
-		this._identity = null;
-		this._birthday = null;
-		this._birthday1 = null;
-		this._birthday2 = null;
-		this._birthday3 = null;
-		this._address = null;
-		//form error
-		this._form_name = null;
-		this._form_account = null;
-		this._form_password = null;
-		this._form_email = null;
-		this._form_telephone = null;
-		this._form_sex = null;
-		this._form_identity = null;
-		this._form_birthday = null;
-		this._form_address = null;
-
-		//
-		this._selectPhone = null;
-		this._promptText = null;
 		this._agree = "";							//註冊同意
 		this._checked_button = "";		//判斷性別radio
 		this._check_psd = "";					//確認密碼
-		this._psdReset = null; 				//密碼重新輸入
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
@@ -56,7 +13,6 @@ var registered = (function(){
 
 		//驗證身分
 		this._identity =this._getPara["identity"];
-
 
 		this._construct();
 	}
@@ -104,6 +60,8 @@ var registered = (function(){
 			this._selectPhone = $("#selectPhone");
 			this._promptText = $("#promptText");
 			this._psdReset = $(".psdReset");
+			this._searchAccount = $("#searchAccount");
+
 			this._start();	//開始網頁執行function
 		},
 		_start:function(){
@@ -118,18 +76,42 @@ var registered = (function(){
 		_initialAll:function(){
 			var objThis = this;
 
+			//查詢帳號是否重複
+			this._searchAccount.on("click", $.proxy(function(){
+				$.ajax({
+					type: "post",
+					url: "/searchAccount",
+					data: {account: this._account.val()},
+					dataType: "json",
+					success: function(message){
+						if(message.success == "no")
+						{
+							layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+							objThis._chk.removeAttr("disabled");
+						}
+						else if(message.success == "yes")
+						{
+							layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+							objThis._chk.attr("disabled","disabled");
+						}
+					},
+					error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
+				})
+			}, this))
+
 			$("input").iCheck({
 				checkboxClass:"icheckbox_flat-blue",
 				radioClass:"iradio_flat-blue"
 			});
 
-			//$(".reset").click();
-			//bitthday 年
+			//bitthday
+			//年
 			var date = new Date();
 			var day = "";
 			for(var i=1916; i <= date.getFullYear();i++){
 				objThis._birthday1.append("<option value='" + i + "'>" + i + "</option>")
 			}
+
 			//月
 			for(var i=1;i<=12;i++){
 					objThis._birthday2.append("<option value='" + i + "'>" + i + "</option>")
@@ -139,6 +121,8 @@ var registered = (function(){
 			for(var i=1;i<=31;i++){
 				objThis._birthday3.append("<option value='" + i + "'>" + i + "</option>");
 			}
+
+
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
 				//判斷姓名長度是否大於1，小於30  不能輸入特殊字元
@@ -157,11 +141,13 @@ var registered = (function(){
 					objThis._form_name.removeClass("has-success");
 				}
 			},this));
+
 			//姓名 focue
 			objThis._name.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("貼心小提示:姓名請輸入兩個字以上");
 			},this));
+
 			//姓名 限制長度輸入
 			objThis._name.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -170,6 +156,8 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
+
 			//帳號 blur
 			objThis._account.on("blur",$.proxy(function(event){
 				//判斷帳號長度是否大於6，小於20  帳號包含數字  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
@@ -189,11 +177,13 @@ var registered = (function(){
 					objThis._form_account.removeClass("has-success");
 				}
 			},this));
+
 			//帳號 focus
 			objThis._account.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上");
 			},this));
+
 			//帳號 限制長度輸入
 			objThis._account.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -202,6 +192,8 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
+
 			//密碼 blur
 			objThis._password.on("blur",$.proxy(function(event){
 				//判斷密碼長度是否大於8，小於100  密碼包含數字  密碼包含英文字母(不分大小寫) 接受所有特殊字元
@@ -249,11 +241,13 @@ var registered = (function(){
 					objThis._form_password.removeClass("has-success");
 				}
 			},this));
+
 			//密碼 focus
 			objThis._password.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("貼心小提示:密碼請輸入八個字以上");
 			},this));
+
 			//密碼 限制長度輸入
 			objThis._password.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -262,6 +256,7 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
 			//密碼 重新輸入
 			objThis._psdReset.on("click",$.proxy(function(event){
 				objThis._password.val("")
@@ -269,6 +264,8 @@ var registered = (function(){
 				objThis._form_password.removeClass("has-success");
 				objThis._password.removeAttr("disabled");
 			},this));
+
+
 			//E-mail  blur
 			objThis._email.on("blur",$.proxy(function(event){
 				var email = objThis._email.val();
@@ -291,11 +288,13 @@ var registered = (function(){
 					objThis._form_email.removeClass("has-success");
 				}
 			},this));
+
 			//信箱 focus
 			objThis._email.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("貼心小提示:Email請輸入信箱正確格式，a123456789 + @ + domain .com");
 			},this));
+
 			//信箱 限制長度輸入
 			objThis._name.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -305,12 +304,15 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
+
 			//電話選單 change
 			objThis._selectPhone.on("change",$.proxy(function(event){
 				objThis._telephone.val(objThis._selectPhone.val()) ;
 				objThis._form_telephone.removeClass("has-error");
 				objThis._form_telephone.removeClass("has-success");
 			},this))
+
 			//電話 blur
 			objThis._telephone.on("blur",$.proxy(function(event){
 				if(objThis._telephone.val().length > 8 && objThis._telephone.val().length < 12 &&
@@ -333,6 +335,7 @@ var registered = (function(){
 				objThis._promptText.empty();
 				objThis._promptText.append("");
 			},this));
+
 			//電話 限制長度輸入
 			objThis._telephone.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -341,6 +344,8 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
+
 			//性別 mouseover
 			objThis._sex.on("mouseover",$.proxy(function(event){
 				if($(".check_sex").is(":checked") && objThis._checked_button == ""){
@@ -348,6 +353,7 @@ var registered = (function(){
 
 				}
 			},this));
+
 
 			//身分證 blur
 			objThis._identity.on("blur",$.proxy(function(event){
@@ -364,11 +370,13 @@ var registered = (function(){
 					objThis._form_identity.removeClass("has-success");
 				}
 			},this));
+
 			//身分證 focus
 			objThis._identity.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("貼心小提示:身分證須符合正確格式。");
 			},this));
+
 			//身分證 限制長度輸入
 			objThis._identity.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -377,6 +385,8 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+
+
 			//生日 blur
 			objThis._birthday.on("blur",$.proxy(function(event){
 				if(objThis._birthday1.val() != "" && objThis._birthday2.val() != null && objThis._birthday3.val() != null){
@@ -393,6 +403,7 @@ var registered = (function(){
 				}
 			},this));
 
+
 			//地址 blur
 			objThis._address.on("blur",$.proxy(function(event){
 				if(objThis._address.val().length > 6 && !objThis._getSpeStr2(objThis._address.val())){
@@ -408,6 +419,7 @@ var registered = (function(){
 					objThis._form_address.removeClass("has-success");
 				}
 			},this));
+
 			//地址 限制長度輸入
 			objThis._address.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -427,6 +439,7 @@ var registered = (function(){
 					setTimeout("location.href = '/'",1500);
 				}
 			},this));
+
 			//註冊同意 X
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
@@ -458,9 +471,7 @@ var registered = (function(){
 			objThis._check2.append("<img src='images/num/00.png'>")
 			objThis._check3.append("<img src='images/num/00.png'>")
 			objThis._check4.append("<img src='images/num/00.png'>")
-			//
 			objThis._getRandom();
-
 
 			//檢驗驗證碼
 
@@ -469,11 +480,12 @@ var registered = (function(){
 
 					layer.msg('驗證碼錯誤');
 					objThis._getRandom();
-					objThis._chk.attr("type","button")
+					objThis._chk.attr("disabled","");
 				}else{
-					objThis._chk.attr("type","submit")
+					objThis._chk.removeAttr("disabled");
 				}
 			},this));
+
 			//註冊提示
 			objThis._checkTip.on("mouseenter",$.proxy(function(event){
 				objThis._mouseoverNum++;
@@ -482,22 +494,27 @@ var registered = (function(){
 				}
 			},this))
 
+
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
 			objThis._getRandom();
 			},this))
+
 			// Number 1st
 			objThis._check1.on("click",$.proxy(function(event){
 				objThis._getNumAdd(1);
 			},this))
+
 			// Number 2ed
 			objThis._check2.on("click",$.proxy(function(event){
 				objThis._getNumAdd(2);
 			},this))
+
 			// Number 3th
 			objThis._check3.on("click",$.proxy(function(event){
 				objThis._getNumAdd(3);
 			},this))
+
 			// Number 4th
 			objThis._check4.on("click",$.proxy(function(event){
 				objThis._getNumAdd(4);
@@ -510,6 +527,7 @@ var registered = (function(){
 			objThis._currentNum.val("");
 
 			objThis._check_img.empty();
+
 			//驗證碼
 			for(i=0;i<4;i++){
 				objThis._checkNum[i] = 0;
@@ -532,6 +550,7 @@ var registered = (function(){
 			}
 			objThis._currentNum.attr("value",tmp);
 		},
+
 		//取得GET參數
 		_getPara:function(para){
 			var strUrl = location.search;
@@ -574,16 +593,19 @@ var registered = (function(){
 			document.cookie = name + "=;expires=" + expires.toGMTString();
 			alert(document.cookie);
 		},
+
 		//判斷特殊字元  (有底線)
 		_getSpeStr:function(str){
 			var reg = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 			return (reg.test(str))
 		},
+
 		//判斷特殊字元  (無 _ - )
 		_getSpeStr2:function(str2){
 			var reg2 = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 			return (reg2.test(str2))
 		},
+
 		//判斷身分證格式
 		_getCheckIdentity:function(id){
 			var city = new Array(1,10,19,28,37,46,55,64,39,73,
@@ -601,32 +623,6 @@ var registered = (function(){
 				total+=eval(id[9]);
 				return (total%10 == 0);
 			}
-		},
-		//身分證產生
-		_getTwID:function(){
-			//建立字母分數陣列(A~Z)
-			var city = new Array(1,10,19,28,37,46,55,64,39,73,82, 2,11,
-			20,48,29,38,47,56,65,74,83,21, 3,12,30)
-			//建立隨機身份證碼
-			var id = new Array();
-			id[0] = String.fromCharCode(Math.floor(Math.random() * (26)) + 65);
-			id[1] = Math.floor(Math.random() * (2)) + 1;
-			for(var i=2; i<9; i++){
-				id[i] = Math.floor(Math.random() * (9)) + 0;
-			}
-			//計算總分
-			var total = city[id[0].charCodeAt(0)-65];
-			for(var i=1; i<=8; i++){
-				total += eval(id[i]) * (9 - i);
-			}
-			//計算最尾碼
-			var total_arr = (total+'').split('');
-			var lastChar = eval(10-total_arr[total_arr.length-1]);
-			var lastChar_arr = (lastChar+'').split('');
-			//補上最後檢查碼
-			id[id.length++] = lastChar_arr[lastChar_arr.length-1];
-			//回傳結果
-			return id.join('');
 		}
 	}
 	return _const;

@@ -21,7 +21,7 @@ html
           img(src='images/open-book.png')
           |  福智基金會
       hr
-      form.registerForm(action='/register', onreset='resetForm()', method='post')
+      form#registerForm.registerForm(action='/register', onreset='resetForm()', method='post')
         table(cellpadding='5')
           tr
             th(colspan='7')
@@ -57,7 +57,7 @@ html
                 .form-group.form_account
                   input#account.form-control(type='text', placeholder='請輸入您的帳號', name='account', required='')
                 .form-group.form_account
-                  input.btn.btn-primary.chk(type='button', style='float:right;margin-right:20px;', value='查詢')
+                  input#searchAccount.btn.btn-primary(type='button', style='float:right;margin-right:20px;', value='查詢')
             th      
             th
               .form-inline

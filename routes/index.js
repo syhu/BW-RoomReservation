@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 /*** Include javascript file ***/
 var user = require('./user.js');
 var login = require('./login.js');
+var search = require('./search.js');
 
 /*** Variable ***/
 
@@ -170,8 +171,7 @@ router.post('/register',function(req, res, next) {
   {
     if(repeat == 0)
     {
-      nowUseAccount = userAccount;
-      nowUserName = userName;
+      req.session.succ = 1;
       res.redirect('/successful');
     }
     else
@@ -185,8 +185,9 @@ router.post('/register',function(req, res, next) {
 /*** Register successful page ***/
 router.get('/successful', function(req, res, next){
 
-  if(!req.session.account)
+  if(!req.session.succ)
   {
+    req.session.destroy();
     res.render('successful', {title: 'Successful'})
   }
   else
@@ -248,5 +249,35 @@ router.get('/userManage', function(req, res, next){
     res.redirect('/?identity=visitor');
   }
 });
+
+/*** Search Account Reapet ***/
+router.post('/searchAccount', function(req, res, next){
+  var account = req.body.account;
+  if(req.xhr || req.accepts('json, html') === 'json')
+  {
+    search.searchAccountReapet(account, function(err, repeat){
+      if(repeat==0)
+      {
+        res.send({ success: "no"});
+      }
+      else
+      {
+        res.send({ success: "yes"});
+      }
+    })
+  }
+})
+
+/*** Check Change Lesson Manage Page ***/
+router.get('/audit', function(req, res, next){
+  if(req.session.account)
+  {
+    res.render('audit', { user: req.session.userName});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+})
 
 module.exports = router;
