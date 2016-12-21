@@ -1,0 +1,219 @@
+﻿/***************************************
+ * file:  basic
+ * note:  
+ ***************************************/
+.main-content .page-content .panel-header i{font-size:18px;}
+table .tr-empty {_display:none;}
+table .tr-empty td{text-align: center; padding: 0 0!important;color: #7f7f7f;font-size:20px;}
+table .tr-empty td i{opacity:0.3;color:#5b5b5b;font-size:60px;display:block;}
+table .tr-empty:hover, table .tr-empty:hover td{background-color:transparent !important;}
+table .tr-empty:hover td{color:#7f7f7f !important;}
+table .tr-empty:last-child td{border-bottom:0;border-top: 0;}
+table .tr-loading {display:none;}
+table .tr-loading td{text-align: center; padding: 80px 0!important;color: #7f7f7f;font-size:20px;}
+table td.point-col{font-weight:bold;}
+.need_red {color: #f1404b; font-size:20px; padding:5px 5px; vertical-align:middle;}
+.PsRight {position:absolute; top:15px; right:20px;}
+.form-control{border: 1px solid #DDD;}
+.form-control.form-white{border: 1px solid #DDD;}
+
+
+
+/***************************************
+ * file:  Loading
+ * note:  
+ ***************************************/
+.loading-box{display: block;width: 150px;margin: 0 auto;}
+.loading-box .txt{color: #7f7f7f;display: block;width: 150px;text-align: center;font-size: 20px;margin-top: 15px;}
+.loading-box .circle {margin:0 auto;width: 30px;}
+.loading-box .circle div {
+  width: 30px;
+  height: 30px;
+  border-radius: 25px;
+  -webkit-box-sizing: border-box;
+  border: solid 2px rgba(0, 0, 0, 0.1);
+  border-top-color: #bbb;
+  -webkit-animation: spin 1s infinite linear;
+}
+@-webkit-keyframes spin { 
+  100% { 
+    -webkit-transform: rotate(360deg); 
+  } 
+}
+
+
+/***************************************
+ * file:  login
+ * note:  
+ ***************************************/
+.account .form-signin .append-icon .loginInput {margin-bottom:0; border-radius:2px;font-size: 15px;}
+.account .form-signin .append-icon i { height: 39px; line-height: 39px; font-size: 17px;}
+.account .form-signin input[type=submit] {font-weight:700;}
+.account .form-signin .error-msg {display:block; margin-bottom :10px; color:#f1404b;margin-top: 8px;}
+.account .account-wall { margin-top: 160px; padding: 50px 30px 50px; position: relative; }
+
+
+
+
+/***************************************
+ * file:  Master
+ * note:  主版頁面
+ ***************************************/
+.master-sidebar .logopanel h1 a { text-align:center; color: #fff; text-decoration:none;}
+.master-sidebar .sidebar-inner .sidebar-top{padding-top:20px;}
+.master-sidebar .sidebar-inner .sidebar-top i.icon{padding-right: 0; margin-bottom: -20px; font-size: 65px;}
+.master-sidebar .sidebar-inner .sidebar-top .user-details h4{margin-top: 14px;}
+.master-sidebar .sidebar-inner .sidebar-top .user-details .department .btn{font-size:15px; cursor:default; margin-bottom: 0;}
+.master-sidebar .sidebar-inner .sidebar-top .user-details .department i.online{margin-top: 5px !important;}
+
+
+/***************************************
+ * file:  main.aspx
+ * note:  首頁(最新公告)
+ ***************************************/
+.main-container{}
+.main-container .main-ann-panel {}
+.main-container .main-ann-panel .choice_city{display:inline-block; margin-bottom:5px;}
+.main-container .main-ann-panel .ann-table{margin-top: 6px!important; margin-bottom: 6px!important;}
+.main-container .main-ann-panel .ann-table td .statusLabel{font-size:100%;}
+.main-container .main-ann-panel .ann-table td:last-child button{font-size:15px;}
+.main-container .main-ann-panel .ann-table td:last-child button i{font-size:16px;}
+.main-container .main-ann-panel .dataTables_info{padding-bottom: 10px;font-size:15px;}
+
+
+/***************************************
+ * file:  housekeeperUse.aspx
+ * note:  行動管家開通情況
+ ***************************************/
+.hkU-container{}
+.hkU-container .filter-panel {}
+.hkU-container .filter-panel .input-label{text-align:right;}
+.hkU-container .filter-panel .bottom-row{margin-top:20px;}
+.hkU-container .list-panel{}
+.hkU-container .list-panel .hku-table td.red{color:#f00;}
+.hkU-container .list-panel .hku-table td.green{color:#18A689;}
+.hkU-container #modal-hU-addR .words{text-align: right; margin-top: 5px;}
+
+
+/***************************************
+ * file:  tabletphoneopen_day.aspx
+ * note:  手機開通戶數報表
+ ***************************************/
+/*報表共用*/
+.form-group select{width:100%;}
+.form-group button{margin-top:30px;}
+.bottomrg20 {margin-bottom:20px;}
+.bottomrg50 {margin-bottom:50px;}
+/*Self_hidden*/
+.selectWrapper {border:1px solid #e0e0e0; border-radius:5px; overflow:hidden;}
+.selectWrapper .selectKeyin{width:100%; padding:10px; font-size:15px;border:0; background-color:#f5f5f5; box-sizing:border-box; outline:none;}
+.selectWrapper .selectPanel{width:100%; padding:5px 10px; text-align:right; font-size:15px; color:#0088cc;}
+.selectWrapper .selectPanel span{cursor:pointer;}
+.selectWrapper .selectPanel span:hover{color:#F16B6F;}
+.selectWrapper .com {max-height:288px; overflow-x:auto;}
+.selectWrapper .com li {width:100%; padding:5px 10px; border-top:1px solid #e0e0e0; cursor:pointer; }
+.selectFirst .com li:hover {background-color:#f5f5f5;}
+.selectWrapper.selectLast .com li {cursor:default; }
+.selectWrapper .selectTitle {width:100%; padding:10px; font-size:15px;border-bottom:1px solid #e0e0e0; background-color:#f5f5f5;}
+
+
+
+/***************************************
+ * file:  scheduleList.aspx
+ * note:  約工列表
+ ***************************************/
+.schdlList-container{margin: 0 -30px;}
+.schdlList-container .schdl-panel{padding-top: 0;}
+.schdlList-container .schdl-panel .widget{padding:0 10px 10px;}
+.schdlList-container .schdl-panel .widget .widget-body{margin-top: 15px;} 
+.schdlList-container .nav-tabs > li > a{margin:0 1px;}
+.schdlList-container .nav-tabs > li > a .badge{font-size: 15px; font-weight: bold; margin-left: 5px; background-color: #e0e6eb;color: #aaa;}
+.schdlList-container .nav-tabs > li:hover > a .badge{color:#fff;background-color:#319db5;}
+.schdlList-container .nav-tabs > li.active > a .badge{background-color: #319db5;color:#fff;}
+.schdlList-container .nav-tabs > li.active:hover > a .badge{color:#fff;}
+.schdlList-container .nav-tabs > li > a::before {background: #319db5;}
+.schdlList-container .nav.nav-tabs > li.active > a {font-weight:bold;}
+.schdlList-container .list-panel{padding-top: 0;}
+.schdlList-container .tab-content{padding:0;}
+.schdlList-container .tab-content .withScroll{margin-top: 0;}
+.schdlList-container .tab-content table td{padding: 8px 4px;}
+.schdlList-container .tab-content #tabUntreated table td:first-child{border-top:0;}
+.schdlList-container .external-event { display: table; width: 100%; padding: 0;margin: 11px 0; cursor:text; }
+.schdlList-container .external-event h4{font-size: 15px; margin-bottom: 2px; margin-top: 0;font-weight: bold;color:#319db5;}
+.schdlList-container .external-event p{line-height: inherit;margin-bottom:0;font-size:15px;color:#343434;}
+.schdlList-container .external-event small{color: #8F8F8F;}
+.schdlList-container .external-event small span{padding-left:5px;}
+.schdlList-container .external-event small.c-red{color:#d14;}
+.schdlList-container .external-event div{display: table-cell; vertical-align: middle;position:relative;}
+.schdlList-container .external-event div:first-child{width:50px;}
+.schdlList-container .external-event .btn-default{font-size: 14px; padding: 3px 10px !important; margin-right: 8px; border: 1px solid #ccc; border-radius: 2px; height: auto; line-height: 1.385;}
+.schdlList-container .user-select{text-align:right;margin: 15px 0 10px;}
+.schdlList-container .user-select span{display: inline-block;padding-right: 5px;font-size: 13px;}
+.schdlList-container .user-select select{padding: 2px 8px 2px;display: inline-block;width: 100px;font-size: 13px;vertical-align: initial;}
+.schdlList-container .tab-01 .external-event div small { position: absolute; right: 0; bottom: -13px; }
+.schdlList-container .tab-02 .external-event {position:relative;cursor: move; }
+.schdlList-container .tab-02 .external-event div small { position: absolute; right: 0; bottom: -13px;  }
+.schdlList-container .tab-03 .external-event {}
+
+/*新增派工彈跳視窗*/
+#modal-sL-addW .modal-header button{margin-top: 0; opacity: 1;}
+#modal-sL-addW .modal-header button i{color: #fff; font-size: 16px;}
+#modal-sL-addW .modal-header .modal-title{display: none;}
+#modal-sL-addW .modal-body{padding: 25px 30px 20px;}
+#modal-sL-addW .info-row{}
+#modal-sL-addW .info-row div p{font-weight:bold;margin-bottom:3px;}
+#modal-sL-addW .info-row div p span{font-weight:normal;color: #319db5;}
+#modal-sL-addW .info-row div p span.pass-time-tag{color: #d14; padding-left: 10px;}
+#modal-sL-addW .info-row .work-content button{margin: 0; margin: 0; font-size: 15px; padding: 2px 10px 3px !important; vertical-align: text-bottom;}
+#modal-sL-addW .info-row .work-content textarea{margin: 5px 0;font-weight: normal;overflow-y: scroll;}
+#modal-sL-addW .info-row .work-content textarea:disabled{cursor:text;}
+#modal-sL-addW .need_red{line-height: 19px;}
+#modal-sL-addW .wtime-row .control-label{display:block;}
+#modal-sL-addW .wtime-row input[type=text]{height:41px;}
+#modal-sL-addW .wtime-row .sm-tag { display:none; float: right; padding: 3px 4px 3px 4px; font-size: 13px; color: #002464; _background-color: #EEF4FF; white-space: nowrap; border-radius: 2px; margin-top: -2px; font-weight: normal; display: inline-block; }
+#modal-sL-addW .wtime-row #time-need{display:none;}
+#modal-sL-addW .wtime-r-row{}
+#modal-sL-addW .wtime-r-row div p{font-weight:bold;margin-bottom:3px;}
+#modal-sL-addW .wtime-r-row div p span{font-weight:normal;color: #319db5;}
+#modal-sL-addW .wtime-r-row div p span.datetime{padding-right:8px;}
+#modal-sL-addW .wtime-r-row .sm-tag {padding: 3px 4px 3px 4px; font-size: 13px; color: #002464; _background-color: #EEF4FF; white-space: nowrap; border-radius: 2px; margin-top: -2px; font-weight: normal; display: inline-block;}
+#modal-sL-addW .wtime-r-row .work-content{margin-top: -4px;}
+#modal-sL-addW .wtime-r-row .work-content textarea{margin: 5px 0;font-weight: normal;overflow-y: scroll;}
+#modal-sL-addW .append-icon i{line-height: 39px;height:39px;}
+#modal-sL-addW .modal-footer{padding:15px 20px; background-color: #fafafa !important; margin-top: 20px;}
+
+/*fullcalendar*/
+.schdlList-container .fc-past{background-color:#F5F5F5;}
+.schdlList-container .fc-state-highlight{background: #fcf8e3;}
+.schdlList-container .fc-toolbar{margin-bottom:20px;}
+.schdlList-container .fc-toolbar .fc-center{margin-top:4px;}
+.schdlList-container .fc-time-grid .fc-slats td {height: 25px;}
+.schdlList-container .fc-event .fc-bg{opacity:0.1;}
+.schdlList-container .bg-niagara{background-color:#5587a2; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-greenery{background-color:#0c4c8a; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-blue{background-color:#88b14b; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-peach{background-color:#f8786b; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-serenity{background-color:#91a8d1; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-pinkY{background-color:#d13076; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-hazelnut{background-color:#d1af94; color: #fff !important;padding:4px 8px;cursor: move;}
+.schdlList-container .bg-island{background-color:#60bdcb; color: #fff !important;padding:4px 8px;cursor: move;}
+
+
+
+
+
+/***************************************
+ * file:  pageination
+ * note:  
+ ***************************************/
+.pagesCenter {text-align:center !important;}
+.paginationWrap .pagination {display:inline-block; margin:20px 0; border-radius:4px; font-size: 15px;}
+.paginationWrap .pagination li{display:inline;color:#2f2f2f;margin-left: 0;}
+.paginationWrap .pagination li a{position: relative;float: left;padding: 6px 12px;margin-left: -1px;color:#555;line-height: 1.42857143;text-decoration: none;background-color: #fff;border: 1px solid #ddd;font-size: 13px;}
+.paginationWrap .pagination li:first-child a {margin-left:0;border-top-left-radius:4px;border-bottom-left-radius:4px;padding: 6px 12px !important;}
+.paginationWrap .pagination li:last-child a {margin-left:0;border-top-right-radius:4px;border-bottom-right-radius:4px;padding: 6px 12px !important;border-left: 0;}
+.paginationWrap .pagination li.active a{z-index: 1; color: #5f5f5f; background-color: #eee; border-color: #ddd;}
+.paginationWrap .pagination li a:hover {color: #5f5f5f; background-color: #eee;}
+
+
+

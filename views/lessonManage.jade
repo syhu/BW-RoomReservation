@@ -1,26 +1,293 @@
-extends layout
-
-block main
-  link(rel='stylesheet', href='stylesheets/fullcalendar.css')
-  link(rel='stylesheet', href='stylesheets/fullcalendar.print.css', media='print')
-  link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
-  script(src='javascripts/moment.js')
-  script(src='javascripts/jquery-ui.js')
-  script(src='javascripts/fullcalendar.js')
-  script(src='javascripts/page_js/lessonManage.js')
-  div
-    | 教室調動
-  #wrap
-    #external-events
-      h4 課程內容
-      .fc-event 課程1
-      .fc-event 課程2
-      .fc-event 課程3
-      .fc-event 課程4
-      .fc-event 課程5
-      .fc-event 自訂課程
-      p
-        input#drop-remove(type='checkbox')
-        label(for='drop-remove') remove after drop
-    #calendar
-    div(style='clear:both')
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title 課程管理
+    link(rel='stylesheet', href='stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
+    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+    script(src='javascripts/jquery.js')
+    script(src='javascripts/jquery-ui.js')
+    script(src='javascripts/jquery-ui.cache.js')
+    script(src='javascripts/bootstrap.min.js')
+    script(src='javascripts/page_js/lessonManage.js')
+    script(src='javascripts/plugins.js')
+  // 彈跳視窗 新增課程
+  #bounce_lesson.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            i.fa.fa-times-circle(style='font-size:20px;')
+          font(style='font-size:18px;font-weight:bold;') 新增課程
+        .modal-body(align='left', style='height:450px;overflow-y:scroll;')
+          .form-group
+            .row
+              .col-md-12
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_name.form.has-warning
+                      i.fa.fa-child(style='font-size:20px;')
+                      | 課程名稱:
+                      input#lessonName.form-control(type='text', placeholder='請填入課程名稱')
+                    .col-md-6.form-group.form_hour.form.has-warning
+                      | 課程時數:
+                      select#lessonHour.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='1hr') 1hr
+                        option(value='2hr') 2hr
+                        option(value='3hr') 3hr
+                        option(value='4hr') 4hr
+                        option(value='5hr') 5hr
+                        option(value='6hr') 6hr
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_class.form.has-warning
+                      | 使用教室: 
+                      select#lessonClass.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='教室1') 教室1
+                        option(value='教室2') 教室2
+                        option(value='教室3') 教室3
+                        option(value='教室4') 教室4
+                    .col-md-3.form-group.form_week.form.has-warning
+                      | 上課時段:
+                      select#lessonWeek.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='星期一') 星期一
+                        option(value='星期二') 星期二
+                        option(value='星期三') 星期三
+                        option(value='星期四') 星期四
+                        option(value='星期五') 星期五
+                        option(value='星期六') 星期六
+                        option(value='星期日') 星期日
+                    .col-md-3.form-group.form_period.form.has-warning
+                      br
+                      select#lessonPeriod.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='時段1') 時段1
+                        option(value='時段2') 時段2
+                        option(value='時段3') 時段3
+                        option(value='時段4') 時段4
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-12.form-group.form_people.form.has-warning
+                      | 上課人數:
+                      input#lessonPeople.form-control(type='text', placeholder='請填入上課人數')
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-12.form-group.form_note.form.has-warning
+                      i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                      | 備註:
+                      textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...')
+        .modal-footer
+          input#btnSubmit.btn.btn-primary(type='button', value='確定')
+          button#btnCancel.btn.btn-default 取消
+  // 彈跳視窗 編輯課程
+  #bounce_edit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            i.fa.fa-times-circle(style='font-size:20px;')
+          font(style='font-size:18px;font-weight:bold;') 編輯課程
+        .modal-body(align='left', style='height:450px;overflow-y:scroll;')
+          .form-group
+            .row
+              .col-md-12
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_name.form.has-warning
+                      i.fa.fa-child(style='font-size:20px;')
+                      | 課程名稱:
+                      input#lessonName.form-control(type='text', placeholder='請填入課程名稱')
+                    .col-md-6.form-group.form_hour.form.has-warning
+                      | 課程時數:
+                      select#lessonHour.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='1hr') 1hr
+                        option(value='2hr') 2hr
+                        option(value='3hr') 3hr
+                        option(value='4hr') 4hr
+                        option(value='5hr') 5hr
+                        option(value='6hr') 6hr
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_class.form.has-warning
+                      | 使用教室: 
+                      select#lessonClass.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='教室1') 教室1
+                        option(value='教室2') 教室2
+                        option(value='教室3') 教室3
+                        option(value='教室4') 教室4
+                    .col-md-3.form-group.form_week.form.has-warning
+                      | 上課時段:
+                      select#lessonWeek.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='星期一') 星期一
+                        option(value='星期二') 星期二
+                        option(value='星期三') 星期三
+                        option(value='星期四') 星期四
+                        option(value='星期五') 星期五
+                        option(value='星期六') 星期六
+                        option(value='星期日') 星期日
+                    .col-md-3.form-group.form_period.form.has-warning
+                      br
+                      select#lessonPeriod.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='時段1') 時段1
+                        option(value='時段2') 時段2
+                        option(value='時段3') 時段3
+                        option(value='時段4') 時段4
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-12.form-group.form_people.form.has-warning
+                      | 上課人數:
+                      input#lessonPeople.form-control(type='text', placeholder='請填入上課人數')
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-12.form-group.form_note.form.has-warning
+                      i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                      | 備註:
+                      textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...')
+        .modal-footer
+          input#btnSubmit.btn.btn-primary(type='button', value='確定')
+          button#btnCancel.btn.btn-default 取消
+  body
+    #header
+      | 課程管理
+      i.fa.fa-filter
+    #left.panel
+      .row
+        .col-lg-12
+          .form-group
+            .row
+              .col-md-12
+                div(style='margin: 20px 20px 20px 20px;')
+                  .row
+                    .col-md-12.form-group.has-success
+                      label 查詢地點:
+                      select#selectLocal.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='7f') 7樓
+                        option(value='12f') 12樓
+                        option(value='13f') 13樓
+                        option(value='liren2f') 里仁 - 2樓
+                        option(value='global13f') 環球 - 3樓
+                        option(value='global12f') 環球 - 12樓
+                div(style='margin: 0 20px 20px 20px;')
+                  .row
+                    .col-md-12.form-group.has-success
+                      label 查詢教室:
+                      select#selectClass.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='教室一') 教室一
+                        option(value='教室二') 教室二
+                        option(value='教室三') 教室三
+                        option(value='教室四') 教室四
+                        option(value='教室五') 教室五
+                div(style='margin: 0 20px 20px 20px;')
+                  .row
+                    .col-md-12.form-group.has-success
+                      label 查詢時段:
+                      select#select.form-control
+                        option(value='請選擇') 請選擇
+                        option(value='時段一') 時段一
+                        option(value='時段二') 時段二
+                        option(value='時段三') 時段三
+                        option(value='時段四') 時段四
+                        option(value='時段五') 時段五
+                div(style='margin: 0 20px 20px 20px;')
+                  .row
+                    .col-md-18.form-group.has-success
+                      .col-md-6
+                        input.date-picker.form-control(type='text', id='', placeholder='開始時間')
+                      .col-md-6
+                        input.date-picker.form-control(type='text', id='', placeholder='結束時間')
+                  .row
+                    .col-md-12(style='text-align:center;')
+                      button#btnReset.btn.btn-default(type='button') 清除
+                      button#btnSelect.btn.btn-success(type='button') 查詢
+                br
+                br
+    #center.panel(style='border:2px solid black;')
+      .row
+        .col-lg-12
+          .form-group
+            .row
+              .col-md-12
+                div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                  .row
+                    .col-md-12(style='height:400px;')
+                      table#lessonList.table.table-condensed
+                        tr
+                          th(width='10%') #
+                          th(style='border-left:1px #ddd solid;') 課程名稱
+                          th(width='20%', style='border-left:1px #ddd solid;') 時間
+                          th(width='5%', style='border-left:1px #ddd solid;')
+                        tbody#lesson
+                        tr#nobodyList.tr-empty(align='center')
+                          td(colspan='3')
+                            br
+                            span#new(style='cursor:pointer;')
+                              i.fa.fa-plus-circle.fa-3x
+                              | 															新增課程
+              .col-md-12
+                .paginationWrap.pagesCenter
+                  nav
+                    ul#pageList.pagination
+                      li
+                        a(href='#') 第一頁
+                      li
+                        a(href='#', onclick='return false;')
+                          span(aria-hidden='true') «
+                          span.sr-only Previous
+                      li
+                        a(href='#') 1
+                      li
+                        a(href='#') 2
+                      li
+                        a(href='#') 3
+                      li
+                        a(href='#') 4
+                      li
+                        a(href='#') 5
+                      li
+                        a(href='#') 6
+                      li
+                        a(href='#') 7
+                      li
+                        a(href='#') 8
+                      li
+                        a(href='#') 9
+                      li
+                        a(href='#') 10
+                      li
+                        a(href='#', onclick='return false;')
+                          span(aria-hidden='true') »
+                          span.sr-only Next
+                      li
+                        a(href='#', onclick='return false;') 尾頁
+    #right
+    #lessonDetail.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header.bg-dark
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.icons-office-52
+            h4.modal-title
+              strong#detailName
+          .modal-body
+            table.table.table-hover
+              tr
+                th #
+                th 課程名稱
+                th 課程時數
+                th 使用教室
+                th 上課時段
+                th 備註
+                th
+              tbody#detailData
