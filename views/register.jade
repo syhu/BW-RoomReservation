@@ -6,6 +6,8 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/register.css')
     link(rel='stylesheet', href='stylesheets/icheck/blue.css')
+    link(rel='stylesheet', href='stylesheets/font-awesome/font-awesome.css')
+
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
@@ -41,7 +43,7 @@ html
             th
               b(style='color:red;') *
               | 密碼  
-              img.psdReset(src='images/reload.png', style='cursor:pointer;', title='重新更改密碼')
+              i.psdReset.fa.fa-refresh(style='cursor:pointer;', title='重新更改密碼')
             th
             th
               b(style='color:red;') *
@@ -75,6 +77,10 @@ html
             th
               b(style='color:red;') *
               | 性別
+              |   
+              |   
+              i.fa.fa-transgender
+
             th
             th
               b(style='color:red;') *
@@ -185,8 +191,8 @@ html
                 th#checkTip
                     .form-inline
                       .form-group.check_img
-                      |    
-                      img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
+                      |     
+                      i.reload.fa.fa-refresh(style='cursor:pointer;', title='重新產生')
                 th
                 th
                   .form-inline
@@ -222,7 +228,8 @@ html
           .modal-content
             // 
             .modal-header
-              button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+              button.close(type='button', data-dismiss='modal', aria-hidden='true')
+                  i.fa.fa-times-circle
               font(style='font-size:18px;font-weight:bold;') 註冊同意條款
             .modal-body(align='left', style='height:450px;overflow-y:scroll;')
               p(style='font-size:18px;') 一、說明與同意條款
