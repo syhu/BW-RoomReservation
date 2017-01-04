@@ -1,36 +1,34 @@
 var registered = (function(){
 	var _const;
 	_const = function(){
-		this._agree = "";							//註冊同意
-		this._checked_button = "";		//判斷性別radio
-		this._check_psd = "";					//確認密碼
+
+		this._agree = "";	//註冊同意
+		this._checked_button = "";	//判斷性別radio
+		this._check_psd = "";	//確認密碼
+		//驗證
+		this._checkAccount = false;
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
 		for(i=0;i<4;i++){
 			this._checkNum[i] = 0;
 		}
-
+		//最後驗證
+		this._checkField = new Array();
+		for(i=0;i<11;i++){
+			this._checkField[i] = 0;
+		}
 		//驗證身分
-		this._identity =this._getPara["identity"];
+		this._identity = this._getPara("identity");
+
 
 		this._construct();
 	}
 	_const.prototype = {
 		_construct:function(){
 			this._index = $("#index");
-			this._check1 = $(".check1");
-			this._check2 = $(".check2");
-			this._check3 = $(".check3");
-			this._check4 = $(".check4");
-			this._reload = $(".reload");
-			this._check_img = $(".check_img");
-			this._currentNum = $("#currentNum");
-			this._chk = $(".chk");
-			this._sign = $(".sign");
-			this._checkTip = $("#checkTip");
 			this._bounce_registered = $("#bounce_registered");
-			this._close = $(".close");
+			this._close = $("#close");
 			this._check_registered = $('.check_registered');
 			this._next = $("#next");
 			//欄位標籤
@@ -41,7 +39,6 @@ var registered = (function(){
 			this._telephone = $("#telephone");
 			this._sex = $(".sex");
 			this._identity = $("#identity");
-			this._birthday = $(".birthday");
 			this._birthday1 = $("#birthday1");
 			this._birthday2 = $("#birthday2");
 			this._birthday3 = $("#birthday3");
@@ -56,11 +53,20 @@ var registered = (function(){
 			this._form_identity = $(".form_identity");
 			this._form_birthday = $(".form_birthday");
 			this._form_address = $(".form_address");
+			this._verification = $("#verification");
+			this._form_check = $(".form_check");
 			//
 			this._selectPhone = $("#selectPhone");
 			this._promptText = $("#promptText");
-			this._psdReset = $(".psdReset");
-			this._searchAccount = $("#searchAccount");
+			this._psdReset = $(".psdReset");	//密碼重新輸入
+			this._chk = $("#chk");
+			this._modal_body = $("#modal_body");	//載入圈叉
+			this._btnSubmit = $("#btnSubmit");
+			this._searchAccount = $("#searchAccount"); //搜尋帳號重複
+			//驗證
+			this._reload = $(".reload");
+			this._check_img = $(".check_img");
+			this._registerCheck = $("#registerCheck"); 	//驗證欄位
 
 			this._start();	//開始網頁執行function
 		},
@@ -76,78 +82,100 @@ var registered = (function(){
 		_initialAll:function(){
 			var objThis = this;
 
+			//驗證
+			objThis._getRandom();
 			//查詢帳號是否重複
 			this._searchAccount.on("click", $.proxy(function(){
-				$.ajax({
-					type: "post",
-					url: "/searchAccount",
-					data: {account: this._account.val()},
-					dataType: "json",
-					success: function(message){
-						if(message.success == "no")
-						{
-							layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-							objThis._chk.removeAttr("disabled");
-						}
-						else if(message.success == "yes")
-						{
-							layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-							objThis._chk.attr("disabled","disabled");
-						}
-					},
-					error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
-				})
+				if(objThis._checkAccount){
+					$.ajax({
+						type: "post",
+						url: "/searchAccount",
+						data: {account: this._account.val()},
+						dataType: "json",
+						success: function(message){
+							if(message.success == "no")
+							{
+								objThis._form_account.removeClass("has-error");
+								objThis._form_account.addClass("has-success");
+								layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+								objThis._checkField[1] = 1;
+							}
+							else if(message.success == "yes")
+							{
+								objThis._form_account.removeClass("has-success");
+								objThis._form_account.addClass("has-error");
+								layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+							}
+						},
+						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
+					})
+				}else{
+					layer.tips('請輸入正確帳號格式', objThis._searchAccount ,{tips:2});
+				}
 			}, this))
 
 			$("input").iCheck({
 				checkboxClass:"icheckbox_flat-blue",
 				radioClass:"iradio_flat-blue"
 			});
-
 			//bitthday
 			//年
+
+
 			var date = new Date();
 			var day = "";
 			for(var i=1916; i <= date.getFullYear();i++){
 				objThis._birthday1.append("<option value='" + i + "'>" + i + "</option>")
 			}
-
 			//月
 			for(var i=1;i<=12;i++){
-					objThis._birthday2.append("<option value='" + i + "'>" + i + "</option>")
+				if(i<10){
+						objThis._birthday2.append("<option value='0" + i + "'>0" + i + "</option>")
+				}else{
+						objThis._birthday2.append("<option value='" + i + "'>" + i + "</option>")
+				}
 			}
-
 			//日
 			for(var i=1;i<=31;i++){
-				objThis._birthday3.append("<option value='" + i + "'>" + i + "</option>");
+				if(i<10){
+						objThis._birthday3.append("<option value='0" + i + "'>0" + i + "</option>");
+				}else{
+						objThis._birthday3.append("<option value='" + i + "'>" + i + "</option>");
+				}
 			}
-
 
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
+				objThis._name.val(objThis._name.val().replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,''))
 				//判斷姓名長度是否大於1，小於30  不能輸入特殊字元
-				if(objThis._name.val().length > 1 && objThis._name.val().length < 30 &&
+				if(objThis._name.val().length >= 2 && objThis._name.val().length <= 30 &&
 				!objThis._getSpeStr(objThis._name.val()))
 				{
 					objThis._form_name.removeClass("has-error");
 					objThis._form_name.addClass("has-success");
+					objThis._checkField[0] = 1;
 				}
 				else if(objThis._name.val() == ""){
 					objThis._form_name.removeClass("has-error");
 					objThis._form_name.removeClass("has-success");
+					objThis._checkField[0] = 0;
 				}
 				else{
 					objThis._form_name.addClass("has-error");
 					objThis._form_name.removeClass("has-success");
+					objThis._checkField[0] = 0;
+					layer.tips('請查看小提示', objThis._name ,{tips:2});
 				}
 			},this));
-
+			//姓名 keyup
+			// objThis._name.on("keypress",$.proxy(function(event){
+			// 	objThis._name.val(objThis._name.val().replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,''))
+			// },this))
 			//姓名 focue
 			objThis._name.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:姓名請輸入兩個字以上");
+				objThis._promptText.append("貼心小提示:姓名請輸入兩個字以上，三十個字以下，只能輸入中文、英文、數字。");
 			},this));
-
 			//姓名 限制長度輸入
 			objThis._name.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -156,34 +184,39 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
-
-
 			//帳號 blur
 			objThis._account.on("blur",$.proxy(function(event){
+				objThis._account.val(objThis._account.val().replace(/[^\a-\z\A-\Z0-9]/g,''))
 				//判斷帳號長度是否大於6，小於20  帳號包含數字  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
-				if(objThis._account.val().length > 6 && objThis._account.val().length < 20 &&
+				if(objThis._account.val().length >= 6 && objThis._account.val().length <= 20 &&
 				objThis._account.val().match(/\d/) && objThis._account.val().match(/[a-z]/i) &&
 				!objThis._getSpeStr2(objThis._account.val()))
 				{
-					objThis._form_account.removeClass("has-error");
-					objThis._form_account.addClass("has-success");
+					//檢查帳號是否重複
+					layer.tips('需檢查帳號是否重複', objThis._searchAccount ,{tips:1});
+					objThis._checkAccount = true;
+					//objThis._checkField[1] = 0;
 				}
 				else if(objThis._account.val() == ""){
 					objThis._form_account.removeClass("has-error");
 					objThis._form_account.removeClass("has-success");
+					objThis._checkField[1] = 0;
+					objThis._checkAccount = false;
 				}
 				else{
 					objThis._form_account.addClass("has-error");
 					objThis._form_account.removeClass("has-success");
+					objThis._checkField[1] = 0;
+					objThis._checkAccount = false;
+					layer.tips('請查看小提示', objThis._account ,{tips:2});
 				}
 			},this));
 
 			//帳號 focus
 			objThis._account.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上");
+				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上，二十個字以下，須包含英文數字。");
 			},this));
-
 			//帳號 限制長度輸入
 			objThis._account.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -192,12 +225,11 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
-
-
 			//密碼 blur
 			objThis._password.on("blur",$.proxy(function(event){
+				objThis._password.val(objThis._password.val().replace(/[^\a-\z\A-\Z0-9]/g,''))
 				//判斷密碼長度是否大於8，小於100  密碼包含數字  密碼包含英文字母(不分大小寫) 接受所有特殊字元
-				if(objThis._password.val().length > 8 && objThis._password.val().length < 100 &&
+				if(objThis._password.val().length >= 8 && objThis._password.val().length <= 100 &&
 				objThis._password.val().match(/\d/) && objThis._password.val().match(/[a-z]/i) )
 				{
 					objThis._form_password.removeClass("has-error");
@@ -213,20 +245,21 @@ var registered = (function(){
 							objThis._check_psd = "";
 							objThis._form_password.removeClass("has-success");
 							objThis._form_password.addClass("has-error");
-
+							objThis._checkField[2] = 0;
 						}
 						},function(value,index,elem){
 						if(objThis._password.val() != value) {
 							//objThis._psd.focus();
 							layer.msg('確認密碼錯誤');
 							objThis._check_psd = "";
-
+							objThis._checkField[2] = 0;
 						}
 						else{
 							layer.msg('確認密碼正確');
 							objThis._check_psd = "true";
 							objThis._form_password.addClass("has-success");
-							// objThis._password.attr("disabled","true")
+							objThis._password.attr("disabled","true")
+							objThis._checkField[2] = 1;
 						}
 
 						layer.close(index)
@@ -235,19 +268,19 @@ var registered = (function(){
 				else if(objThis._password.val() == ""){
 					objThis._form_password.removeClass("has-error");
 					objThis._form_password.removeClass("has-success");
+					objThis._checkField[2] = 0;
 				}
 				else{
 					objThis._form_password.addClass("has-error");
 					objThis._form_password.removeClass("has-success");
+					objThis._checkField[2] = 0;
 				}
 			},this));
-
 			//密碼 focus
 			objThis._password.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:密碼請輸入八個字以上");
+				objThis._promptText.append("貼心小提示:密碼請輸入八個字以上，一百個字以下，須包含英文數字。");
 			},this));
-
 			//密碼 限制長度輸入
 			objThis._password.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -256,16 +289,14 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
-
 			//密碼 重新輸入
 			objThis._psdReset.on("click",$.proxy(function(event){
 				objThis._password.val("")
 				objThis._form_password.removeClass("has-error");
 				objThis._form_password.removeClass("has-success");
 				objThis._password.removeAttr("disabled");
+				objThis._checkField[2] = 0;
 			},this));
-
-
 			//E-mail  blur
 			objThis._email.on("blur",$.proxy(function(event){
 				var email = objThis._email.val();
@@ -278,23 +309,24 @@ var registered = (function(){
 				{
 					objThis._form_email.removeClass("has-error");
 					objThis._form_email.addClass("has-success");
+					objThis._checkField[3] = 1;
 				}
 				else if(objThis._email.val() == ""){
 					objThis._form_email.removeClass("has-error");
 					objThis._form_email.removeClass("has-success");
+					objThis._checkField[3] = 0;
 				}
 				else{
 					objThis._form_email.addClass("has-error");
 					objThis._form_email.removeClass("has-success");
+					objThis._checkField[3] = 0;
 				}
 			},this));
-
 			//信箱 focus
 			objThis._email.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:Email請輸入信箱正確格式，a123456789 + @ + domain .com");
+				objThis._promptText.append("貼心小提示:Email請輸入信箱正確格式，EX:a123456789 + @ + domain .com。");
 			},this));
-
 			//信箱 限制長度輸入
 			objThis._name.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -304,79 +336,81 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
-
-
+			//性別 click
+			objThis._sex.on("click",$.proxy(function(event){
+				objThis._checkField[4] = 1;
+			},this));
 			//電話選單 change
 			objThis._selectPhone.on("change",$.proxy(function(event){
-				objThis._telephone.val(objThis._selectPhone.val()) ;
+				objThis._telephone.val(objThis._selectPhone.val());
+				objThis._telephone.focus();
 				objThis._form_telephone.removeClass("has-error");
 				objThis._form_telephone.removeClass("has-success");
 			},this))
-
 			//電話 blur
 			objThis._telephone.on("blur",$.proxy(function(event){
-				if(objThis._telephone.val().length > 8 && objThis._telephone.val().length < 12 &&
+				objThis._telephone.val(objThis._telephone.val().replace(/[^0-9]/g,''))
+				if(objThis._telephone.val().length >= 9 && objThis._telephone.val().length <= 10 &&
 				objThis._telephone.val().match(/\d$/))
 				{
 					objThis._form_telephone.removeClass("has-error");
 					objThis._form_telephone.addClass("has-success");
+					objThis._checkField[5] = 1;
 				}
 
 				else if(objThis._telephone.val() == ""){
 					objThis._form_telephone.removeClass("has-error");
 					objThis._form_telephone.removeClass("has-success");
+					objThis._checkField[5] = 0;
+					objThis._telephone.val(objThis._selectPhone.val());
 				}
 				else{
 					objThis._form_telephone.addClass("has-error");
 					objThis._form_telephone.removeClass("has-success");
+					objThis._checkField[5] = 0;
 				}
 			},this));
 			objThis._telephone.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
 				objThis._promptText.append("");
 			},this));
-
 			//電話 限制長度輸入
 			objThis._telephone.bind("input",function(evt){
 				var o = $(this),v=o.val();
-				if(v.length>12){
-					o.val(v.slice(0,12));
+				if(v.length > 10){
+					o.val(v.slice(0,10));
 					evt.preventDefault();
 				}
 			});
-
-
-			//性別 mouseover
-			objThis._sex.on("mouseover",$.proxy(function(event){
-				if($(".check_sex").is(":checked") && objThis._checked_button == ""){
-					objThis._checked_button	= "check";
-
-				}
+			//電話 focus
+			objThis._telephone.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:電話須再十二個數字以下，只能輸入數字。");
 			},this));
-
-
 			//身分證 blur
 			objThis._identity.on("blur",$.proxy(function(event){
+				objThis._identity.val(objThis._identity.val().replace(/[^\a-\z\A-\Z0-9]/g,''))
 				if(objThis._getCheckIdentity(objThis._identity.val())){
 					objThis._form_identity.removeClass("has-error");
 					objThis._form_identity.addClass("has-success");
+					objThis._checkField[6] = 1;
 				}
 				else if(objThis._identity.val() == ""){
 					objThis._form_identity.removeClass("has-error");
 					objThis._form_identity.removeClass("has-success");
+					objThis._checkField[6] = 0;
 				}
 				else{
 					objThis._form_identity.addClass("has-error");
 					objThis._form_identity.removeClass("has-success");
+					objThis._checkField[6] = 0;
 				}
 			},this));
-
 			//身分證 focus
 			objThis._identity.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:身分證須符合正確格式。");
+				objThis._promptText.append("貼心小提示:身分證須符合正確格式，十個字以下，只能輸入英文與數字。");
 			},this));
-
 			//身分證 限制長度輸入
 			objThis._identity.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -385,41 +419,74 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
-
-
-			//生日 blur
-			objThis._birthday.on("blur",$.proxy(function(event){
-				if(objThis._birthday1.val() != "" && objThis._birthday2.val() != null && objThis._birthday3.val() != null){
+			//生日1 blur
+			objThis._birthday1.on("blur",$.proxy(function(event){
+				if(objThis._birthday1.val() != "請選擇" && objThis._birthday2.val() != "請選擇" && objThis._birthday3.val() != "請選擇"
+						&& objThis._getCheckDate(objThis._birthday1.val(),objThis._birthday2.val(),objThis._birthday3.val())){
 					objThis._form_birthday.removeClass("has-error");
 					objThis._form_birthday.addClass("has-success");
-				}
-				else if(objThis._birthday1.val() == ""){
-					objThis._form_birthday.removeClass("has-error");
-					objThis._form_birthday.removeClass("has-success");
+					objThis._checkField[7] = 1;
+					objThis._checkField[8] = 1;
+					objThis._checkField[9] = 1;
 				}
 				else{
-					objThis._form_birthday.addClass("has-error");
 					objThis._form_birthday.removeClass("has-success");
+					objThis._form_birthday.addClass("has-error");
+					objThis._checkField[7] = 0;
+				}
+			},this));
+			//生日2 blur
+			objThis._birthday2.on("blur",$.proxy(function(event){
+				if(objThis._birthday1.val() != "請選擇" && objThis._birthday2.val() != "請選擇" && objThis._birthday3.val() != "請選擇"
+					&& objThis._getCheckDate(objThis._birthday1.val(),objThis._birthday2.val(),objThis._birthday3.val())){
+					objThis._form_birthday.removeClass("has-error");
+					objThis._form_birthday.addClass("has-success");
+					objThis._checkField[7] = 1;
+					objThis._checkField[8] = 1;
+					objThis._checkField[9] = 1;
+				}
+				else{
+					objThis._form_birthday.removeClass("has-success");
+					objThis._form_birthday.addClass("has-error");
+					objThis._checkField[8] = 0;
+				}
+			},this));
+			//生日3 blur
+			objThis._birthday3.on("blur",$.proxy(function(event){
+				if(objThis._birthday1.val() != "請選擇" && objThis._birthday2.val() != "請選擇" && objThis._birthday3.val() != "請選擇"
+					&& objThis._getCheckDate(objThis._birthday1.val(),objThis._birthday2.val(),objThis._birthday3.val())){
+					objThis._form_birthday.removeClass("has-error");
+					objThis._form_birthday.addClass("has-success");
+					objThis._checkField[7] = 1;
+					objThis._checkField[8] = 1;
+					objThis._checkField[9] = 1;
+				}
+				else{
+					objThis._form_birthday.removeClass("has-success");
+					objThis._form_birthday.addClass("has-error");
+					objThis._checkField[9] = 0;
 				}
 			},this));
 
-
 			//地址 blur
 			objThis._address.on("blur",$.proxy(function(event){
-				if(objThis._address.val().length > 6 && !objThis._getSpeStr2(objThis._address.val())){
+				objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
+				if(objThis._address.val().length >= 6 && !objThis._getSpeStr2(objThis._address.val())){
 					objThis._form_address.removeClass("has-error");
 					objThis._form_address.addClass("has-success");
+					objThis._checkField[10] = 1;
 				}
 				else if(objThis._address.val() == ""){
 					objThis._form_address.removeClass("has-error");
 					objThis._form_address.removeClass("has-success");
+					objThis._checkField[10] = 0;
 				}
 				else{
 					objThis._form_address.addClass("has-error");
 					objThis._form_address.removeClass("has-success");
+					objThis._checkField[10] = 0;
 				}
 			},this));
-
 			//地址 限制長度輸入
 			objThis._address.bind("input",function(evt){
 				var o = $(this),v=o.val();
@@ -428,23 +495,37 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+			//地址 focus
+			objThis._address.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:地址須留下現居地址，一百個字以下。");
+			},this));
+			//地址 防止特殊符號
+			objThis._address.on("keyup",$.proxy(function(event){
+					objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
+			},this));
+			//地址 防止特殊符號 貼上
+			objThis._address.on("paste",$.proxy(function(event){
+					objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
+			},this));
 
-
+			objThis._address.on("contextmenu",$.proxy(function(event){
+					objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
+			},this));
 			//註冊同意 視窗
 			objThis._bounce_registered.modal('show');
 
 			$("body").on("click",$.proxy(function(event){
 				if(objThis._agree == "" && objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = '/'",1500);
+					setTimeout("location.href = 'master.html'",1500);
 				}
 			},this));
-
 			//註冊同意 X
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = '/'",1500);
+					setTimeout("location.href = 'master.html'",1500);
 				}
 			},this));
 
@@ -454,103 +535,87 @@ var registered = (function(){
 					objThis._agree = "true";
 					objThis._bounce_registered.modal("hide");
 					layer.msg('<b>您可以開始註冊</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-					}else{
+				}else
+				{
 					objThis._check_registered.attr("style","color:red;");
 					objThis._check_registered.focus();
 				}
-
 			},this))
 
 			//標題 回首頁
 			objThis._index.on("click",$.proxy(function(event){
-				location.href="/?identity=visitor";
-			},this))
-
-			//驗證碼初始化
-			objThis._check1.append("<img src='images/num/00.png'>")
-			objThis._check2.append("<img src='images/num/00.png'>")
-			objThis._check3.append("<img src='images/num/00.png'>")
-			objThis._check4.append("<img src='images/num/00.png'>")
-			objThis._getRandom();
-
-			//檢驗驗證碼
-
-			objThis._chk.on("mousedown",$.proxy(function(event){
-				if(objThis._correctNum != objThis._currentNum.val()){
-
-					layer.msg('驗證碼錯誤');
-					objThis._getRandom();
-					objThis._chk.attr("disabled","");
-				}else{
-					objThis._chk.removeAttr("disabled");
-				}
+				location.href="master.html?identity=visitor";
 			},this));
 
-			//註冊提示
-			objThis._checkTip.on("mouseenter",$.proxy(function(event){
-				objThis._mouseoverNum++;
-				if(objThis._mouseoverNum<3){
-					layer.tips('透過點擊數字增加，與左方驗證碼相同即可', objThis._checkTip,{tips:4});
+			//驗證碼視窗
+			objThis._chk.on("click",$.proxy(function(event){
+				// 驗證各個欄位
+				var check = true;
+				for(i=0;i<11;i++){
+					if(objThis._checkField[i] != 1) {
+						check = false;
+					}
 				}
-			},this))
+				if(check){
+					objThis._verification.modal("show")
+					objThis._registerCheck.val("");
+					objThis._getRandom();
+				}else{
+					layer.msg('<b>資料尚未填寫完整或錯誤</b>', {time: 1500, icon:3,shade:[0.5,'black']});
+				}
 
+			},this))
 
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
-			objThis._getRandom();
-			},this))
+				objThis._getRandom();
+			},this));
 
-			// Number 1st
-			objThis._check1.on("click",$.proxy(function(event){
-				objThis._getNumAdd(1);
-			},this))
+			//移除錯誤框
+			objThis._registerCheck.on("click",$.proxy(function(event){
+				objThis._form_check.removeClass("has-error");
+			},this));
 
-			// Number 2ed
-			objThis._check2.on("click",$.proxy(function(event){
-				objThis._getNumAdd(2);
-			},this))
+			//檢驗驗證碼
+			objThis._btnSubmit.on("click",$.proxy(function(event){
+				// 1.先驗證驗證碼
+				if(objThis._correctNum != objThis._registerCheck.val()){
 
-			// Number 3th
-			objThis._check3.on("click",$.proxy(function(event){
-				objThis._getNumAdd(3);
-			},this))
+					objThis._form_check.addClass("has-error");
+					objThis._registerCheck.val("");
+					objThis._getRandom();
+					return false;
+				}
 
-			// Number 4th
-			objThis._check4.on("click",$.proxy(function(event){
-				objThis._getNumAdd(4);
-			},this))
+				// 2.驗證各個欄位
+				var check = true;
+				for(i=0;i<11;i++){
+					if(objThis._checkField[i] != 1) {
+						check = false;
+					}
+				}
 
+				if(check){
+					layer.msg('<b>註冊成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+				}else{
+					layer.msg('<b>註冊失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				}
+
+			},this));
 		},
 		_getRandom:function(){
 			var objThis = this;
 			objThis._correctNum="";
-			objThis._currentNum.val("");
 
 			objThis._check_img.empty();
-
 			//驗證碼
 			for(i=0;i<4;i++){
 				objThis._checkNum[i] = 0;
 				var rand = Math.floor(Math.random() * 10);
-				objThis._check_img.append("<img src='images/num/0" + rand + ".png'>")
-				$(".check" + (i+1)).empty();
-				$(".check" + (i+1)).append("<img src='images/num/00.png'>");
+				objThis._check_img.append("<img src='images/num/0" + rand + ".png' style='margin:5px;'>");
 				objThis._correctNum += rand;
 			}
 		},
-		_getNumAdd:function(num){
-			var objThis = this;
-			var tmp = "";
-			objThis._checkNum[num-1]++;
-			if(objThis._checkNum[num-1]>9) objThis._checkNum[num-1]=0;
-			$(".check" + num).empty();
-			$(".check" + num).append("<img src='images/num/0" + objThis._checkNum[num-1] + ".png'>");
-			for(i=0;i<4;i++){
-				tmp += objThis._checkNum[i];
-			}
-			objThis._currentNum.attr("value",tmp);
-		},
-
 		//取得GET參數
 		_getPara:function(para){
 			var strUrl = location.search;
@@ -568,44 +633,17 @@ var registered = (function(){
 			}
 			return aryPara[para];
 		},
-		_getCookie:function(name){
-			var cname = name + "=";
-			var dc = document.cookie;
-			if (dc.length != 0) {
-				begin = dc.indexOf(cname);
-				if (begin != -1) {
-					begin += cname.length;
-					end = dc.indexOf(";", begin);
-					if (end == -1) end = dc.length;
-					return unescape(dc.substring(begin, end));
-				}
-			}
-			return null;
-		},
-		_setCookies:function(name,value,expires){
-			document.cookie = name + "=" + escape(value) +
-			((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
-			"; path=/";
-		},
-		_delCookie:function(){
-			var expires = new Date();
-			expires.setTime(expires.getTime()-1);
-			document.cookie = name + "=;expires=" + expires.toGMTString();
-			alert(document.cookie);
-		},
 
 		//判斷特殊字元  (有底線)
 		_getSpeStr:function(str){
 			var reg = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 			return (reg.test(str))
 		},
-
 		//判斷特殊字元  (無 _ - )
 		_getSpeStr2:function(str2){
 			var reg2 = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 			return (reg2.test(str2))
 		},
-
 		//判斷身分證格式
 		_getCheckIdentity:function(id){
 			var city = new Array(1,10,19,28,37,46,55,64,39,73,
@@ -623,7 +661,46 @@ var registered = (function(){
 				total+=eval(id[9]);
 				return (total%10 == 0);
 			}
+		},
+		//身分證產生
+		_getTwID:function(){
+			//建立字母分數陣列(A~Z)
+			var city = new Array(1,10,19,28,37,46,55,64,39,73,82, 2,11,
+			20,48,29,38,47,56,65,74,83,21, 3,12,30)
+			//建立隨機身份證碼
+			var id = new Array();
+			id[0] = String.fromCharCode(Math.floor(Math.random() * (26)) + 65);
+			id[1] = Math.floor(Math.random() * (2)) + 1;
+			for(var i=2; i<9; i++){
+				id[i] = Math.floor(Math.random() * (9)) + 0;
+			}
+			//計算總分
+			var total = city[id[0].charCodeAt(0)-65];
+			for(var i=1; i<=8; i++){
+				total += eval(id[i]) * (9 - i);
+			}
+			//計算最尾碼
+			var total_arr = (total+'').split('');
+			var lastChar = eval(10-total_arr[total_arr.length-1]);
+			var lastChar_arr = (lastChar+'').split('');
+			//補上最後檢查碼
+			id[id.length++] = lastChar_arr[lastChar_arr.length-1];
+			//回傳結果
+			return id.join('');
+		},
+		_getCheckDate:function(d1,d2,d3){
+				var date = d1 + '/' + d2 + '/' + d3;
+				date = Date.parse(date).valueOf();
+				CurrentDate = Date.parse(new Date().toDateString());
+				if(date > CurrentDate){
+						return false;
+				}else{
+						return true;
+				}
+
 		}
+
+
 	}
 	return _const;
 }());
@@ -631,17 +708,3 @@ var registered
 $(function(){
 	registered = new registered();
 })
-
-function resetForm(){
-	var form = $(".registerForm");
-	event.preventDefault();	//停用原本reset功能
-	//radio 取消樣式
-	$(".sex .iradio_flat-blue").removeClass("checked");
-	$(".form-group").removeClass("has-success");
-	$(".form-group").removeClass("has-error");
-	registered._getRandom();
-	registered._checked_button = "";
-	$(':input',form).not(':button,:submit,:reset,:hidden').val("").removeAttr("checked").removeAttr("selected");
-	form.find('input:text,input:password,input:file,select,textarea').val("");
-	form.find('input:radio,input:checkbox').removeAttr('checked').removeAttr('selected');
-}

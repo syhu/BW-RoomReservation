@@ -2,20 +2,6 @@ var login = (function(){
 	var _const;
 	_const = function(){
 
-		this._check1 = null;
-		this._check2 = null;
-		this._check3 = null;
-		this._check4 = null;
-		this._reload = null;
-		this._check_img = null;
-		this._chk = null;
-		this._registered = null;
-		this._registered1 = null;
-		this._registered2 = null;
-		this._index = null;
-		this._currentNum = null;
-		this._account = null;
-		this._psd = null;
 
 		this._mouseoverNum = 0;
 		this._correctNum = "";
@@ -24,11 +10,8 @@ var login = (function(){
 			this._checkNum[i] = 0;
 		}
 
-		//驗證身分
-		this._identity =this._getPara("identity");
-
-		//顯示錯誤
-		this._error = this._getPara("error");
+		this._identity =this._getPara("identity");	//驗證身分
+		this._error = this._getPara("error");		//顯示錯誤
 
 		this._construct();
 	}
@@ -43,7 +26,6 @@ var login = (function(){
 			this._chk = $(".chk");
 			this._registered = $(".registered");
 			this._registered1 = $("#registered1");
-			this._registered2 = $("#registered2");
 			this._index = $("#index");
 			this._currentNum = $(".currentNum");
 			this._account = $("#account");
@@ -108,8 +90,6 @@ var login = (function(){
 			objThis._reload.on("click",$.proxy(function(event){
 				objThis._getRandom();
 			},this))
-
-
 		},
 		_getRandom:function(){
 			var objThis = this;
