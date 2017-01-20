@@ -41,13 +41,13 @@ html
                   b 帳號
               tr
                 td
-                  input#account.form-control(type='text', placeholder='請輸入帳號', name='account', required='')
+                  input#account.form-control(type='text', placeholder='請輸入帳號', name='account')
               tr
                 td
                   b 密碼
               tr
                 td
-                  input#psd.form-control(type='password', placeholder='請輸入密碼', name='password', required='')
+                  input#psd.form-control(type='password', placeholder='請輸入密碼', name='password')
               tr
                 td
                   br
@@ -55,7 +55,7 @@ html
                   input.form-control.input-sm.currentNum(type='text')
                   br
                   .check_img(style='float:left;')
-                  img.reload(src='images/reload.png', style='cursor:pointer;', title='重新產生')
+                  img.reload(src='images/reload.png', style='margin-left:10px;cursor:pointer;', title='重新產生')
               tr
                 td
                   a#registered1.registered(href='/register', style='cursor:pointer;font-size:12px;float:right;') 還沒有帳號

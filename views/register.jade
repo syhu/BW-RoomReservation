@@ -6,14 +6,13 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/register.css')
     link(rel='stylesheet', href='stylesheets/icheck/blue.css')
-    link(rel='stylesheet', href='stylesheets/font-awesome/font-awesome.css')
-
+    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/icheck.js')
-    script(src='javascripts/page_js/register.js')
     script(src='javascripts/layer/layer.js')
+    script(src='javascripts/page_js/register.js')
     // 彈出視窗
     title 註冊
   body
@@ -22,214 +21,159 @@ html
         b#index(title='Copyright © 2016 福智 All rights reserved')
           img(src='images/open-book.png')
           |  福智基金會
+      br
+      br
       hr
-      form#registerForm.registerForm(action='/register', onreset='resetForm()', method='post')
-        table(cellpadding='5')
-          tr
-            th(colspan='7')
-              font#title 註冊
-              span#promptText
-          tr
-            th(colspan='7')
-          tr
-            th
-              b(style='color:red;') *
-              | 姓名
-            th
-            th
-              b(style='color:red;') *
-              | 帳號
-            th
-            th
-              b(style='color:red;') *
-              | 密碼  
-              i.psdReset.fa.fa-refresh(style='cursor:pointer;', title='重新更改密碼')
-            th
-            th
-              b(style='color:red;') *
-              | E-mail
-          tr
-            th
-              .form-inline
-                .form-group.form_name
-                  input#name.form-control(type='text', placeholder='請輸入您的姓名', name='name', required='')
-            th      
-            th
-              .form-inline
-                .form-group.form_account
-                  input#account.form-control(type='text', placeholder='請輸入您的帳號', name='account', required='')
-                .form-group.form_account
-                  input#searchAccount.btn.btn-primary(type='button', style='float:right;margin-right:20px;', value='查詢')
-            th      
-            th
-              .form-inline
-                .form-group.form_password
-                  input#password.form-control(type='password', placeholder='請輸入您的密碼', name='fuck', required='')
-            th      
-            th
-              .form-inline
-                .form-group.form_email
-                  input#email.form-control(type='text', placeholder='請輸入您的信箱', name='email', required='')
-          tr
-            th(colspan='7')
-              hr
-          tr
-            th
-              b(style='color:red;') *
-              | 性別
-              |   
-              |   
-              i.fa.fa-transgender
-
-            th
-            th
-              b(style='color:red;') *
-              | 身分證
-            th
-            th(colspan='3')
-              b(style='color:red;') *
-              | 生日
-            
-            
-          tr
-            th
-              .form-inline
-                .form-group.form_sex
-                  label.sex
-                    input.form-control.check_sex(type='radio', value='male', name='sex', required='')
-                    font(style='vertical-align:middle')  男
-                  label.sex
-                    input.form-control.check_sex(type='radio', value='female', name='sex', required='')
-                    font(style='vertical-align:middle')  女
-            th
-            th
-              .form-inline
-                .form-group.form_identity
-                  input#identity.form-control(type='text', placeholder='請輸入您的身分證', name='identity', required='')
-            th
-            th(colspan='3')
-              .form-inline
-                .form-group.form_birthday
-                  select#birthday1.form-control(name='birthday1',class='birthday', required='') 
-                  | /
-                  select#birthday2.form-control(name='birthday2',class='birthday', required='') 
-                  | /
-                  select#birthday3.form-control(name='birthday3',class='birthday', required='') 
-
-              
-          tr
-            th(colspan='7')
-              hr
-          tr
-            th(colspan='3')
-              b(style='color:red;') *
-              | 電話
-            th
-            th
-                b.form-group(style='color:red;') *
-                | 驗證碼 
-            th
-            th
-          tr
-              th(colspan='3')
-                
-                select#selectPhone.form-control
-                  option(value='02')
-                    | 02      
-                    font(style='float:right;') 台北&新北&基隆市
-                  option(value='03')
-                    | 03      
-                    font(style='float:right;') 桃園市
-                  option(value='03')
-                    | 03      
-                    font(style='float:right;') 新竹縣市
-                  option(value='03')
-                    | 03      
-                    font(style='float:right;') 花蓮縣
-                  option(value='03')
-                    | 03      
-                    font(style='float:right;') 宜蘭縣
-                  option(value='037')
-                    | 037    
-                    font(style='float:right;') 苗栗縣
-                  option(value='04')
-                    | 04      
-                    font(style='float:right;') 台中市
-                  option(value='04')
-                    | 04      
-                    font(style='float:right;') 彰化縣
-                  option(value='049')
-                    | 049    
-                    font(style='float:right;') 南投縣
-                  option(value='05')
-                    | 05      
-                    font(style='float:right;') 嘉義縣市
-                  option(value='05')
-                    | 05      
-                    font(style='float:right;') 雲林縣市
-                  option(value='06')
-                    | 06      
-                    font(style='float:right;') 台南市
-                  option(value='06')
-                    | 06      
-                    font(style='float:right;') 澎湖縣
-                  option(value='07')
-                    | 07      
-                    font(style='float:right;') 高雄市
-                  option(value='08')
-                    | 08      
-                    font(style='float:right;') 屏東縣
-                  option(value='089')
-                    | 089    
-                    font(style='float:right;') 台東縣
-                  option(value='09')
-                    | 09      
-                    font(style='float:right;') 手機
-                    .form-group.form_telephone
-                      input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone', value='02', required='')
-                th
-                th#checkTip
+      div(style='padding: 20px 80px;')
+        .panel
+          .panel-header
+            .row
+              .col-md-12
+                font#register_title
+                  | 註冊
+                  span#promptText
+          form.registerForm
+            .panel-content(style='padding: 20px 80px;')
+              div(style='margin: 20px 0 20px 0;')
+                .row
+                  .col-md-3
+                    .form-group.form_name
+                      font.field
+                        span.symbol *
+                        | 姓名
+                      input#name.form-control(type='text', placeholder='請輸入您的姓名', name='name')
+                  .col-md-3
                     .form-inline
-                      .form-group.check_img
-                      |     
-                      i.reload.fa.fa-refresh(style='cursor:pointer;', title='重新產生')
-                th
-                th
-                  .form-inline
-                    label.check1
-                    |       
-                    label.check2
-                    |   
-                    label.check3
-                    |   
-                    label.check4
-                    input#currentNum(type='hidden', value='0000')
-          tr
-            th(colspan='3')
-              b(style='color:red;') *
-              | 現居地址
-            th
-            th(colspan='3')
-              
-                
-          tr
-            th(colspan='3')
-              .form-inline
-                .form-group.form_address
-                  input#address.form-control(type='text', style='width:500px;', placeholder='請輸入您的地址', name='address', required='')
-            th
-            th(colspan='3')
-              input.btn.btn-default.btn.reset(type='reset', style='float:right;', value='重新填寫')
-              input.btn.btn-primary.chk(type='submit', style='float:right;margin-right:20px;', value='送出')
-        
+                      .form-group.form_account
+                        font.field
+                          span.symbol *
+                          | 帳號  
+                          i#searchAccount.fa.fa-search(style='cursor:pointer;', title='查詢帳號是否重複')
+                        input#account.form-control(type='text', placeholder='請輸入您的帳號', name='account')
+                  .col-md-3
+                    .form-group.form_password
+                      font.field
+                        span.symbol *
+                        | 密碼  
+                        img.psdReset(src='images/reload.png', style='cursor:pointer;', title='重新更改密碼')
+                      input#password.form-control(type='password', placeholder='請輸入您的密碼', name='password')
+                  .col-md-3
+                    .form-group.form_email
+                      font.field
+                        span.symbol *
+                        | E-mail
+                      input#email.form-control(type='text', placeholder='請輸入您的信箱', name='email')
+              div(style='margin: 20px 0 20px 0;')
+                .row
+                  .col-md-3
+                    .form-group.form_sex
+                      font.field
+                        span.symbol *
+                        | 性別
+                      label.sex
+                        input.form-control.check_sex(type='radio', value='male', name='sex')
+                        font(style='vertical-align:middle')  男
+                      label.sex(style='margin-left:10px;')
+                        input.form-control.check_sex(type='radio', value='female', name='sex')
+                        font(style='vertical-align:middle')  女
+                  .col-md-3
+                    .form-group.form_telephone
+                      font.field
+                        span.symbol *
+                        | 電話
+                      select#selectPhone.form-control
+                        option(value='02')
+                          | 02      
+                          font(style='float:right;') 台北&新北&基隆市
+                        option(value='03')
+                          | 03      
+                          font(style='float:right;') 桃園市&新竹縣市&花蓮縣&宜蘭縣
+                        option(value='037')
+                          | 037    
+                          font(style='float:right;') 苗栗縣
+                        option(value='04')
+                          | 04      
+                          font(style='float:right;') 台中市&彰化縣
+                        option(value='049')
+                          | 049    
+                          font(style='float:right;') 南投縣
+                        option(value='05')
+                          | 05      
+                          font(style='float:right;') 嘉義縣市&雲林縣市
+                        option(value='06')
+                          | 06      
+                          font(style='float:right;') 台南市&澎湖縣
+                        option(value='07')
+                          | 07      
+                          font(style='float:right;') 高雄市
+                        option(value='08')
+                          | 08      
+                          font(style='float:right;') 屏東縣
+                        option(value='089')
+                          | 089    
+                          font(style='float:right;') 台東縣
+                        option(value='09')
+                          | 09      
+                          font(style='float:right;') 手機
+                    .form-group.form_telephone
+                      input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone', value='02')
+                  .col-md-3
+                    .form-group.form_identity
+                      font.field
+                        span.symbol *
+                        | 身分證
+                      input#identity.form-control(type='text', placeholder='請輸入您的身分證', name='identity')
+                  .col-md-3
+                    .form-inline
+                      font.field
+                        span.symbol *
+                        | 生日
+                      .form-group.form_birthday(style='float:left;')
+                        select#birthday1.form-control(style='width:40%', name='birthday1')
+                          option(value='請選擇') 
+                        select#birthday2.form-control(style='width:30%', name='birthday2')
+                          option(value='請選擇')
+                        select#birthday3.form-control(style='width:30%', name='birthday3')
+                          option(value='請選擇')
+
+              div(style='margin: 20px 0 20px 0;')
+                .row
+                  .col-md-3
+                    .form-group.form_address
+                      font.field
+                        span.symbol *
+                        | 現居地址
+                      input#address.form-control(type='text', style='width:500px;', placeholder='請輸入您的地址', name='address')
+              div(style='margin: 20px 0 20px 0;')
+                .row
+                  .col-md-3
+                  .col-md-3
+                  .col-md-3
+                  .col-md-3
+                    input#chk.btn-block.btn-lg.btn.btn-info.chk(type='button', value='送出')  
+      // 驗證
+      #verification.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+        .modal-dialog.modal-lg
+          .modal-content
+            .modal-header.bg-dark
+              button.close(type='button', data-dismiss='modal', aria-hidden='true')
+                i.fa.fa-times-circle(style='font-size:20px;')
+              span.modal-title 驗證
+            div(style='margin-top:20px;margin-bottom:20px;')
+              .check_img(style='margin: 20px 0 20px 0;')
+              .form-inline.form-group.form_check
+                input#registerCheck.form-control(type='text', style='width:50%;', placeholder='請輸入上方驗證碼')
+                img.reload(src='images/reload.png', style='cursor:pointer;margin-left:10px;', title='重新產生')
+            .modal-footer
+              button#btnSubmit.btn.btn-success.btn-embossed(type='button') 提交
+              button.btn.btn-default.btn-embossed(type='button', data-dismiss='modal') 取消
       // 彈跳視窗 註冊
       #bounce_registered.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
           .modal-content
             // 
             .modal-header
-              button.close(type='button', data-dismiss='modal', aria-hidden='true')
-                  i.fa.fa-times-circle
+              button#close.close(type='button', data-dismiss='modal', aria-hidden='true') ×
               font(style='font-size:18px;font-weight:bold;') 註冊同意條款
             .modal-body(align='left', style='height:450px;overflow-y:scroll;')
               p(style='font-size:18px;') 一、說明與同意條款
@@ -357,4 +301,4 @@ html
                 input#check_registered(type='checkbox')
                 font(style='vertical-align:middle;')  我已詳細閱讀並同意以上會員約定及條款
             .modal-footer
-              button#next.btn.btn-primary 下一步
+              input#next.btn.btn-primary(type='button', value='下一步')
