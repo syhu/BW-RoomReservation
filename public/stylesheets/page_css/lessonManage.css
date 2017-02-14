@@ -6,14 +6,14 @@ body {
 	vertical-align:middle;
 	background-color:#E3E3E3;
 }
-#header{
+#manager_header{
 	text-align:center;
 	border:2px solid black;
 	border-radius:10px;
 	margin-left:20px;
 	margin-right:20px;
 }
-#left{
+#manager_left{
 	float:left;
 	border:2px solid black;
 	border-radius:10px;
@@ -22,7 +22,7 @@ body {
 	margin:20px;
 	overflow:hidden;
 }
-#center{
+#manager_center{
 	float:left;
 	border:2px solid black;
 	border-radius:10px;
@@ -31,7 +31,7 @@ body {
 	margin:20px;
 	overflow:hidden;
 }
-#right{
+#manager_right{
 	float:left;
 	/*border:2px solid black;*/
 	border-radius:10px;
@@ -44,7 +44,7 @@ body {
 	margin:20px;
 	border-radius:20px;
 	width:95%;
-	
+
 }
 
 ul li

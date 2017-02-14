@@ -68,6 +68,7 @@ tr:last-child th:last-child{
 	line-height:50px;
 	display:inline-block;
 	vertical-align:middle;
+	z-index: 1;
 
 
 	border-bottom-left-radius:1em;
@@ -163,6 +164,7 @@ margin-left:100px;
 	/*border:1px solid black;*/
 	height:1500px;
 	-webkit-user-select:none;  /* 禁止反白 */
+	z-index: -1;
 }
 #footer{		/* 下面 */
 	font-size:15px;

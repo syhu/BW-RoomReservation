@@ -15,7 +15,9 @@ var lessonManage = (function(){
 			this._btnCancel = $("#btnCancel");
 			//課程新增欄位
 			this._lessonName = $("#lessonName");
-			this._lessonHour = $("#lessonHour");
+			this._lessonCount = $("#lessonCount");
+			this._lessonBuilding = $("#lessonBuilding");
+			this._lessonFloor = $("#lessonFloor");
 			this._lessonClass = $("#lessonClass");
 			this._lessonWeek = $("#lessonWeek");
 			this._lessonPeriod = $("#lessonPeriod");
@@ -23,7 +25,7 @@ var lessonManage = (function(){
 			this._lessonNote = $("#lessonNote");
 			//form
 			this._form_name = $(".form_name");
-			this._form_hour = $(".form_hour");
+			this._form_count = $(".form_count");
 			this._form_class = $(".form_class");
 			this._form_week = $(".form_week");
 			this._form_period = $(".form_period");
@@ -52,7 +54,6 @@ var lessonManage = (function(){
 			//新增課程
 			this._new.on("click",$.proxy(function(){
 				this._lessonName.val("");
-				this._lessonHour.val("請選擇");
 				this._lessonClass.val("請選擇");
 				this._lessonWeek.val("請選擇");
 				this._lessonPeriod.val("請選擇");
@@ -77,6 +78,82 @@ var lessonManage = (function(){
 				}
 
 			},this));
+			this._lessonBuilding.on("change",$.proxy(function(){
+				switch (this._lessonBuilding.val()) {
+					case 'tl4su3a8':
+						this._lessonFloor.attr('disabled','');
+						this._lessonFloor.empty();
+						this._lessonClass.attr('disabled','');
+						this._lessonClass.empty();
+						break;
+					case 'global':
+						this._lessonFloor.removeAttr('disabled');
+						this._lessonFloor.empty();
+						this._lessonFloor.append("<option value='e04'>請選擇</option>");
+						this._lessonFloor.append("<option value='global3f'>3樓</option>");
+						this._lessonFloor.append("<option value='global12f'>12樓</option>");
+						break;
+					case 'liren':
+						this._lessonFloor.removeAttr('disabled');
+						this._lessonFloor.empty();
+						this._lessonFloor.append("<option value='e04'>請選擇</option>");
+						this._lessonFloor.append("<option value='liren2f'>2樓</option>");
+						break;
+					case 'location':
+						this._lessonFloor.removeAttr('disabled');
+						this._lessonFloor.empty();
+						this._lessonFloor.append("<option value='e04'>請選擇</option>");
+						this._lessonFloor.append("<option value='location7f'>7樓</option>");
+						this._lessonFloor.append("<option value='location12f'>12樓</option>");
+						this._lessonFloor.append("<option value='location13f'>13樓</option>");
+						break;
+				}
+			},this))
+
+			this._lessonFloor.on("change",$.proxy(function(){
+				switch (this._lessonFloor.val()) {
+					case 'e04':
+						this._lessonClass.attr('disabled','');
+						this._lessonClass.empty();
+						break;
+					case 'global3f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='3-1'>3-1 (70人)</option>");
+						this._lessonClass.append("<option value='3-2'>3-2 (60人)</option>");
+						break;
+					case 'global12f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='12-1'>12-1 (35人)</option>");
+						this._lessonClass.append("<option value='12-2'>12-2 (35人)</option>");
+						this._lessonClass.append("<option value='12-3'>12-3 (45人)</option>");
+						break;
+					case 'liren2f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='2-1'>2-1 (80人)</option>");
+						this._lessonClass.append("<option value='2-2'>2-2 (20人會議室)</option>");
+						break;
+					case 'location7f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='7-4'>7-4 (40人)</option>");
+						this._lessonClass.append("<option value='7-5'>7-5 (40人)</option>");
+						this._lessonClass.append("<option value='7-6'>7-6 (45人)</option>");
+						break;
+					case 'location12f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='12-1'>12-1 (120人)</option>");
+						break;
+					case 'location13f':
+						this._lessonClass.removeAttr('disabled');
+						this._lessonClass.empty();
+						this._lessonClass.append("<option value='13-3'>13-3 (20人)</option>");
+						break;
+				}
+			},this))
 		},
 
 		_checkSubmit:function(){  // 確認新增課程欄位判斷
@@ -91,13 +168,13 @@ var lessonManage = (function(){
 				this._form_name.removeClass("has-error");
 			}
 			//課程時數
-			if(this._lessonHour.val() == "請選擇")
+			if(this._lessonCount.val() == "請選擇")
 			{
 				returnCheck = false;
-				this._form_hour.addClass("has-error");
+				this._form_count.addClass("has-error");
 			}else
 			{
-				this._form_hour.removeClass("has-error");
+				this._form_count.removeClass("has-error");
 			}
 			//使用教室
 			if(this._lessonClass.val() == "請選擇")
@@ -252,4 +329,4 @@ var lessonManage = (function(){
 var lessonManage;
 $(function(){
 	lessonManage = new lessonManage();
-})			
+})
