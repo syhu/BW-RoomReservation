@@ -165,21 +165,25 @@ router.post('/register',function(req, res, next) {
   var sex = req.body.sex;
   var identity = req.body.identity;
   var idHash = hashID(pwHash, identity);
-  var birthday = req.body.birthday;
-  var address = req.body.address
-  user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, repeat, userAccount , userName)
+  var birthday = req.body.birthday1 + '/' + req.body.birthday2 + '/' + req.body.birthday3;
+  var address = req.body.address;
+  console.log('test');
+  if(req.xhr || req.accepts('json, html') === 'json')
   {
-    if(repeat == 0)
+    user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, repeat, userAccount , userName)
     {
-      req.session.succ = 1;
-      res.redirect('/successful');
-    }
-    else
-    {
-      res.locals.error = 'accountRepeat';
-      res.redirect('/register');
-    }
-  });
+      if(repeat == 0)
+      {
+        req.session.succ = 1;
+        res.send({ success: "no"});
+      }
+      else
+      {
+        res.locals.error = 'accountRepeat';
+        res.send({ success: "yes"});
+      }
+    });
+  }
 })
 
 /*** Register successful page ***/

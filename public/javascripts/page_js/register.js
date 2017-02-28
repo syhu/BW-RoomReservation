@@ -18,6 +18,7 @@ var registered = (function(){
 		for(i=0;i<11;i++){
 			this._checkField[i] = 0;
 		}
+		this._checkField[4] = 1;
 		//驗證身分
 		this._identity = this._getPara("identity");
 
@@ -37,7 +38,7 @@ var registered = (function(){
 			this._password = $("#password");
 			this._email = $("#email");
 			this._telephone = $("#telephone");
-			this._sex = $(".sex");
+			this._gender = $(".gender");
 			this._identity = $("#identity");
 			this._birthday1 = $("#birthday1");
 			this._birthday2 = $("#birthday2");
@@ -105,6 +106,7 @@ var registered = (function(){
 								objThis._form_account.removeClass("has-success");
 								objThis._form_account.addClass("has-error");
 								layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+								objThis._checkField[1] = 0;
 							}
 						},
 						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
@@ -124,7 +126,7 @@ var registered = (function(){
 
 			var date = new Date();
 			var day = "";
-			for(var i=1916; i <= date.getFullYear();i++){
+			for(var i=2017 ; i >= 1912 ; i--){
 				objThis._birthday1.append("<option value='" + i + "'>" + i + "</option>")
 			}
 			//月
@@ -195,7 +197,7 @@ var registered = (function(){
 					//檢查帳號是否重複
 					layer.tips('需檢查帳號是否重複', objThis._searchAccount ,{tips:1});
 					objThis._checkAccount = true;
-					//objThis._checkField[1] = 0;
+					objThis._checkField[1] = 0;
 				}
 				else if(objThis._account.val() == ""){
 					objThis._form_account.removeClass("has-error");
@@ -337,7 +339,7 @@ var registered = (function(){
 				}
 			});
 			//性別 click
-			objThis._sex.on("click",$.proxy(function(event){
+			objThis._gender.on("click",$.proxy(function(event){
 				objThis._checkField[4] = 1;
 			},this));
 			//電話選單 change
@@ -518,14 +520,14 @@ var registered = (function(){
 			$("body").on("click",$.proxy(function(event){
 				if(objThis._agree == "" && objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = 'master.html'",1500);
+					setTimeout("location.href = '/'",1500);
 				}
 			},this));
 			//註冊同意 X
 			objThis._close.on("click",$.proxy(function(event){
 				if(objThis._bounce_registered.attr("aria-hidden") == "true"){
 					layer.msg('<b>不接受合約條款</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					setTimeout("location.href = 'master.html'",1500);
+					setTimeout("location.href = '/'",1500);
 				}
 			},this));
 
@@ -544,7 +546,7 @@ var registered = (function(){
 
 			//標題 回首頁
 			objThis._index.on("click",$.proxy(function(event){
-				location.href="master.html?identity=visitor";
+				location.href="/?identity=visitor";
 			},this));
 
 			//驗證碼視窗
@@ -555,14 +557,14 @@ var registered = (function(){
 					if(objThis._checkField[i] != 1) {
 						check = false;
 					}
-				}
+				};
 				if(check){
 					objThis._verification.modal("show")
 					objThis._registerCheck.val("");
 					objThis._getRandom();
 				}else{
 					layer.msg('<b>資料尚未填寫完整或錯誤</b>', {time: 1500, icon:3,shade:[0.5,'black']});
-				}
+				};
 
 			},this))
 
@@ -578,12 +580,13 @@ var registered = (function(){
 
 			//檢驗驗證碼
 			objThis._btnSubmit.on("click",$.proxy(function(event){
+				objThis._btnSubmit.attr('disabled', true);
 				// 1.先驗證驗證碼
 				if(objThis._correctNum != objThis._registerCheck.val()){
-
 					objThis._form_check.addClass("has-error");
 					objThis._registerCheck.val("");
 					objThis._getRandom();
+					setTimeout(function(){objThis._btnSubmit.removeAttr('disabled');}, 200);
 					return false;
 				}
 
@@ -592,15 +595,47 @@ var registered = (function(){
 				for(i=0;i<11;i++){
 					if(objThis._checkField[i] != 1) {
 						check = false;
+						objThis._btnSubmit.removeAttr('disabled');
 					}
 				}
 
-				if(check){
-					layer.msg('<b>註冊成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-				}else{
-					layer.msg('<b>註冊失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-				}
+			 	var registerData =
+				{
+					name : this._name.val(),
+					account : this._account.val(),
+					password : this._password.val(),
+					email : this._email.val(),
+					telephone : this._telephone.val(),
+					gender : $('input[name=gender]:checked').val(),
+					identity : this._identity.val(),
+					birthday1 : this._birthday1.val(),
+					birthday2 : this._birthday2.val(),
+					birthday3 : this._birthday3.val(),
+					address : this._address.val(),
+				};
 
+				if(check==true){
+					$.ajax({
+						type: "post",
+						url: "/register",
+						// data: this._registerForm ,
+						data: registerData ,
+						dataType: "json",
+						success: function(message){
+							if(message.success == "no")
+							{
+								layer.msg('<b>註冊成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+								setTimeout("location.href = '/'",1500);
+							}
+							else if(message.success == "yes")
+							{
+								layer.msg('<b>註冊失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+								objThis._btnSubmit.removeAttr('disabled');
+							}
+						},
+						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
+					})
+				}
 			},this));
 		},
 		_getRandom:function(){

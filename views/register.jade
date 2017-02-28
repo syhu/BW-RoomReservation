@@ -71,52 +71,17 @@ html
                         span.symbol *
                         | 性別
                       label.sex
-                        input.form-control.check_sex(type='radio', value='male', name='sex')
+                        input#sex.form-control.check_sex(type='radio', value='male', name='gender', checked)
                         font(style='vertical-align:middle')  男
                       label.sex(style='margin-left:10px;')
-                        input.form-control.check_sex(type='radio', value='female', name='sex')
+                        input#sex.form-control.check_sex(type='radio', value='female', name='gender')
                         font(style='vertical-align:middle')  女
                   .col-md-3
                     .form-group.form_telephone
                       font.field
                         span.symbol *
-                        | 電話
-                      select#selectPhone.form-control
-                        option(value='02')
-                          | 02      
-                          font(style='float:right;') 台北&新北&基隆市
-                        option(value='03')
-                          | 03      
-                          font(style='float:right;') 桃園市&新竹縣市&花蓮縣&宜蘭縣
-                        option(value='037')
-                          | 037    
-                          font(style='float:right;') 苗栗縣
-                        option(value='04')
-                          | 04      
-                          font(style='float:right;') 台中市&彰化縣
-                        option(value='049')
-                          | 049    
-                          font(style='float:right;') 南投縣
-                        option(value='05')
-                          | 05      
-                          font(style='float:right;') 嘉義縣市&雲林縣市
-                        option(value='06')
-                          | 06      
-                          font(style='float:right;') 台南市&澎湖縣
-                        option(value='07')
-                          | 07      
-                          font(style='float:right;') 高雄市
-                        option(value='08')
-                          | 08      
-                          font(style='float:right;') 屏東縣
-                        option(value='089')
-                          | 089    
-                          font(style='float:right;') 台東縣
-                        option(value='09')
-                          | 09      
-                          font(style='float:right;') 手機
-                    .form-group.form_telephone
-                      input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone', value='02')
+                        | 電話                  
+                      input#telephone.form-control(type='text', placeholder='請輸入您的電話', name='telephone')
                   .col-md-3
                     .form-group.form_identity
                       font.field
