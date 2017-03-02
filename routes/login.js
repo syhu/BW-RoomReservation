@@ -31,7 +31,7 @@ module.exports = {
                 else
                 {
                   mongoose.disconnect();
-                  callback(err, 0, data[0].name);
+                  callback(err, 0, data[0].name, data);
                 }
               })
             }

@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var user = require('./user.js');
 var login = require('./login.js');
 var search = require('./search.js');
+var createNewLesson = require('./createNewLesson.js');
 
 /*** Variable ***/
 
@@ -40,7 +41,7 @@ router.get('/',  function(req, res, next) {
       {
         req.session.logining = 1;
       }
-      res.render('index', { title: 'foundation', user: req.session.userName});
+      res.render('index', { title: 'foundation', user: req.session.userName, information: req.session.information});
     }
     else
     {
@@ -117,13 +118,15 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   var account = req.body.account;
   var password = req.body.password;
-  login.loginCheck(account, hashPW(account, password), function(err, situation, user)
+  login.loginCheck(account, hashPW(account, password), function(err, situation, user, userInformation)
   {
     if(situation == 0)
     {
+      console.log(userInformation);
       req.session.account = account;
       req.session.userName = user;
       req.session.logining = 0;
+      req.session.information = userInformation;
       res.redirect('/?a=0');
     }
     else if(situation == 1)
@@ -215,6 +218,26 @@ router.get('/lessonManage', function(req, res, next){
   else
   {
     res.redirect('/?identity=visitor');
+  }
+})
+
+router.post('/lessonManage', function(req, res, next){
+  var name = req.body.lessonName;
+  var count = req.body.lessonCount;
+  var building = req.body.lessonBuilding;
+  var floor = req.body.lessonFloor;
+  var lessonClass = req.body.lessonClass;
+  var time = req.body.lessonTime;
+  var week = req.body.lessonWeek;
+  var period = req.body.lessonPeriod;
+  var people = req.body.lessonPeople;
+  var note = req.body.lessonNote;
+  if(req.xhr || req.accepts('json, html') === 'json')
+  {
+    createNewLesson.createLesson(name, count, building, floor, lessonClass, time, week, period, people, note, function(err)
+    {
+      res.send({ success: "yes"});
+    });
   }
 })
 

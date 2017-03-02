@@ -3,15 +3,18 @@ var schema = mongoose.Schema;
 var foundationSchema = new mongoose.Schema
 ({
   lessonID: String,
-  data: String,
-  timeSection: String,
-  lessonCount: String,
-  position: String,
-  classroom: String,
-  lessonName: String,
-  peopleNum: String,
+  name: String,
+  count: String,
+  building: String,
+  floor: String,
+  lessonClass: String,
+  time: String,
+  week: String,
+  period: String,
+  people: String,
   note: String,
   createTime: String,
-  modifyTime: String
+  modifyTime: String,
+  checkSituation: Boolean
 });
 module.exports = mongoose.model('lesson', foundationSchema);

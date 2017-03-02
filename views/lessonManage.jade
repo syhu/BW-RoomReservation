@@ -8,6 +8,7 @@ block main
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/page_js/lessonManage.js')
     script(src='javascripts/plugins.js')
+    script(src='javascripts/layer/layer.js')
     #manager_header
       | 課程管理
       i.fa.fa-filter
@@ -75,10 +76,24 @@ block main
                     .col-md-12(style='height:400px;')
                       table#lessonList.table.table-condensed
                         tr
-                          th(width='10%') #
+                          th(width='5%') #
                           th(style='border-left:1px #ddd solid;') 課程名稱
                           th(width='20%', style='border-left:1px #ddd solid;') 時間
-                          th(width='5%', style='border-left:1px #ddd solid;')
+                          th(width='10%', style='border-left:1px #ddd solid;')
+                        tr(class='danger')
+                          th 1
+                          th(style='text-align:left;border-left:1px #ddd solid') 課程001
+                          th(style='text-align:center;border-left:1px #ddd solid') 時間001
+                          th(style='text-align:center;border-left:1px #ddd solid')
+                            ul
+                              li(class='dropdown')
+                                a(class='dropdown-toggle' data-toggle='dropdown')
+                                  i(class='fa fa-bars')
+                                ul(class='dropdown-menu')
+                                  li
+                                    a(href='#' id='edit2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 編輯
+                                  li
+                                    a(href='#' id='delete2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 刪除
                         tbody#lesson
                         tr#nobodyList.tr-empty(align='center')
                           td(colspan='3')
@@ -159,29 +174,28 @@ block main
                       .col-md-6.form-group.form_name.form
                         i.fa.fa-child(style='font-size:20px;')
                         | 課程名稱:
-                        input#lessonName.form-control(type='text', placeholder='請填入課程名稱')
+                        input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
                       .col-md-6.form-group.form_count.form
                         | 課程堂數:
-                        input#lessonCount.form-control(type='text', placeholder='請填入課程堂數')
+                        input#lessonCount.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='lessonCount')
                   div(style='margin:0 0 20px 0;')
                     .row
                       .col-md-6.form-group.form_class.form
                         | 使用教室:
-                        select#lessonBuilding.form-control
-                          option(value='tl4su3a8') 請選擇
-                          option(value='global') 環球
-                          option(value='liren') 里仁
-                          option(value='location') 本地
-                        select#lessonFloor.form-control(disabled='disabled')
-                        select#lessonClass.form-control(disabled='disabled')
-                      .col-md-6.form-group.form_week.form
+                        select#lessonBuilding.form-control(name='lessonBuilding')
+                          option(value='請選擇') 請選擇
+                          option(value='環球') 環球
+                          option(value='里仁') 里仁
+                          option(value='本地') 本地
+                        select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
+                        select#lessonClass.form-control(disabled='disabled', name='lessonClass')
+                      .col-md-6.form-group.form_time.form
                         | 開始上課時間:
-                        input.date-picker.form-control(type='text', id='', placeholder='開始時間')
+                        input#lessonTime.date-picker.form-control(type='text', placeholder='開始時間', name='lessonTime')
                       .col-md-3.form-group.form_week.form
                         | 上課時段:
-                        select#lessonWeek.form-control
-                          option(value='請選擇') 請選擇
-                          option(value='星期一') 星期一
+                        select#lessonWeek.form-control(name='lessonWeek')
+                          option(value='星期一', selected="selected") 星期一
                           option(value='星期二') 星期二
                           option(value='星期三') 星期三
                           option(value='星期四') 星期四
@@ -190,9 +204,8 @@ block main
                           option(value='星期日') 星期日
                       .col-md-3.form-group.form_period.form
                         br
-                        select#lessonPeriod.form-control
-                          option(value='請選擇') 請選擇
-                          option(value='時段1') A1 (09:15 ~ 11:45)
+                        select#lessonPeriod.form-control(name='lessonPeriod')
+                          option(value='時段1', selected="selected") A1 (09:15 ~ 11:45)
                           option(value='時段2') A2 (11:45 ~ 13:15)
                           option(value='時段3') P1 (13:15 ~ 15:45)
                           option(value='時段4') P2 (16:00 ~ 18:00)
@@ -201,13 +214,13 @@ block main
                     .row
                       .col-md-12.form-group.form_people.form
                         | 上課人數:
-                        input#lessonPeople.form-control(type='text', placeholder='請填入上課人數')
+                        input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
                   div(style='margin:0 0 20px 0;')
                     .row
                       .col-md-12.form-group.form_note.form
                         i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
                         | 備註:
-                        textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...')
+                        textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
           .modal-footer
             input#btnSubmit.btn.btn-primary(type='button', value='確定')
             button#btnCancel.btn.btn-default 取消

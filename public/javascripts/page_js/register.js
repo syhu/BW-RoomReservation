@@ -618,7 +618,6 @@ var registered = (function(){
 					$.ajax({
 						type: "post",
 						url: "/register",
-						// data: this._registerForm ,
 						data: registerData ,
 						dataType: "json",
 						success: function(message){
