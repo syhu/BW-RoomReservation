@@ -9,6 +9,7 @@ var foundationSchema = new mongoose.Schema
   floor: String,
   lessonClass: String,
   time: String,
+  millionSecond: String,
   week: String,
   period: String,
   people: String,
@@ -17,4 +18,4 @@ var foundationSchema = new mongoose.Schema
   modifyTime: String,
   checkSituation: Boolean
 });
-module.exports = mongoose.model('lesson', foundationSchema);
+module.exports = mongoose.model('lessons', foundationSchema);

@@ -1,0 +1,67 @@
+extends layout
+
+block main
+    link(rel='stylesheet', href='stylesheets/page_css/lessonIDManage.css')
+    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+    script(src='javascripts/jquery-ui.js')
+    script(src='javascripts/jquery-ui.cache.js')
+    script(src='javascripts/page_js/lessonIDManage.js')
+    script(src='javascripts/plugins.js')
+    script(src='javascripts/layer/layer.js')
+    div
+      #manager_top.panel(style='border:2px solid black;')
+        div(style='text-align: center;')
+          | 課程編號管理專區
+          i.fa.fa-filter
+      #manager_center.panel(style='border:2px solid black;')
+        .row
+          .col-lg-12
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                    .row
+                      .col-md-12(style='height:40px;')
+                        font#todayTime 今天時間：
+                      .col-md-12(style='height:350px;')
+                        table#lessonList.table.table-condensed
+                          tr
+                            th(width='5%') #
+                            th(width='50%', style='border-left:1px #ddd solid;') 課程名稱
+                            th(width='15%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
+                            th(width='15%', style='border-left:1px #ddd solid;') 新增時間
+                            th(width='15%', style='border-left:1px #ddd solid;') 修改時間
+                          
+                          tbody#lesson
+                          tr#nobodyList.tr-empty(align='center')
+                            td(colspan='5')
+                              br
+                              span#new(style='cursor:pointer;')
+                                i.fa.fa-plus-circle.fa-3x
+                                | 新增課程編號
+    // 彈跳視窗 查看詳情
+    #bounce_new.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;')
+            font(style='font-size:18px;font-weight:bold;') 新增課程編號
+          .modal-body(align='left', style='height:160px;overflow-y:hidden;')
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin:0 0 20px 0;')
+                    .form-group.form_name.form
+                      i.fa.fa-child(style='font-size:20px;')
+                      | 課程名稱:
+                      input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
+                  div(style='margin:0 0 20px 0;')
+                    .form-group.form_abbreviation.form
+                      | 課程代號(簡稱):
+                      input#lessonAbbreviation.form-control(type='text', placeholder='請輸入中文或英文代號(簡稱), 如果多個代號請使用半形空格(一格)隔開', name='lessonAbbreviation')
+          .modal-footer
+            input#btnSubmit.btn.btn-primary(type='button', value='確定')
+            button#btnCancel.btn.btn-default 取消

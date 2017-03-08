@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  createLesson : function(name, count, building, floor, lessonClass, time, week, period, people, note, callback)
+  createLesson : function(name, count, building, floor, lessonClass, time, millionSecond, week, period, people, note, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -20,6 +20,7 @@ module.exports = {
         floor: floor,
         lessonClass: lessonClass,
         time: time,
+        millionSecond: millionSecond,
         week: week,
         period: period,
         people: people,
@@ -33,6 +34,7 @@ module.exports = {
         if(err){console.log(err);}
         else
         {
+          console.log(name + '\n' + count + '\n' + building + '\n' + floor + '\n' + lessonClass + '\n' + time + '\n' + millionSecond + '\n' + week + '\n' + period + '\n' + people + '\n' + note);
           console.log(doc.count + ' save successful');
           mongoose.disconnect();
           mongoose.connection.close();

@@ -11,6 +11,7 @@ var user = require('./user.js');
 var login = require('./login.js');
 var search = require('./search.js');
 var createNewLesson = require('./createNewLesson.js');
+var specifyLesson = require('./showLesson.js');
 
 /*** Variable ***/
 
@@ -213,7 +214,18 @@ router.get('/logout',function(req, res, next){
 router.get('/lessonManage', function(req, res, next){
   if(req.session.account)
   {
-    res.render('lessonManage', { user: req.session.userName});
+    // specifyLesson.searchLesson('', '', function(err, todayLesson)
+    specifyLesson.searchLesson('2017/01/01', '2017/12/31', function(err, todayLesson)
+    {
+      if(todayLesson != 'no data')
+      {
+        res.render('lessonManage', { user: req.session.userName, showLesson: todayLesson});
+      }
+      else if(todayLesson == 'no data')
+      {
+        res.render('lessonManage', { user: req.session.userName});
+      }
+    })
   }
   else
   {
@@ -222,19 +234,22 @@ router.get('/lessonManage', function(req, res, next){
 })
 
 router.post('/lessonManage', function(req, res, next){
-  var name = req.body.lessonName;
-  var count = req.body.lessonCount;
-  var building = req.body.lessonBuilding;
-  var floor = req.body.lessonFloor;
+  var lessonName = req.body.lessonName;
+  var lessonCount = req.body.lessonCount;
+  var lessonBuilding = req.body.lessonBuilding;
+  var lessonFloor = req.body.lessonFloor;
   var lessonClass = req.body.lessonClass;
-  var time = req.body.lessonTime;
-  var week = req.body.lessonWeek;
-  var period = req.body.lessonPeriod;
-  var people = req.body.lessonPeople;
-  var note = req.body.lessonNote;
+  var lessonTime = req.body.lessonTime;
+  var lessonWeek = req.body.lessonWeek;
+  var lessonPeriod = req.body.lessonPeriod;
+  var lessonPeople = req.body.lessonPeople;
+  var lessonNote = req.body.lessonNote;
+  var splitTime = lessonTime.split('/');
+  var millionSecond = new Date(splitTime[0], splitTime[1], splitTime[2]).getTime();
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    createNewLesson.createLesson(name, count, building, floor, lessonClass, time, week, period, people, note, function(err)
+    // var lessonID =
+    createNewLesson.createLesson(lessonName, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, millionSecond, lessonWeek, lessonPeriod, lessonPeople, lessonNote, function(err)
     {
       res.send({ success: "yes"});
     });
@@ -308,3 +323,19 @@ router.get('/audit', function(req, res, next){
 })
 
 module.exports = router;
+
+/*** Lesson identity Manage Page ***/
+router.get('/lessonIDManage', function(req, res, next){
+  if(req.session.account)
+  {
+    res.render('lessonIDManage', { user: req.session.userName});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+})
+
+router.post('/lessonIDManage', function(req, res, next){
+  
+})

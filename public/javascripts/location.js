@@ -24,5 +24,9 @@ function lessonCRUD()
 }
 function userManage()
 {
-  location.href = '/userManage'
+  location.href = '/userManage';
+}
+function lessonIDManage()
+{
+  location.href = '/lessonIDManage';
 }

@@ -9,10 +9,13 @@ var lessonManage = (function(){
 		_construct:function(){
 			this._new = $("#new");
 			this._lesson = $("#lesson");
+			this._todayTime = $("#todayTime");
 			this._bounce_lesson = $("#bounce_lesson");
 			this._bounce_edit = $("#bounce_edit");
+			this._bounce_detail = $("#bounce_datail");
 			this._btnSubmit = $("#btnSubmit");
 			this._btnCancel = $("#btnCancel");
+			this._btnClose = $("#btnClose");
 			//課程新增欄位
 			this._lessonName = $("#lessonName");
 			this._lessonCount = $("#lessonCount");
@@ -53,6 +56,10 @@ var lessonManage = (function(){
 		},
 		_initialAll:function(){
 
+			//顯示當天時間
+			var nowTime = new Date();
+			this._todayTime.append(nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
+
 			//新增課程
 			this._new.on("click",$.proxy(function(){
 				this._lessonName.val("");
@@ -69,22 +76,28 @@ var lessonManage = (function(){
 				//新增課程 視窗
 				this._bounce_lesson.modal('show');
 			},this));
+
+			//關閉課程明細
+			this._btnClose.on("click",$.proxy(function(){
+				this._bounce_detail.modal("hide");
+			},this));
+
 			//確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
 				if(this._checkSubmit())
 				{
 					var lessonData =
 					{
-						name : this._lessonName.val(),
-						count : this._lessonCount.val(),
-						building : this._lessonBuilding.val(),
-						floor : this._lessonFloor.val(),
+						lessonName : this._lessonName.val(),
+						lessonCount : this._lessonCount.val(),
+						lessonBuilding : this._lessonBuilding.val(),
+						lessonFloor : this._lessonFloor.val(),
 						lessonClass : this._lessonClass.val(),
-						time : this._lessonTime.val(),
-						week : this._lessonWeek.val(),
-						period : this._lessonPeriod.val(),
-						people : this._lessonPeople.val(),
-						note : this._lessonNote.val(),
+						lessonTime : this._lessonTime.val(),
+						lessonWeek : this._lessonWeek.val(),
+						lessonPeriod : this._lessonPeriod.val(),
+						lessonPeople : this._lessonPeople.val(),
+						lessonNote : this._lessonNote.val()
 					};
 
 					$.ajax({
@@ -105,7 +118,7 @@ var lessonManage = (function(){
 						}
 					})
 
-					this._insertClass();	/* 插入課程 */
+					// this._insertClass();	/* 插入課程 */
 					this._bounce_lesson.modal("hide");
 				}
 			},this));
@@ -115,7 +128,7 @@ var lessonManage = (function(){
 				this._bounce_lesson.modal("hide");
 			},this));
 
-			//隨地點自動更新
+			//新英的彈跳視窗 隨地點自動更新
 			this._lessonBuilding.on("change",$.proxy(function(){
 				this._lessonClass.attr('disabled','');
 				this._lessonClass.empty();
@@ -244,6 +257,7 @@ var lessonManage = (function(){
 				var useTime = new Date(useDate[0], useDate[1], useDate[2]).getTime();
 				if (todayTime >= useTime)
 				{
+					returnCheck = false;
 					this._form_time.addClass("has-error");
 					layer.msg('<b>請選擇明天以後的上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 				}
@@ -252,6 +266,29 @@ var lessonManage = (function(){
 					this._form_time.removeClass("has-error");
 				}
 			}
+			//星期幾上課
+			if(this._lessonWeek.val() == '請選擇')
+			{
+				returnCheck = false;
+				this._form_week.addClass("has-error");
+				layer.msg('<b>請選擇上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+			}
+			else
+			{
+				this._form_week.removeClass("has-error");
+			}
+			//上課時段
+			if(this._lessonPeriod.val() == '請選擇')
+			{
+				returnCheck = false;
+				this._form_period.addClass("has-error");
+				layer.msg('<b>請選擇上課時段</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+			}
+			else
+			{
+				this._form_period.removeClass("has-error");
+			}
+
 			//上課人數
 			if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
 			{
@@ -347,8 +384,7 @@ var lessonManage = (function(){
 			//時間
 			_td = $("<td />");
 			_td.attr("style","text-align:center;border-left:1px #ddd solid");
-			var today = new Date();
-			_td.append(today.getFullYear()+ "-" + (today.getMonth()+1) + "-" + today.getDate());
+			_td.append(this._lessonTime.val());
 			_tr.append(_td);
 			//編輯 刪除
 			_td = $("<td />");

@@ -9,7 +9,7 @@ block main
     script(src='javascripts/page_js/lessonManage.js')
     script(src='javascripts/plugins.js')
     script(src='javascripts/layer/layer.js')
-    #manager_header
+    #manager_header.panel(style='border:2px solid black;')
       | 課程管理
       i.fa.fa-filter
     #manager_left.panel
@@ -61,7 +61,7 @@ block main
                         input.date-picker.form-control(type='text', id='', placeholder='結束時間')
                   .row
                     .col-md-12(style='text-align:center;')
-                      button#btnReset.btn.btn-default(type='button') 清除
+                      button#btnReset.btn.btn-default(type='button') 返回今天
                       button#btnSelect.btn.btn-success(type='button') 查詢
                 br
                 br
@@ -73,30 +73,45 @@ block main
               .col-md-12
                 div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                   .row
+                    .col-md-12(style='height:25px;')
+                      font#todayTime 今天時間：
                     .col-md-12(style='height:400px;')
                       table#lessonList.table.table-condensed
                         tr
                           th(width='5%') #
-                          th(style='border-left:1px #ddd solid;') 課程名稱
-                          th(width='20%', style='border-left:1px #ddd solid;') 時間
+                          th(style='border-left:1px #ddd solid;', colspan='2') 課程名稱
+                          th(width='15%', style='border-left:1px #ddd solid;') 時間
                           th(width='10%', style='border-left:1px #ddd solid;')
-                        tr(class='danger')
-                          th 1
-                          th(style='text-align:left;border-left:1px #ddd solid') 課程001
-                          th(style='text-align:center;border-left:1px #ddd solid') 時間001
-                          th(style='text-align:center;border-left:1px #ddd solid')
-                            ul
-                              li(class='dropdown')
-                                a(class='dropdown-toggle' data-toggle='dropdown')
-                                  i(class='fa fa-bars')
-                                ul(class='dropdown-menu')
-                                  li
-                                    a(href='#' id='edit2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 編輯
-                                  li
-                                    a(href='#' id='delete2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 刪除
+                        if showLesson
+                          - var sn = 0
+                          - var color = ''
+                          - for lesson in showLesson
+                            - sn = sn +1
+                            - if (sn%3 == 0)
+                              - color = 'danger'
+                            - else if(sn%3 == 1)
+                              - color = 'warning'
+                            - else if(sn%3 == 2)
+                              - color = 'active'
+                            tr(class=color, style='cursor:pointer;', id=lesson.lessonID)   
+                              th #{sn}
+                              th(style='text-align:left;border-left:1px #ddd solid;') 
+                                |#{lesson.name}
+                              th(style='text-align:left;border-left:1px #ddd solid;border-left-style:none')   
+                              th(style='text-align:center;border-left:1px #ddd solid') #{lesson.time} 
+                              th(style='text-align:center;border-left:1px #ddd solid')
+                                ul
+                                  li(class='dropdown')
+                                    a(class='dropdown-toggle' data-toggle='dropdown')
+                                      i(class='fa fa-bars')
+                                    ul(class='dropdown-menu')
+                                      li
+                                        a(href='#' id='edit2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 編輯
+                                      li
+                                        a(href='#' id='delete2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 刪除
                         tbody#lesson
                         tr#nobodyList.tr-empty(align='center')
-                          td(colspan='3')
+                          td(colspan='4')
                             br
                             span#new(style='cursor:pointer;')
                               i.fa.fa-plus-circle.fa-3x
@@ -109,7 +124,7 @@ block main
                         a(href='#') 第一頁
                       li
                         a(href='#', onclick='return false;')
-                          span(aria-hidden='true') «
+                          span(aria-hidden='true') 
                           span.sr-only Previous
                       li
                         a(href='#') 1
@@ -195,7 +210,8 @@ block main
                       .col-md-3.form-group.form_week.form
                         | 上課時段:
                         select#lessonWeek.form-control(name='lessonWeek')
-                          option(value='星期一', selected="selected") 星期一
+                          option(value='請選擇', selected="selected") 請選擇
+                          option(value='星期一') 星期一
                           option(value='星期二') 星期二
                           option(value='星期三') 星期三
                           option(value='星期四') 星期四
@@ -205,7 +221,8 @@ block main
                       .col-md-3.form-group.form_period.form
                         br
                         select#lessonPeriod.form-control(name='lessonPeriod')
-                          option(value='時段1', selected="selected") A1 (09:15 ~ 11:45)
+                          option(value='請選擇', selected="selected") 請選擇
+                          option(value='時段1') A1 (09:15 ~ 11:45)
                           option(value='時段2') A2 (11:45 ~ 13:15)
                           option(value='時段3') P1 (13:15 ~ 15:45)
                           option(value='時段4') P2 (16:00 ~ 18:00)
@@ -295,3 +312,18 @@ block main
           .modal-footer
             input#btnSubmit.btn.btn-primary(type='button', value='確定')
             button#btnCancel.btn.btn-default 取消
+    // 彈跳視窗 查看詳情
+    #bounce_datail.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;')
+            font(style='font-size:18px;font-weight:bold;') 查看課程明細
+          .modal-body(align='left', style='height:450px;overflow-y:scroll;')
+            .form-group
+              .row
+                .col-md-12
+                  
+          .modal-footer
+            button#btnClose.btn.btn-success 關閉
