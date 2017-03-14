@@ -25,18 +25,42 @@ block main
                     .row
                       .col-md-12(style='height:40px;')
                         font#todayTime 今天時間：
-                      .col-md-12(style='height:350px;')
+                      .col-md-12(style='height:500px;')
                         table#lessonList.table.table-condensed
                           tr
                             th(width='5%') #
-                            th(width='50%', style='border-left:1px #ddd solid;') 課程名稱
-                            th(width='15%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
-                            th(width='15%', style='border-left:1px #ddd solid;') 新增時間
-                            th(width='15%', style='border-left:1px #ddd solid;') 修改時間
-                          
+                            th(width='15%', style='border-left:1px #ddd solid;') 上傳者
+                            th(width='24%', style='border-left:1px #ddd solid;') 課程名稱
+                            th(width='24%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
+                            th(width='16%', style='border-left:1px #ddd solid;') 新增時間
+                            th(width='16%', style='border-left:1px #ddd solid;') 修改時間
+                          if showLessonAbbreviation
+                            - var sn = 0
+                            - var color = ''
+                            - for lesson in showLessonAbbreviation
+                              - sn = sn +1
+                              - if (sn%3 == 0)
+                                - color = 'danger'
+                              - else if(sn%3 == 1)
+                                - color = 'warning'
+                              - else if(sn%3 == 2)
+                                - color = 'active'
+                              - var id = 'la-' + lesson.id;
+                              tr(class=color, style='cursor:pointer;', id=id)   
+                                th #{sn}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  |#{lesson.userName}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  |#{lesson.name}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  |#{lesson.abbreviation}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  |#{lesson.createTime}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  |#{lesson.modifyTime}
                           tbody#lesson
                           tr#nobodyList.tr-empty(align='center')
-                            td(colspan='5')
+                            td(colspan='6')
                               br
                               span#new(style='cursor:pointer;')
                                 i.fa.fa-plus-circle.fa-3x

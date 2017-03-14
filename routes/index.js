@@ -2,16 +2,18 @@
 
 /*** Include plugin ***/
 var express = require('express');
-var router = express.Router();
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+var router = express.Router();
 
 /*** Include javascript file ***/
-var user = require('./user.js');
+var allLessonAbbreviation = require('./showLessonAbbreviation.js');
+var createAbbreviation = require('./createLessonAbbreviation.js');
+var createNewLesson = require('./createNewLesson.js');
 var login = require('./login.js');
 var search = require('./search.js');
-var createNewLesson = require('./createNewLesson.js');
 var specifyLesson = require('./showLesson.js');
+var user = require('./user.js');
 
 /*** Variable ***/
 
@@ -328,7 +330,17 @@ module.exports = router;
 router.get('/lessonIDManage', function(req, res, next){
   if(req.session.account)
   {
-    res.render('lessonIDManage', { user: req.session.userName});
+    allLessonAbbreviation.searchLessonAbbreviation(function(err, data)
+    {
+      if(data == 'no data')
+      {
+        res.render('lessonIDManage', { user: req.session.userName});
+      }
+      else
+      {
+        res.render('lessonIDManage', { user: req.session.userName, showLessonAbbreviation: data});
+      }
+    })
   }
   else
   {
@@ -337,5 +349,21 @@ router.get('/lessonIDManage', function(req, res, next){
 })
 
 router.post('/lessonIDManage', function(req, res, next){
-  
+  var lessonName = req.body.lessonName;
+  var lessonAbbreviation = req.body.lessonAbbreviation;
+  var userName = req.session.userName;
+  if(req.xhr || req.accepts('json, html') === 'json')
+  {
+    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, function(err, repeat)
+    {
+      if(repeat == 0)
+      {
+        res.send({success : "no repeat"})
+      }
+      else if (repeat == 1)
+      {
+        res.send({success: "repeat"})
+      }
+    })
+  }
 })

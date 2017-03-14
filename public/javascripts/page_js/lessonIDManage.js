@@ -30,8 +30,11 @@ var lessonIDManage = (function(){
       this._bounce_new.css('top', '20%');
 
       //顯示當天時間
-      var nowTime = new Date();
-			this._todayTime.append(nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
+      var now = new Date();
+			this._todayTime.append
+        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
+          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
+          + now.getSeconds());
 
       //新增課程編號
       this._new.on('click', $.proxy(function(){
@@ -50,7 +53,34 @@ var lessonIDManage = (function(){
       this._btnSubmit.on('click', $.proxy(function(){
         if(this._checkSubmit())
         {
-
+          var abbreviationData =
+          {
+            lessonName : this._lessonName.val(),
+            lessonAbbreviation : this._lessonAbbreviation.val()
+          };
+          $.ajax({
+            type: 'post',
+            url: '/lessonIDManage',
+            data: abbreviationData,
+            dataType: 'json',
+            success: function(message)
+            {
+              if (message.success == 'no repeat')
+              {
+                layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+              }
+              else if(message.success == 'repeat')
+              {
+                layer.msg('<b>新增課程失敗，課程已被新增過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+              }
+            },
+            error: function(xhr)
+            {
+              alert('error: ' + xhr);console.log(xhr);
+              layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+            }
+          })
+          this._bounce_new.modal('hide');
         }
       }, this));
     },

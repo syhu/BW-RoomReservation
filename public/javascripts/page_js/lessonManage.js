@@ -57,8 +57,11 @@ var lessonManage = (function(){
 		_initialAll:function(){
 
 			//顯示當天時間
-			var nowTime = new Date();
-			this._todayTime.append(nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
+			var now = new Date();
+			this._todayTime.append
+        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
+          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
+          + now.getSeconds());
 
 			//新增課程
 			this._new.on("click",$.proxy(function(){
