@@ -30,3 +30,11 @@ function lessonIDManage()
 {
   location.href = '/lessonIDManage';
 }
+function apply()
+{
+  location.href = '/apply';
+}
+function audit()
+{
+  location.href = '/audit';
+}

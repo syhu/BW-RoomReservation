@@ -8,8 +8,10 @@ var router = express.Router();
 
 /*** Include javascript file ***/
 var allLessonAbbreviation = require('./showLessonAbbreviation.js');
+var checkLessonRepeat = require('./checkLessonRepeat');
 var createAbbreviation = require('./createLessonAbbreviation.js');
 var createNewLesson = require('./createNewLesson.js');
+var lessonInformation = require('./lessonInformation.js');
 var login = require('./login.js');
 var search = require('./search.js');
 var specifyLesson = require('./showLesson.js');
@@ -18,20 +20,45 @@ var user = require('./user.js');
 /*** Variable ***/
 
 /******************   functions   ******************/
-function hashPW(account, password)
-{
+function hashPW(account, password){
   var hash = crypto.createHash('md5');
   hash.update(account + password);
   return hash.digest('hex');
 }
 
-function hashID(pwHash, identity)
-{
+function hashID(pwHash, identity){
   var hash = crypto.createHash('md5');
   hash.update(pwHash + identity);
   return hash.digest('hex');
 }
 
+function timePlus(millionSecond){
+  var millionSecond = parseInt(millionSecond) + 604800000;
+  var newTime = new Date();
+  var reDay = newTime.setTime(millionSecond);
+  return reDay;
+}
+
+function timeFormat(millionSecond){
+  var origDay = new Date(millionSecond);
+  var year = origDay.getFullYear();
+  var month = padLeft(origDay.getMonth()+1);
+  var day = padLeft(origDay.getDate());
+  var time = year + '/' + month + '/' + day ;
+  return time;
+}
+
+function padLeft(num){
+  num = '' + num;
+  if (num.length == 1)
+  {
+    return ('0' + num);
+  }
+  else
+  {
+    return num;
+  }
+}
 /******************   Routes   ******************/
 
 /*** Home Page ***/
@@ -80,8 +107,7 @@ router.get('/',  function(req, res, next) {
 });
 
 /*** Loading ***/
-router.get('/loading',function(req, res, next)
-{
+router.get('/loading',function(req, res, next){
   res.render('loading', { title: 'Loading'});
 })
 
@@ -164,7 +190,7 @@ router.get('/register',function(req, res, next) {
 router.post('/register',function(req, res, next) {
   var name = req.body.name;
   var account = req.body.account;
-  var password = req.body.fuck;
+  var password = req.body.password;
   var pwHash = hashPW(account, password);
   var email = req.body.email;
   var telephone = req.body.telephone;
@@ -217,7 +243,7 @@ router.get('/lessonManage', function(req, res, next){
   if(req.session.account)
   {
     // specifyLesson.searchLesson('', '', function(err, todayLesson)
-    specifyLesson.searchLesson('2017/01/01', '2017/12/31', function(err, todayLesson)
+    specifyLesson.searchLesson('', '', 'true', function(err, todayLesson)
     {
       if(todayLesson != 'no data')
       {
@@ -242,20 +268,51 @@ router.post('/lessonManage', function(req, res, next){
   var lessonFloor = req.body.lessonFloor;
   var lessonClass = req.body.lessonClass;
   var lessonTime = req.body.lessonTime;
-  var lessonWeek = req.body.lessonWeek;
   var lessonPeriod = req.body.lessonPeriod;
   var lessonPeople = req.body.lessonPeople;
   var lessonNote = req.body.lessonNote;
   var splitTime = lessonTime.split('/');
-  var millionSecond = new Date(splitTime[0], splitTime[1], splitTime[2]).getTime();
-  if(req.xhr || req.accepts('json, html') === 'json')
+  var millionSecond = new Date(splitTime[0], splitTime[1]-1, splitTime[2]).getTime();
+  var userName = req.session.userName;
+
+  var timeTemp = lessonTime.replace(/\//g, '');
+  var applyUseTime = timeTemp.substr(2);
+  var first = 1;
+  var applyLocation = lessonClass;
+  var applyPeriod = lessonPeriod;
+  allLessonAbbreviation.searchLessonAbbreviation(lessonName, function(err, data)
   {
-    // var lessonID =
-    createNewLesson.createLesson(lessonName, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, millionSecond, lessonWeek, lessonPeriod, lessonPeople, lessonNote, function(err)
+    if (data == 'no data')
     {
-      res.send({ success: "yes"});
-    });
-  }
+      console.log(lessonName);
+      createAbbreviation.createLessonAbbreviation(userName, lessonName, '', function(err, repeat, total)
+      {
+        var lessonIndex = total;
+        var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
+                     + applyLocation + '-' + applyPeriod;
+        if(req.xhr || req.accepts('json, html') === 'json')
+        {
+          createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, millionSecond, lessonPeriod, lessonPeople, lessonNote, function(err)
+          {
+            res.send({ success: "yes"});
+          });
+        }
+      })
+    }
+    else
+    {
+      var lessonIndex = data[0].id;
+      var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
+                   + applyLocation + '-' + applyPeriod;
+      if(req.xhr || req.accepts('json, html') === 'json')
+      {
+        createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, millionSecond, lessonPeriod, lessonPeople, lessonNote, function(err)
+        {
+          res.send({ success: "yes"});
+        });
+      }
+    }
+  })
 })
 
 /*** Personal information page***/
@@ -316,7 +373,17 @@ router.post('/searchAccount', function(req, res, next){
 router.get('/audit', function(req, res, next){
   if(req.session.account)
   {
-    res.render('audit', { user: req.session.userName});
+    specifyLesson.searchLesson('2017/1/1', '2017/12/31', 'false', function(err, auditLesson)
+    {
+      if(auditLesson != 'no data')
+      {
+        res.render('audit', { user: req.session.userName, showLesson: auditLesson});
+      }
+      else if(auditLesson == 'no data')
+      {
+        res.render('audit', { user: req.session.userName});
+      }
+    })
   }
   else
   {
@@ -324,13 +391,50 @@ router.get('/audit', function(req, res, next){
   }
 })
 
-module.exports = router;
+/*** Aduit lesson Pass ***/
+router.post('/auditpass', function(req, res, next){
+  var lessonID = req.body.lessonID;
+  console.log(req.body.lessonID);
+  lessonInformation.getLessonInfo(lessonID, function(err, data){
+    var lessonCount = data[0].count;
+    var lessonPeriod = data[0].period;
+    var lessonClass = data[0].lessonClass
+    var checkReapet = false;
+    var timeCurrentFormat = data[0].time;
+    var millionSecond = data[0].millionSecond;
+    var currentTime = [];
+    // console.log('0: ' + timeCurrentFormat);
+    currentTime[0] = timeCurrentFormat;
+    for(var no = 2 ; no <= lessonCount ; no++)
+    {
+      var millionSecond = timePlus(millionSecond);
+      var timeCurrentFormat = timeFormat(millionSecond);
+      currentTime[(no-1)] = timeCurrentFormat
+      // console.log(no + ': ' + currentTime[(no-1)]);
+    }
+    checkLessonRepeat.searchLessonRepeat(currentTime, lessonPeriod, lessonClass, function(checkReapet)
+    {
+      if (checkReapet === 0)
+      {
+        createNewLesson.createAllLesson(data, currentTime, function()
+        {
+          console.log('test end');
+          res.send({success: 'yes'});
+        })
+      }
+      else if (checkReapet === 1)
+      {
+        res.send({success: 'no'});
+      }
+    });
+  })
+})
 
 /*** Lesson identity Manage Page ***/
 router.get('/lessonIDManage', function(req, res, next){
   if(req.session.account)
   {
-    allLessonAbbreviation.searchLessonAbbreviation(function(err, data)
+    allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
     {
       if(data == 'no data')
       {
@@ -354,7 +458,7 @@ router.post('/lessonIDManage', function(req, res, next){
   var userName = req.session.userName;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, function(err, repeat)
+    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, function(err, repeat, id)
     {
       if(repeat == 0)
       {
@@ -367,3 +471,17 @@ router.post('/lessonIDManage', function(req, res, next){
     })
   }
 })
+
+/*** Use classroom apply Page ***/
+router.get('/apply', function(req, res, next){
+  if(req.session.account)
+  {
+    res.render('apply', { user: req.session.userName});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+})
+
+module.exports = router;

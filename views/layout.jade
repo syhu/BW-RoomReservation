@@ -113,11 +113,7 @@ html
                 li
                   a#lesson_name(href='#', style='font-size:15px;')
                     img(src='images/lesson.png')
-                    |    類別查詢
-                li
-                  a#lesson_detail(href='#', style='font-size:15px;')
-                    img(src='images/detail.png')
-                    |    細節查詢
+                    |    課程查詢
           if user
             ul.nav.navbar-nav
               li.dropdown
@@ -126,9 +122,9 @@ html
                   b.caret
                 ul.dropdown-menu
                   li
-                    a#lesson_time(href='#', onclick='manage();', style='font-size:15px;')
+                    a#lesson_time(href='#',onclick='manage();' style='font-size:15px;')
                       img(src='images/time.png')
-                      |    教室調動
+                      |    課程管理
                   li
                     a#lesson_time(href='#',onclick='lessonCRUD();' style='font-size:15px;')
                       img(src='images/time.png')
@@ -141,6 +137,20 @@ html
                     a#lesson_time(href='#', onclick='lessonIDManage();', style='font-size:15px;')
                       img(src='images/time.png')
                       |    課程編號管理
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                | 申請服務
+                b.caret
+              ul.dropdown-menu
+                li
+                  a#lesson_time(href='#', onclick='apply();', style='font-size:15px;')
+                    img(src='images/time.png')
+                    |    申請教室
+                li
+                  a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
+                    img(src='images/time.png')
+                    |    審核專區
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')

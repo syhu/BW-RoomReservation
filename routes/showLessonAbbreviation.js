@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  searchLessonAbbreviation : function(callback)
+  searchLessonAbbreviation : function(lessonName, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -10,21 +10,46 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Abbreviation = require('./lessonAbbreviation_model.js');
-      Abbreviation.find(function(err, data)
+      if (lessonName == '')
       {
-        if(data != '')
+        Abbreviation.find(function(err, data)
         {
-          console.log(data);
-          callback(err, data);
-        }
-        else if(data == '')
+          if(data != '')
+          {
+            console.log(data);
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            callback(err, data);
+          }
+          else if(data == '')
+          {
+            console.log('no data');
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            callback(err, 'no data');
+          }
+        });
+      }
+      else
+      {
+        Abbreviation.find({name: lessonName}, function(err, data)
         {
-          console.log('no data');
-          callback(err, 'no data');
-        }
-        mongoose.disconnect();
-        console.log('disconnect successful');
-      });
+          if(data != '')
+          {
+            console.log(data);
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            callback(err, data);
+          }
+          else if(data == '')
+          {
+            console.log('no data');
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            callback(err, 'no data');
+          }
+        });
+      }
     });
   }
 }

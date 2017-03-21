@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 var foundationSchema = new mongoose.Schema
 ({
+  user: String,
   lessonID: String,
   name: String,
   count: String,
@@ -10,12 +11,12 @@ var foundationSchema = new mongoose.Schema
   lessonClass: String,
   time: String,
   millionSecond: String,
-  week: String,
   period: String,
   people: String,
   note: String,
+  aim: String,
   createTime: String,
   modifyTime: String,
-  checkSituation: Boolean
+  checkSituation: String
 });
 module.exports = mongoose.model('lessons', foundationSchema);

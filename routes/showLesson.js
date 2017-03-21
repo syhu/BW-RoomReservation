@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  searchLesson : function(requireFirstDay, requireSecondDay, callback)
+  searchLesson : function(requireFirstDay, requireSecondDay, check, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -15,21 +15,22 @@ module.exports = {
       console.log(now);
       if (requireFirstDay == '' && requireSecondDay == '')
       {
-        Lesson.find({time: now}, function(err, data)
+        Lesson.find({time: now, checkSituation: check}, function(err, data)
         {
           if(data != '')
           {
             console.log(data);
+            mongoose.disconnect();
+            console.log('disconnect successful');
             callback(err, data)
           }
           else if(data == '')
           {
             console.log('no data');
+            mongoose.disconnect();
+            console.log('disconnect successful');
             callback(err, 'no data')
           }
-          console.log(data);
-          mongoose.disconnect();
-          console.log('disconnect successful');
         });
       }
       else if (requireFirstDay != '' && requireSecondDay != '')
@@ -40,8 +41,9 @@ module.exports = {
         var secondMillionSecond = new Date(second[0], second[1], second[2]).getTime();
         if (secondMillionSecond >= firstMillionSecond)
         {
-          Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}, function(err, data)
+          Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}, function(err, data)
           {
+            console.log(secondMillionSecond);
             console.log(data);
             mongoose.disconnect();
             console.log('disconnect successful');

@@ -21,9 +21,9 @@ module.exports = {
         {
           counts ++;
         }
-        console.log(counts);
-
         counts = counts+1;
+        var total = counts;
+        console.log(counts);
 
         doc = new Abbreviation
         ({
@@ -53,7 +53,7 @@ module.exports = {
                 mongoose.disconnect();
                 mongoose.connection.close();
                 console.log('disconnect successful');
-                callback(null, 0);
+                callback(null, 0, total);
               }
             });
           }
@@ -62,7 +62,7 @@ module.exports = {
             mongoose.disconnect();
             mongoose.connection.close();
             console.log('disconnect successful');
-            callback(null, 1);
+            callback(null, 1, total);
           }
         });
       })

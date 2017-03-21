@@ -23,7 +23,6 @@ var lessonManage = (function(){
 			this._lessonFloor = $("#lessonFloor");
 			this._lessonClass = $("#lessonClass");
 			this._lessonTime = $("#lessonTime");
-			this._lessonWeek = $("#lessonWeek");
 			this._lessonPeriod = $("#lessonPeriod");
 			this._lessonPeople = $("#lessonPeople");
 			this._lessonNote = $("#lessonNote");
@@ -32,7 +31,6 @@ var lessonManage = (function(){
 			this._form_count = $(".form_count");
 			this._form_class = $(".form_class");
 			this._form_time = $(".form_time");
-			this._form_week = $(".form_week");
 			this._form_period = $(".form_period");
 			this._form_people = $(".form_people");
 			this._form_note = $(".form_note");
@@ -69,6 +67,7 @@ var lessonManage = (function(){
 				this._lessonCount.val("");
 				this._lessonTime.val("");
 				this._lessonBuilding.val("請選擇");
+				this._lessonPeriod.val("請選擇");
 				this._lessonFloor.attr('disabled','');
 				this._lessonFloor.empty();
 				this._lessonClass.attr('disabled','');
@@ -97,7 +96,6 @@ var lessonManage = (function(){
 						lessonFloor : this._lessonFloor.val(),
 						lessonClass : this._lessonClass.val(),
 						lessonTime : this._lessonTime.val(),
-						lessonWeek : this._lessonWeek.val(),
 						lessonPeriod : this._lessonPeriod.val(),
 						lessonPeople : this._lessonPeople.val(),
 						lessonNote : this._lessonNote.val()
@@ -268,17 +266,6 @@ var lessonManage = (function(){
 				{
 					this._form_time.removeClass("has-error");
 				}
-			}
-			//星期幾上課
-			if(this._lessonWeek.val() == '請選擇')
-			{
-				returnCheck = false;
-				this._form_week.addClass("has-error");
-				layer.msg('<b>請選擇上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}
-			else
-			{
-				this._form_week.removeClass("has-error");
 			}
 			//上課時段
 			if(this._lessonPeriod.val() == '請選擇')

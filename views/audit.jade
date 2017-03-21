@@ -1,0 +1,83 @@
+extends layout
+
+block main
+    link(rel='stylesheet', href='stylesheets/page_css/audit.css')
+    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+    script(src='javascripts/jquery-ui.js')
+    script(src='javascripts/jquery-ui.cache.js')
+    script(src='javascripts/page_js/audit.js')
+    script(src='javascripts/plugins.js')
+    script(src='javascripts/layer/layer.js')
+    div
+      #manager_top.panel(style='border:2px solid black;')
+        div(style='text-align: center;')
+          | 課程審核管理 專區
+          i.fa.fa-filter
+      #manager_center.panel(style='border:2px solid black;')
+        .row
+          .col-lg-12
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                    .row
+                      .col-md-12(style='height:40px;')
+                        font#todayTime 今天時間：
+                      .col-md-12(style='height:500px;')
+                        table#lessonList.table.table-condensed
+                          tr
+                            th(width='4%') #
+                            th(width='8%', style='border-left:1px #ddd solid;') 申請者
+                            th(width='16%', style='border-left:1px #ddd solid;') 課程名稱
+                            th(width='8%', style='border-left:1px #ddd solid;') 上課次數
+                            th(width='16%', style='border-left:1px #ddd solid;') 申請目的
+                            th(width='8%', style='border-left:1px #ddd solid;') 申請教室
+                            th(width='16%', style='border-left:1px #ddd solid;') 申請時間
+                            th(width='16%', style='border-left:1px #ddd solid;') 送出時間
+                          if showLesson
+                            - var sn = 0
+                            - var color = ''
+                            - for lesson in showLesson
+                              - sn = sn +1
+                              - if (sn%3 == 0)
+                                - color = 'danger'
+                              - else if(sn%3 == 1)
+                                - color = 'warning'
+                              - else if(sn%3 == 2)
+                                - color = 'active'
+                              tr.lessonID(class=color, style='cursor:pointer;', id=lesson.lessonID, val='test', name=sn)   
+                                th #{sn}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.user}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.name}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.count}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.aim}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.lessonClass}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.time} - #{lesson.period}
+                                th(style='text-align:left;border-left:1px #ddd solid;') 
+                                  | #{lesson.createTime}
+
+                          tbody#lesson
+    // 彈跳視窗 查看詳情
+    #bounce_check.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;')
+            font(style='font-size:18px;font-weight:bold;') 新增課程編號
+          .modal-body(align='left', style='height:50px;overflow-y:hidden;')
+            .form-group
+              .row
+                .col-md-12
+                  #checkText(style='text-align=center') 
+          .modal-footer
+            input#btnSubmit.btn.btn-primary(type='button', value='同意')
+            button#btnCancel.btn.btn-default 不同意

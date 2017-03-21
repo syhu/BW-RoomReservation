@@ -180,7 +180,7 @@ block main
             button.close(type='button', data-dismiss='modal', aria-hidden='true')
               i.fa.fa-times-circle(style='font-size:20px;')
             font(style='font-size:18px;font-weight:bold;') 新增課程
-          .modal-body(align='left', style='height:400px;overflow-y:scroll;')
+          .modal-body(align='left', style='height:520px;overflow-y:scroll;')
             .form-group
               .row
                 .col-md-12
@@ -207,26 +207,16 @@ block main
                       .col-md-6.form-group.form_time.form
                         | 開始上課時間:
                         input#lessonTime.date-picker.form-control(type='text', placeholder='開始時間', name='lessonTime')
-                      .col-md-3.form-group.form_week.form
+                      .col-md-6.form-group.form_period.form
                         | 上課時段:
-                        select#lessonWeek.form-control(name='lessonWeek')
-                          option(value='請選擇', selected="selected") 請選擇
-                          option(value='星期一') 星期一
-                          option(value='星期二') 星期二
-                          option(value='星期三') 星期三
-                          option(value='星期四') 星期四
-                          option(value='星期五') 星期五
-                          option(value='星期六') 星期六
-                          option(value='星期日') 星期日
-                      .col-md-3.form-group.form_period.form
                         br
                         select#lessonPeriod.form-control(name='lessonPeriod')
                           option(value='請選擇', selected="selected") 請選擇
-                          option(value='時段1') A1 (09:15 ~ 11:45)
-                          option(value='時段2') A2 (11:45 ~ 13:15)
-                          option(value='時段3') P1 (13:15 ~ 15:45)
-                          option(value='時段4') P2 (16:00 ~ 18:00)
-                          option(value='時段5') P3 (19:00 ~ 21:30)
+                          option(value='A1') A1 (09:15 ~ 11:45)
+                          option(value='A2') A2 (11:45 ~ 13:15)
+                          option(value='P1') P1 (13:15 ~ 15:45)
+                          option(value='P2') P2 (16:00 ~ 18:00)
+                          option(value='P3') P3 (19:00 ~ 21:30)
                   div(style='margin:0 0 20px 0;')
                     .row
                       .col-md-12.form-group.form_people.form
