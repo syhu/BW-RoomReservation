@@ -1,0 +1,20 @@
+#manager_center{
+	float:left;
+	border:2px solid black;
+	border-radius:15px;
+	height:80%;
+	width:80%;
+	margin-left: 10%;
+	overflow:hidden;
+}
+#manager_top
+{
+	font-size: 30px;
+	border:2px solid black;
+	border-radius: 10px;
+	/*height: 30%;*/
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 5%;
+	overflow:hidden;
+}

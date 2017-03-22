@@ -16,7 +16,7 @@ module.exports = {
         {
           if(data != '')
           {
-            console.log(data);
+            // console.log(data);
             mongoose.disconnect();
             console.log('disconnect successful');
             callback(err, data);

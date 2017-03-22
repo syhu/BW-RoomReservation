@@ -41,14 +41,29 @@ module.exports = {
         var secondMillionSecond = new Date(second[0], second[1], second[2]).getTime();
         if (secondMillionSecond >= firstMillionSecond)
         {
-          Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}, function(err, data)
+          if (check == '')
           {
-            console.log(secondMillionSecond);
-            console.log(data);
-            mongoose.disconnect();
-            console.log('disconnect successful');
-            callback(err, data);
-          });
+            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}, function(err, data)
+            {
+              console.log(secondMillionSecond);
+              console.log(data);
+              mongoose.disconnect();
+              console.log('disconnect successful');
+              callback(err, data);
+            });
+
+          }
+          else
+          {
+            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}, function(err, data)
+            {
+              console.log(secondMillionSecond);
+              console.log(data);
+              mongoose.disconnect();
+              console.log('disconnect successful');
+              callback(err, data);
+            });
+          }
         }
       }
       else

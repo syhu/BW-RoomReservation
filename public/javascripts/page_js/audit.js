@@ -1,4 +1,4 @@
-var lessonIDManage = (function(){
+var aduit = (function(){
   var _const;
   _const = function(){
     this._construct();
@@ -31,10 +31,11 @@ var lessonIDManage = (function(){
           + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
           + now.getSeconds());
 
-          $('tr').click(function(){
-          clickID = $(this).attr('id');
-          clickName = $(this).attr('name');
-          });
+      //點擊表單
+      $('tr').click(function(){
+      clickID = $(this).attr('id');
+      clickName = $(this).attr('name');
+      });
 
       $('tr').on('click',$.proxy(function()
       {
@@ -78,6 +79,10 @@ var lessonIDManage = (function(){
         this._bounce_check.modal("hide");
       }, this))
 
+      this._btnCancel.on('click',$.proxy(function()
+      {
+        this._bounce_check.modal("hide");
+      }, this));
     },
     _check(){
     }
@@ -85,7 +90,7 @@ var lessonIDManage = (function(){
   return _const;
 }());
 
-var lessonIDManage;
+var aduit;
 $(function(){
-  lessonIDManage = new lessonIDManage();
+  aduit = new aduit();
 })

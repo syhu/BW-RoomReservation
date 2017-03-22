@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 module.exports = {
-  createLesson : function(userName, name, id, count, building, floor, lessonClass, time, millionSecond, period, people, note, callback)
+  createLesson : function(userName, name, id, count, building, floor, lessonClass, time, millionSecond, aim, period, people, note, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -29,7 +29,7 @@ module.exports = {
         period: period,
         people: people,
         note: note,
-        aim: '上課',
+        aim: aim,
         createTime: today,
         modifyTime: today,
         checkSituation: 'false'
@@ -43,7 +43,7 @@ module.exports = {
           mongoose.disconnect();
           mongoose.connection.close();
           console.log('disconnect successful');
-          callback(null);
+          callback();
         }
       });
     });
