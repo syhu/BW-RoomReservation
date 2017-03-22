@@ -43,7 +43,6 @@ var aduit = (function(){
         // alert(clickID);
         if (clickID != undefined)
         {
-          alert(clickID);
           this._checkText.empty();
           this._checkText.append("你選擇的是編號" + clickName + '，是否同意這份申請？');
           this._bounce_check.modal('show');
@@ -62,11 +61,11 @@ var aduit = (function(){
           success: function(message){
             if(message.success == 'yes')
             {
-              layer.msg('<b>測試成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+              layer.msg('<b>新增成功！</b>', {time: 1500, icon:1,shade:[0.5,'black']});
             }
             else if(message.success == 'no')
             {
-              layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+              layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 3000, icon:2,shade:[0.5,'black']});
             }
           },
           error: function (xhr)

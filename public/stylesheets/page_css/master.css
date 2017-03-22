@@ -60,7 +60,7 @@ tr:last-child th:last-child{
 #header{		/* 上方div */
 	background-color:#D4D4D4;
 	width:100%;
-	text-align:center;
+	/*text-align:center;*/
 	font-size:20px;
 	top:0px;
 	position:fixed;

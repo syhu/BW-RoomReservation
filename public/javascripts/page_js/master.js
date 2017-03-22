@@ -1,17 +1,6 @@
 var master = (function(){
 	var _const;
 	_const = function(){
-		this._page = null;
-		this._header = null;
-		this._option = null;
-		this._title = null;
-		this._message = null;
-		this._index = null;
-		this._time = null;
-		this._welcome = null;
-		this._top = null;
-
-
 		this._condition = 0;
 		//驗證身分
 		this._identity =this._getPara("identity");

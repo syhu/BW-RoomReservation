@@ -7,7 +7,6 @@ var apply = (function(){
     _construct:function(){
       this._new = $("#new");
       this._todayTime = $("#todayTime");
-      this._bounce_new = $("#bounce_new");
       this._btnSubmit = $("#btnSubmit");
       this._btnCancel = $("#btnCancel");
       //課程新增欄位
@@ -51,23 +50,6 @@ var apply = (function(){
           + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
           + now.getSeconds());
 
-      //初始化彈跳視窗表單
-      this._new.on('click', $.proxy(function()
-      {
-        this._lessonName.val("");
-        this._lessonTime.val("");
-        this._lessonBuilding.val("請選擇");
-        this._lessonPeriod.val("請選擇");
-        this._lessonFloor.attr('disabled','');
-        this._lessonFloor.empty();
-        this._lessonClass.attr('disabled','');
-        this._lessonClass.empty();
-        this._lessonPeople.val("");
-        this._lessonNote.val("");
-        this._form.removeClass("has-error");
-        this._bounce_new.modal('show');
-      }, this));
-
       //確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
 				if(this._checkSubmit())
@@ -93,8 +75,12 @@ var apply = (function(){
 							if(message.success == 'yes')
 							{
 								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-                this._lessonForm.html();
+                setTimeout("location.href = '/lesson'",1500);
 							}
+              else(message.success == 'no')
+              {
+                layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+              }
 						},
 						error: function (xhr)
 						{
@@ -102,9 +88,6 @@ var apply = (function(){
 							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 						}
 					})
-
-					// this._insertClass();	/* 插入課程 */
-					this._bounce_new.modal("hide");
 				}
 			},this));
 
@@ -138,13 +121,13 @@ var apply = (function(){
 						this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
 						this._lessonFloor.append("<option value='里仁2f'>2樓</option>");
 						break;
-					case '本地':
+					case '學苑':
 						this._lessonFloor.removeAttr('disabled');
 						this._lessonFloor.empty();
 						this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-						this._lessonFloor.append("<option value='本地7f'>7樓</option>");
-						this._lessonFloor.append("<option value='本地12f'>12樓</option>");
-						this._lessonFloor.append("<option value='本地13f'>13樓</option>");
+						this._lessonFloor.append("<option value='學苑7f'>7樓</option>");
+						this._lessonFloor.append("<option value='學苑12f'>12樓</option>");
+						this._lessonFloor.append("<option value='學苑13f'>13樓</option>");
 						break;
 				}
 			},this))
@@ -174,22 +157,22 @@ var apply = (function(){
 						this._lessonClass.append("<option value='里仁2-1'>2-1 (80人)</option>");
 						this._lessonClass.append("<option value='里仁2-2'>2-2 (20人會議室)</option>");
 						break;
-					case '本地7f':
+					case '學苑7f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地7-4'>7-4 (40人)</option>");
-						this._lessonClass.append("<option value='本地7-5'>7-5 (40人)</option>");
-						this._lessonClass.append("<option value='本地7-6'>7-6 (45人)</option>");
+						this._lessonClass.append("<option value='學苑7-4'>7-4 (40人)</option>");
+						this._lessonClass.append("<option value='學苑7-5'>7-5 (40人)</option>");
+						this._lessonClass.append("<option value='學苑7-6'>7-6 (45人)</option>");
 						break;
-					case '本地12f':
+					case '學苑12f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地12-1'>12-1 (120人)</option>");
+						this._lessonClass.append("<option value='學苑12-1'>12-1 (120人)</option>");
 						break;
-					case '本地13f':
+					case '學苑13f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地13-3'>13-3 (20人)</option>");
+						this._lessonClass.append("<option value='學苑13-3'>13-3 (20人)</option>");
             break;
 				}
 			},this))
@@ -304,19 +287,19 @@ var apply = (function(){
 					case '里仁2-2':
 						if (peopleNum <= 20) {checkPeopleNum = 0;}
 						break;
-					case '本地7-4':
+					case '學苑7-4':
 						if (peopleNum <= 40) {checkPeopleNum = 0;}
 						break;
-					case '本地7-5':
+					case '學苑7-5':
 						if (peopleNum <= 40) {checkPeopleNum = 0;}
 						break;
-					case '本地7-6':
+					case '學苑7-6':
 						if (peopleNum <= 45) {checkPeopleNum = 0;}
 						break;
-					case '本地12-1':
+					case '學苑12-1':
 						if (peopleNum <= 120) {checkPeopleNum = 0;}
 						break;
-					case '本地13-3':
+					case '學苑13-3':
 						if (peopleNum <= 20) {checkPeopleNum = 0;}
 						break;
 				}

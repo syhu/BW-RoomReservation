@@ -12,6 +12,7 @@ var foundationSchema = new mongoose.Schema
   birthday: String,
   address: String,
   authenticate: Boolean,
-  createTime: String
+  createTime: String,
+  authorty: String
 });
 module.exports = mongoose.model('accounts', foundationSchema);

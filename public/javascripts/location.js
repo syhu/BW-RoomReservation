@@ -38,3 +38,8 @@ function audit()
 {
   location.href = '/audit';
 }
+
+function lesson()
+{
+  location.href = '/lesson';
+}

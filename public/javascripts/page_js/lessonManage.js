@@ -111,6 +111,10 @@ var lessonManage = (function(){
 							{
 								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 							}
+							else if(message.success == 'no')
+							{
+								layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+							}
 						},
 						error: function (xhr)
 						{
@@ -153,13 +157,13 @@ var lessonManage = (function(){
 						this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
 						this._lessonFloor.append("<option value='里仁2f'>2樓</option>");
 						break;
-					case '本地':
+					case '學苑':
 						this._lessonFloor.removeAttr('disabled');
 						this._lessonFloor.empty();
 						this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-						this._lessonFloor.append("<option value='本地7f'>7樓</option>");
-						this._lessonFloor.append("<option value='本地12f'>12樓</option>");
-						this._lessonFloor.append("<option value='本地13f'>13樓</option>");
+						this._lessonFloor.append("<option value='學苑7f'>7樓</option>");
+						this._lessonFloor.append("<option value='學苑12f'>12樓</option>");
+						this._lessonFloor.append("<option value='學苑13f'>13樓</option>");
 						break;
 				}
 			},this))
@@ -189,22 +193,22 @@ var lessonManage = (function(){
 						this._lessonClass.append("<option value='里仁2-1'>2-1 (80人)</option>");
 						this._lessonClass.append("<option value='里仁2-2'>2-2 (20人會議室)</option>");
 						break;
-					case '本地7f':
+					case '學苑7f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地7-4'>7-4 (40人)</option>");
-						this._lessonClass.append("<option value='本地7-5'>7-5 (40人)</option>");
-						this._lessonClass.append("<option value='本地7-6'>7-6 (45人)</option>");
+						this._lessonClass.append("<option value='學苑7-4'>7-4 (40人)</option>");
+						this._lessonClass.append("<option value='學苑7-5'>7-5 (40人)</option>");
+						this._lessonClass.append("<option value='學苑7-6'>7-6 (45人)</option>");
 						break;
-					case '本地12f':
+					case '學苑12f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地12-1'>12-1 (120人)</option>");
+						this._lessonClass.append("<option value='學苑12-1'>12-1 (120人)</option>");
 						break;
-					case '本地13f':
+					case '學苑13f':
 						this._lessonClass.removeAttr('disabled');
 						this._lessonClass.empty();
-						this._lessonClass.append("<option value='本地13-3'>13-3 (20人)</option>");
+						this._lessonClass.append("<option value='學苑13-3'>13-3 (20人)</option>");
 						break;
 				}
 			},this))
@@ -285,59 +289,69 @@ var lessonManage = (function(){
 				returnCheck = false;
 				this._form_people.addClass("has-error");
 				layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}else
+			}
+			else
 			{
-				var checkPeopleNum = 1;
-				var peopleNum = this._lessonPeople.val();
-				var useClass = this._lessonClass.val();
-				switch (useClass)
+				if (this._lessonClass.val() == undefined)
 				{
-					case '環球3-1':
-						if (peopleNum <= 70) {checkPeopleNum = 0;}
-						break;
-					case '環球3-2':
-						if (peopleNum <= 60) {checkPeopleNum = 0;}
-						break;
-					case '環球12-1':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-					case '環球12-2':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-					case '環球12-3':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-					case '里仁2-1':
-						if (peopleNum <= 80) {checkPeopleNum = 0;}
-						break;
-					case '里仁2-2':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-					case '本地7-4':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-					case '本地7-5':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-					case '本地7-6':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-					case '本地12-1':
-						if (peopleNum <= 120) {checkPeopleNum = 0;}
-						break;
-					case '本地13-3':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-				}
-				if (checkPeopleNum == 1)
-				{
-					returnCheck = false;
 					this._form_people.addClass("has-error");
-					layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					this._lessonPeople.val("");
+					layer.msg('<b>請選擇教室再輸入人數</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 				}
 				else
 				{
-					this._form_people.removeClass("has-error");
+					var checkPeopleNum = 1;
+					var peopleNum = this._lessonPeople.val();
+					var useClass = this._lessonClass.val();
+					switch (useClass)
+					{
+						case '環球3-1':
+						if (peopleNum <= 70) {checkPeopleNum = 0;}
+						break;
+						case '環球3-2':
+						if (peopleNum <= 60) {checkPeopleNum = 0;}
+						break;
+						case '環球12-1':
+						if (peopleNum <= 35) {checkPeopleNum = 0;}
+						break;
+						case '環球12-2':
+						if (peopleNum <= 35) {checkPeopleNum = 0;}
+						break;
+						case '環球12-3':
+						if (peopleNum <= 45) {checkPeopleNum = 0;}
+						break;
+						case '里仁2-1':
+						if (peopleNum <= 80) {checkPeopleNum = 0;}
+						break;
+						case '里仁2-2':
+						if (peopleNum <= 20) {checkPeopleNum = 0;}
+						break;
+						case '學苑7-4':
+						if (peopleNum <= 40) {checkPeopleNum = 0;}
+						break;
+						case '學苑7-5':
+						if (peopleNum <= 40) {checkPeopleNum = 0;}
+						break;
+						case '學苑7-6':
+						if (peopleNum <= 45) {checkPeopleNum = 0;}
+						break;
+						case '學苑12-1':
+						if (peopleNum <= 120) {checkPeopleNum = 0;}
+						break;
+						case '學苑13-3':
+						if (peopleNum <= 20) {checkPeopleNum = 0;}
+						break;
+					}
+					if (checkPeopleNum == 1)
+					{
+						returnCheck = false;
+						this._form_people.addClass("has-error");
+						layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}
+					else
+					{
+						this._form_people.removeClass("has-error");
+					}
 				}
 			}
 			return returnCheck;

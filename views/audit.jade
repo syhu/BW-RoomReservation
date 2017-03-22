@@ -21,7 +21,7 @@ block main
             .form-group
               .row
                 .col-md-12
-                  div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                  div(style='margin: 20px 20px 20px 20px;overflow-x:hidden;')
                     .row
                       .col-md-12(style='height:40px;')
                         font#todayTime 今天時間：
@@ -29,12 +29,12 @@ block main
                         table#lessonList.table.table-condensed
                           tr
                             th(width='4%') #
-                            th(width='8%', style='border-left:1px #ddd solid;') 申請者
+                            th(width='10%', style='border-left:1px #ddd solid;') 申請者
                             th(width='16%', style='border-left:1px #ddd solid;') 課程名稱
                             th(width='8%', style='border-left:1px #ddd solid;') 上課次數
                             th(width='16%', style='border-left:1px #ddd solid;') 申請目的
                             th(width='8%', style='border-left:1px #ddd solid;') 申請教室
-                            th(width='16%', style='border-left:1px #ddd solid;') 申請時間
+                            th(width='14%', style='border-left:1px #ddd solid;') 申請時間
                             th(width='16%', style='border-left:1px #ddd solid;') 送出時間
                           if showLesson
                             - var sn = 0

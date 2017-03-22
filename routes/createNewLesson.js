@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 module.exports = {
-  createLesson : function(userName, name, id, count, building, floor, lessonClass, time, millionSecond, aim, period, people, note, callback)
+  createLesson : function(userName, name, id, count, building, floor, lessonClass, applyTime, sentTime, millionSecond, aim, period, people, note, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -11,10 +11,6 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
-      var now = new Date();
-      var today = now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-        + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-        + now.getSeconds();
       doc = new Lesson
       ({
         user: userName,
@@ -24,14 +20,14 @@ module.exports = {
         building: building,
         floor: floor,
         lessonClass: lessonClass,
-        time: time,
+        time: applyTime,
         millionSecond: millionSecond,
         period: period,
         people: people,
         note: note,
         aim: aim,
-        createTime: today,
-        modifyTime: today,
+        createTime: sentTime,
+        modifyTime: sentTime,
         checkSituation: 'false'
       });
       doc.save(function(err, doc)
@@ -41,7 +37,6 @@ module.exports = {
         {
           console.log(doc.count + ' save successful');
           mongoose.disconnect();
-          mongoose.connection.close();
           console.log('disconnect successful');
           callback();
         }
@@ -49,7 +44,7 @@ module.exports = {
     });
   },
 
-  createAllLesson : function(lessonAllData, timeCurrentFormat, callback)
+  createAllLesson : function(lessonAllData, timeCurrentFormat, sentTime, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -59,12 +54,6 @@ module.exports = {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
       var length = timeCurrentFormat.length;
-      var now = new Date();
-      var today = now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-        + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-        + now.getSeconds();
-      // console.log(lessonAllData);
-      // console.log(timeCurrentFormat);
       var user = lessonAllData[0].user;
       var id = lessonAllData[0].lessonID;
       var name = lessonAllData[0].name;
@@ -76,10 +65,6 @@ module.exports = {
       var people = lessonAllData[0].people;
       var note = lessonAllData[0].note;
       var aim = lessonAllData[0].aim;
-      for (var i = 0 ; i <= length-1 ; i++)
-      {
-        // console.log(i + '->' + timeCurrentFormat[i]);
-      }
       function asyncLoop(iterations, func, callback)
       {
         var index = -1;
@@ -120,7 +105,7 @@ module.exports = {
       {
         if (i == 0)
         {
-          Lesson.update({lessonID: id}, {$set: {checkSituation: 'true', modifyTime: today}}, function(err)
+          Lesson.update({lessonID: id}, {$set: {checkSituation: 'true', modifyTime: sentTime}}, function(err)
           {
             if(err){console.log(err);}
             else
@@ -185,11 +170,10 @@ module.exports = {
               people: people,
               note: note,
               aim: aim,
-              createTime: today,
-              modifyTime: today,
+              createTime: sentTime,
+              modifyTime: sentTime,
               checkSituation: 'true'
             });
-            console.log(doc);
             doc.save(function(err, doc)
             {
               if(err){console.log(err);}
@@ -213,25 +197,11 @@ module.exports = {
       },
         function()
         {
-          console.log('cycle ended');
           mongoose.disconnect();
           console.log('disconnect successful');
           callback();
         }
       )
-      // console.log
-      // (
-      //   'user -> ' + user + '\n' +
-      //   'name -> ' + name + '\n' +
-      //   'building -> ' + building + '\n' +
-      //   'floor ->' + floor + '\n' +
-      //   'lessonClass -> ' + lessonClass + '\n' +
-      //   'period -> ' + period + '\n' +
-      //   'people -> ' + people + '\n' +
-      //   'note -> ' + note + '\n' +
-      //   'aim -> ' + aim + '\n'
-      // );
-      // callback();
     });
   }
 }

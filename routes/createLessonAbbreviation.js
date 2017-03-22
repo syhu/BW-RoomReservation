@@ -23,8 +23,6 @@ module.exports = {
         }
         counts = counts+1;
         var total = counts;
-        // console.log(counts);
-
         doc = new Abbreviation
         ({
           id: counts,

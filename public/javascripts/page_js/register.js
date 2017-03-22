@@ -10,6 +10,7 @@ var registered = (function(){
 		this._mouseoverNum = 0;
 		this._correctNum = "";
 		this._checkNum = new Array();
+		this._nowAccount == "";
 		for(i=0;i<4;i++){
 			this._checkNum[i] = 0;
 		}
@@ -87,33 +88,30 @@ var registered = (function(){
 			objThis._getRandom();
 			//查詢帳號是否重複
 			this._searchAccount.on("click", $.proxy(function(){
-				if(objThis._checkAccount){
-					$.ajax({
-						type: "post",
-						url: "/searchAccount",
-						data: {account: this._account.val()},
-						dataType: "json",
-						success: function(message){
-							if(message.success == "no")
-							{
-								objThis._form_account.removeClass("has-error");
-								objThis._form_account.addClass("has-success");
-								layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-								objThis._checkField[1] = 1;
-							}
-							else if(message.success == "yes")
-							{
-								objThis._form_account.removeClass("has-success");
-								objThis._form_account.addClass("has-error");
-								layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-								objThis._checkField[1] = 0;
-							}
-						},
-						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
-					})
-				}else{
-					layer.tips('請輸入正確帳號格式', objThis._searchAccount ,{tips:2});
-				}
+				$.ajax({
+					type: "post",
+					url: "/searchAccount",
+					data: {account: this._account.val()},
+					dataType: "json",
+					success: function(message){
+						if(message.success == "no")
+						{
+							objThis._form_account.removeClass("has-error");
+							objThis._form_account.addClass("has-success");
+							layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+							objThis._checkField[1] = 1;
+						}
+						else if(message.success == "yes")
+						{
+							objThis._form_account.removeClass("has-success");
+							objThis._form_account.addClass("has-error");
+							layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+							objThis._checkField[1] = 0;
+						}
+					},
+					error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
+				})
+				this._nowAccount = this._account.val();
 			}, this))
 
 			$("input").iCheck({
@@ -189,15 +187,20 @@ var registered = (function(){
 			//帳號 blur
 			objThis._account.on("blur",$.proxy(function(event){
 				objThis._account.val(objThis._account.val().replace(/[^\a-\z\A-\Z0-9]/g,''))
-				//判斷帳號長度是否大於6，小於20  帳號包含數字  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
-				if(objThis._account.val().length >= 6 && objThis._account.val().length <= 20 &&
-				objThis._account.val().match(/\d/) && objThis._account.val().match(/[a-z]/i) &&
+				//判斷帳號長度是否大於6，小於20  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
+				if(objThis._account.val().length >= 6 && objThis._account.val().length <= 20
+				&& objThis._account.val().match(/[a-z]/i) &&
 				!objThis._getSpeStr2(objThis._account.val()))
 				{
-					//檢查帳號是否重複
-					layer.tips('需檢查帳號是否重複', objThis._searchAccount ,{tips:1});
-					objThis._checkAccount = true;
-					objThis._checkField[1] = 0;
+					if (this._nowAccount != this._account.val())
+					{
+						//檢查帳號是否重複
+						layer.tips('需檢查帳號是否重複', objThis._searchAccount ,{tips:1});
+						objThis._form_account.addClass("has-error");
+						objThis._form_account.removeClass("has-success");
+						objThis._checkAccount = false;
+						objThis._checkField[1] = 0;
+					}
 				}
 				else if(objThis._account.val() == ""){
 					objThis._form_account.removeClass("has-error");
@@ -217,7 +220,7 @@ var registered = (function(){
 			//帳號 focus
 			objThis._account.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上，二十個字以下，須包含英文數字。");
+				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上，二十個字以下");
 			},this));
 			//帳號 限制長度輸入
 			objThis._account.bind("input",function(evt){
@@ -253,6 +256,8 @@ var registered = (function(){
 						if(objThis._password.val() != value) {
 							//objThis._psd.focus();
 							layer.msg('確認密碼錯誤');
+							objThis._form_password.removeClass("has-success");
+							objThis._form_password.addClass("has-error");
 							objThis._check_psd = "";
 							objThis._checkField[2] = 0;
 						}

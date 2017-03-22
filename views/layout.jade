@@ -114,17 +114,13 @@ html
                   a#lesson_name(href='#', style='font-size:15px;')
                     img(src='images/lesson.png')
                     |    課程查詢
-          if user
+          if user && (information[0].authorty == 'Admin')
             ul.nav.navbar-nav
               li.dropdown
                 a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
                   | 管理專區
                   b.caret
                 ul.dropdown-menu
-                  li
-                    a#lesson_time(href='#',onclick='manage();' style='font-size:15px;')
-                      img(src='images/time.png')
-                      |    課程管理
                   li
                     a#lesson_time(href='#',onclick='lessonCRUD();' style='font-size:15px;')
                       img(src='images/time.png')
@@ -137,20 +133,30 @@ html
                     a#lesson_time(href='#', onclick='lessonIDManage();', style='font-size:15px;')
                       img(src='images/time.png')
                       |    課程編號管理
-          ul.nav.navbar-nav
-            li.dropdown
-              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
-                | 申請服務
-                b.caret
-              ul.dropdown-menu
-                li
-                  a#lesson_time(href='#', onclick='apply();', style='font-size:15px;')
-                    img(src='images/time.png')
-                    |    申請教室
-                li
-                  a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
-                    img(src='images/time.png')
-                    |    審核專區
+          if user
+            ul.nav.navbar-nav
+              li.dropdown
+                a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                  | 申請服務
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a#lesson_time(href='#',onclick='manage();' style='font-size:15px;')
+                      img(src='images/time.png')
+                      | 申請常態課程
+                  li
+                    a#lesson_time(href='#', onclick='apply();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      | 申請使用單次教室
+                  if (information[0].authorty == 'Admin')
+                    li
+                      a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
+                        img(src='images/time.png')
+                        | 審核專區
+                  li
+                    a#lesson_time(href='#', onclick='lesson();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      | 申請資料
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')

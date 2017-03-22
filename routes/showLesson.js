@@ -15,22 +15,22 @@ module.exports = {
       console.log(now);
       if (requireFirstDay == '' && requireSecondDay == '')
       {
-        Lesson.find({time: now, checkSituation: check}, function(err, data)
+        Lesson.find({time: now, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
         {
-          if(data != '')
-          {
-            console.log(data);
-            mongoose.disconnect();
-            console.log('disconnect successful');
-            callback(err, data)
-          }
-          else if(data == '')
-          {
-            console.log('no data');
-            mongoose.disconnect();
-            console.log('disconnect successful');
-            callback(err, 'no data')
-          }
+            if(data != '')
+            {
+              console.log(data);
+              mongoose.disconnect();
+              console.log('disconnect successful');
+              callback(err, data)
+            }
+            else if(data == '')
+            {
+              console.log('no data');
+              mongoose.disconnect();
+              console.log('disconnect successful');
+              callback(err, 'no data')
+            }
         });
       }
       else if (requireFirstDay != '' && requireSecondDay != '')
@@ -43,25 +43,23 @@ module.exports = {
         {
           if (check == '')
           {
-            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}, function(err, data)
+            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}).sort({'time':'asc'}).exec(function(err, data)
             {
-              console.log(secondMillionSecond);
-              console.log(data);
-              mongoose.disconnect();
-              console.log('disconnect successful');
-              callback(err, data);
+                console.log(secondMillionSecond);
+                console.log(data);
+                mongoose.disconnect();
+                console.log('disconnect successful');
+                callback(err, data);
             });
-
           }
           else
           {
-            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}, function(err, data)
+            Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
             {
-              console.log(secondMillionSecond);
-              console.log(data);
-              mongoose.disconnect();
-              console.log('disconnect successful');
-              callback(err, data);
+                console.log(secondMillionSecond);
+                mongoose.disconnect();
+                console.log('disconnect successful');
+                callback(err, data);
             });
           }
         }

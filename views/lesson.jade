@@ -1,7 +1,65 @@
 extends layout
 
 block main
+    link(rel='stylesheet', href='stylesheets/page_css/apply.css')
+    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+    script(src='javascripts/jquery-ui.js')
+    script(src='javascripts/jquery-ui.cache.js')
+    script(src='javascripts/page_js/apply.js')
+    script(src='javascripts/plugins.js')
+    script(src='javascripts/layer/layer.js')
     div
-      | 管理專區
-      a(href='/')
-        | 回首頁
+      #manager_top.panel(style='border:2px solid black;')
+        div(style='text-align: center;')
+          | 申請資料
+          i.fa.fa-filter
+      #manager_center.panel(style='border:2px solid black;')
+        .row
+          .col-lg-12
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin: 20px 20px 20px 20px;overflow-x:hidden;')
+                    .row
+                      .col-md-12(style='height:40px;')
+                        font#todayTime 今天時間：
+                      #lessonForm.col-md-12(style='height:500px;')
+                        table#lessonList.table.table-condensed
+                          tr
+                            th(width='4%') #
+                            th(width='16%', style='border-left:1px #ddd solid;') 申請項目
+                            th(width='16%', style='border-left:1px #ddd solid;') 申請事由
+                            th(width='14%', style='border-left:1px #ddd solid;') 申請地點
+                            th(width='16%', style='border-left:1px #ddd solid;') 申請時間
+                            th(width='18%', style='border-left:1px #ddd solid;') 送出時間
+                            th(width='16%', style='border-left:1px #ddd solid;') 審核狀態
+                          if showLesson
+                            - var sn = 0
+                            - var color = ''
+                            - for lesson in showLesson
+                              - if (lesson.checkSituation == 'false')
+                                - check = '未通過'
+                                - color = 'danger'
+                              - else 
+                                - check = '已通過' 
+                                - color = 'warning'
+                              if lesson.user == user
+                                - sn = sn+1 
+                                tr.lessonID(class=color, id=lesson.lessonID, val='test', name=sn)   
+                                  th #{sn}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.name}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.aim}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.lessonClass}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.time} - #{lesson.period}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.createTime}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{check}
+                          tbody#lesson
+                          tr#nobodyList.tr-empty(align='center')

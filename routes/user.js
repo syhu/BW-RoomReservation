@@ -11,51 +11,104 @@ module.exports = {
       console.log('mongoose opened !');
       var User = require('./accounts_model.js');
       var now = new Date();
-      doc = new User
-      ({
-        name: name,
-        account: account,
-        pwHash: pwHash,
-        email: email,
-        telephone: telephone,
-        sex: sex,
-        idHash: idHash,
-        birthday: birthday,
-        address: address,
-        authenticate: false,
-        createTime: now,
-        lastLoginTime: now
-      });
-      User.find({account: account}, function(err, data)
+      if (account == 'administrator')
       {
-        var counts = 0;
-        for(var key in data)
+        doc = new User
+        ({
+          name: name,
+          account: account,
+          pwHash: pwHash,
+          email: email,
+          telephone: telephone,
+          sex: sex,
+          idHash: idHash,
+          birthday: birthday,
+          address: address,
+          authenticate: false,
+          authorty: 'Admin',
+          createTime: now,
+          lastLoginTime: now
+        });
+        User.find({account: account}, function(err, data)
         {
-          counts++;
-        }
-        if (counts == 0)
-        {
-          doc.save(function(err, doc)
+          var counts = 0;
+          for(var key in data)
           {
-            if(err){console.log(err);}
-            else
+            counts++;
+          }
+          if (counts == 0)
+          {
+            doc.save(function(err, doc)
             {
-              console.log(doc.account + ' save successful');
-              mongoose.disconnect();
-              mongoose.connection.close();
-              console.log('disconnect successful');
-              callback(null, 0);
-            }
-          });
-        }
-        else
+              if(err){console.log(err);}
+              else
+              {
+                console.log(doc.account + ' save successful');
+                mongoose.disconnect();
+                mongoose.connection.close();
+                console.log('disconnect successful');
+                callback(null, 0);
+              }
+            });
+          }
+          else
+          {
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            var err = new Error('something wrong');
+            callback(err, 1);
+          }
+        });
+      }
+      else
+      {
+        doc = new User
+        ({
+          name: name,
+          account: account,
+          pwHash: pwHash,
+          email: email,
+          telephone: telephone,
+          sex: sex,
+          idHash: idHash,
+          birthday: birthday,
+          address: address,
+          authenticate: false,
+          authorty: 'User',
+          createTime: now,
+          lastLoginTime: now
+        });
+        User.find({account: account}, function(err, data)
         {
-          mongoose.disconnect();
-          console.log('disconnect successful');
-          var err = new Error('something wrong');
-          callback(err, 1);
-        }
-      });
+          var counts = 0;
+          for(var key in data)
+          {
+            counts++;
+          }
+          if (counts == 0)
+          {
+            doc.save(function(err, doc)
+            {
+              if(err){console.log(err);}
+              else
+              {
+                console.log(doc.account + ' save successful');
+                mongoose.disconnect();
+                mongoose.connection.close();
+                console.log('disconnect successful');
+                callback(null, 0);
+              }
+            });
+          }
+          else
+          {
+            mongoose.disconnect();
+            console.log('disconnect successful');
+            var err = new Error('something wrong');
+            callback(err, 1);
+          }
+        });
+      }
     });
   }
 };
