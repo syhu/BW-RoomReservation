@@ -5,7 +5,8 @@ var apply = (function(){
   }
   _const.prototype = {
     _construct:function(){
-      this._new = $("#new");
+      //this._new = $("#new");
+      this._new = $(".new");
       this._todayTime = $("#todayTime");
       this._btnSubmit = $("#btnSubmit");
       this._btnCancel = $("#btnCancel");
@@ -52,19 +53,64 @@ var apply = (function(){
 
       //確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
-				if(this._checkSubmit())
+        var objThis = this;
+
+
+      	if(objThis._checkSubmit())
 				{
-					var lessonData =
-					{
-						lessonName : this._lessonName.val(),
-						lessonBuilding : this._lessonBuilding.val(),
-						lessonFloor : this._lessonFloor.val(),
-						lessonClass : this._lessonClass.val(),
-						lessonTime : this._lessonTime.val(),
-						lessonPeriod : this._lessonPeriod.val(),
-						lessonPeople : this._lessonPeople.val(),
-						lessonAim : this._lessonNote.val()
-					};
+          bootbox.confirm({
+            message:"<br/><b style='font-size:20px;'>確定申請 <font style='color:red;'>" + objThis._lessonName.val() + "</font> 課程嗎?</b><br/>" +
+            "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
+            "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
+            "<br/><br/><b>時段：</b>" + objThis._lessonPeriod.val() +
+            "<br/><br/><b>上課人數：</b>" + objThis._lessonPeople.val() +
+            "<br/><br/><b>申請事由：</b>" + objThis._lessonNote.val(),
+            buttons:{
+              confirm:{
+                  label:'確定申請',
+                  className:'btn-success'
+              },
+              cancel:{
+                  label:'取消',
+                  className:'btn-default'
+              }
+
+            },
+            callback:function(e){
+                if(e){
+
+                  bootbox.alert("申請了課程 " + objThis._lessonName.val(),function(){
+                    var lessonData =
+                    {
+                      lessonName : objThis._lessonName.val(),
+                      lessonBuilding : objThis._lessonBuilding.val(),
+                      lessonFloor : objThis._lessonFloor.val(),
+                      lessonClass : objThis._lessonClass.val(),
+                      lessonTime : objThis._lessonTime.val(),
+                      lessonPeriod : objThis._lessonPeriod.val(),
+                      lessonPeople : objThis._lessonPeople.val(),
+                      lessonAim : objThis._lessonNote.val()
+                    };
+
+
+                    $.ajax({
+                      type: "post",
+                      url: "/apply",
+                      data: lessonData ,
+                      dataType: "json",
+                      success: function(message){
+                        if(message.success == 'yes')
+                        {
+                          layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                          objThis._getApplyList();
+                        }
+                      },
+                      error: function (xhr)
+                      {
+                        bootbox.alert('error: ' + xhr);console.log(xhr);
+                        layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                      }
+                    })
 
 					$.ajax({
 						type: "post",
@@ -88,6 +134,17 @@ var apply = (function(){
 							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 						}
 					})
+                    // this._insertClass();	/* 插入課程 */
+                    objThis._bounce_new.modal("hide");
+
+                  });
+
+
+                }else{
+                  bootbox.alert("取消了申請課程");
+                }
+            }
+          });
 				}
 			},this));
 
@@ -316,6 +373,21 @@ var apply = (function(){
 			}
 			return returnCheck;
 		},
+    _getApplyList:function(){
+
+
+        $.ajax({
+            type:'get',
+            url:'/apply',
+
+            success:function(datas){
+                console.log(datas);
+            },
+            befordSend:function(){
+
+            }
+        })
+    }
   }
   return _const;
 }());

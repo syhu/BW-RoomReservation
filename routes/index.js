@@ -170,6 +170,7 @@ router.post('/login', function(req, res, next) {
       req.session.userName = user;
       req.session.logining = 0;
       req.session.information = userInformation;
+      console.log(userInformation)
       res.redirect('/?a=0');
     }
     else if(situation == 1)

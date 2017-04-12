@@ -20,6 +20,8 @@ var master = (function(){
 			this._time = $("#time");
 			this._welcome = $("#welcome");
 			this._top = $("#top");
+			this._todayLessonList = $("#todayLessonList");
+
 /*
 			var $window = $(window),
 			$top = $("#goTop").css('opacity',0).show(),
@@ -43,10 +45,15 @@ var master = (function(){
 					left:$this.scrollLeft() + $this.width() - _width - _diffX
 				},_moveSpeed)
 			}).scroll();*/
+
+
+
 		},
 		_start:function(){
 			var objThis = this;
+			this._setOwl();
 			this._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
+			this._setLessonList();		//載入今天課程
 
 			//歡迎視窗
 			if(objThis._identity != "visitor"){
@@ -81,6 +88,49 @@ var master = (function(){
 			}
 
 		},
+		//設定輪播
+		_setOwl:function(){
+			$(".owl-carousel").owlCarousel({
+				items: 3, // 一次輪播幾個項目
+				loop: true, // 循環輪播
+				margin: 10, // 與右邊圖片的距離
+				nav: true, // 導航文字
+				autoplay: true, // 自動輪播
+				autoplayTimeout: 2000, // 切換時間
+				autoplayHoverPause: true, // 滑鼠經過時暫停
+				responsive:{
+					600:{
+						items:3
+					}
+				}
+			});
+			/*
+			$(".item").hover(function(){
+					$(this).css({"z-index":"5","position":"relative"});
+			},function(){
+					$(this).css("z-index","-1");
+			});
+			*/
+		},
+		_setLessonList:function(){
+				var objThis = this;
+				var _tr;
+				var _td;
+
+				for(var i = 0 ; i < 10;i++){
+						_tr = $("<tr />");
+						for(var j = 0; j < 4 ; j++){
+							_td = $("<td />",{"text":i+1});
+							_tr.append(_td);
+						}
+
+
+
+
+						objThis._todayLessonList.append(_tr);
+				}
+
+		},
 		_initialAll:function(){
 			var objThis = this;
 
@@ -95,10 +145,10 @@ var master = (function(){
 			objThis._time.append(" , 今天日期:" + nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
 
 			//top
-			objThis._top.on("click",$.proxy(function(event){
-
-				$("html,body").animate({scrollTop:0},'slow');
-			},this))
+			// objThis._top.on("click",$.proxy(function(event){
+			//
+			// 	$("html,body").animate({scrollTop:0},'slow');
+			// },this))
 
 			//標題 回首頁
 			objThis._index.on("click",$.proxy(function(event){

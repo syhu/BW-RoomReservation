@@ -3,7 +3,6 @@ block main
     link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
     link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     link(rel='stylesheet', href='stylesheets/customized.css')
-    link(rel='stylesheet', href='stylesheets/ui.css')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/page_js/lessonManage.js')
@@ -73,7 +72,8 @@ block main
               .col-md-12
                 div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                   .row
-                    .col-md-12(style='height:25px;')
+                    .col-md-12(style='height:50px;')
+                      button.btn.btn-success.new(style='float:right;margin-top:0px;') 新增課程
                       font#todayTime 今天時間：
                     .col-md-12(style='height:650px;')
                       table#lessonList.table.table-condensed
@@ -113,7 +113,7 @@ block main
                         tr#nobodyList.tr-empty(align='center')
                           td(colspan='4')
                             br
-                            span#new(style='cursor:pointer;')
+                            span#new.new(style='cursor:pointer;')
                               i.fa.fa-plus-circle.fa-3x
                               | 															新增課程
               .col-md-12
@@ -156,7 +156,7 @@ block main
     #lessonDetail.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
       .modal-dialog.modal-lg
         .modal-content
-          .modal-header.bg-dark
+          .modal-header
             button.close(type='button', data-dismiss='modal', aria-hidden='true')
               i.icons-office-52
             h4.modal-title
@@ -176,9 +176,9 @@ block main
     #bounce_lesson.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
       .modal-dialog
         .modal-content
-          .modal-header
+          .modal-header.bg-blue
             button.close(type='button', data-dismiss='modal', aria-hidden='true')
-              i.fa.fa-times-circle(style='font-size:20px;')
+              i.fa.fa-times-circle(style='font-size:20px;color:white;')
             font(style='font-size:18px;font-weight:bold;') 新增課程
           .modal-body(align='left', style='height:520px;overflow-y:scroll;')
             .form-group

@@ -7,7 +7,8 @@ var lessonManage = (function(){
 	}
 	_const.prototype = {
 		_construct:function(){
-			this._new = $("#new");
+			//this._new = $("#new");
+			this._new = $(".new");
 			this._lesson = $("#lesson");
 			this._todayTime = $("#todayTime");
 			this._bounce_lesson = $("#bounce_lesson");
@@ -86,46 +87,70 @@ var lessonManage = (function(){
 
 			//確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
+				var objThis = this;
 				if(this._checkSubmit())
 				{
-					var lessonData =
-					{
-						lessonName : this._lessonName.val(),
-						lessonCount : this._lessonCount.val(),
-						lessonBuilding : this._lessonBuilding.val(),
-						lessonFloor : this._lessonFloor.val(),
-						lessonClass : this._lessonClass.val(),
-						lessonTime : this._lessonTime.val(),
-						lessonPeriod : this._lessonPeriod.val(),
-						lessonPeople : this._lessonPeople.val(),
-						lessonNote : this._lessonNote.val()
-					};
+					bootbox.confirm({
+            message:"<br/><b style='font-size:20px;'>確定申請 <font style='color:red;'>" + objThis._lessonName.val() + "</font> 課程嗎?</b><br/>" +
+            "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
+            "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
+						"<br/><br/><b>課程堂數：</b>" + objThis._lessonCount.val() +
+            "<br/><br/><b>時段：</b>" + objThis._lessonPeriod.val() +
+            "<br/><br/><b>上課人數：</b>" + objThis._lessonPeople.val() +
+            "<br/><br/><b>申請事由：</b>" + objThis._lessonNote.val(),
+            buttons:{
+              confirm:{
+                  label:'確定申請',
+                  className:'btn-success'
+              },
+              cancel:{
+                  label:'取消',
+                  className:'btn-default'
+              }
 
-					$.ajax({
-						type: "post",
-						url: "/lessonManage",
-						data: lessonData ,
-						dataType: "json",
-						success: function(message){
-							if(message.success == 'yes')
-							{
-								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-							}
-							else if(message.success == 'no')
-							{
-								layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-							}
-						},
-						error: function (xhr)
-						{
-							alert('error: ' + xhr);console.log(xhr);
-							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-						}
-					})
+            },
+						callback:function(e){
+								if(e){
+										bootbox.alert("申請了課程 " + objThis._lessonName.val(),function(){
+											var lessonData =
+											{
+												lessonName : objThis._lessonName.val(),
+												lessonCount : objThis._lessonCount.val(),
+												lessonBuilding : objThis._lessonBuilding.val(),
+												lessonFloor : objThis._lessonFloor.val(),
+												lessonClass : objThis._lessonClass.val(),
+												lessonTime : objThis._lessonTime.val(),
+												lessonPeriod : objThis._lessonPeriod.val(),
+												lessonPeople : objThis._lessonPeople.val(),
+												lessonNote : objThis._lessonNote.val()
+											};
+											$.ajax({
+												type: "post",
+												url: "/lessonManage",
+												data: lessonData ,
+												dataType: "json",
+												success: function(message){
+													if(message.success == 'yes')
+													{
+														layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+													}
+												},
+												error: function (xhr)
+												{
+													bootbox.alert('error: ' + xhr);console.log(xhr);
+													layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+												}
+											});
+											// this._insertClass();	/* 插入課程 */
+											objThis._bounce_lesson.modal("hide");
+										});
 
-					// this._insertClass();	/* 插入課程 */
-					this._bounce_lesson.modal("hide");
-				}
+								}else{
+									bootbox.alert("取消了申請課程");
+								}
+							}
+						});
+					}
 			},this));
 
 			//取消新增課程

@@ -8,15 +8,29 @@ html
     // Loading Flat UI
     link(href='stylesheets/flat-ui/dist/css/flat-ui.css', rel='stylesheet')
     link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
+    //icheck
+    link(rel='stylesheet', href='stylesheets/icheck/blue.css')
+    //font-awesome
+    link(href='stylesheets/font-awesome/font-awesome.css', rel='stylesheet')
     // bootcss
     link(href='stylesheets/bootcss.css', rel='stylesheet')
+    //owl 輪播
+    link(href='stylesheets/owl/owl.carousel.min.css', rel="stylesheet")
+    link(href="stylesheets/owl/owl.theme.default.min.css", rel="stylesheet")
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/location.js')
+    script(src='javascripts/owl/owl.carousel.min.js')
+    script(src='javascripts/icheck.js')
+      
+    //bootbox
+    script(src='javascripts/bootbox/bootbox.min.js')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+    
     // 彈出視窗
     title 福智基金會
-  body
+  body(background='images/bgimage.jpg')
     #page
       #header
         #admin_hide.nav.navbar-nav
@@ -200,8 +214,25 @@ html
             font#time Hi~ #{user}
           else
             font#time Hi~ 訪客
+          
+            
       #main
         block main
+        .owl-carousel
+          .item
+            img(src='images/01.jpg')
+          .item
+            img(src='images/02.jpg')
+          .item
+            img(src='images/03.jpg')      
+        //- div#opacityDiv
+        //-   .panel-header(style='padding: 20px 80px;')
+        //-     h3
+        //-       i.fa.fa-bookmark
+        //-       strong 今日課表
+        //-   table.table
+        //-     tbody#todayLessonList
+      
       #footer
         #footer-context
           span
@@ -223,3 +254,9 @@ html
           br
     #goTop
       img#top(src='images/up.png')
+    script.
+      $(function(){
+      $("#top").click(function(){
+      $("html,body").animate({scrollTop:0},'slow');
+      })
+      })
