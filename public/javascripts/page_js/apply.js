@@ -5,7 +5,6 @@ var apply = (function(){
   }
   _const.prototype = {
     _construct:function(){
-      //this._new = $("#new");
       this._new = $(".new");
       this._todayTime = $("#todayTime");
       this._btnSubmit = $("#btnSubmit");
@@ -40,10 +39,6 @@ var apply = (function(){
     },
 
     _initialAll:function(){
-      //初始化彈跳視窗位置
-      // this._bounce_new.css('position','absolute');
-      // this._bounce_new.css('top', '20%');
-
       //顯示當天時間
       var now = new Date();
 			this._todayTime.append(
@@ -94,46 +89,29 @@ var apply = (function(){
 
 
                     $.ajax({
-                      type: "post",
-                      url: "/apply",
-                      data: lessonData ,
-                      dataType: "json",
-                      success: function(message){
-                        if(message.success == 'yes')
+          						type: "post",
+          						url: "/apply",
+          						data: lessonData ,
+          						dataType: "json",
+          						success: function(message){
+          							if(message.success == 'yes')
+          							{
+          								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                          setTimeout("location.href = '/lesson'",1500);
+          							}
+                        else if(message.success == 'no')
                         {
-                          layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-                          objThis._getApplyList();
+                          layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
                         }
-                      },
-                      error: function (xhr)
-                      {
-                        bootbox.alert('error: ' + xhr);console.log(xhr);
-                        layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-                      }
-                    })
+          						},
+          						error: function (xhr)
+          						{
+          							alert('error: ' + xhr);console.log(xhr);
+          							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          						}
+          					})
 
-					$.ajax({
-						type: "post",
-						url: "/apply",
-						data: lessonData ,
-						dataType: "json",
-						success: function(message){
-							if(message.success == 'yes')
-							{
-								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-                setTimeout("location.href = '/lesson'",1500);
-							}
-              else(message.success == 'no')
-              {
-                layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-              }
-						},
-						error: function (xhr)
-						{
-							alert('error: ' + xhr);console.log(xhr);
-							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-						}
-					})
+
                     // this._insertClass();	/* 插入課程 */
                     objThis._bounce_new.modal("hide");
 
@@ -147,6 +125,21 @@ var apply = (function(){
           });
 				}
 			},this));
+
+      this._new.on('click', $.proxy(function(){
+        this._lessonName.val("");
+				this._lessonTime.val("");
+				this._lessonBuilding.val("請選擇");
+				this._lessonPeriod.val("請選擇");
+				this._lessonFloor.attr('disabled','');
+				this._lessonFloor.empty();
+				this._lessonClass.attr('disabled','');
+				this._lessonClass.empty();
+				this._lessonPeople.val("");
+				this._lessonNote.val("");
+				this._form.removeClass("has-error");
+        this._bounce_new.modal('show');
+      },this));
 
       //取消新增課程
       this._btnCancel.on('click', $.proxy(function()

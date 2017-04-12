@@ -3,8 +3,9 @@
 	border:2px solid black;
 	border-radius:15px;
 	height:80%;
-	width:80%;
-	margin-left: 10%;
+	width:90%;
+	margin-left: 5%;
+	margin-right: 5%;
 	overflow:hidden;
 }
 #manager_top
@@ -13,8 +14,9 @@
 	border:2px solid black;
 	border-radius: 10px;
 	/*height: 30%;*/
-	width: 80%;
-	margin-left: 10%;
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
 	margin-top: 5%;
 	overflow:hidden;
 }

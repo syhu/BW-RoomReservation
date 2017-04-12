@@ -4,6 +4,7 @@ block main
     link(rel='stylesheet', href='stylesheets/page_css/apply.css')
     link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     link(rel='stylesheet', href='stylesheets/customized.css')
+    link(rel='stylesheet', href='stylesheets/ui.css')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/page_js/apply.js')
@@ -22,105 +23,51 @@ block main
                 .col-md-12
                   div(style='margin: 20px 20px 20px 20px;overflow-x:hidden;')
                     .row
-
-                      .col-md-12(style='height:50px;')
-                          button.btn.btn-success.new(style='float:right;margin-top:0px;') 新增課程
-                          font#todayTime 今天時間：
-                          
-                      #lessonForm.col-md-12(style='height:500px;')
-                        table#lessonList.table.table-condensed
-                          tr
-                            th(width='4%') #
-                            th(width='16%', style='border-left:1px #ddd solid;') 申請項目
-                            th(width='16%', style='border-left:1px #ddd solid;') 申請事由
-                            th(width='16%', style='border-left:1px #ddd solid;') 申請地點
-                            th(width='16%', style='border-left:1px #ddd solid;') 申請時間
-                            th(width='16%', style='border-left:1px #ddd solid;') 送出時間
-                            th(width='16%', style='border-left:1px #ddd solid;') 審核狀態
-                          if showLesson
-                            - var sn = 0
-                            - var color = ''
-                            - for lesson in showLesson
-                              - if (lesson.checkSituation == 'false')
-                                - check = '未通過'
-                                - color = 'danger'
-                              - else 
-                                - check = '已通過' 
-                                - color = 'warning'
-                              tr.lessonID(class=color, id=lesson.lessonID, val='test', name=sn)   
-                                th #{sn}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{lesson.name}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{lesson.aim}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{lesson.lessonClass}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{lesson.time}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{lesson.createTime}
-                                th(style='text-align:left;border-left:1px #ddd solid;') 
-                                  | #{check}
-                          tbody#lesson
-                          tr#nobodyList.tr-empty(align='center')
-                            td(colspan='7')
-                              br
-                              span#new.new(style='cursor:pointer;')
-                                i.fa.fa-plus-circle.fa-3x
-                                | 申請課程
-    // 彈跳視窗 查看詳情
-    #bounce_new.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
-      .modal-dialog
-        .modal-content
-          .modal-header.bg-primary-dark
-            button.close(type='button', data-dismiss='modal', aria-hidden='true')
-              i.fa.fa-times-circle(style='font-size:20px;color:white;')
-            font(style='font-size:18px;font-weight:bold;') 申請課程
-          .modal-body(align='left', style='height:520px;overflow-y:scroll;')
-            .form-group
-              .row
-                .col-md-12
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-12.form-group.form_name.form
-                        i.fa.fa-child(style='font-size:20px;')
-                        | 課程名稱:
-                        input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-6.form-group.form_class.form
-                        | 使用教室:
-                        select#lessonBuilding.form-control(name='lessonBuilding')
-                          option(value='請選擇') 請選擇
-                          option(value='環球') 環球
-                          option(value='里仁') 里仁
-                          option(value='本地') 本地
-                        select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
-                        select#lessonClass.form-control(disabled='disabled', name='lessonClass')
-                      .col-md-6.form-group.form_time.form
-                        | 上課時間:
-                        input#lessonTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
-                      .col-md-6.form-group.form_period.form
-                        | 上課時段:
-                        br
-                        select#lessonPeriod.form-control(name='lessonPeriod')
-                          option(value='請選擇', selected="selected") 請選擇
-                          option(value='A1') A1 (09:15 ~ 11:45)
-                          option(value='A2') A2 (11:45 ~ 13:15)
-                          option(value='P1') P1 (13:15 ~ 15:45)
-                          option(value='P2') P2 (16:00 ~ 18:00)
-                          option(value='P3') P3 (19:00 ~ 21:30)
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-12.form-group.form_people.form
-                        | 上課人數:
-                        input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-12.form-group.form_note.form
-                        i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
-                        | 申請事由:
-                        textarea#lessonNote.form-control(rows='4', placeholder='申請事由...', name='lessonNote')
-          .modal-footer
-            input#btnSubmit.btn.btn-primary(type='button', value='確定')
-            button#btnCancel.btn.btn-default 取消
+                      .col-md-12(style='height:40px;')
+                        font#todayTime 今天時間：
+                      #lessonForm.col-md-12(style='height:525px;')
+                        .form-group
+                          .row
+                            .col-md-12
+                              div(style='margin:20px 10%;')
+                                .row
+                                  .col-md-5.form-group.form_name.form
+                                    i.fa.fa-child(style='font-size:20px;')
+                                    | 課程名稱:
+                                    input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
+                                  .col-md-5.form-group.form_time.form
+                                    | 上課時間:
+                                    input#lessonTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
+                              div(style='margin:0 10% 20px;')
+                                .row
+                                  .col-md-5.form-group.form_class.form
+                                    | 使用教室:
+                                    select#lessonBuilding.form-control(name='lessonBuilding')
+                                      option(value='請選擇') 請選擇
+                                      option(value='環球') 環球
+                                      option(value='里仁') 里仁
+                                      option(value='學苑') 學苑
+                                    select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
+                                    select#lessonClass.form-control(disabled='disabled', name='lessonClass')
+                                  .col-md-5.form-group.form_period.form
+                                    | 上課時段:
+                                    br
+                                    select#lessonPeriod.form-control(name='lessonPeriod')
+                                      option(value='請選擇', selected="selected") 請選擇
+                                      option(value='A1') A1 (09:15 ~ 11:45)
+                                      option(value='A2') A2 (11:45 ~ 13:15)
+                                      option(value='P1') P1 (13:15 ~ 15:45)
+                                      option(value='P2') P2 (16:00 ~ 18:00)
+                                      option(value='P3') P3 (19:00 ~ 21:30)
+                                  .col-md-5.form-group.form_people.form
+                                    | 上課人數:
+                                    input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
+                              div(style='margin:0 10% 0px;')
+                                .row
+                                  .col-md-10.form-group.form_note.form
+                                    i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                                    | 申請事由:
+                                    textarea#lessonNote.form-control(rows='4', placeholder='申請事由...', name='lessonNote')
+                        .modal-footer
+                          input#btnSubmit.btn.btn-primary(type='button', value='確定')
+                          input#btnCancel.btn.btn-default(type='button', value='取消')

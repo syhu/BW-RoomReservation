@@ -379,7 +379,7 @@ router.get('/lesson', function(req, res, next){
 router.get('/userManage', function(req, res, next){
   if(req.session.account)
   {
-    res.render('userManage', { user: req.session.userName});
+    res.render('userManage', { user: req.session.userName, information: req.session.information});
   }
   else
   {
@@ -411,13 +411,14 @@ router.get('/audit', function(req, res, next){
   {
     specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'false', function(err, auditLesson)
     {
-      if(auditLesson != 'no data')
-      {
-        res.render('audit', { user: req.session.userName, showLesson: auditLesson, information: req.session.information});
-      }
-      else if(auditLesson == 'no data')
+      if(auditLesson == '[]')
       {
         res.render('audit', { user: req.session.userName});
+      }
+      else
+      {
+        console.log(auditLesson);
+        res.render('audit', { user: req.session.userName, showLesson: auditLesson, information: req.session.information});
       }
     })
   }
@@ -580,6 +581,21 @@ router.post('/apply', function(req, res, next){
       }
     })
   }
+})
+
+/*** Update Lesson List ***/
+router.post('/updateAuditLesson', function(req, res, next){
+  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'false', function(err, auditLesson)
+  {
+    if (auditLesson == '[]')
+    {
+      res.send({success: 'no'});
+    }
+    else
+    {
+      res.send({'success': 'yes', 'showLesson': auditLesson});
+    }
+  })
 })
 
 module.exports = router;

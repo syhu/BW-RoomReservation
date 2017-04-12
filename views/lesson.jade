@@ -31,7 +31,8 @@ block main
                             th(width='4%') #
                             th(width='16%', style='border-left:1px #ddd solid;') 申請項目
                             th(width='16%', style='border-left:1px #ddd solid;') 申請事由
-                            th(width='14%', style='border-left:1px #ddd solid;') 申請地點
+                            th(width='8%', style='border-left:1px #ddd solid;') 申請堂數
+                            th(width='8%', style='border-left:1px #ddd solid;') 申請地點
                             th(width='16%', style='border-left:1px #ddd solid;') 申請時間
                             th(width='18%', style='border-left:1px #ddd solid;') 送出時間
                             th(width='16%', style='border-left:1px #ddd solid;') 審核狀態
@@ -53,6 +54,8 @@ block main
                                     | #{lesson.name}
                                   th(style='text-align:left;border-left:1px #ddd solid;') 
                                     | #{lesson.aim}
+                                  th(style='text-align:left;border-left:1px #ddd solid;') 
+                                    | #{lesson.count}
                                   th(style='text-align:left;border-left:1px #ddd solid;') 
                                     | #{lesson.lessonClass}
                                   th(style='text-align:left;border-left:1px #ddd solid;') 

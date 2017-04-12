@@ -11,12 +11,16 @@ var aduit = (function(){
       this._bounce_check = $("#bounce_check");
       this._checkText = $("#checkText");
       this._lessonID = $(".lessonID");
+      this._lesson = $("#lesson");
+
+      this.clickID = "";
       this._start();
     },
 
     _start:function(){
       var objThis = this;
       objThis._initialAll();
+      objThis._getAuditList();
     },
 
     _initialAll:function(){
@@ -31,43 +35,7 @@ var aduit = (function(){
           + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
           + now.getSeconds());
 
-      //點擊表單
-      $('tr').click(function(){
-      clickID = $(this).attr('id');
-      clickName = $(this).attr('name');
-      });
-
-      $('tr').on('click',$.proxy(function()
-      {
-        // clickID = $('tr').attr('id');
-        // alert(clickID);
-        if (clickID != undefined)
-        {
-          this._checkText.empty();
-          this._checkText.append("你選擇的是編號" + clickName + '，是否同意這份申請？');
-          this._bounce_check.modal('show');
-        }
-      },this));
-
-// <<<<<<< HEAD
-//       this._btnSubmit.on('click',$.proxy(function()
-//       {
-//         var lesson = { lessonID: clickID };
-//         $.ajax({
-//           type: "post",
-//           url: "/auditpass",
-//           data: JSON.stringify(lesson) ,
-//           contentType: "application/json",
-//           dataType: "json",
-//           success: function(message){
-//             if(message.success == 'yes')
-//             {
-//               layer.msg('<b>新增成功！</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-//             }
-//             else if(message.success == 'no')
-//             {
-//               layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 3000, icon:2,shade:[0.5,'black']});
-// =======
+      //審核
       this._btnSubmit.on('click',$.proxy(function(){
         var objThis = this;
         bootbox.confirm({
@@ -85,7 +53,7 @@ var aduit = (function(){
             callback:function(e){
                 if(e){
 
-                  var lesson = { lessonID: clickID };
+                  var lesson = { lessonID: objThis.clickID };
                   $.ajax({
                     type: "post",
                     url: "/auditpass",
@@ -95,6 +63,7 @@ var aduit = (function(){
                     success: function(message){
                       if(message.success == 'yes')
                       {
+                        objThis._getAuditList();
                         layer.msg('<b>審核成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                       }
                       else if(message.success == 'no')
@@ -125,7 +94,98 @@ var aduit = (function(){
         this._bounce_check.modal("hide");
       }, this));
     },
-    _check(){
+    _getAuditList:function(){
+        var objThis = this;
+
+        $.ajax({
+          type:'post',
+          url:'/updateAuditLesson',
+          success:function(datas){
+              console.log(datas);
+              console.log(datas.showLesson)
+              var data = datas.showLesson
+              objThis._setAuditList(data);
+          }
+        });
+    },
+    _setAuditList:function(strJson){
+        var objThis = this;
+        var _tr;
+        var _td;
+        var _input;
+
+        objThis._lesson.empty();
+        $.each(strJson,function(i,v){
+          var trClass;
+            switch(i%5){
+                case 0:
+                  trClass = 'active'
+                  break;
+                case 1:
+                  trClass = 'success'
+                  break;
+                case 2:
+                  trClass = 'warning'
+                  break;
+                case 3:
+                  trClass = 'danger'
+                  break;
+                case 4:
+                  trClass = 'info'
+                  break;
+
+            }
+            _tr = $("<tr />",{"class":trClass});
+            //#
+            _td = $("<td />",{"text":(i+1)});
+            _tr.append(_td);
+            //申請者
+            _td = $("<td />",{"text":v.user});
+            _tr.append(_td);
+            //課程名稱
+            _td = $("<td />",{"text":v.name});
+            _tr.append(_td);
+            //上課次數
+            _td = $("<td />",{"text":v.count});
+            _tr.append(_td);
+            //申請目的
+            _td = $("<td />",{"text":v.aim});
+            _tr.append(_td);
+            //申請教室
+            _td = $("<td />",{"text":v.lessonClass});
+            _tr.append(_td);
+            //申請時間
+            _td = $("<td />",{"text":v.time + ' - ' + v.period});
+            _tr.append(_td);
+            //送出時間
+            _td = $("<td />",{"text":v.modifyTime});
+            _tr.append(_td);
+            //審核
+            _input = $("<span />",{"class":"label label-success","text":"審核","id":v.lessonID,"name":(i+1),"style":"font-size:100%"});
+            _input.click(function(){
+              clickID = $(this).attr('id');
+              clickName = $(this).attr('name');
+            });
+
+            _input.on('click',$.proxy(function()
+            {
+              // clickID = $('tr').attr('id');
+              // alert(clickID);
+              if (clickID != undefined)
+              {
+                objThis._checkText.empty();
+                objThis._checkText.append("你選擇的是編號" + clickName + '，是否同意這份申請？');
+                objThis.clickID = clickID;
+                objThis._bounce_check.modal('show');
+              }
+            },this));
+
+            _td = $("<td />");
+            _td.append(_input);
+            _tr.append(_td);
+
+            objThis._lesson.append(_tr)
+        });
     }
   }
   return _const;
