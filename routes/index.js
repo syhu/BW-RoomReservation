@@ -377,9 +377,19 @@ router.get('/lesson', function(req, res, next){
 
 /*** User Manage ***/
 router.get('/userManage', function(req, res, next){
-  if(req.session.account)
+  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
-    res.render('userManage', { user: req.session.userName, information: req.session.information});
+    user.getAllUser(function(data)
+    {
+      if (data == 'no data')
+      {
+        res.render('userManage', { user: req.session.userName, information: req.session.information});
+      }
+      else
+      {
+        res.render('userManage', { user: req.session.userName, information: req.session.information, userData: data});
+      }
+    })
   }
   else
   {
@@ -407,7 +417,7 @@ router.post('/searchAccount', function(req, res, next){
 
 /*** Check Change Lesson Manage Page ***/
 router.get('/audit', function(req, res, next){
-  if(req.session.account)
+  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
     specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'false', function(err, auditLesson)
     {
@@ -469,7 +479,7 @@ router.post('/auditpass', function(req, res, next){
 
 /*** Lesson identity Manage Page ***/
 router.get('/lessonIDManage', function(req, res, next){
-  if(req.session.account)
+  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
     allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
     {
@@ -493,9 +503,10 @@ router.post('/lessonIDManage', function(req, res, next){
   var lessonName = req.body.lessonName;
   var lessonAbbreviation = req.body.lessonAbbreviation;
   var userName = req.session.userName;
+  var currectTime = getNowTime();
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, function(err, repeat, id)
+    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, function(err, repeat, id)
     {
       if(repeat == 0)
       {

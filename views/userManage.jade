@@ -54,28 +54,45 @@ block main
                             th(width='16%', style='border-left:1px #ddd solid;') 帳號
                             th(width='16%', style='border-left:1px #ddd solid;') E-mail
                             th(width='16%', style='border-left:1px #ddd solid;') 權限
-                            th(width='32%', style='border-left:1px #ddd solid;') 操作              
-                          tbody#userList
-                            tr
-                              td 1
-                              td 撿到錢
-                              td test111
-                              td ssss22222@gmail.com
-                              td 會員
-                              td
-                                span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
-                                span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
-                                span.label.label-default(style='font-size:100%;') 詳細資料
-                            tr
-                              td 2
-                              td 撿到很多錢
-                              td test11133333
-                              td 55555sssss@gmail.com
-                              td 會員
-                              td
-                                span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
-                                span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
-                                span.label.label-default(style='font-size:100%;') 詳細資料
+                            th(width='32%', style='border-left:1px #ddd solid;') 操作    
+                          if userData
+                            - var sn = 0
+                            - for user in userData
+                              - sn = sn +1
+                              tr(class=color, id=user.account)   
+                                th #{sn}
+                                th #{user.name}
+                                th #{user.account}
+                                th #{user.email}
+                                th #{user.authorty}
+                                th
+                                  if (user.authorty == 'User')
+                                    span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
+                                  if (user.authorty == 'Owner')
+                                    span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
+                                  span.label.label-default(style='font-size:100%;') 詳細資料
+                                      
+                          //- tbody#userList
+                          //-   tr
+                          //-     td 1
+                          //-     td 撿到錢
+                          //-     td test111
+                          //-     td ssss22222@gmail.com
+                          //-     td 會員
+                          //-     td
+                          //-       span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
+                          //-       span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
+                          //-       span.label.label-default(style='font-size:100%;') 詳細資料
+                          //-   tr
+                          //-     td 2
+                          //-     td 撿到很多錢
+                          //-     td test11133333
+                          //-     td 55555sssss@gmail.com
+                          //-     td 會員
+                          //-     td
+                          //-       span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
+                          //-       span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
+                          //-       span.label.label-default(style='font-size:100%;') 詳細資料
                           tr#nobodyList.tr-empty(align='center')
                           
 

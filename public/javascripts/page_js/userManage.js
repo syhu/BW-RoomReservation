@@ -8,7 +8,7 @@ var userManage = (function(){
 
 
         //列表
-        this._userList = $("#userList")
+        // this._userList = $("#userList")
         //查詢 清除
         this._cancelFilter = $("#cancelFilter");
         this._btnFilter = $("#btnFilter");
@@ -26,7 +26,7 @@ var userManage = (function(){
       var objThis = this;
       objThis._initialAll();
 
-      objThis._getUserList();
+      // objThis._getUserList();
     },
     _initialAll:function(){
         var objThis = this;
@@ -49,59 +49,59 @@ var userManage = (function(){
     },
     _checkAdmin:function(){
         return true;
-     },
-     _getUserList:function(){
-        var objThis = this;
-        var _td;
-        var _tr;
-
-        objThis._userList.empty();
-
-        for(var i = 1; i < 10; i++){
-            _tr = $("<tr />");
-            //#
-            _td = $("<td />",{"text":i});
-            _tr.append(_td);
-            //姓名
-            _td = $("<td />",{"text":"撿到錢" + i});
-            _tr.append(_td);
-            //帳號
-            _td = $("<td />",{"text":"test" + i});
-            _tr.append(_td);
-            //信箱
-            _td = $("<td />",{"text":i});
-            _tr.append(_td);
-            //權限
-            _td = $("<td />",{"text":i});
-            _tr.append(_td);
-            //操作
-            _td = $("<td />");
-            _input = $("<input />",{"type":"hidden","value":i,"id":"id" + i});
-            _td.append(_input)
-            _input = $("<span />",{"class":"label label-success","text":"升級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
-            _input.on("click",$.proxy(function(e){
-              bootbox.alert("這是升級");
-            },this));
-            _td.append(_input);
-            _input = $("<span />",{"class":"label label-danger","text":"降級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
-            _input.on("click",$.proxy(function(e){
-              bootbox.alert("這是降級" + i);
-            },this));
-            _td.append(_input);
-
-            _input = $("<span />",{"class":"label label-default","text":"詳細資料","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
-            _input.on("click",$.proxy(function(e){
-              objThis._bounce_new.modal('show');
-            },this));
-            _td.append(_input);
-
-            _tr.append(_td);
-            objThis._userList.append(_tr);
-
-        }
-
-
      }
+    //  _getUserList:function(){
+    //     var objThis = this;
+    //     var _td;
+    //     var _tr;
+     //
+    //     objThis._userList.empty();
+     //
+    //     for(var i = 1; i < 10; i++){
+    //         _tr = $("<tr />");
+    //         //#
+    //         _td = $("<td />",{"text":i});
+    //         _tr.append(_td);
+    //         //姓名
+    //         _td = $("<td />",{"text":"撿到錢" + i});
+    //         _tr.append(_td);
+    //         //帳號
+    //         _td = $("<td />",{"text":"test" + i});
+    //         _tr.append(_td);
+    //         //信箱
+    //         _td = $("<td />",{"text":i});
+    //         _tr.append(_td);
+    //         //權限
+    //         _td = $("<td />",{"text":i});
+    //         _tr.append(_td);
+    //         //操作
+    //         _td = $("<td />");
+    //         _input = $("<input />",{"type":"hidden","value":i,"id":"id" + i});
+    //         _td.append(_input)
+    //         _input = $("<span />",{"class":"label label-success","text":"升級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+    //         _input.on("click",$.proxy(function(e){
+    //           bootbox.alert("這是升級");
+    //         },this));
+    //         _td.append(_input);
+    //         _input = $("<span />",{"class":"label label-danger","text":"降級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+    //         _input.on("click",$.proxy(function(e){
+    //           bootbox.alert("這是降級" + i);
+    //         },this));
+    //         _td.append(_input);
+     //
+    //         _input = $("<span />",{"class":"label label-default","text":"詳細資料","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+    //         _input.on("click",$.proxy(function(e){
+    //           objThis._bounce_new.modal('show');
+    //         },this));
+    //         _td.append(_input);
+     //
+    //         _tr.append(_td);
+    //         objThis._userList.append(_tr);
+     //
+    //     }
+
+
+    //  }
   }
   return _const;
 

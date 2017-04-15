@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  createLessonAbbreviation : function(userName, lessonName, lessonAbbreviation, callback)
+  createLessonAbbreviation : function(userName, lessonName, lessonAbbreviation, time, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -10,10 +10,6 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Abbreviation = require('./lessonAbbreviation_model.js');
-      var now = new Date();
-      var currectTime = now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds();
       Abbreviation.find(function(err, data)
       {
         var counts = 0;
@@ -29,8 +25,8 @@ module.exports = {
           userName : userName,
           name : lessonName,
           abbreviation : lessonAbbreviation,
-          createTime : currectTime,
-          modifyTime : currectTime
+          createTime : time,
+          modifyTime : time
         });
 
         Abbreviation.find({name: lessonName}, function(err, data)

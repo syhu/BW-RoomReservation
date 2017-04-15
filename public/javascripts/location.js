@@ -18,10 +18,10 @@ function information()
 {
   location.href = '/information';
 }
-function lessonCRUD()
-{
-  location.href = '/lesson';
-}
+// function lessonCRUD()
+// {
+//   location.href = '/lesson';
+// }
 function userManage()
 {
   location.href = '/userManage';

@@ -110,5 +110,38 @@ module.exports = {
         });
       }
     });
+  },
+  getAllUser : function(callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error: '));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var User = require('./accounts_model.js');
+      User.find({}, function(err, data)
+      {
+        var counts = 0;
+        for(var key in data)
+        {
+          counts++;
+        }
+        if (counts == 0)
+        {
+          console.log(data);
+          mongoose.disconnect();
+          console.log('disconnect successful');
+          callback('no data');
+        }
+        else
+        {
+          console.log(data);
+          mongoose.disconnect();
+          console.log('disconnect successful');
+          callback(data);
+        }
+      })
+    })
   }
 };

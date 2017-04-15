@@ -12,7 +12,7 @@ module.exports = {
       var Abbreviation = require('./lessonAbbreviation_model.js');
       if (lessonName == '')
       {
-        Abbreviation.find(function(err, data)
+        Abbreviation.find({}).sort({'createTime':'desc'}).exec(function(err, data)
         {
           if(data != '')
           {
@@ -30,7 +30,7 @@ module.exports = {
       }
       else
       {
-        Abbreviation.find({name: lessonName}, function(err, data)
+        Abbreviation.find({name: lessonName}).sort({'createTime':'desc'}).exec(function(err, data)
         {
           if(data != '')
           {
