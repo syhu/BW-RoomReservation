@@ -397,6 +397,20 @@ router.get('/userManage', function(req, res, next){
   }
 });
 
+router.post('/getUpdateUser', function(req, res, next){
+  user.getAllUser(function(data)
+  {
+    if (data == 'no data')
+    {
+      res.send({ success: 'no data' });
+    }
+    else
+    {
+      res.send({ success: data });
+    }
+  })
+})
+
 /*** Search Account Reapet ***/
 router.post('/searchAccount', function(req, res, next){
   var account = req.body.account;
@@ -481,23 +495,24 @@ router.post('/auditpass', function(req, res, next){
 router.get('/lessonIDManage', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
-    allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
-    {
-      if(data == 'no data')
-      {
-        res.render('lessonIDManage', { user: req.session.userName});
-      }
-      else
-      {
-        res.render('lessonIDManage', { user: req.session.userName, showLessonAbbreviation: data, information: req.session.information});
-      }
-    })
+    // allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
+    // {
+    //   if(data == 'no data')
+    //   {
+        res.render('lessonIDManage', { user: req.session.userName, information: req.session.information});
+    //   }
+    //   else
+    //   {
+    //     res.render('lessonIDManage', { user: req.session.userName, showLessonAbbreviation: data, information: req.session.information});
+    //   }
+    // })
   }
   else
   {
     res.redirect('/?identity=visitor');
   }
 })
+
 
 router.post('/lessonIDManage', function(req, res, next){
   var lessonName = req.body.lessonName;
@@ -520,6 +535,22 @@ router.post('/lessonIDManage', function(req, res, next){
   }
 })
 
+router.post('/getupdateLessonID', function(req, res, next){
+  if(req.xhr || req.accepts('json, html') === 'json')
+  {
+    allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
+    {
+      if(data == 'no data')
+      {
+        res.send({success: 'no data'});
+      }
+      else
+      {
+        res.send({success: data});
+      }
+    })
+  }
+})
 /*** Use classroom apply Page ***/
 router.get('/apply', function(req, res, next){
   if(req.session.account)

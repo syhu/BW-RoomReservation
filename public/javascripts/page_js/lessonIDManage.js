@@ -22,6 +22,7 @@ var lessonIDManage = (function(){
     _start:function(){
       var objThis = this;
       objThis._initialAll();
+      objThis._getlessonIDList();
     },
 
     _initialAll:function(){
@@ -51,6 +52,7 @@ var lessonIDManage = (function(){
 
       //確認新增課程編號
       this._btnSubmit.on('click', $.proxy(function(){
+        var objThis = this;
         if(this._checkSubmit())
         {
           var abbreviationData =
@@ -78,6 +80,9 @@ var lessonIDManage = (function(){
             {
               alert('error: ' + xhr);console.log(xhr);
               layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+            },
+            complete:function(){
+                objThis._getlessonIDList();
             }
           })
           this._bounce_new.modal('hide');
@@ -99,6 +104,66 @@ var lessonIDManage = (function(){
         this._form_name.removeClass("has-error");
       }
       return returnCheck;
+    },
+    _getlessonIDList:function(){
+      var objThis = this;
+
+      $.ajax({
+        type:'post',
+        url:'/getupdateLessonID',
+        success:function(datas){
+            var data = datas.success
+            objThis._setlessonIDList(data);
+        }
+      });
+
+    },
+    _setlessonIDList:function(strJson){
+      var objThis = this;
+      var _tr;
+      var _td;
+      var _input;
+      objThis._lesson.empty();
+      $.each(strJson,function(i,v){
+        var trClass;
+          switch(i%4){
+              case 0:
+                trClass = 'active'
+                break;
+              case 1:
+                trClass = 'success'
+                break;
+              case 2:
+                trClass = 'warning'
+                break;
+              case 3:
+                trClass = 'danger'
+                break;
+
+          }
+          _tr = $("<tr />",{"class":trClass});
+          //#
+          _td = $("<td />",{"text":(i+1)});
+          _tr.append(_td);
+          //上傳者
+          _td = $("<td />",{"style":"text-align:left","text":v.userName});
+          _tr.append(_td);
+          //課程名稱
+          _td = $("<td />",{"style":"text-align:left","text":v.name});
+          _tr.append(_td);
+          //課程簡稱
+          _td = $("<td />",{"text":v.abbreviation});
+          _tr.append(_td);
+          //新增時間
+          _td = $("<td />",{"nowrap":"nowrap","text":v.createTime});
+          _tr.append(_td);
+          //修改時間
+          _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
+          _tr.append(_td);
+
+          objThis._lesson.append(_tr)
+      });
+
     }
   }
   return _const;
