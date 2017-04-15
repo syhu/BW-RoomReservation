@@ -6,13 +6,17 @@ html
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/register.css')
     link(rel='stylesheet', href='stylesheets/icheck/blue.css')
-    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    link(href='stylesheets/font-awesome/font-awesome.css', rel='stylesheet')
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/icheck.js')
     script(src='javascripts/layer/layer.js')
     script(src='javascripts/page_js/register.js')
+    //bootbox
+    script(src='javascripts/bootbox/bootbox.min.js')
+    link(rel='stylesheet', href='stylesheets/ui.css')
+      
     // 彈出視窗
     title 註冊
   body
@@ -114,7 +118,7 @@ html
                   .col-md-3
                   .col-md-3
                   .col-md-3
-                    input#chk.btn-block.btn-lg.btn.btn-info.chk(type='button', value='送出')  
+                    input#chk.btn-block.btn-lg.btn.btn-primary.chk(type='button', value='送出')  
       // 驗證
       #verification.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-lg

@@ -87,31 +87,36 @@ var registered = (function(){
 			//驗證
 			objThis._getRandom();
 			//查詢帳號是否重複
-			this._searchAccount.on("click", $.proxy(function(){
-				$.ajax({
-					type: "post",
-					url: "/searchAccount",
-					data: {account: this._account.val()},
-					dataType: "json",
-					success: function(message){
-						if(message.success == "no")
-						{
-							objThis._form_account.removeClass("has-error");
-							objThis._form_account.addClass("has-success");
-							layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-							objThis._checkField[1] = 1;
-						}
-						else if(message.success == "yes")
-						{
-							objThis._form_account.removeClass("has-success");
-							objThis._form_account.addClass("has-error");
-							layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-							objThis._checkField[1] = 0;
-						}
-					},
-					error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
-				})
-				this._nowAccount = this._account.val();
+			this._searchAccount.on("click", $.proxy(function(e){
+				if(this._account.val() != ""){
+					$.ajax({
+						type: "post",
+						url: "/searchAccount",
+						data: {account: this._account.val()},
+						dataType: "json",
+						success: function(message){
+							if(message.success == "no")
+							{
+								objThis._form_account.removeClass("has-error");
+								objThis._form_account.addClass("has-success");
+								layer.msg('<b>此帳號無人使用</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+								objThis._checkField[1] = 1;
+							}
+							else if(message.success == "yes")
+							{
+								objThis._form_account.removeClass("has-success");
+								objThis._form_account.addClass("has-error");
+								layer.msg('<b>此帳號已被使用</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+								objThis._checkField[1] = 0;
+							}
+						},
+						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
+					})
+					this._nowAccount = this._account.val();
+				}else{
+						bootbox.alert("請輸入帳號");
+				}
+
 			}, this))
 
 			$("input").iCheck({
