@@ -142,7 +142,7 @@ var userManage = (function(){
 
        $.ajax({
          type:'post',
-         url:'/getUpdateUser',
+         url:'/',
          data:{strJson : JSON.stringify(val)},
          success:function(datas){
            console.log(datas);
