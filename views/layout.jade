@@ -23,7 +23,8 @@ html
     script(src='javascripts/location.js')
     script(src='javascripts/owl/owl.carousel.min.js')
     script(src='javascripts/icheck.js')
-      
+    script(src='javascripts/layer/layer.js')
+    
     //bootbox
     script(src='javascripts/bootbox/bootbox.min.js')
     link(rel='stylesheet', href='stylesheets/ui.css')
@@ -147,6 +148,10 @@ html
                     a#lesson_time(href='#', onclick='lessonIDManage();', style='font-size:15px;')
                       img(src='images/time.png')
                       |    課程編號管理
+                  li
+                    a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      | 審核專區
           if user
             ul.nav.navbar-nav
               li.dropdown
@@ -162,11 +167,6 @@ html
                     a#lesson_time(href='#', onclick='apply();', style='font-size:15px;')
                       img(src='images/time.png')
                       | 申請使用單次教室
-                  if (information[0].authorty == 'Admin')
-                    li
-                      a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
-                        img(src='images/time.png')
-                        | 審核專區
                   li
                     a#lesson_time(href='#', onclick='lesson();', style='font-size:15px;')
                       img(src='images/time.png')

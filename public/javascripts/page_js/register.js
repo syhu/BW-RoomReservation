@@ -88,7 +88,7 @@ var registered = (function(){
 			objThis._getRandom();
 			//查詢帳號是否重複
 			this._searchAccount.on("click", $.proxy(function(e){
-				if(this._account.val() != "" && ){
+				if(this._account.val() != "" ){
 					$.ajax({
 						type: "post",
 						url: "/searchAccount",

@@ -41,27 +41,23 @@ var userManage = (function(){
             this._filterName.val('');
             this._filterAccount.val('');
             this._filterAuthority.val('請選擇');
-        },this));
-        this._btnFilter.on("click",$.proxy(function(e){
-
-            bootbox.alert("查詢成功");
+            this._btnFilter.click();
         },this));
         //查詢
         this._btnFilter.on("click",$.proxy(function(e){
             var obj = new Object;
-            var arr = new array();
+            var arr = new Array();
 
             obj.name = "";
             obj.account = "";
             obj.authorty = "";
 
             if(this._filterName.val()!="")  obj.name = this._filterName.val();
-            if(this._filterAccount.val()!="")  obj.name = this._filterAccount.val();
-            if(this._filterAuthority.val()!="請選擇")  obj.name = this._filterAuthority.val();
+            if(this._filterAccount.val()!="")  obj.account = this._filterAccount.val();
+            if(this._filterAuthority.val()!="請選擇")  obj.authorty = this._filterAuthority.val();
 
             arr = arr.concat(obj);
-            this._selectUserLData(arr);
-
+            this._selectUserList(arr);
         },this))
     },
     _checkAdmin:function(){
@@ -74,7 +70,7 @@ var userManage = (function(){
          type:'post',
          url:'/getUpdateUser',
          success:function(datas){
-           console.log(datas);
+          //  console.log(datas);
              var data = datas.success
              objThis._setUserList(data);
          }
@@ -84,7 +80,7 @@ var userManage = (function(){
        var objThis = this;
        var _td;
        var _tr;
-       console.log(strJson)
+      //  console.log(strJson)
        objThis._userList.empty();
        $.each(strJson,function(i,v){
 
@@ -102,6 +98,7 @@ var userManage = (function(){
            _td = $("<td />",{"text":v.email});
            _tr.append(_td);
            //權限
+
            _td = $("<td />",{"nowrap":"nowrap","text":v.authorty});
            _tr.append(_td);
            //操作
@@ -111,14 +108,67 @@ var userManage = (function(){
              case "User":
                _input = $("<span />",{"class":"label label-success","text":"升級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
                _input.bind("click",$.proxy(function(e){
-                 bootbox.alert("這是升級" + v.account);
+                 bootbox.confirm("您確定要升級 <b style='color:red;'>" + v.account + " </b>帳號嗎?",function(result){
+                    if(result){
+
+                      var obj = new Object;
+                      var arr = new Array();
+                      obj.account = v.account;
+                      obj.authorty = v.authorty;
+                      arr = arr.concat(obj);
+
+                      $.ajax({
+                        type:'post',
+                        data:{strJson:JSON.stringify(arr)},
+                        url:'/updateAuthorty',
+                        success:function(datas){
+                          // console.log(datas);
+
+                         objThis._getUserList();
+                       },
+                       complete:function(){
+                         layer.msg('<b>升級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                       }
+                     });
+                    }
+
+                 });
+
+
+
                },this));
                _td.append(_input);
                break;
              case "Owner":
               _input = $("<span />",{"class":"label label-danger","text":"降級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
               _input.bind("click",$.proxy(function(e){
-                  bootbox.alert("這是降級" + v.account);
+                bootbox.confirm("您確定要降級 <b style='color:red;'>" + v.account + " </b>帳號嗎?",function(result){
+                   if(result){
+
+                     var obj = new Object;
+                     var arr = new Array();
+                     obj.account = v.account;
+                     obj.authorty = v.authorty;
+                     arr = arr.concat(obj);
+
+                     $.ajax({
+                       type:'post',
+                       data:{strJson:JSON.stringify(arr)},
+                       url:'/updateAuthorty',
+                       success:function(datas){
+                        //  console.log(datas);
+
+                         objThis._getUserList();
+                       },
+                       complete:function(){
+                         layer.msg('<b>降級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                       }
+                     });
+                   }
+
+                });
+
+
               },this));
               _td.append(_input);
                break;
@@ -137,17 +187,21 @@ var userManage = (function(){
        });
 
      },
-     _selectUserLData:function(val){
+     _selectUserList:function(val){
        var objThis = this;
-
        $.ajax({
          type:'post',
-         url:'/',
+         url:'/getSearchUser',
          data:{strJson : JSON.stringify(val)},
          success:function(datas){
            console.log(datas);
              var data = datas.success
              objThis._setUserList(data);
+         },
+         complete:function(){
+            // bootbox.alert("查詢成功");
+            layer.msg('<b>查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+
          }
        });
 

@@ -130,7 +130,7 @@ module.exports = {
         if (counts == 0)
         {
           console.log(data);
-          mongoose.disconnect();
+          mongoose.disconnect();;
           console.log('disconnect successful');
           callback('no data');
         }
@@ -142,6 +142,53 @@ module.exports = {
           callback(data);
         }
       })
+    })
+  },
+  getSearchUser : function(searchData, callback){
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error: '));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var User = require('./accounts_model.js');
+      var data = JSON.parse(searchData)
+      name = data[0].name;
+      account = data[0].account;
+      authorty = data[0].authorty;
+      User.find({account: new RegExp(account, 'i'), name: new RegExp(name, 'i'), authorty: new RegExp(authorty, 'i')}, function(err, data){
+        mongoose.disconnect();
+        console.log('disconnect successful');
+        callback(err,data);
+      })
+    })
+  },
+  updateAuthorty : function(userData, callback){
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error: '));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var User = require('./accounts_model.js');
+      console.log(userData);
+      var data = JSON.parse(userData)
+      account = data[0].account;
+      authorty = data[0].authorty;
+      if (authorty == 'User')
+      {
+        User.update({account: account}, {$set: {authorty: 'Owner'}}, function(err){
+          mongoose.disconnect();
+          callback();
+        })
+      }
+      else if (authorty == 'Owner')
+      {
+        User.update({account: account}, {$set: {authorty: 'User'}}, function(err){
+          mongoose.disconnect();
+          callback();
+        })
+      }
     })
   }
 };

@@ -308,7 +308,7 @@ router.post('/lessonManage', function(req, res, next){
           if (data == 'no data')
           {
             console.log(lessonName);
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', function(err, repeat, total)
+            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', applyUseTime, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
@@ -397,6 +397,22 @@ router.get('/userManage', function(req, res, next){
   }
 });
 
+router.post('/getSearchUser', function(req, res, next){
+  var searchData = req.body.strJson;
+  console.log(searchData);
+  user.getSearchUser(searchData, function(err, data)
+  {
+    if (data == '[]')
+    {
+      res.send({ success:　"no data" });
+    }
+    else
+    {
+      res.send({ success: data});
+    }
+  })
+})
+
 router.post('/getUpdateUser', function(req, res, next){
   user.getAllUser(function(data)
   {
@@ -411,6 +427,13 @@ router.post('/getUpdateUser', function(req, res, next){
   })
 })
 
+router.post('/updateAuthorty', function(req, res, next){
+  var data = req.body.strJson;
+  user.updateAuthorty(data, function()
+  {
+    res.send({success : 'success'});
+  })
+})
 /*** Search Account Reapet ***/
 router.post('/searchAccount', function(req, res, next){
   var account = req.body.account;
@@ -592,15 +615,18 @@ router.post('/apply', function(req, res, next){
       {
         allLessonAbbreviation.searchLessonAbbreviation(lessonName, function(err, data)
         {
+          console.log("G_G");
           if (data == 'no data')
           {
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', function(err, repeat, total)
+            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', applyUseTime, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
+              console.log("G_G");
               createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
               {
+                console.log("G_G");
                 res.send({ success: "yes"});
               })
             })
@@ -612,6 +638,7 @@ router.post('/apply', function(req, res, next){
             + applyLocation + '-' + applyPeriod;
             createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
             {
+              console.log("G_G");
               res.send({ success: "yes"});
             })
           }

@@ -109,11 +109,11 @@ var apply = (function(){
           							alert('error: ' + xhr);console.log(xhr);
           							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
           						}
-          					})
+          					});
 
-
+                    // var test = "";
                     // this._insertClass();	/* 插入課程 */
-                    objThis._bounce_new.modal("hide");
+                    // objThis._bounce_new.modal("hide");
 
                   });
 
@@ -365,22 +365,7 @@ var apply = (function(){
 				}
 			}
 			return returnCheck;
-		},
-    _getApplyList:function(){
-
-
-        $.ajax({
-            type:'get',
-            url:'/apply',
-
-            success:function(datas){
-                console.log(datas);
-            },
-            befordSend:function(){
-
-            }
-        })
-    }
+		}
   }
   return _const;
 }());
