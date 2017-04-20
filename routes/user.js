@@ -129,14 +129,12 @@ module.exports = {
         }
         if (counts == 0)
         {
-          console.log(data);
           mongoose.disconnect();;
           console.log('disconnect successful');
           callback('no data');
         }
         else
         {
-          console.log(data);
           mongoose.disconnect();
           console.log('disconnect successful');
           callback(data);
@@ -171,7 +169,6 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var User = require('./accounts_model.js');
-      console.log(userData);
       var data = JSON.parse(userData)
       account = data[0].account;
       authorty = data[0].authorty;

@@ -12,14 +12,12 @@ module.exports = {
       var Lesson = require('./lesson_model.js');
       var today = new Date();
       var now = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
-      console.log(now);
       if (requireFirstDay == '' && requireSecondDay == '')
       {
         Lesson.find({time: now, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
         {
             if(data != '')
             {
-              console.log(data);
               mongoose.disconnect();
               console.log('disconnect successful');
               callback(err, data)
@@ -45,8 +43,6 @@ module.exports = {
           {
             Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}).sort({'time':'asc'}).exec(function(err, data)
             {
-                console.log(secondMillionSecond);
-                console.log(data);
                 mongoose.disconnect();
                 console.log('disconnect successful');
                 callback(err, data);
@@ -56,7 +52,6 @@ module.exports = {
           {
             Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
             {
-                console.log(secondMillionSecond);
                 mongoose.disconnect();
                 console.log('disconnect successful');
                 callback(err, data);

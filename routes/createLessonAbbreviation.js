@@ -10,7 +10,6 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Abbreviation = require('./lessonAbbreviation_model.js');
-      console.log(time);
       Abbreviation.find(function(err, data)
       {
         var counts = 0;
