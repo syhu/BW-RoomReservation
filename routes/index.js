@@ -254,7 +254,7 @@ router.get('/lessonManage', function(req, res, next){
   if(req.session.account)
   {
     // specifyLesson.searchLesson('', '', function(err, todayLesson)
-    specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'true', function(err, todayLesson)
+    specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'success', function(err, todayLesson)
     {
       if(todayLesson != 'no data')
       {
@@ -262,7 +262,7 @@ router.get('/lessonManage', function(req, res, next){
       }
       else if(todayLesson == 'no data')
       {
-        res.render('lessonManage', { user: req.session.userName});
+        res.render('lessonManage', { user: req.session.userName, information: req.session.information});
       }
     })
   }
@@ -447,7 +447,7 @@ router.post('/searchAccount', function(req, res, next){
 
 /*** Check Change Lesson Manage Page ***/
 router.get('/audit', function(req, res, next){
-  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
+  if(req.session.account && (req.session.information[0].authorty != 'User'))
   {
     res.render('audit', { user: req.session.userName, information: req.session.information});
   }

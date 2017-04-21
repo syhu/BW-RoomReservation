@@ -13,6 +13,8 @@ module.exports = {
       var Lesson = require('./lesson_model.js');
       var repeat = false ;
       var length = currentTime.length;
+      console.log(currentTime + ' -> ' + period + ' -> ' + lessonClass);
+
 
       function asyncLoop(iterations, func, callback) {
         var index = 1;
@@ -47,9 +49,10 @@ module.exports = {
       }
 
       function searchRepeat(thisTime, callback) {
-          Lesson.find({time: thisTime, period: period, lessonClass: lessonClass}, function(err, data)
+          Lesson.find({time: thisTime, period: period, lessonClass: lessonClass, checkSituation: 'success'}, function(err, data)
           {
             var counts = 0;
+            console.log(data);
             for (var no in data)
             {
               counts++;
@@ -101,7 +104,7 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
-      Lesson.find({time: currentTime, period: period, lessonClass: lessonClass}, function(err, data)
+      Lesson.find({time: currentTime, period: period, lessonClass: lessonClass, checkSituation: 'success'}, function(err, data)
       {
         var counts = 0;
         for (var no in data)

@@ -19,17 +19,18 @@ module.exports = {
         }
         counts = counts+1;
         var total = counts;
+        var fullLessonName = lessonName + '(' + userName + ')';
         doc = new Abbreviation
         ({
           id: counts,
           userName : userName,
-          name : lessonName,
+          name : fullLessonName,
           abbreviation : lessonAbbreviation,
           createTime : time,
           modifyTime : time
         });
 
-        Abbreviation.find({name: lessonName}, function(err, data)
+        Abbreviation.find({name: fullLessonName}, function(err, data)
         {
           var counts = 0;
           for (var key in data)

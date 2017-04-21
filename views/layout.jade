@@ -35,154 +35,82 @@ html
     #page
       #header
         #admin_hide.nav.navbar-nav
-          //- #list.dropdown
-          //-   span.fui-list-small-thumbnails.dropdown-toggle(data-toggle='dropdown')
-          //-   table.dropdown-menu(cellpadding='5', style='border-radius:10px;line-height:10px;')
-          //-     tr
-          //-       th(colspan='4') 教室調動
-          //-     tr(style='border-bottom:1px solid black;')
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label#func1
-          //-           img(src='images/num/01.png')
-          //-           p(style='font-size:12px;') 功能1
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label#func2
-          //-           img(src='images/num/02.png')
-          //-           p(style='font-size:12px;') 功能2
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label#func3
-          //-           img(src='images/num/03.png')
-          //-           p(style='font-size:12px;') 功能3
-          //-     tr
-          //-       th(colspan='4') 後台系統
-          //-     tr
-          //-       td
-          //-         label#admin_data
-          //-           img(src='images/num/04.png')
-          //-           p(style='font-size:12px;') 管理者資料
-          //-       td
-          //-         label#user_data
-          //-           img(src='images/num/05.png')
-          //-           p(style='font-size:12px;') 使用者資料
-          //-       td
-          //-         label#user_sql
-          //-           img(src='images/num/06.png')
-          //-           p(style='font-size:12px;') SQL模式
-          //-     tr
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label#user_sql_track
-          //-           img(src='images/num/04.png')
-          //-           p(style='font-size:12px;') SQL track
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label(id='')
-          //-       td(style='border-bottom:1px solid black;')
-          //-         label(id='')
-          //-     tr
-          //-       th(colspan='4') 使用統計
-          //-     tr
-          //-       td
-          //-         label(id='')
-          //-           img(src='images/num/07.png')
-          //-           p(style='font-size:12px;') 功能1
-          //-       td
-          //-         label(id='')
-          //-           img(src='images/num/08.png')
-          //-           p(style='font-size:12px;') 功能2
-          //-       td
-          //-         label(id='')
-          //-           img(src='images/num/09.png')
-          //-           p(style='font-size:12px;') 功能3
         #title
-          b#index(title='Copyright © 2016 福智 All rights reserved',onclick='index();')
-            img(src='images/open-book.png')
-            |  福智基金會
+          b#index(title='Copyright © 2016 福智 All rights reserved')
+            a(href='/')
+              img(src='images/open-book.png')
+              |  福智基金會
         #mainDropdown
-          //- ul.nav.navbar-nav
-          //-   li.dropdown
-          //-     a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
-          //-       | 報名專區
-          //-       b.caret
-          //-     ul.dropdown-menu
-          //-       li
-          //-         a#sign_rervation(href='#', style='font-size:15px;')
-          //-           img
-          //-           |    立刻報名
-          //-       li
-          //-         a#sign_rervation(href='#', style='font-size:15px;')
-          //-           img
-          //-           |    預約報名
           ul.nav.navbar-nav
             li.dropdown
-              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+              a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
                 | 課程查詢
                 b.caret
               ul.dropdown-menu
                 li
-                  a#lesson_time(href='#', style='font-size:15px;')
+                  a#lesson_time(style='font-size:15px;')
                     img(src='images/time.png')
                     |    時段查詢
                 li
-                  a#lesson_place(href='#', style='font-size:15px;')
+                  a#lesson_place(style='font-size:15px;')
                     img(src='images/place.png')
                     |    地點查詢
                 li
-                  a#lesson_name(href='#', style='font-size:15px;')
+                  a#lesson_name(style='font-size:15px;')
                     img(src='images/lesson.png')
                     |    課程查詢
-          if user && (information[0].authorty == 'Admin')
-            ul.nav.navbar-nav
-              li.dropdown
-                a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
-                  | 管理專區
-                  b.caret
-                ul.dropdown-menu
-                  li
-                    a#lesson_time(href='#',onclick='lessonCRUD();' style='font-size:15px;')
-                      img(src='images/time.png')
-                      |    CRUD
-                  li
-                    a#lesson_time(href='#', onclick='userManage();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      |    使用者管理
-                  li
-                    a#lesson_time(href='#', onclick='lessonIDManage();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      |    課程編號管理
-                  li
-                    a#lesson_time(href='#', onclick='audit();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      | 審核專區
+          if user && (information[0].authorty != 'User')
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
+                    | 管理專區
+                    b.caret
+                  ul.dropdown-menu
+                    if user && (information[0].authorty == 'Admin')
+                      li
+                        a#lesson_time(onclick='userManage();', style='font-size:15px;')
+                          img(src='images/time.png')
+                          |    使用者管理
+                      li
+                        a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
+                          img(src='images/time.png')
+                          |    課程管理
+                    if user && (information[0].authorty != 'User')  
+                      li
+                        a#lesson_time(onclick='audit();', style='font-size:15px;')
+                          img(src='images/time.png')
+                          | 審核專區
           if user
             ul.nav.navbar-nav
               li.dropdown
-                a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+                a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
                   | 申請服務
                   b.caret
                 ul.dropdown-menu
                   li
-                    a#lesson_time(href='#',onclick='manage();' style='font-size:15px;')
+                    a#lesson_time(onclick='manage();' style='font-size:15px;')
                       img(src='images/time.png')
                       | 申請常態課程
                   li
-                    a#lesson_time(href='#', onclick='apply();', style='font-size:15px;')
+                    a#lesson_time(onclick='apply();', style='font-size:15px;')
                       img(src='images/time.png')
                       | 申請使用單次教室
                   li
-                    a#lesson_time(href='#', onclick='lesson();', style='font-size:15px;')
+                    a#lesson_time(onclick='lesson();', style='font-size:15px;')
                       img(src='images/time.png')
                       | 申請資料
           ul.nav.navbar-nav
             li.dropdown
-              a.dropdown-toggle(href='#', style='font-size:18px;', data-toggle='dropdown')
+              a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
                 | 其他資訊
                 b.caret
               ul.dropdown-menu
                 li
-                  a#opinion(href='#', style='font-size:15px;')
+                  a#opinion(style='font-size:15px;')
                     img(src='images/opinion.png')
                     |    填寫意見
                 li
-                  a(href='#', style='font-size:15px;')
+                  a(style='font-size:15px;')
                     img(src='images/contact.png')
                     |    聯絡我們
         #admin_authority
@@ -193,46 +121,36 @@ html
               ul.dropdown-menu
                 if user
                   li
-                    a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown') ID:#{user}
+                    a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown') ID:#{user}
                   li
-                    a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  登入紀錄
+                    a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  登入紀錄
                   li
-                    a.dropdown-toggle(href='#', onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
+                    a.dropdown-toggle(onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
                   li
-                    a.dropdown-toggle(href='#', onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
+                    a.dropdown-toggle(onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
                 else
                   li
-                    a.dropdown-toggle(href='#', onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
+                    a.dropdown-toggle(onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
                   li
-                    a.dropdown-toggle(href='#', onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
+                    a.dropdown-toggle(onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
                 li
-                  a.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  使用說明
+                  a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  使用說明
                 li
-                  a#question.dropdown-toggle(href='#', style='font-size:15px;', data-toggle='dropdown')  回報問題
+                  a#question.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message
           if user
             font#time Hi~ #{user}
           else
             font#time Hi~ 訪客
-          
-            
       #main
         block main
-        //- .owl-carousel
-        //-   .item
-        //-     img(src='images/01.jpg')
-        //-   .item
-        //-     img(src='images/02.jpg')
-        //-   .item
-        //-     img(src='images/03.jpg')      
-        //- div#opacityDiv
-        //-   .panel-header(style='padding: 20px 80px;')
-        //-     h3
-        //-       i.fa.fa-bookmark
-        //-       strong 今日課表
-        //-   table.table
-        //-     tbody#todayLessonList
-      
+        .owl-carousel
+          .item
+            img(src='images/01.jpg')
+          .item
+            img(src='images/02.jpg')
+          .item
+            img(src='images/03.jpg')            
       #footer
         #footer-context
           span
