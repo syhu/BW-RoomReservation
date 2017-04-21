@@ -30,10 +30,11 @@ block main
                           tr
                             th(width='5%') #
                             th(width='15%', style='border-left:1px #ddd solid;') 上傳者
-                            th(width='24%', style='border-left:1px #ddd solid;') 課程名稱
-                            th(width='24%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
+                            th(width='16%', style='border-left:1px #ddd solid;') 課程名稱
+                            th(width='16%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
                             th(width='16%', style='border-left:1px #ddd solid;') 新增時間
                             th(width='16%', style='border-left:1px #ddd solid;') 修改時間
+                            th(width='16%', style='border-left:1px #ddd solid;') 詳細資料
                           //- if showLessonAbbreviation
                           //-   - var sn = 0
                           //-   - var color = ''
@@ -60,7 +61,7 @@ block main
                           //-         |#{lesson.modifyTime}
                           tbody#lesson
                           tr#nobodyList.tr-empty(align='center')
-                            td(colspan='6')
+                            td(colspan='7')
                               br
                               span#new(style='cursor:pointer;')
                                 i.fa.fa-plus-circle.fa-3x

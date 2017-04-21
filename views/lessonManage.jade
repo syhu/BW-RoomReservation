@@ -334,6 +334,15 @@ block main
                           option(value='時段4') 時段4
                   div(style='margin:0 0 20px 0;')
                     .row
+                      .col-md-12.form-group.form_detailName.form.has-warning
+                        | 聯絡人姓名:
+                        input#detailName.form-control(type='text', placeholder='請填入聯絡人姓名')
+                      .col-md-12.form-group.form_detailPhone.form.has-warning
+                        | 聯絡人電話:
+                        input#detailPhone.form-control(type='text', placeholder='請填入聯絡人電話')
+                      
+                  div(style='margin:0 0 20px 0;')
+                    .row
                       .col-md-12.form-group.form_people.form.has-warning
                         | 上課人數:
                         input#lessonPeople.form-control(type='text', placeholder='請填入上課人數')

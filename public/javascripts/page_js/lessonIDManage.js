@@ -160,6 +160,14 @@ var lessonIDManage = (function(){
           //修改時間
           _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
           _tr.append(_td);
+          //詳細資料
+          _input = $("<span />",{"class":"label label-default","text":"聯絡人資訊","style":"font-size:100%;"});
+          _input.bind("click",function(){
+              bootbox.alert("聯絡人資訊")
+          })
+          _td = $("<td />");
+          _td.append(_input)
+          _tr.append(_td);
 
           objThis._lesson.append(_tr)
       });
