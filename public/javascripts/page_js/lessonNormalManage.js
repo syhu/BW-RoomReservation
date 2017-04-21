@@ -155,7 +155,7 @@ var lessonNormalManage = (function(){
 											};
 											$.ajax({
 												type: "post",
-												url: "/lessonManage",
+												url: "/lessonNormalManage",
 												data: lessonData ,
 												dataType: "json",
 												success: function(message){
@@ -468,7 +468,7 @@ var lessonNormalManage = (function(){
 				//時間-時段
 				_td = $("<td />",{"text":v.time + "-" + v.period});
 				_tr.append(_td)
-				
+
 				objThis._lesson.append(_tr);
 			})
 		}

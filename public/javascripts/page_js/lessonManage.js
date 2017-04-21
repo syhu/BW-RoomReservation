@@ -155,7 +155,7 @@ var lessonManage = (function(){
 											};
 											$.ajax({
 												type: "post",
-												url: "/lessonManage",
+												url: "/lessonNormalManage",
 												data: lessonData ,
 												dataType: "json",
 												success: function(message){

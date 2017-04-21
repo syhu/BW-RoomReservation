@@ -17,23 +17,19 @@ function signin()
 }
 function manage()
 {
-  location.href = '/lessonManage';
+  location.href = '/lessonNormalManage';
 }
 function information()
 {
   location.href = '/information';
 }
-// function lessonCRUD()
-// {
-//   location.href = '/lesson';
-// }
 function userManage()
 {
   location.href = '/userManage';
 }
 function lessonIDManage()
 {
-  location.href = '/lessonIDManage';
+  location.href = '/lessonManage';
 }
 function apply()
 {
@@ -47,4 +43,8 @@ function audit()
 function lesson()
 {
   location.href = '/lesson';
+}
+function positionManage()
+{
+  location.href = '/positionManage';
 }

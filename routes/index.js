@@ -250,7 +250,7 @@ router.get('/logout',function(req, res, next){
 })
 
 /*** Lessson manage page***/
-router.get('/lessonManage', function(req, res, next){
+router.get('/lessonNormalManage', function(req, res, next){
   if(req.session.account)
   {
     // specifyLesson.searchLesson('', '', function(err, todayLesson)
@@ -258,11 +258,11 @@ router.get('/lessonManage', function(req, res, next){
     {
       if(todayLesson != 'no data')
       {
-        res.render('lessonManage', { user: req.session.userName, showLesson: todayLesson, information: req.session.information});
+        res.render('lessonNormalManage', { user: req.session.userName, showLesson: todayLesson, information: req.session.information});
       }
       else if(todayLesson == 'no data')
       {
-        res.render('lessonManage', { user: req.session.userName, information: req.session.information});
+        res.render('lessonNormalManage', { user: req.session.userName, information: req.session.information});
       }
     })
   }
@@ -272,7 +272,7 @@ router.get('/lessonManage', function(req, res, next){
   }
 })
 
-router.post('/lessonManage', function(req, res, next){
+router.post('/lessonNormalManage', function(req, res, next){
   var lessonName = req.body.lessonName;
   var lessonCount = req.body.lessonCount;
   var lessonBuilding = req.body.lessonBuilding;
@@ -504,20 +504,10 @@ router.post('/auditFail', function(req, res, next){
 })
 
 /*** Lesson identity Manage Page ***/
-router.get('/lessonIDManage', function(req, res, next){
+router.get('/lessonManage', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
-    // allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
-    // {
-    //   if(data == 'no data')
-    //   {
-        res.render('lessonIDManage', { user: req.session.userName, information: req.session.information});
-    //   }
-    //   else
-    //   {
-    //     res.render('lessonIDManage', { user: req.session.userName, showLessonAbbreviation: data, information: req.session.information});
-    //   }
-    // })
+      res.render('lessonManage', { user: req.session.userName, information: req.session.information});
   }
   else
   {
@@ -525,7 +515,7 @@ router.get('/lessonIDManage', function(req, res, next){
   }
 })
 
-router.post('/lessonIDManage', function(req, res, next){
+router.post('/lessonManage', function(req, res, next){
   var lessonName = req.body.lessonName;
   var lessonAbbreviation = req.body.lessonAbbreviation;
   var userName = req.session.userName;
@@ -665,6 +655,18 @@ router.post('/getAllPassLesson', function(req, res, next){
       res.send({ success:'no' });
     }
   })
+})
+
+/*** Position Manage Page ***/
+router.get('/positionManage', function(req, res, next){
+  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
+  {
+      res.render('positionManage', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
 })
 
 module.exports = router;

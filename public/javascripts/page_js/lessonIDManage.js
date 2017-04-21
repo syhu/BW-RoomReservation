@@ -62,7 +62,7 @@ var lessonIDManage = (function(){
           };
           $.ajax({
             type: 'post',
-            url: '/lessonIDManage',
+            url: '/lessonManage',
             data: abbreviationData,
             dataType: 'json',
             success: function(message)
