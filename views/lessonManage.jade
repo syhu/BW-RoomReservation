@@ -5,7 +5,7 @@ block main
     link(rel='stylesheet', href='stylesheets/customized.css')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
-    script(src='javascripts/page_js/lessonManage.js')
+    script(src='javascripts/page_js/lessonNormalManage.js')
     script(src='javascripts/plugins.js')
 
     #manager_center.panel
@@ -17,7 +17,7 @@ block main
                 div(style='text-align: center;')   
                   h3
                     i.fa.fa-users                            
-                    strong(style='margin-left:5px;') 課程管理
+                    strong(style='margin-left:5px;') 新增常態課程
                   br
                 table.table.table-bordered
                   tr
@@ -60,7 +60,7 @@ block main
                   .row
                     .col-md-12(style='height:50px;')
                       button.btn.btn-success.new(style='float:right;margin-top:0px;') 新增課程
-                      font#todayTime 今天時間：
+                      font.todayTime 今天時間：
                     .col-md-12(style='height:650px;')
                       table#lessonList.table.table-condensed
                         tr
@@ -68,7 +68,7 @@ block main
                           th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
                           th(width='15%', style='border-left:1px #ddd solid;') 使用教室
                           th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-                          th(width='20%', style='border-left:1px #ddd solid;') 操作
+                          //- th(width='20%', style='border-left:1px #ddd solid;') 操作
                         tbody#lesson
                           
                         //- if showLesson
@@ -100,7 +100,7 @@ block main
                         //-               li
                         //-                 a(href='#' id='delete2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 刪除
                         tr#nobodyList.tr-empty(align='center')
-                          td(colspan='5')
+                          td(colspan='4')
                             br
                             span#new.new(style='cursor:pointer;')
                               i.fa.fa-plus-circle.fa-3x

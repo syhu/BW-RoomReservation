@@ -1,4 +1,4 @@
-var lessonManage = (function(){
+var lessonNormalManage = (function(){
 	var _const;
 	_const = function(){
 
@@ -10,7 +10,7 @@ var lessonManage = (function(){
 			//this._new = $("#new");
 			this._new = $(".new");
 			this._lesson = $("#lesson");
-			// this._todayTime = $("#todayTime");
+			this._todayTime = $("#todayTime");
 			this._bounce_lesson = $("#bounce_lesson");
 			this._bounce_edit = $("#bounce_edit");
 			this._bounce_detail = $("#bounce_datail");
@@ -74,11 +74,11 @@ var lessonManage = (function(){
 		_initialAll:function(){
 
 			//顯示當天時間
-			// var now = new Date();
-			// this._todayTime.append
-      //   (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-      //     + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-      //     + now.getSeconds());
+			var now = new Date();
+			this._todayTime.append
+        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
+          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
+          + now.getSeconds());
 
 			//新增課程
 			this._new.on("click",$.proxy(function(){
@@ -162,10 +162,6 @@ var lessonManage = (function(){
 													if(message.success == 'yes')
 													{
 														layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-													}
-													else if(message.success == 'no')
-													{
-														layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 													}
 												},
 												error: function (xhr)
@@ -472,60 +468,7 @@ var lessonManage = (function(){
 				//時間-時段
 				_td = $("<td />",{"text":v.time + "-" + v.period});
 				_tr.append(_td)
-				//編輯 刪除
-				_td = $("<td />");
-				_input = $("<span />",{"class":"label label-success","text":"編輯","style":"font-size:100%;"});
-				_input.bind("click",function(){
-						// bootbox.alert("編輯" + v.lessonID)
-						objThis._EditlessonName.html("<font style='color:blue;'>" + v.name + "</font>  ");
-						var arrTimes = v.lessonID.split('-');
-						objThis._EditlessonTimes.html("第 <b style='color:red;'>" + arrTimes[2] + "</b> 次上課")
-						objThis._EditlessonClass.val('');
-						objThis._EditlessonClassTime.val(v.time);
-						objThis._EditlessonPeriod.val(v.period);
-						objThis._EditlessonPeople.val(v.people);
-						objThis._EditlessonNote.val(v.note);
-
-
-						objThis._bounce_edit.modal("show");
-				})
-				_td.append(_input);
-				_input = $("<span />",{"class":"label label-danger","text":"刪除","style":"margin-left:10px;font-size:100%;"});
-				_input.bind("click",function(){
-						var arrTimes = v.lessonID.split('-');
-
-							bootbox.prompt({
-								title:"<b style='font-size:20px;'>您確定要刪除 <font style='color:red;'>" + v.name + "</font> 課程嗎?</b>" +
-								"<br/><br/>第 <font style='color:red;'>" + arrTimes[2] + "</font> 次上課" +
-								"<br/><br/>使用教室：" +
-								"<br/><br/>上課時間：" + v.time +
-								"<br/><br/>上課時段：" + v.period +
-								"<br/><br/>上課人數：" + v.people +
-								"<br/><br/>備註：" + v.note +
-								"<br/><br/><br/><br/><b style='font-size:20px;color:red;'>請輸入密碼</b>",
-
-								inputType:'password',
-								buttons:{
-									confirm:{
-											label:'確定刪除',
-											className:'btn-success'
-									},
-									cancel:{
-											label:'取消',
-											className:'btn-default'
-									}
-
-								},
-								callback:function(result){
-										console.log(result)
-										console.log(v.lessonID)
-								}
-							})
-
-							setTimeout("$('.bootbox-input').val('')",500)
-				})
-				_td.append(_input);
-				_tr.append(_td);
+				
 				objThis._lesson.append(_tr);
 			})
 		}
@@ -533,7 +476,7 @@ var lessonManage = (function(){
 	return _const;
 }());
 
-var lessonManage;
+var lessonNormalManage;
 $(function(){
-	lessonManage = new lessonManage();
+	lessonNormalManage = new lessonNormalManage();
 })

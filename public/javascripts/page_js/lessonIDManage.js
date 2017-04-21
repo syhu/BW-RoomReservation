@@ -6,15 +6,15 @@ var lessonIDManage = (function(){
   _const.prototype = {
     _construct:function(){
       this._bounce_new = $('#bounce_new');
-      this._btnCancel = $('#btnCancel');
-      this._btnSubmit = $('#btnSubmit');
+      this._btnCancel = $('#btnCancelID');
+      this._btnSubmit = $('#btnSubmitID');
       this._form_name = $('.form_name');
       this._form_abbreviation = $('.form_abbreviation');
-      this._lesson = $('#lesson');
-      this._lessonName = $('#lessonName');
+      this._lesson = $('#lessonID');
+      this._lessonName = $('#lessonNameID');
       this._lessonAbbreviation = $('#lessonAbbreviation');
       this._new = $('#new');
-      this._todayTime = $("#todayTime");
+      this._todayTime = $(".todayTime");
 
       this._start();
     },

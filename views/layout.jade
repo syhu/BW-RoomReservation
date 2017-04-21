@@ -74,7 +74,11 @@ html
                       li
                         a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
                           img(src='images/time.png')
-                          |    課程管理
+                          |    課程聯絡管理
+                      //- li
+                      //-   a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
+                      //-     img(src='images/time.png')
+                      //-     |    課程細部管理                          
                     if user && (information[0].authorty != 'User')  
                       li
                         a#lesson_time(onclick='audit();', style='font-size:15px;')
