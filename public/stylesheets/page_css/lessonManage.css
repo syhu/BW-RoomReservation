@@ -6,7 +6,7 @@ body {
 	vertical-align:middle;
 	background-color:#E3E3E3;
 }
-#manager_header{
+/*#manager_header{
 	text-align:center;
 	border:2px solid black;
 	border-radius:10px;
@@ -17,7 +17,7 @@ body {
 	margin-top: 5%;
 	margin-bottom: 0%;
 	overflow:hidden;
-}
+}*/
 #manager_left{
 	float:left;
 	border:2px solid black;
@@ -28,22 +28,22 @@ body {
 	overflow:hidden;
 }
 #manager_center{
-	float:left;
 	border:2px solid black;
 	border-radius:10px;
-	height:60%;
-	width:74%;
-	margin:20px;
+	/*height:60%;*/
+	width:80%;
+	margin-left: 10%;
+	margin-right: 10%;
 	overflow:hidden;
 }
-#manager_right{
+/*#manager_right{
 	float:left;
-	/*border:2px solid black;*/
+	border:2px solid black;
 	border-radius:10px;
 	height:500px;
 	width:10%;
 	margin-top:20px;
-}
+}*/
 
 #lessonList{
 	margin:20px;

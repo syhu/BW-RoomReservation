@@ -20,31 +20,18 @@ var master = (function(){
 			this._time = $("#time");
 			this._welcome = $("#welcome");
 			this._top = $("#top");
+
+
+			//今日課表查詢
+			this._filterTime = $("#filterTime");
+			this._filterBuilding = $("#filterBuilding");
+			this._filterFloor = $("#filterFloor");
+			this._cancelFilter = $("#cancelFilter");
+			this._btnFilter = $("#btnFilter");
 			this._todayLessonList = $("#todayLessonList");
 
-/*
-			var $window = $(window),
-			$top = $("#goTop").css('opacity',0).show(),
-			_width = $top.width(),
-			_height = $top.height(),
-			_diffY = 20,_diffX = 20,
-			_moveSpeed = 600;
-
-			$top.css({
-				top:$(document).height(),
-				left:$window.width()-_width-_diffX,
-				opacity:1,
-			});
-*/
 			this._start();	//開始網頁執行function
-			/*
-			$window.bind("scroll resize",function(){
-				var $this = $(this);
-				$top.stop().animate({
-					top:$this.scrollTop() + $this.height() - _height - _diffY,
-					left:$this.scrollLeft() + $this.width() - _width - _diffX
-				},_moveSpeed)
-			}).scroll();*/
+
 
 
 
@@ -104,13 +91,7 @@ var master = (function(){
 					}
 				}
 			});
-			/*
-			$(".item").hover(function(){
-					$(this).css({"z-index":"5","position":"relative"});
-			},function(){
-					$(this).css("z-index","-1");
-			});
-			*/
+
 		},
 		_setLessonList:function(){
 				var objThis = this;
@@ -123,10 +104,6 @@ var master = (function(){
 							_td = $("<td />",{"text":i+1});
 							_tr.append(_td);
 						}
-
-
-
-
 						objThis._todayLessonList.append(_tr);
 				}
 
@@ -144,11 +121,6 @@ var master = (function(){
 			var nowTime = new Date();
 			objThis._time.append(" , 今天日期:" + nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
 
-			//top
-			// objThis._top.on("click",$.proxy(function(event){
-			//
-			// 	$("html,body").animate({scrollTop:0},'slow');
-			// },this))
 
 			//標題 回首頁
 			objThis._index.on("click",$.proxy(function(event){

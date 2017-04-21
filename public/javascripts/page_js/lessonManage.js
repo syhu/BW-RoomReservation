@@ -40,10 +40,12 @@ var lessonManage = (function(){
 			this._lessonDetail = $("#lessonDetail");
 			this._detailName = $("#detailName");
 			this._detailData = $("#detailData");
-			//select
-			this._selectLocal = $("#selectLocal");
-			this._selectClass = $("#selectClass");
-
+			//查詢
+			this._btnFilter = $("#btnFilter");
+			this._cancelFilter = $("#cancelFilter");
+			this._filterTimeZone = $("#filterTimeZone");
+			this._filterClass = $("#filterClass");
+			this._filterLocal = $("#filterLocal");
 
 			this._start();
 		},
@@ -79,6 +81,17 @@ var lessonManage = (function(){
 				//新增課程 視窗
 				this._bounce_lesson.modal('show');
 			},this));
+
+			//清除查詢
+			this._cancelFilter.on("click",$.proxy(function(){
+				this._filterTimeZone.val('請選擇');
+				this._filterClass.val('請選擇');
+				this._filterLocal.val('請選擇');
+			},this));
+			//查詢
+			this._btnFilter.on("click",$.proxy(function(){
+
+			},this))
 
 			//關閉課程明細
 			this._btnClose.on("click",$.proxy(function(){

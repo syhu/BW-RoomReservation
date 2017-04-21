@@ -11,7 +11,7 @@ html
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/icheck.js')
-    //- script(src='javascripts/layer/layer.js')
+    script(src='javascripts/layer/layer.js')
     script(src='javascripts/page_js/register.js')
     //bootbox
     script(src='javascripts/bootbox/bootbox.min.js')
@@ -74,7 +74,7 @@ html
                       font.field
                         span.symbol *
                         | 性別
-                      label.sex
+                      label.sex(style='margin-left:10px;')
                         input#sex.form-control.check_sex(type='radio', value='male', name='gender', checked)
                         font(style='vertical-align:middle')  男
                       label.sex(style='margin-left:10px;')
@@ -98,11 +98,11 @@ html
                         span.symbol *
                         | 生日
                       .form-group.form_birthday(style='float:left;')
-                        select#birthday1.form-control(style='width:40%', name='birthday1')
+                        select#birthday1.form-control.birthday(style='width:40%', name='birthday1')
                           option(value='請選擇') 
-                        select#birthday2.form-control(style='width:30%', name='birthday2')
+                        select#birthday2.form-control.birthday(style='width:30%', name='birthday2')
                           option(value='請選擇')
-                        select#birthday3.form-control(style='width:30%', name='birthday3')
+                        select#birthday3.form-control.birthday(style='width:30%', name='birthday3')
                           option(value='請選擇')
 
               div(style='margin: 20px 0 20px 0;')
@@ -125,9 +125,9 @@ html
           .modal-content
             .modal-header.bg-dark
               button.close(type='button', data-dismiss='modal', aria-hidden='true')
-                i.fa.fa-times-circle(style='font-size:20px;')
+                i.fa.fa-times-circle(style='font-size:20px;color:white;')
               span.modal-title 驗證
-            div(style='margin-top:20px;margin-bottom:20px;')
+            div(style='padding:50px 20px 20px 200px;')
               .check_img(style='margin: 20px 0 20px 0;')
               .form-inline.form-group.form_check
                 input#registerCheck.form-control(type='text', style='width:50%;', placeholder='請輸入上方驗證碼')

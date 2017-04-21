@@ -41,6 +41,7 @@ var registered = (function(){
 			this._telephone = $("#telephone");
 			this._gender = $(".gender");
 			this._identity = $("#identity");
+			this._birthday = $(".birthday");
 			this._birthday1 = $("#birthday1");
 			this._birthday2 = $("#birthday2");
 			this._birthday3 = $("#birthday3");
@@ -88,7 +89,8 @@ var registered = (function(){
 			objThis._getRandom();
 			//查詢帳號是否重複
 			this._searchAccount.on("click", $.proxy(function(e){
-				if(this._account.val() != "" ){
+				if(this._account.val() != "" && this._account.val().length >= 6 && this._account.val().length <= 20
+				&& this._account.val().match(/[a-z]/i)){
 					$.ajax({
 						type: "post",
 						url: "/searchAccount",
@@ -114,7 +116,9 @@ var registered = (function(){
 					})
 					this._nowAccount = this._account.val();
 				}else{
-						bootbox.alert("請輸入帳號");
+						// bootbox.alert("請輸入帳號");
+						layer.msg('<b>請輸入正確的帳號格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+
 				}
 
 			}, this))
@@ -431,6 +435,11 @@ var registered = (function(){
 					evt.preventDefault();
 				}
 			});
+			//生日 提示
+			objThis._birthday.on("focus",$.proxy(function(event){
+				objThis._promptText.empty();
+				objThis._promptText.append("貼心小提示:生日請選擇西元年、月、日，日期不能超過今日。");
+			},this))
 			//生日1 blur
 			objThis._birthday1.on("blur",$.proxy(function(event){
 				if(objThis._birthday1.val() != "請選擇" && objThis._birthday2.val() != "請選擇" && objThis._birthday3.val() != "請選擇"

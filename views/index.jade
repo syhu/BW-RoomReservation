@@ -2,5 +2,51 @@ extends layout
 
 block main
     script(src='javascripts/page_js/master.js')
-    script(src='javascripts/layer/layer.js')
+    script(src='javascripts/jquery-ui.js')
+    script(src='javascripts/jquery-ui.cache.js')
+    script(src='javascripts/plugins.js')
+    
     input#welcome(type='hidden', value="<div style='margin:15px;'><span class='fui-user'></span>#{user}，歡迎進入福智基金會網站。<br/><br/><br/><br/><br/></div>", <='', body='')
+    
+    .owl-carousel
+      .item
+        img(src='images/01.jpg')
+      .item
+        img(src='images/02.jpg')
+      .item
+        img(src='images/03.jpg') 
+    div#opacityDiv
+      .panel-header.table-responsive(style='padding: 20px 80px;')
+        h3
+          i.fa.fa-bookmark
+          strong 今日課表
+          
+        table.table.table-condensed(style='width:100%;')
+          tr
+            th 日期
+            th
+              input#filterTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
+            th 地點
+            th
+              select#filterBuilding.form-control(name='lessonBuilding')
+                option(value='請選擇') 請選擇
+                option(value='環球') 環球
+                option(value='里仁') 里仁
+                option(value='學苑') 學苑
+              select#filterFloor.form-control
+                option(value='請選擇') 請選擇
+                option(value='7f') 7樓
+                option(value='12f') 12樓
+                option(value='13f') 13樓
+                option(value='liren2f') 里仁 - 2樓
+                option(value='global13f') 環球 - 3樓
+                option(value='global12f') 環球 - 12樓
+                      
+          tr(style='border:0px solid #eee;')
+            th(colspan='4')
+              button#cancelFilter.btn.btn-default(type='button') 清除
+              button#btnFilter.btn.btn-primary(type='button') 查詢
+
+          
+        table.table
+          tbody#todayLessonList

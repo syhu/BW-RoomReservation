@@ -93,8 +93,8 @@ html
           //-           img(src='images/num/09.png')
           //-           p(style='font-size:12px;') 功能3
         #title
-          b#index(title='Copyright © 2016 福智 All rights reserved')
-            img(src='images/open-book.png', href='/')
+          b#index(title='Copyright © 2016 福智 All rights reserved',onclick='index();')
+            img(src='images/open-book.png')
             |  福智基金會
         #mainDropdown
           //- ul.nav.navbar-nav
@@ -218,13 +218,13 @@ html
             
       #main
         block main
-        .owl-carousel
-          .item
-            img(src='images/01.jpg')
-          .item
-            img(src='images/02.jpg')
-          .item
-            img(src='images/03.jpg')      
+        //- .owl-carousel
+        //-   .item
+        //-     img(src='images/01.jpg')
+        //-   .item
+        //-     img(src='images/02.jpg')
+        //-   .item
+        //-     img(src='images/03.jpg')      
         //- div#opacityDiv
         //-   .panel-header(style='padding: 20px 80px;')
         //-     h3

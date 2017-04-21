@@ -8,20 +8,78 @@ block main
     script(src='javascripts/page_js/lessonManage.js')
     script(src='javascripts/plugins.js')
     //- script(src='javascripts/layer/layer.js')
-    #manager_header.panel(style='border:2px solid black;')
-      | 課程管理
-      i.fa.fa-filter
-    #manager_left.panel
+    //- #manager_header.panel(style='border:2px solid black;')
+    //-   | 課程管理
+    //-   i.fa.fa-filter
+    //- #manager_left.panel
+    //-   .row
+    //-     .col-lg-12
+    //-       .form-group
+    //-         .row
+    //-           .col-md-12
+    //-             div(style='margin: 20px 20px 20px 20px;')
+    //-               .row
+    //-                 .col-md-12.form-group
+    //-                   label 查詢地點:
+    //-                   select#selectLocal.form-control
+    //-                     option(value='請選擇') 請選擇
+    //-                     option(value='7f') 7樓
+    //-                     option(value='12f') 12樓
+    //-                     option(value='13f') 13樓
+    //-                     option(value='liren2f') 里仁 - 2樓
+    //-                     option(value='global13f') 環球 - 3樓
+    //-                     option(value='global12f') 環球 - 12樓
+    //-             div(style='margin: 0 20px 20px 20px;')
+    //-               .row
+    //-                 .col-md-12.form-group
+    //-                   label 查詢教室:
+    //-                   select#selectClass.form-control
+    //-                     option(value='請選擇') 請選擇
+    //-                     option(value='教室一') 教室一
+    //-                     option(value='教室二') 教室二
+    //-                     option(value='教室三') 教室三
+    //-                     option(value='教室四') 教室四
+    //-                     option(value='教室五') 教室五
+    //-             div(style='margin: 0 20px 20px 20px;')
+    //-               .row
+    //-                 .col-md-12.form-group
+    //-                   label 查詢時段:
+    //-                   select#select.form-control
+    //-                     option(value='請選擇') 請選擇
+    //-                     option(value='時段一') 時段一
+    //-                     option(value='時段二') 時段二
+    //-                     option(value='時段三') 時段三
+    //-                     option(value='時段四') 時段四
+    //-                     option(value='時段五') 時段五
+    //-             div(style='margin: 0 20px 20px 20px;')
+    //-               .row
+    //-                 .col-md-18.form-group
+    //-                   .col-md-6
+    //-                     input.date-picker.form-control(type='text', id='', placeholder='開始時間')
+    //-                   .col-md-6
+    //-                     input.date-picker.form-control(type='text', id='', placeholder='結束時間')
+    //-               .row
+    //-                 .col-md-12(style='text-align:center;')
+    //-                   button#btnReset.btn.btn-default(type='button') 返回今天
+    //-                   button#btnSelect.btn.btn-success(type='button') 查詢
+    //-             br
+    //-             br
+    #manager_center.panel
       .row
         .col-lg-12
           .form-group
             .row
               .col-md-12
-                div(style='margin: 20px 20px 20px 20px;')
-                  .row
-                    .col-md-12.form-group
-                      label 查詢地點:
-                      select#selectLocal.form-control
+                div(style='text-align: center;')   
+                  h3
+                    i.fa.fa-users                            
+                    strong(style='margin-left:5px;') 課程管理
+                  br
+                table.table.table-bordered
+                  tr
+                    th 地點
+                    th
+                      select#filterLocal.form-control
                         option(value='請選擇') 請選擇
                         option(value='7f') 7樓
                         option(value='12f') 12樓
@@ -29,46 +87,30 @@ block main
                         option(value='liren2f') 里仁 - 2樓
                         option(value='global13f') 環球 - 3樓
                         option(value='global12f') 環球 - 12樓
-                div(style='margin: 0 20px 20px 20px;')
-                  .row
-                    .col-md-12.form-group
-                      label 查詢教室:
-                      select#selectClass.form-control
+                    th 教室
+                    th
+                      select#filterClass.form-control
                         option(value='請選擇') 請選擇
                         option(value='教室一') 教室一
                         option(value='教室二') 教室二
                         option(value='教室三') 教室三
                         option(value='教室四') 教室四
                         option(value='教室五') 教室五
-                div(style='margin: 0 20px 20px 20px;')
-                  .row
-                    .col-md-12.form-group
-                      label 查詢時段:
-                      select#select.form-control
+              
+                    th 時段
+                    th
+                      select#filterTimeZone.form-control
                         option(value='請選擇') 請選擇
                         option(value='時段一') 時段一
                         option(value='時段二') 時段二
                         option(value='時段三') 時段三
                         option(value='時段四') 時段四
                         option(value='時段五') 時段五
-                div(style='margin: 0 20px 20px 20px;')
-                  .row
-                    .col-md-18.form-group
-                      .col-md-6
-                        input.date-picker.form-control(type='text', id='', placeholder='開始時間')
-                      .col-md-6
-                        input.date-picker.form-control(type='text', id='', placeholder='結束時間')
-                  .row
-                    .col-md-12(style='text-align:center;')
-                      button#btnReset.btn.btn-default(type='button') 返回今天
-                      button#btnSelect.btn.btn-success(type='button') 查詢
-                br
-                br
-    #manager_center.panel(style='border:2px solid black;')
-      .row
-        .col-lg-12
-          .form-group
-            .row
+                  tr(style='border:0px;')
+                    th(colspan='6')
+                      button#cancelFilter.btn.btn-default(type='button') 清除
+                      button#btnFilter.btn.btn-primary(type='button') 查詢
+
               .col-md-12
                 div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                   .row

@@ -1,3 +1,8 @@
+function index()
+{
+    location.href = '/';
+}
+
 function logout()
 {
   location.href = '/logout';
