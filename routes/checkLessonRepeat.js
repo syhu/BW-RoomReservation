@@ -14,10 +14,10 @@ module.exports = {
       var repeat = false ;
       var length = currentTime.length;
       console.log(currentTime + ' -> ' + period + ' -> ' + lessonClass);
-
+      console.log(length);
 
       function asyncLoop(iterations, func, callback) {
-        var index = 1;
+        var index = 0;
         var done = false;
         var loop = {
             next: function()
@@ -51,8 +51,8 @@ module.exports = {
       function searchRepeat(thisTime, callback) {
           Lesson.find({time: thisTime, period: period, lessonClass: lessonClass, checkSituation: 'success'}, function(err, data)
           {
-            var counts = 0;
             console.log(data);
+            var counts = 0;
             for (var no in data)
             {
               counts++;
@@ -69,9 +69,10 @@ module.exports = {
       }
 
       asyncLoop(length, function(loop) {
+          console.log(loop.iteration()-1);
           thisTime = currentTime[(loop.iteration()-1)];
           searchRepeat(thisTime, function(result) {
-
+            // console.log(loop + ' -> ' + thisTime);
               if (result == 1)
               {
                 repeat = true;
@@ -81,8 +82,10 @@ module.exports = {
           })},
           function(){
             mongoose.disconnect();
+            console.log(repeat);
             if (repeat == true)
             {
+              console.log('disconnect successful');
               callback(1);
             }
             else if(repeat == false)

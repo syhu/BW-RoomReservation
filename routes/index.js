@@ -288,6 +288,15 @@ router.post('/lessonManage', function(req, res, next){
   var userName = req.session.userName;
   var aim = '上課';
 
+  var currentTime = [];
+  currentTime[0] = lessonTime;
+  origMillionSecond = millionSecond;
+  for(var no = 2 ; no <= lessonCount ; no++)
+  {
+    var millionSecond = timePlus(millionSecond);
+    var timeCurrentFormat = timeFormat(millionSecond);
+    currentTime[(no-1)] = timeCurrentFormat
+  }
   var timeTemp = lessonTime.replace(/\//g, '');
   var applyUseTime = timeTemp.substr(2);
   var first = 1;
@@ -295,7 +304,7 @@ router.post('/lessonManage', function(req, res, next){
   var applyPeriod = lessonPeriod;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    checkLessonRepeat.searchLessonRepeat(lessonTime, lessonPeriod, lessonClass, function(repeat)
+    checkLessonRepeat.searchLessonRepeat(currentTime, lessonPeriod, lessonClass, function(repeat)
     {
       if (repeat == 0)
       {
@@ -309,7 +318,7 @@ router.post('/lessonManage', function(req, res, next){
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'normal';
-              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, function()
+              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, function()
               {
                 res.send({ success: "yes"});
               });
@@ -476,20 +485,11 @@ router.post('/auditpass', function(req, res, next){
       var timeCurrentFormat = timeFormat(millionSecond);
       currentTime[(no-1)] = timeCurrentFormat
     }
-    checkLessonRepeat.searchLessonRepeat(currentTime, lessonPeriod, lessonClass, function(checkReapet)
+    console.log(currentTime);
+    createNewLesson.createAllLesson(data, currentTime, sentTime, function()
     {
-      if (checkReapet === 0)
-      {
-        createNewLesson.createAllLesson(data, currentTime, sentTime, function()
-        {
-          res.send({success: 'yes'});
-        })
-      }
-      else if (checkReapet === 1)
-      {
-        res.send({success: 'no'});
-      }
-    });
+      res.send({success: 'yes'});
+    })
   })
 })
 

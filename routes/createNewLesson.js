@@ -139,6 +139,7 @@ module.exports = {
           return loop;
       }
 
+      //審核通過
       function auditpass(i, id, thisTime, callback)
       {
         if (i == 0)
@@ -148,6 +149,9 @@ module.exports = {
             if(err){console.log(err);}
             else
             {
+              console.log(thisTime);
+              checkSameTimeLessom(thisTime);
+              console.log(doc.lessonID + ' save successful');
               callback();
             }
           })
@@ -161,6 +165,7 @@ module.exports = {
         }
       }
 
+      //將正常時間轉換成時間戳
       function dateChangeUnixtime(thisTime, callback)
       {
         var splitTime = thisTime.split('/');
@@ -168,6 +173,7 @@ module.exports = {
         callback(millionSecond);
       }
 
+      //將時間戳轉換成正常時間
       function formatDate(thisTime, callback)
       {
         var timeTemp = thisTime.replace(/\//g, '');
@@ -175,6 +181,7 @@ module.exports = {
         callback(applyUseTime);
       }
 
+      //製造新的課程ID
       function updateLessonID(id, num, thisTime, callback)
       {
         var splitID = id.split('-');
@@ -187,6 +194,29 @@ module.exports = {
         })
       }
 
+      //檢查是否有同時間地點的課程
+      function checkSameTimeLessom(thisTime)
+      {
+        Lesson.find({time: thisTime, checkSituation: 'uncheck'}, function(err, data){
+          for (var no in data)
+          {
+            auditFail(data[no])
+          }
+        })
+      }
+
+      //同時間地點的自動審核失敗
+      function auditFail(data)
+      {
+        // console.log(data);
+        // console.log(data.lessonID);
+        Lesson.update({lessonID: data.lessonID}, {$set: {checkSituation: 'fail', modifyTime: sentTime}}, function(err)
+        {
+          return;
+        })
+      }
+
+      //新增課程
       function addLesson(num, thisTime, callback)
       {
         dateChangeUnixtime(thisTime, function(millionSecond)
@@ -217,6 +247,8 @@ module.exports = {
               if(err){console.log(err);}
               else
               {
+                console.log(thisTime);
+                checkSameTimeLessom(thisTime);
                 console.log(doc.lessonID + ' save successful');
                 callback();
               }

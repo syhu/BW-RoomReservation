@@ -163,6 +163,10 @@ var lessonManage = (function(){
 													{
 														layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 													}
+													else if(message.success == 'no')
+													{
+														layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+													}
 												},
 												error: function (xhr)
 												{
