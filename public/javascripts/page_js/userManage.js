@@ -16,9 +16,7 @@ var userManage = (function(){
         this._filterName = $("#filterName");
         this._filterAccount = $("#filterAccount");
         this._filterAuthority = $("#filterAuthority");
-        //
-        this._bounce_new = $("#bounce_new")
-
+    
         this._start();
     },
 
@@ -80,7 +78,7 @@ var userManage = (function(){
        var objThis = this;
        var _td;
        var _tr;
-      //  console.log(strJson)
+       console.log(strJson)
        objThis._userList.empty();
        $.each(strJson,function(i,v){
 
@@ -98,8 +96,23 @@ var userManage = (function(){
            _td = $("<td />",{"text":v.email});
            _tr.append(_td);
            //權限
-
-           _td = $("<td />",{"nowrap":"nowrap","text":v.authorty});
+           switch (v.authorty) {
+             case 'Admin':
+                labelClass = 'label label-primary badge';
+                text = '最高管理者';
+                break;
+            case 'Owner':
+                labelClass = 'label label-warning badge';
+                text = '管理員';
+                break;
+            case 'User':
+                labelClass = 'label label-info badge';
+                text = '使用者';
+                break;
+           }
+           _input = $("<span />",{"class":labelClass,"text":text,"style":"font-size:100%;"});
+           _td = $("<td />");
+           _td.append(_input);
            _tr.append(_td);
            //操作
            _td = $("<td />");
@@ -175,7 +188,18 @@ var userManage = (function(){
            }
            _input = $("<span />",{"class":"label label-default","text":"詳細資料","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
            _input.bind("click",$.proxy(function(e){
-             objThis._bounce_new.modal('show');
+
+             bootbox.alert("<br/><b style='font-size:20px;'><font style='color:red;'>" + v.name + "</font> 的詳細資料</b><br/>" +
+             "<br/><br/><b>名稱：</b>" + v.name +
+             "<br/><br/><b>性別：</b>" + "男" +
+             "<br/><br/><b>帳號：</b>" + v.account +
+             "<br/><br/><b>電話：</b>" + v.telephone +
+             "<br/><br/><b>信箱：</b>" + v.email +
+             "<br/><br/><b>生日：</b>" + v.birthday +
+             "<br/><br/><b>地址：</b>" + v.address
+
+              )
+
            },this));
            _td.append(_input);
 
