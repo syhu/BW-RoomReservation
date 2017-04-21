@@ -35,17 +35,21 @@ block main
                             th(width='8%', style='border-left:1px #ddd solid;') 申請地點
                             th(width='16%', style='border-left:1px #ddd solid;') 申請時間
                             th(width='18%', style='border-left:1px #ddd solid;') 送出時間
-                            th(width='16%', style='border-left:1px #ddd solid;') 審核狀態
+                            th(width='8%', style='border-left:1px #ddd solid;') 審核狀態
+                            th(width='8%', style='border-left:1px #ddd solid;') 
                           if showLesson
                             - var sn = 0
                             - var color = ''
                             - for lesson in showLesson
-                              - if (lesson.checkSituation == 'false')
+                              - if (lesson.checkSituation == 'fail')
                                 - check = '未通過'
                                 - color = 'danger'
-                              - else 
+                              - else if(lesson.checkSituation == 'success')
                                 - check = '已通過' 
                                 - color = 'warning'
+                              - else
+                                - check = '未審核'
+                                - color = 'default'
                               if lesson.user == user
                                 - sn = sn+1 
                                 tr.lessonID(class=color, id=lesson.lessonID, val='test', name=sn)   
@@ -64,5 +68,8 @@ block main
                                     | #{lesson.createTime}
                                   th(style='text-align:left;border-left:1px #ddd solid;') 
                                     | #{check}
+                                  th
+                                    span(class='label label-success', style='font-size:100%')
+                                      | 詳細
                           tbody#lesson
                           tr#nobodyList.tr-empty(align='center')

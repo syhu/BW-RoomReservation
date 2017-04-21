@@ -37,34 +37,6 @@ block main
                             th(width='14%', style='border-left:1px #ddd solid;') 申請時間
                             th(width='16%', style='border-left:1px #ddd solid;') 送出時間
                             th(width='8%', style='border-left:1px #ddd solid;') 操作
-                          //- if showLesson
-                          //-   - var sn = 0
-                          //-   - var color = ''
-                          //-   - for lesson in showLesson
-                          //-     - sn = sn +1
-                          //-     - if (sn%3 == 0)
-                          //-       - color = 'danger'
-                          //-     - else if(sn%3 == 1)
-                          //-       - color = 'warning'
-                          //-     - else if(sn%3 == 2)
-                          //-       - color = 'active'
-                          //-     tr.lessonID(class=color, style='cursor:pointer;', id=lesson.lessonID, val='test', name=sn)   
-                          //-       th #{sn}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.user}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.name}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.count}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.aim}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.lessonClass}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.time} - #{lesson.period}
-                          //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                          //-         | #{lesson.createTime}
-
                           tbody#lesson
     // 彈跳視窗 查看詳情
     #bounce_check.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
@@ -81,4 +53,4 @@ block main
                   #checkText(style='text-align=center') 
           .modal-footer
             input#btnSubmit.btn.btn-primary(type='button', value='同意')
-            button#btnCancel.btn.btn-default 不同意
+            button#btnCancel.btn.btn-danger 不同意

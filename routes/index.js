@@ -449,17 +449,7 @@ router.post('/searchAccount', function(req, res, next){
 router.get('/audit', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Admin'))
   {
-    specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'false', function(err, auditLesson)
-    {
-      if(auditLesson == '[]')
-      {
-        res.render('audit', { user: req.session.userName});
-      }
-      else
-      {
-        res.render('audit', { user: req.session.userName, showLesson: auditLesson, information: req.session.information});
-      }
-    })
+    res.render('audit', { user: req.session.userName, information: req.session.information});
   }
   else
   {
@@ -500,6 +490,16 @@ router.post('/auditpass', function(req, res, next){
         res.send({success: 'no'});
       }
     });
+  })
+})
+
+router.post('/auditFail', function(req, res, next){
+  var lessonID = req.body.lessonID;
+  var sentTime = getNowTime();
+  var reason = 'Q_Q'
+  createNewLesson.auditFail(lessonID, reason, sentTime, function()
+  {
+    res.send({success: 'yes'});
   })
 })
 
@@ -640,7 +640,7 @@ router.post('/apply', function(req, res, next){
 
 /*** Update Lesson List ***/
 router.post('/updateAuditLesson', function(req, res, next){
-  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'false', function(err, auditLesson)
+  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'uncheck', function(err, auditLesson)
   {
     if (auditLesson == '[]')
     {

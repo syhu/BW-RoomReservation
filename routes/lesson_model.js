@@ -17,6 +17,7 @@ var foundationSchema = new mongoose.Schema
   aim: String,
   createTime: String,
   modifyTime: String,
-  checkSituation: String
+  checkSituation: String,
+  failReason: String
 });
 module.exports = mongoose.model('lessons', foundationSchema);

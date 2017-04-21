@@ -11,6 +11,7 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
+      console.log(mode);
       if (mode == 'single')
       {
         doc = new Lesson
@@ -30,7 +31,7 @@ module.exports = {
           aim: aim,
           createTime: sentTime,
           modifyTime: sentTime,
-          checkSituation: 'false'
+          checkSituation: 'success'
         });
         doc.save(function(err, doc)
         {
@@ -63,7 +64,8 @@ module.exports = {
           aim: aim,
           createTime: sentTime,
           modifyTime: sentTime,
-          checkSituation: 'false'
+          checkSituation: 'uncheck',
+          failReason: ''
         });
         doc.save(function(err, doc)
         {
@@ -141,7 +143,7 @@ module.exports = {
       {
         if (i == 0)
         {
-          Lesson.update({lessonID: id}, {$set: {checkSituation: 'true', modifyTime: sentTime}}, function(err)
+          Lesson.update({lessonID: id}, {$set: {checkSituation: 'success', modifyTime: sentTime}}, function(err)
           {
             if(err){console.log(err);}
             else
@@ -208,7 +210,7 @@ module.exports = {
               aim: aim,
               createTime: sentTime,
               modifyTime: sentTime,
-              checkSituation: 'true'
+              checkSituation: 'success'
             });
             doc.save(function(err, doc)
             {
@@ -239,5 +241,20 @@ module.exports = {
         }
       )
     });
+  },
+  auditFail : function(lessonID, reason, sentTime, callback){
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      Lesson.update({lessonID: lessonID}, {$set: {modifyTime: sentTime, checkSituation: 'fail', reason: reason}}, function(err){
+        mongoose.disconnect();
+        console.log('disconnect successful');
+        callback();
+      })
+    })
   }
 }

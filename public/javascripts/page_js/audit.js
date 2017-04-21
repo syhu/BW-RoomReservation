@@ -35,18 +35,18 @@ var aduit = (function(){
           + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
           + now.getSeconds());
 
-      //審核
+      //審核通過
       this._btnSubmit.on('click',$.proxy(function(){
         var objThis = this;
         bootbox.confirm({
-          message:"確定申請課程嗎?",
+          message:"確定審核通過嗎?",
           button:{
             confirm:{
-                label:'確定申請',
+                label:'確定通過',
                 className:'btn-success'
             },
             cancel:{
-                label:'取消',
+                label:'我在想一下',
                 className:'btn-default'
             }
           },
@@ -64,7 +64,7 @@ var aduit = (function(){
                       if(message.success == 'yes')
                       {
                         objThis._getAuditList();
-                        layer.msg('<b>審核成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                        layer.msg('<b>審核通過</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                       }
                       else if(message.success == 'no')
                       {
@@ -80,18 +80,58 @@ var aduit = (function(){
 
                   objThis._bounce_check.modal("hide");
                 }else{
-                  bootbox.alert("取消了申請課程")
+                  layer.msg('<b>取消了審核課程</b>', {time: 1500, icon:2,shade:[0.5,'black']});
                 }
             }
-
-
         })
-
       }, this));
 
+      //審核不通過
       this._btnCancel.on('click',$.proxy(function()
       {
-        this._bounce_check.modal("hide");
+        var objThis = this;
+        bootbox.confirm({
+          message:"確定審核不通過嗎?",
+          button:{
+            confirm:{
+                label:'確定不通過',
+                className:'btn-success'
+            },
+            cancel:{
+                label:'我在想一下',
+                className:'btn-default'
+            }
+          },
+            callback:function(e){
+                if(e){
+
+                  var lesson = { lessonID: objThis.clickID };
+                  $.ajax({
+                    type: "post",
+                    url: "/auditFail",
+                    data: JSON.stringify(lesson) ,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(message){
+                      if(message.success == 'yes')
+                      {
+                        objThis._getAuditList();
+                        layer.msg('<b>審核不通過</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                      }
+                    },
+                    error: function (xhr)
+                    {
+                      alert('error: ' + xhr);console.log(xhr);
+                      layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                    }
+                  });
+
+                  objThis._bounce_check.modal("hide");
+                }else{
+                  layer.msg('<b>取消了審核課程</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                }
+            }
+        })
       }, this));
     },
     _getAuditList:function(){
