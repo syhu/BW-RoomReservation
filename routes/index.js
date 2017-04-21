@@ -653,4 +653,18 @@ router.post('/updateAuditLesson', function(req, res, next){
   })
 })
 
+router.post('/getAllPassLesson', function(req, res, next){
+  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'success', function(err, todayLesson)
+  {
+    if(todayLesson != 'no data')
+    {
+      res.send({ success:'yes', howLesson: todayLesson});
+    }
+    else if(todayLesson == 'no data')
+    {
+      res.send({ success:'no' });
+    }
+  })
+})
+
 module.exports = router;

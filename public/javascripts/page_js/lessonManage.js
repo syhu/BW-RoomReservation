@@ -46,6 +46,22 @@ var lessonManage = (function(){
 			this._filterTimeZone = $("#filterTimeZone");
 			this._filterClass = $("#filterClass");
 			this._filterLocal = $("#filterLocal");
+			//編輯課程
+			this._EditlessonName = $("#EditlessonName");
+			this._EditlessonTimes = $("#EditlessonTimes");
+			this._EditlessonClass = $("#EditlessonClass");
+			this._EditlessonClassTime = $("#EditlessonClassTime");
+			this._EditlessonPeriod = $("#EditlessonPeriod");
+			this._EditlessonPeople = $("#EditlessonPeople");
+			this._EditlessonNote = $("#EditlessonNote");
+
+			this._btnEditCancel = $("#btnEditCancel");
+			this._btnEditSubmit = $("#btnEditSubmit");
+
+
+
+
+
 
 			this._start();
 		},
@@ -53,7 +69,7 @@ var lessonManage = (function(){
 			var objThis = this;
 			objThis._initialAll();
 
-
+			objThis._getlessonIDList();
 		},
 		_initialAll:function(){
 
@@ -154,7 +170,7 @@ var lessonManage = (function(){
 													layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 												}
 											});
-											// this._insertClass();	/* 插入課程 */
+											// this._getlessonIDList(data);	/* 插入課程 */
 											objThis._bounce_lesson.modal("hide");
 										});
 
@@ -165,7 +181,10 @@ var lessonManage = (function(){
 						});
 					}
 			},this));
-
+			//取消編輯課程
+			this._btnEditCancel.on("click",$.proxy(function(){
+				this._bounce_edit.modal("hide");
+			},this));
 			//取消新增課程
 			this._btnCancel.on("click",$.proxy(function(){
 				this._bounce_lesson.modal("hide");
@@ -394,104 +413,118 @@ var lessonManage = (function(){
 			}
 			return returnCheck;
 		},
-		_insertClass:function(){	/* 插入課程 */
-			this._lessonNum++ ;
+		_getlessonIDList:function(){	/* 插入課程 */
+			var objThis = this;
+			$.ajax({
+				type: "post",
+				url: "/getAllPassLesson",
+				dataType: "json",
+				success: function(datas){
+						console.log(datas)
+						if(datas.success == 'yes'){
+							objThis._setlessonIDList(datas.howLesson);
+						}
+				},
+				error: function (xhr)
+				{
+					bootbox.alert('error: ' + xhr);console.log(xhr);
+					layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				}
+			});
+
+
+
+		},
+		_setlessonIDList:function(data){
+			var objThis = this;
 			var _td;
 			var _tr;
+			console.log(data)
+			$.each(data,function(i,v){
+				switch(i%3){
+					case 0:
+					css = "danger";
+					break;
+					case 1:
+					css = "active";
+					break;
+					case 2:
+					css = "warning";
+					break;
+				}
 
-			switch(this._lessonNum%3){
-				case 0:
-				css = "danger";
-				break;
-				case 1:
-				css = "active";
-				break;
-				case 2:
-				css = "warning";
-				break;
-			}
-			_tr = $("<tr />");
-			_tr.attr("class",css);
-			//#
-			_td = $("<td />");
+				_tr = $("<tr />",{"class":css});
 
-			_td.append($("#lesson tr").size() + 1);
-			_tr.append(_td);
-
-			//課程名稱
-			_td = $("<td />");
-			_td.attr("style","text-align:left;border-left:1px #ddd solid");
-			_td.append(this._lessonName.val());
-			_tr.append(_td);
-			//時間
-			_td = $("<td />");
-			_td.attr("style","text-align:center;border-left:1px #ddd solid");
-			_td.append(this._lessonTime.val());
-			_tr.append(_td);
-			//編輯 刪除
-			_td = $("<td />");
-			_td.attr("style","text-align:center;border-left:1px #ddd solid");
-			_td.append("<ul><li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown'><i class='fa fa-bars'></i></a><ul class='dropdown-menu' ><li><a href='#' id='edit" + ($("#lesson tr").size() + 1) + "' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown'>編輯</a></li><li><a href='#' id='delete" + ($("#lesson tr").size() + 1) + "' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown'>刪除</a></li></ul></li></ul>");
-			_tr.append(_td);
-			//詳細資料
-			//_td = $("<td />");
-			//_td.append("<span style='font-size:18px;cursor:pointer;' id='lesson" + ($("#lesson tr").size() + 1) + "' class='label label-default'><i class='fa fa-info-circle'></i> 詳細資料</span>");
-			//_tr.append(_td);
-			//狀態
-			//_td = $("<td />");
-			//_td.append("<td><label class='label label-danger statusLabel'>審核失敗</label></td>");
-			//label label-success statusLabel 已審核
-			//label label-danger statusLabel  審核失敗
-			//label label-default statusLabel  未審核
-			//_tr.append(_td);
-
-			this._lesson.append(_tr);
-			//綁定 編輯
-			$("#edit" + ($("#lesson tr").size())).bind("click",$.proxy(function(event){
-			/*
-				this._detailName.empty();
-				this._detailData.empty();
-				this._detailName.append(this._lessonName.val())
-				_tr = $("<tr />");
 				//#
-				_td = $("<td />");
-				_td.append($("#lesson tr").size())
+				_td = $("<td />",{"text":(i+1)});
 				_tr.append(_td);
+
 				//課程名稱
-				_td = $("<td />");
-				_td.append(this._lessonName.val())
-				_tr.append(_td);
-				//課程時數
-				_td = $("<td />");
-				_td.append(this._lessonHour.val())
+				_td = $("<td />",{"text":v.name});
 				_tr.append(_td);
 				//使用教室
-				_td = $("<td />");
-				_td.append(this._lessonClass.val())
+				_td = $("<td />",{"text":v.lessonClass});
 				_tr.append(_td);
-				//上課時段
+				//時間-時段
+				_td = $("<td />",{"text":v.time + "-" + v.period});
+				_tr.append(_td)
+				//編輯 刪除
 				_td = $("<td />");
-				_td.append(this._lessonWeek.val() + " | " + this._lessonPeriod.val())
-				_tr.append(_td);
-				//備註
-				_td = $("<td />");
-				_td.append(this._lessonNote.val())
-				_tr.append(_td);
+				_input = $("<span />",{"class":"label label-success","text":"編輯","style":"font-size:100%;"});
+				_input.bind("click",function(){
+						// bootbox.alert("編輯" + v.lessonID)
+						objThis._EditlessonName.html("<font style='color:blue;'>" + v.name + "</font>  ");
+						var arrTimes = v.lessonID.split('-');
+						objThis._EditlessonTimes.html("第 <b style='color:red;'>" + arrTimes[2] + "</b> 次上課")
+						objThis._EditlessonClass.val('');
+						objThis._EditlessonClassTime.val(v.time);
+						objThis._EditlessonPeriod.val(v.period);
+						objThis._EditlessonPeople.val(v.people);
+						objThis._EditlessonNote.val(v.note);
 
-				this._detailData.append(_tr);
 
-				this._lessonDetail.modal("show");*/
-				this._bounce_edit.modal("show");
-			},this))
-			//綁定 刪除
-			$("#delete" + ($("#lesson tr").size())).bind("click",$.proxy(function(event){
-					alert("您確定要刪除嗎?")
-			},this))
+						objThis._bounce_edit.modal("show");
+				})
+				_td.append(_input);
+				_input = $("<span />",{"class":"label label-danger","text":"刪除","style":"margin-left:10px;font-size:100%;"});
+				_input.bind("click",function(){
+						var arrTimes = v.lessonID.split('-');
+
+							bootbox.prompt({
+								title:"<b style='font-size:20px;'>您確定要刪除 <font style='color:red;'>" + v.name + "</font> 課程嗎?</b>" +
+								"<br/><br/>第 <font style='color:red;'>" + arrTimes[2] + "</font> 次上課" +
+								"<br/><br/>使用教室：" +
+								"<br/><br/>上課時間：" + v.time +
+								"<br/><br/>上課時段：" + v.period +
+								"<br/><br/>上課人數：" + v.people +
+								"<br/><br/>備註：" + v.note +
+								"<br/><br/><br/><br/><b style='font-size:20px;color:red;'>請輸入密碼</b>",
+
+								inputType:'password',
+								buttons:{
+									confirm:{
+											label:'確定刪除',
+											className:'btn-success'
+									},
+									cancel:{
+											label:'取消',
+											className:'btn-default'
+									}
+
+								},
+								callback:function(result){
+										console.log(result)
+										console.log(v.lessonID)
+								}
+							})
+
+							setTimeout("$('.bootbox-input').val('')",500)
+				})
+				_td.append(_input);
+				_tr.append(_td);
+				objThis._lesson.append(_tr);
+			})
 		}
-
-
-
-
 	}
 	return _const;
 }());
