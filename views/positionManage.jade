@@ -1,4 +1,155 @@
 extends layout
 
 block main
-  | QQ
+  link(rel='stylesheet', href='stylesheets/page_css/positionManage.css')
+  link(rel='stylesheet', href='stylesheets/customized.css')
+  
+  script(src='javascripts/page_js/positionManage.js')
+  
+  
+  #manager_center.panel
+    .row
+      .col-lg-12
+        .form-group
+          .row
+            .col-md-12
+              div(style='text-align: center;')   
+                h3
+                  i.fa.fa-map-marker                           
+                  strong(style='margin-left:5px;') 地點管理
+                br
+              table.table.table-bordered
+                tr
+                  th 地點
+                  th
+                    select#filterLocal.form-control
+                      option(value='請選擇') 請選擇
+                      option(value='7f') 7樓
+                      option(value='12f') 12樓
+                      option(value='13f') 13樓
+                      option(value='liren2f') 里仁 - 2樓
+                      option(value='global13f') 環球 - 3樓
+                      option(value='global12f') 環球 - 12樓
+                  th 教室
+                  th
+                    select#filterClass.form-control
+                      option(value='請選擇') 請選擇
+                      option(value='教室一') 教室一
+                      option(value='教室二') 教室二
+                      option(value='教室三') 教室三
+                      option(value='教室四') 教室四
+                      option(value='教室五') 教室五
+            
+                  th 時段
+                  th
+                    select#filterTimeZone.form-control
+                      option(value='請選擇') 請選擇
+                      option(value='時段一') 時段一
+                      option(value='時段二') 時段二
+                      option(value='時段三') 時段三
+                      option(value='時段四') 時段四
+                      option(value='時段五') 時段五
+                tr(style='border:0px;')
+                  th(colspan='6')
+                    button#cancelFilter.btn.btn-default(type='button') 清除
+                    button#btnFilter.btn.btn-primary(type='button') 查詢
+
+            .col-md-12
+              div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                .row
+                  .col-md-12(style='height:50px;')
+                    button.btn.btn-success.new(style='float:right;margin-top:0px;') 新增地點
+                    font.todayTime 今天時間：
+                  .col-md-12(style='height:650px;')
+                    table#lessonList.table.table-condensed
+                      tr
+                        th(width='5%') #
+                        th(width='30%', style='border-left:1px #ddd solid;') 大樓名稱
+                        th(width='15%', style='border-left:1px #ddd solid;') 樓層
+                        th(width='15%', style='border-left:1px #ddd solid;') 教室名稱
+                        th(width='15%', style='border-left:1px #ddd solid;') 容納人數
+                        th(width='15%', style='border-left:1px #ddd solid;') 詳細資料
+                      tbody#area
+                      tr#nobodyList.tr-empty(align='center')
+                        td(colspan='6')
+                          br
+                          span#new.new(style='cursor:pointer;')
+                            i.fa.fa-plus-circle.fa-3x
+                            | 新增地點
+            .col-md-12
+              .paginationWrap.pagesCenter
+                nav
+                  ul#pageList.pagination
+                    li
+                      a(href='#') 第一頁
+                    li
+                      a(href='#', onclick='return false;')
+                        span(aria-hidden='true') 
+                        span.sr-only Previous
+                    li
+                      a(href='#') 1
+                    li
+                      a(href='#') 2
+                    li
+                      a(href='#') 3
+                    li
+                      a(href='#') 4
+                    li
+                      a(href='#') 5
+                    li
+                      a(href='#') 6
+                    li
+                      a(href='#') 7
+                    li
+                      a(href='#') 8
+                    li
+                      a(href='#') 9
+                    li
+                      a(href='#') 10
+                    li
+                      a(href='#', onclick='return false;')
+                        span(aria-hidden='true') »
+                        span.sr-only Next
+                    li
+                      a(href='#', onclick='return false;') 尾頁
+                      
+    // 彈跳視窗 新增地點
+    #bounce_area.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header.bg-blue
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;color:white;')
+            font(style='font-size:18px;font-weight:bold;') 新增地點
+          .modal-body(align='left', style='height:520px;overflow-y:scroll;')
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form_name.form
+                        i.fa.fa-child(style='font-size:20px;')
+                        | 大樓名稱
+                        input#areaBuilding.form-control(type='text', placeholder='請填入大樓名稱', name='areaBuilding')
+                      .col-md-6.form-group.form_count.form
+                        | 樓層
+                        input#areaFloor.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='areaFloor')
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form_class.form
+                        | 教室名稱
+                        input#areaClass.form-control(type='text', placeholder='請填入教室名稱', name='areaClass')
+
+                      .col-md-6.form-group.form_time.form
+                        | 容納人數
+                        input#areaPeople.form-control(type='text', placeholder='請填入容納人數', name='areaPeople')
+
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-12.form-group.form_note.form
+                        i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                        | 備註:
+                        textarea#areaNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
+          .modal-footer
+            input#btnSubmit.btn.btn-primary(type='button', value='確定')
+            button#btnCancel.btn.btn-default 取消

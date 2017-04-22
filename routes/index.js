@@ -669,4 +669,16 @@ router.get('/positionManage', function(req, res, next){
   }
 })
 
+/*** User Feedback Page ***/
+router.get('/feedback', function(req, res, next){
+  if(req.session.account)
+  {
+      res.render('feedback', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+})
+
 module.exports = router;

@@ -48,3 +48,7 @@ function positionManage()
 {
   location.href = '/positionManage';
 }
+function feedback()
+{
+  location.href = '/feedback' ;
+}
