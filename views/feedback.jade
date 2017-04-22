@@ -1,4 +1,43 @@
 extends layout
 
 block main
-  | QQ
+  link(rel='stylesheet', href='stylesheets/page_css/feedback.css')
+  link(rel='stylesheet', href='stylesheets/customized.css')
+  
+  script(src='javascripts/page_js/feedback.js')
+    
+    
+    
+  #manager_center.panel
+    .row
+      .col-lg-12
+        .form-group
+          .row
+            .col-md-12
+              div(style='text-align: center;')   
+                h3
+                  i.fa.fa-pencil                          
+                  strong(style='margin-left:5px;') 意見回饋
+                br
+          if user && (information[0].authorty == 'Admin')  
+            input#authority(type='hidden', value='Admin')
+            .row(style='padding:10px 20px 10px 20px;')
+              .col-md-3.bg-info(style='height:720px;')
+                font.todayTime 今天時間：
+                div#optionList(style='padding:20px 20px 20px 20px;')
+                  
+              .col-md-9.bg-success(style='height:720px;')
+                div#optionData(style='height:500px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;border-radius:15px;')
+                div#optionText.form-inline(style='height:200px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;')
+                  
+          if user && (information[0].authorty != 'Admin')
+            input#authority(type='hidden', value='')
+            .row(style='padding:10px 20px 10px 20px;')
+              .col-md-3.bg-info(style='height:720px;')
+                font.todayTime 今天時間：
+                div#optionList(style='padding:20px 20px 20px 20px;')
+                  
+              .col-md-9.bg-success(style='height:720px;')
+                div#optionData(style='height:500px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;border-radius:15px;')
+                div#optionText.form-inline(style='height:200px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;')
+                
