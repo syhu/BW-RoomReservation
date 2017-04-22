@@ -58,11 +58,6 @@ var lessonManage = (function(){
 			this._btnEditCancel = $("#btnEditCancel");
 			this._btnEditSubmit = $("#btnEditSubmit");
 
-
-
-
-
-
 			this._start();
 		},
 		_start:function(){
@@ -72,13 +67,6 @@ var lessonManage = (function(){
 			objThis._getlessonIDList();
 		},
 		_initialAll:function(){
-
-			//顯示當天時間
-			// var now = new Date();
-			// this._todayTime.append
-      //   (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-      //     + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-      //     + now.getSeconds());
 
 			//新增課程
 			this._new.on("click",$.proxy(function(){
@@ -114,87 +102,11 @@ var lessonManage = (function(){
 				this._bounce_detail.modal("hide");
 			},this));
 
-			//確認新增課程
-			this._btnSubmit.on("click",$.proxy(function(){
-				var objThis = this;
-				if(this._checkSubmit())
-				{
-					bootbox.confirm({
-            message:"<br/><b style='font-size:20px;'>確定申請 <font style='color:red;'>" + objThis._lessonName.val() + "</font> 課程嗎?</b><br/>" +
-            "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
-            "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
-						"<br/><br/><b>課程堂數：</b>" + objThis._lessonCount.val() +
-            "<br/><br/><b>時段：</b>" + objThis._lessonPeriod.val() +
-            "<br/><br/><b>上課人數：</b>" + objThis._lessonPeople.val() +
-            "<br/><br/><b>申請事由：</b>" + objThis._lessonNote.val(),
-            buttons:{
-              confirm:{
-                  label:'確定申請',
-                  className:'btn-success'
-              },
-              cancel:{
-                  label:'取消',
-                  className:'btn-default'
-              }
-
-            },
-						callback:function(e){
-								if(e){
-										bootbox.alert("申請了課程 " + objThis._lessonName.val(),function(){
-											var lessonData =
-											{
-												lessonName : objThis._lessonName.val(),
-												lessonCount : objThis._lessonCount.val(),
-												lessonBuilding : objThis._lessonBuilding.val(),
-												lessonFloor : objThis._lessonFloor.val(),
-												lessonClass : objThis._lessonClass.val(),
-												lessonTime : objThis._lessonTime.val(),
-												lessonPeriod : objThis._lessonPeriod.val(),
-												lessonPeople : objThis._lessonPeople.val(),
-												lessonNote : objThis._lessonNote.val()
-											};
-											$.ajax({
-												type: "post",
-												url: "/lessonNormalManage",
-												data: lessonData ,
-												dataType: "json",
-												success: function(message){
-													if(message.success == 'yes')
-													{
-														layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-													}
-													else if(message.success == 'no')
-													{
-														layer.msg('<b>後續的課程有重複資料，不得審核通過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-													}
-												},
-												error: function (xhr)
-												{
-													bootbox.alert('error: ' + xhr);console.log(xhr);
-													layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-												}
-											});
-											// this._getlessonIDList(data);	/* 插入課程 */
-											objThis._bounce_lesson.modal("hide");
-										});
-
-								}else{
-									bootbox.alert("取消了申請課程");
-								}
-							}
-						});
-					}
-			},this));
-			//取消編輯課程
 			this._btnEditCancel.on("click",$.proxy(function(){
 				this._bounce_edit.modal("hide");
 			},this));
-			//取消新增課程
-			this._btnCancel.on("click",$.proxy(function(){
-				this._bounce_lesson.modal("hide");
-			},this));
 
-			//新英的彈跳視窗 隨地點自動更新
+			//隨地點自動更新
 			this._lessonBuilding.on("change",$.proxy(function(){
 				this._lessonClass.attr('disabled','');
 				this._lessonClass.empty();
@@ -274,149 +186,6 @@ var lessonManage = (function(){
 				}
 			},this))
 		},
-
-		_checkSubmit:function(){  // 確認新增課程欄位判斷
-			var returnCheck = true;
-			//課程名稱
-			if(this._lessonName.val() == "")
-			{
-				returnCheck = false;
-				this._form_name.addClass("has-error");
-				layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}else
-			{
-				this._form_name.removeClass("has-error");
-			}
-			//課程時數
-			var positiveInteger = /^[0-9]*[1-9][0-9]*$/ ;
-			if(isNaN(this._lessonCount.val()) || this._lessonCount.val() < 1 || !positiveInteger.test(this._lessonCount.val()))
-			{
-				returnCheck = false;
-				this._form_count.addClass("has-error");
-				layer.msg('<b>請輸入阿拉伯數字(大於1)</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}else
-			{
-				this._form_count.removeClass("has-error");
-			}
-			//使用教室
-			if(this._lessonClass.val() == '請選擇' || this._lessonFloor.val() == '請選擇' || this._lessonBuilding.val() == '請選擇')
-			{
-				returnCheck = false;
-				this._form_class.addClass("has-error");
-				layer.msg('<b>請選擇使用教室</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}else
-			{
-				this._form_class.removeClass("has-error");
-			}
-			//開始上課時間
-			var correctTimeFormat = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/ ;
-			if(this._lessonTime.val() == "" || !correctTimeFormat.test(this._lessonTime.val()))
-			{
-				returnCheck = false;
-				this._form_time.addClass("has-error");
-				layer.msg('<b>請輸入正確的時間格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}else
-			{
-				var date = new Date;
-				var todayTime = new Date(date.getFullYear(), date.getMonth()+1, date.getDate()).getTime();
-				var useDate = this._lessonTime.val().split('/');
-				var useTime = new Date(useDate[0], useDate[1], useDate[2]).getTime();
-				if (todayTime >= useTime)
-				{
-					returnCheck = false;
-					this._form_time.addClass("has-error");
-					layer.msg('<b>請選擇明天以後的上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-				}
-				else
-				{
-					this._form_time.removeClass("has-error");
-				}
-			}
-			//上課時段
-			if(this._lessonPeriod.val() == '請選擇')
-			{
-				returnCheck = false;
-				this._form_period.addClass("has-error");
-				layer.msg('<b>請選擇上課時段</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}
-			else
-			{
-				this._form_period.removeClass("has-error");
-			}
-
-			//上課人數
-			if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
-			{
-				returnCheck = false;
-				this._form_people.addClass("has-error");
-				layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}
-			else
-			{
-				if (this._lessonClass.val() == undefined)
-				{
-					this._form_people.addClass("has-error");
-					this._lessonPeople.val("");
-					layer.msg('<b>請選擇教室再輸入人數</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-				}
-				else
-				{
-					var checkPeopleNum = 1;
-					var peopleNum = this._lessonPeople.val();
-					var useClass = this._lessonClass.val();
-					switch (useClass)
-					{
-						case '環球3-1':
-						if (peopleNum <= 70) {checkPeopleNum = 0;}
-						break;
-						case '環球3-2':
-						if (peopleNum <= 60) {checkPeopleNum = 0;}
-						break;
-						case '環球12-1':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-						case '環球12-2':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-						case '環球12-3':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-						case '里仁2-1':
-						if (peopleNum <= 80) {checkPeopleNum = 0;}
-						break;
-						case '里仁2-2':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-4':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-5':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-6':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-						case '學苑12-1':
-						if (peopleNum <= 120) {checkPeopleNum = 0;}
-						break;
-						case '學苑13-3':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-					}
-					if (checkPeopleNum == 1)
-					{
-						returnCheck = false;
-						this._form_people.addClass("has-error");
-						layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					}
-					else
-					{
-						this._form_people.removeClass("has-error");
-					}
-				}
-			}
-			return returnCheck;
-		},
 		_getlessonIDList:function(){	/* 插入課程 */
 			var objThis = this;
 			$.ajax({
@@ -469,8 +238,17 @@ var lessonManage = (function(){
 				//使用教室
 				_td = $("<td />",{"text":v.lessonClass});
 				_tr.append(_td);
+				//上課人數
+				_td = $("<td />",{"text":v.people});
+				_tr.append(_td);
 				//時間-時段
 				_td = $("<td />",{"text":v.time + "-" + v.period});
+				_tr.append(_td)
+				//聯絡人
+				_td = $("<td />",{"text":v.contract});
+				_tr.append(_td)
+				//聯絡人電話
+				_td = $("<td />",{"text":v.contractPhone});
 				_tr.append(_td)
 				//編輯 刪除
 				_td = $("<td />");

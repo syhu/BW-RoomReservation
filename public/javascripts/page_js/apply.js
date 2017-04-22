@@ -27,6 +27,9 @@ var apply = (function(){
       this._form_people = $(".form_people");
       this._form_note = $(".form_note");
       this._form = $(".form");
+      //detail
+      this._detailContract = $("#detailContract");
+      this._detailPhone = $("#detailPhone");
       //select
       this._selectLocal = $("#selectLocal");
       this._selectClass = $("#selectClass");
@@ -58,6 +61,8 @@ var apply = (function(){
             "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
             "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
             "<br/><br/><b>時段：</b>" + objThis._lessonPeriod.val() +
+            "<br/><br/><b>聯絡人：</b>" + objThis._detailContract.val() +
+            "<br/><br/><b>聯絡電話：</b>" + objThis._detailPhone.val() +
             "<br/><br/><b>上課人數：</b>" + objThis._lessonPeople.val() +
             "<br/><br/><b>申請事由：</b>" + objThis._lessonNote.val(),
             buttons:{
@@ -84,9 +89,10 @@ var apply = (function(){
                       lessonTime : objThis._lessonTime.val(),
                       lessonPeriod : objThis._lessonPeriod.val(),
                       lessonPeople : objThis._lessonPeople.val(),
-                      lessonAim : objThis._lessonNote.val()
+                      lessonAim : objThis._lessonNote.val(),
+                      contract : objThis._detailContract.val(),
+                      contractPhone : objThis._detailPhone.val()
                     };
-
 
                     $.ajax({
           						type: "post",
@@ -110,44 +116,16 @@ var apply = (function(){
           							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
           						}
           					});
-
-                    // var test = "";
-                    // this._insertClass();	/* 插入課程 */
-                    // objThis._bounce_new.modal("hide");
-
                   });
-
-
                 }else{
                   bootbox.alert("取消了申請課程");
                 }
-            }
+              }
           });
 				}
 			},this));
 
-      this._new.on('click', $.proxy(function(){
-        this._lessonName.val("");
-				this._lessonTime.val("");
-				this._lessonBuilding.val("請選擇");
-				this._lessonPeriod.val("請選擇");
-				this._lessonFloor.attr('disabled','');
-				this._lessonFloor.empty();
-				this._lessonClass.attr('disabled','');
-				this._lessonClass.empty();
-				this._lessonPeople.val("");
-				this._lessonNote.val("");
-				this._form.removeClass("has-error");
-        this._bounce_new.modal('show');
-      },this));
-
-      //取消新增課程
-      this._btnCancel.on('click', $.proxy(function()
-      {
-        this._bounce_new.modal('hide');
-      }, this))
-
-      //新英的彈跳視窗 隨地點自動更新
+      //隨地點自動更新
 			this._lessonBuilding.on("change",$.proxy(function(){
 				this._lessonClass.attr('disabled','');
 				this._lessonClass.empty();

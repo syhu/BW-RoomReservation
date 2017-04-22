@@ -38,7 +38,8 @@ var lessonNormalManage = (function(){
 			this._form = $(".form");
 			//detail
 			this._lessonDetail = $("#lessonDetail");
-			this._detailName = $("#detailName");
+			this._detailContract = $("#detailContract");
+			this._detailPhone = $("#detailPhone");
 			this._detailData = $("#detailData");
 			//查詢
 			this._btnFilter = $("#btnFilter");
@@ -91,6 +92,8 @@ var lessonNormalManage = (function(){
 				this._lessonFloor.empty();
 				this._lessonClass.attr('disabled','');
 				this._lessonClass.empty();
+				this._detailContract.val("");
+				this._detailPhone.val("");
 				this._lessonPeople.val("");
 				this._lessonNote.val("");
 				this._form.removeClass("has-error");
@@ -123,6 +126,8 @@ var lessonNormalManage = (function(){
             message:"<br/><b style='font-size:20px;'>確定申請 <font style='color:red;'>" + objThis._lessonName.val() + "</font> 課程嗎?</b><br/>" +
             "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
             "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
+						"<br/><br/><b>聯絡人：</b>" + objThis._detailContract.val() +
+						"<br/><br/><b>聯絡電話：</b>" + objThis._detailPhone.val() +
 						"<br/><br/><b>課程堂數：</b>" + objThis._lessonCount.val() +
             "<br/><br/><b>時段：</b>" + objThis._lessonPeriod.val() +
             "<br/><br/><b>上課人數：</b>" + objThis._lessonPeople.val() +
@@ -140,7 +145,6 @@ var lessonNormalManage = (function(){
             },
 						callback:function(e){
 								if(e){
-										bootbox.alert("申請了課程 " + objThis._lessonName.val(),function(){
 											var lessonData =
 											{
 												lessonName : objThis._lessonName.val(),
@@ -151,7 +155,9 @@ var lessonNormalManage = (function(){
 												lessonTime : objThis._lessonTime.val(),
 												lessonPeriod : objThis._lessonPeriod.val(),
 												lessonPeople : objThis._lessonPeople.val(),
-												lessonNote : objThis._lessonNote.val()
+												lessonNote : objThis._lessonNote.val(),
+												contract: objThis._detailContract.val(),
+												contractPhone: objThis._detailPhone.val()
 											};
 											$.ajax({
 												type: "post",
@@ -172,10 +178,9 @@ var lessonNormalManage = (function(){
 											});
 											// this._getlessonIDList(data);	/* 插入課程 */
 											objThis._bounce_lesson.modal("hide");
-										});
 
 								}else{
-									bootbox.alert("取消了申請課程");
+									layer.msg('<b>取消了申請課程</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 								}
 							}
 						});

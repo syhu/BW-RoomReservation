@@ -64,6 +64,14 @@ block main
                                     input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
                               div(style='margin:0 10% 0px;')
                                 .row
+                                  .col-md-5.form-group.form_detailName.form
+                                    | 聯絡人姓名
+                                    input#detailContract.form-control(type='text', placeholder='請填入聯絡人姓名')
+                                  .col-md-5.form-group.form_detailPhone.form
+                                    | 聯絡人電話
+                                    input#detailPhone.form-control(type='text', placeholder='請填入聯絡人電話')
+                              div(style='margin:0 10% 0px;')
+                                .row
                                   .col-md-10.form-group.form_note.form
                                     i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
                                     | 申請事由:

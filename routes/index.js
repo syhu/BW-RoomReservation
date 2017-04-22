@@ -282,6 +282,8 @@ router.post('/lessonNormalManage', function(req, res, next){
   var lessonPeriod = req.body.lessonPeriod;
   var lessonPeople = req.body.lessonPeople;
   var lessonNote = req.body.lessonNote;
+  var contract = req.body.contract;
+  var contractPhone = req.body.contractPhone;
   var sentTime = getNowTime();
   var splitTime = lessonTime.split('/');
   var millionSecond = new Date(splitTime[0], splitTime[1]-1, splitTime[2]).getTime();
@@ -312,13 +314,13 @@ router.post('/lessonNormalManage', function(req, res, next){
         {
           if (data == 'no data')
           {
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, function(err, repeat, total)
+            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'normal';
-              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, function()
+              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               });
@@ -579,10 +581,11 @@ router.post('/apply', function(req, res, next){
   var userName = req.session.userName;
   var sentTime = getNowTime();
   var aim = req.body.lessonAim;
-
+  var contract = req.body.contract;
+  var contractPhone = req.body.contractPhone;
+  console.log(contract + ' -> ' + contractPhone);
   var timeTemp = lessonTime.replace(/\//g, '');
   var applyUseTime = timeTemp.substr(2);
-  console.log(lessonTime + ' -> ' + timeTemp + ' -> ' + applyUseTime);
   var first = 1;
   var applyLocation = lessonClass;
   var applyPeriod = lessonPeriod;
@@ -596,13 +599,13 @@ router.post('/apply', function(req, res, next){
         {
           if (data == 'no data')
           {
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, function(err, repeat, total)
+            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'single';
-              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, function()
+              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               })

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 module.exports = {
-  createLesson : function(userName, name, id, count, building, floor, lessonClass, applyTime, sentTime, millionSecond, aim, period, people, note, mode, callback)
+  createLesson : function(userName, name, id, count, building, floor, lessonClass, applyTime, sentTime, millionSecond, aim, period, people, note, mode, contract, contractPhone, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -11,7 +11,7 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
-      console.log(mode);
+      console.log(contract + ' -> ' + contractPhone);
       if (mode == 'single')
       {
         doc = new Lesson
@@ -29,6 +29,8 @@ module.exports = {
           people: people,
           note: note,
           aim: aim,
+          contract: contract,
+          contractPhone: contractPhone,
           createTime: sentTime,
           modifyTime: sentTime,
           checkSituation: 'success'
@@ -62,6 +64,8 @@ module.exports = {
           people: people,
           note: note,
           aim: aim,
+          contract: contract,
+          contractPhone: contractPhone,
           createTime: sentTime,
           modifyTime: sentTime,
           checkSituation: 'uncheck',
@@ -103,6 +107,8 @@ module.exports = {
       var people = lessonAllData[0].people;
       var note = lessonAllData[0].note;
       var aim = lessonAllData[0].aim;
+      var contract = lessonAllData[0].contract;
+      var contractPhone = lessonAllData[0].contractPhone;
       function asyncLoop(iterations, func, callback)
       {
         var index = -1;
@@ -238,6 +244,8 @@ module.exports = {
               people: people,
               note: note,
               aim: aim,
+              contract: contract,
+              contractPhone: contractPhone,
               createTime: sentTime,
               modifyTime: sentTime,
               checkSituation: 'success'

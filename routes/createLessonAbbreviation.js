@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = {
-  createLessonAbbreviation : function(userName, lessonName, lessonAbbreviation, time, callback)
+  createLessonAbbreviation : function(userName, lessonName, lessonAbbreviation, time, contract, contractPhone, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;
@@ -26,6 +26,8 @@ module.exports = {
           userName : userName,
           name : fullLessonName,
           abbreviation : lessonAbbreviation,
+          contract : contract,
+          contractPhone : contractPhone,
           createTime : time,
           modifyTime : time
         });

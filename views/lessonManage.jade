@@ -43,30 +43,6 @@ block main
                               th(width='16%', style='border-left:1px #ddd solid;') 新增時間
                               th(width='16%', style='border-left:1px #ddd solid;') 修改時間
                               th(width='16%', style='border-left:1px #ddd solid;') 詳細資料
-                            //- if showLessonAbbreviation
-                            //-   - var sn = 0
-                            //-   - var color = ''
-                            //-   - for lesson in showLessonAbbreviation
-                            //-     - sn = sn +1
-                            //-     - if (sn%3 == 0)
-                            //-       - color = 'danger'
-                            //-     - else if(sn%3 == 1)
-                            //-       - color = 'warning'
-                            //-     - else if(sn%3 == 2)
-                            //-       - color = 'active'
-                            //-     - var id = 'la-' + lesson.id;
-                            //-     tr(class=color, style='cursor:pointer;', id=id)   
-                            //-       th #{sn}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.userName}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.name}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.abbreviation}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.createTime}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.modifyTime}
                             tbody#lessonID
                             tr#nobodyList.tr-empty(align='center')
                               td(colspan='7')
@@ -123,40 +99,14 @@ block main
                           table#lessonList.table.table-condensed
                             tr
                               th(width='5%') #
-                              th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
-                              th(width='15%', style='border-left:1px #ddd solid;') 使用教室
+                              th(width='15%', style='border-left:1px #ddd solid;') 課程名稱
+                              th(width='10%', style='border-left:1px #ddd solid;') 使用教室
+                              th(width='10%', style='border-left:1px #ddd solid;') 上課人數
                               th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                              th(width='10%', style='border-left:1px #ddd solid;') 聯絡人
+                              th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
                               th(width='20%', style='border-left:1px #ddd solid;') 操作
                             tbody#lesson
-                              
-                            //- if showLesson
-                            //-   - var sn = 0
-                            //-   - var color = ''
-                            //-   - for lesson in showLesson
-                            //-     - sn = sn +1
-                            //-     - if (sn%3 == 0)
-                            //-       - color = 'danger'
-                            //-     - else if(sn%3 == 1)
-                            //-       - color = 'warning'
-                            //-     - else if(sn%3 == 2)
-                            //-       - color = 'active'
-                            //-     tr(class=color, style='cursor:pointer;', id=lesson.lessonID)   
-                            //-       th #{sn}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;') 
-                            //-         |#{lesson.name}
-                            //-       th(style='text-align:left;border-left:1px #ddd solid;border-left-style:none')   
-                            //-       th(style='text-align:center;border-left:1px #ddd solid') #{lesson.lessonClass} 
-                            //-       th(style='text-align:center;border-left:1px #ddd solid') #{lesson.time} - #{lesson.period} 
-                            //-       th(style='text-align:center;border-left:1px #ddd solid')
-                            //-         ul
-                            //-           li(class='dropdown')
-                            //-             a(class='dropdown-toggle' data-toggle='dropdown')
-                            //-               i(class='fa fa-bars')
-                            //-             ul(class='dropdown-menu')
-                            //-               li
-                            //-                 a(href='#' id='edit2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 編輯
-                            //-               li
-                            //-                 a(href='#' id='delete2' style='font-size:15px;' class='dropdown-toggle' data-toggle='dropdown') 刪除
                             tr#nobodyList.tr-empty(align='center')
                               td(colspan='5')
                                 
@@ -302,14 +252,6 @@ block main
                             b(style='font-size:30px;')
                               span#EditlessonName
                               span#EditlessonTimes
-                            //- select#lessonHour.form-control
-                            //-   option(value='請選擇') 請選擇
-                            //-   option(value='1hr') 1hr
-                            //-   option(value='2hr') 2hr
-                            //-   option(value='3hr') 3hr
-                            //-   option(value='4hr') 4hr
-                            //-   option(value='5hr') 5hr
-                            //-   option(value='6hr') 6hr
                       div(style='margin:0 0 20px 0;')
                         .row
                           .col-md-6.form-group.form_class.form

@@ -15,6 +15,8 @@ var foundationSchema = new mongoose.Schema
   people: String,
   note: String,
   aim: String,
+  contract: String,
+  contractPhone: String,
   createTime: String,
   modifyTime: String,
   checkSituation: String,
