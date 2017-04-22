@@ -18,7 +18,7 @@ var positionManage = (function(){
       this._areaClass = $("#areaClass");
       this._areaPeople = $("#areaPeople");
       this._areaNote = $("#areaNote");
-
+      this._area = $("#area");
 
       this._start();
     },
@@ -59,67 +59,81 @@ var positionManage = (function(){
         this._bounce_area.modal('hide');
       },this));
 
-      //確認新增課程編號
+      //確認新增地點
       this._btnSubmit.on('click', $.proxy(function(){
         var objThis = this;
-        if(this._checkSubmit())
+        if('a' == 'a')
         {
-          var abbreviationData =
-          {
-            lessonName : this._lessonName.val(),
-            lessonAbbreviation : this._lessonAbbreviation.val()
-          };
-          $.ajax({
-            type: 'post',
-            url: '/lessonManage',
-            data: abbreviationData,
-            dataType: 'json',
-            success: function(message)
-            {
-              if (message.success == 'no repeat')
-              {
-                layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          bootbox.confirm({
+            message:"<br/><b style='font-size:20px;'>確定新增場地嗎?</b><br/>" +
+            "<br/><br/><b>大樓：</b>" + objThis._areaBuilding.val() +
+            "<br/><br/><b>樓層：</b>" + objThis._areaFloor.val() +
+            "<br/><br/><b>教室：</b>" + objThis._areaClass.val() +
+            "<br/><br/><b>容納人數：</b>" + objThis._areaPeople.val() +
+            "<br/><br/><b>備註：</b>" + objThis._areaNote.val(),
+            buttons:{
+              confirm:{
+                  label:'確定申請',
+                  className:'btn-success'
+              },
+              cancel:{
+                  label:'取消',
+                  className:'btn-default'
               }
-              else if(message.success == 'repeat')
-              {
-                layer.msg('<b>新增課程失敗，課程已被新增過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-              }
+
             },
-            error: function(xhr)
+            callback:function(e)
             {
-              alert('error: ' + xhr);console.log(xhr);
-              layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-            },
-            complete:function(){
-                objThis._getlessonIDList();
-            }
+                if(e)
+                {
+                  var positionData =
+                  {
+                    building : objThis._areaBuilding.val(),
+                    floor: objThis._areaFloor.val(),
+                    classroom: objThis._areaClass.val(),
+                    people: objThis._areaPeople.val(),
+                    note: objThis._areaNote.val()
+                  };
+                  $.ajax({
+                    type: 'post',
+                    url: '/positionManage',
+                    data: positionData,
+                    dataType: 'json',
+                    success: function(message)
+                    {
+                      if (message.success == 'no')
+                      {
+                        layer.msg('<b>新增場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                      }
+                      else if(message.success == 'yes')
+                      {
+                        layer.msg('<b>新增場地失敗，該場地已被新增過</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                      }
+                    },
+                    error: function(xhr)
+                    {
+                      alert('error: ' + xhr);console.log(xhr);
+                      layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                    },
+                    complete:function(){
+                      objThis._getPositionList();
+                    }
+                  })
+                  objThis._bounce_area.modal('hide');
+                }
+              }
           })
-          this._bounce_area.modal('hide');
         }
       }, this));
     },
 
     _checkSubmit:function(){
-      var returnCheck = true;
-      //課程名稱
-      if(this._lessonName.val() == '')
-      {
-        returnCheck = false;
-        this._form_name.addClass("has-error");
-        layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-      }
-      else
-      {
-        this._form_name.removeClass("has-error");
-      }
-      return returnCheck;
     },
     _getPositionList:function(){
       var objThis = this;
-      //G_G
       $.ajax({
         type:'post',
-        url:'/',
+        url:'/getPositionData',
         success:function(datas){
             var data = datas.success
             objThis._setPositionList(data);
@@ -132,7 +146,8 @@ var positionManage = (function(){
       var _tr;
       var _td;
       var _input;
-      objThis._lesson.empty();
+      objThis._area.empty();
+      console.log(strJson)
       $.each(strJson,function(i,v){
         var trClass;
           switch(i%4){
@@ -155,27 +170,92 @@ var positionManage = (function(){
           _td = $("<td />",{"text":(i+1)});
           _tr.append(_td);
           //大樓名稱
-          _td = $("<td />",{"style":"text-align:left","text":v.userName});
+          _td = $("<td />",{"style":"text-align:left","text":v.building});
           _tr.append(_td);
           //樓層
-          _td = $("<td />",{"style":"text-align:left","text":v.name});
+          _td = $("<td />",{"style":"text-align:left","text":v.floor});
           _tr.append(_td);
           //教室名稱
-          _td = $("<td />",{"text":v.abbreviation});
+          _td = $("<td />",{"text":v.classroom});
           _tr.append(_td);
           //容納人數
-          _td = $("<td />",{"nowrap":"nowrap","text":v.createTime});
+          _td = $("<td />",{"nowrap":"nowrap","text":v.people});
           _tr.append(_td);
-          //詳細資料
-          _input = $("<span />",{"class":"label label-default","text":"聯絡人資訊","style":"font-size:100%;"});
-          _input.bind("click",function(){
-              bootbox.alert("地點資訊");
-          })
+          //備註
+          _td = $("<td />",{"nowrap":"nowrap","text":v.note});
+          _tr.append(_td);
+          //操作
           _td = $("<td />");
+  				_input = $("<span />",{"class":"label label-success","text":"編輯","style":"margin-right:10px;font-size:100%;"});
+  				_input.bind("click",function(){
+					       bootbox.alert("編輯" + v.location);
+          })
+          _td.append(_input);
+          _tr.append(_td);
+
+          _input = $("<span />",{"class":"label label-danger","text":"刪除","style":"margin-right:10px;font-size:100%;"});
+          _input.bind("click",function(){
+            bootbox.alert("刪除" + v.location);
+          });
+          _td.append(_input);
+          _tr.append(_td);
+
+          if (v.lock == 'no')
+          {
+            _input = $("<span />",{"class":"label label-success","text":"鎖定場地","id":"lock" + i,"style":"margin-right:10px;:10px;font-size:100%;"});
+            _input.bind("click",$.proxy(function(e){
+              bootbox.confirm("您確定要鎖定 <b style='color:red;'>" + v.location + " </b>場地嗎?",function(result){
+                 if(result){
+                   var obj = new Object;
+                   var arr = new Array();
+                   obj.location = v.location;
+                   obj.lock = v.lock;
+                   arr = arr.concat(obj);
+                   $.ajax({
+                     type:'post',
+                     data:{strJson:JSON.stringify(arr)},
+                     url:'/lockPosition',
+                     success:function(){
+                      objThis._getPositionList();
+                    },
+                    complete:function(){
+                      layer.msg('<b>鎖定場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                    }
+                  });
+                 }
+              });
+            },this));
+          }
+          else if(v.lock == 'yes')
+          {
+            _input = $("<span />",{"class":"label label-danger","text":"解鎖場地","id":"unlock" + i,"style":"margin-right:10px;font-size:100%;"});
+            _input.bind("click",function(){
+              bootbox.confirm("您確定要解鎖 <b style='color:red;'>" + v.location + " </b>場地嗎?",function(result){
+                 if(result){
+                   var obj = new Object;
+                   var arr = new Array();
+                   obj.location = v.location;
+                   obj.lock = v.lock;
+                   arr = arr.concat(obj);
+                   $.ajax({
+                     type:'post',
+                     data:{strJson:JSON.stringify(arr)},
+                     url:'/lockPosition',
+                     success:function(){
+                      objThis._getPositionList();
+                    },
+                    complete:function(){
+                      layer.msg('<b>解鎖場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                    }
+                  });
+                 }
+              });
+            });
+          }
           _td.append(_input)
           _tr.append(_td);
 
-          objThis._lesson.append(_tr)
+          objThis._area.append(_tr)
       });
 
     }

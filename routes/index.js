@@ -13,6 +13,7 @@ var createAbbreviation = require('./createLessonAbbreviation.js');
 var createNewLesson = require('./createNewLesson.js');
 var lessonInformation = require('./lessonInformation.js');
 var login = require('./login.js');
+var position = require('./position.js');
 var search = require('./search.js');
 var specifyLesson = require('./showLesson.js');
 var user = require('./user.js');
@@ -671,6 +672,47 @@ router.get('/positionManage', function(req, res, next){
     res.redirect('/?identity=visitor');
   }
 })
+
+router.post('/positionManage', function(req, res, next){
+  var userName = req.session.userName;
+  var building = req.body.building;
+  var floor = req.body.floor;
+  var classroom = req.body.classroom;
+  var people = req.body.people;
+  var note = req.body.note;
+  var location = building + classroom;
+  var sentTime = getNowTime();
+  position.checkPositionReapet(location, function(repeat)
+  {
+    if (repeat == 1)
+    {
+      res.send({ success: 'yes' })
+    }
+    else
+    {
+      position.createNewPosition(userName, building, floor, classroom, location, people, note, sentTime, 'no', function()
+      {
+        res.send({ success: 'no' })
+      })
+    }
+  })
+})
+
+router.post('/getPositionData', function(req, res, next){
+  position.getPositionData(function(data)
+  {
+    res.send({ success: data })
+  })
+})
+
+router.post('/lockPosition', function(req, res, next){
+  var data = req.body.strJson;
+  position.lockPosition(data, function()
+  {
+    res.send({ success: 'yes' })
+  })
+})
+
 
 /*** User Feedback Page ***/
 router.get('/feedback', function(req, res, next){

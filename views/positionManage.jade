@@ -64,14 +64,15 @@ block main
                     table#lessonList.table.table-condensed
                       tr
                         th(width='5%') #
-                        th(width='30%', style='border-left:1px #ddd solid;') 大樓名稱
-                        th(width='15%', style='border-left:1px #ddd solid;') 樓層
-                        th(width='15%', style='border-left:1px #ddd solid;') 教室名稱
-                        th(width='15%', style='border-left:1px #ddd solid;') 容納人數
-                        th(width='15%', style='border-left:1px #ddd solid;') 詳細資料
+                        th(width='10%', style='border-left:1px #ddd solid;') 大樓
+                        th(width='10%', style='border-left:1px #ddd solid;') 樓層
+                        th(width='10%', style='border-left:1px #ddd solid;') 教室
+                        th(width='10%', style='border-left:1px #ddd solid;') 容納人數
+                        th(width='30%', style='border-left:1px #ddd solid;') 備註
+                        th(width='25%', style='border-left:1px #ddd solid;') 操作
                       tbody#area
                       tr#nobodyList.tr-empty(align='center')
-                        td(colspan='6')
+                        td(colspan='7')
                           br
                           span#new.new(style='cursor:pointer;')
                             i.fa.fa-plus-circle.fa-3x
@@ -129,7 +130,7 @@ block main
                     .row
                       .col-md-6.form-group.form_name.form
                         i.fa.fa-child(style='font-size:20px;')
-                        | 大樓名稱
+                        | 大樓
                         input#areaBuilding.form-control(type='text', placeholder='請填入大樓名稱', name='areaBuilding')
                       .col-md-6.form-group.form_count.form
                         | 樓層
