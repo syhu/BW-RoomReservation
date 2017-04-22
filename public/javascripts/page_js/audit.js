@@ -194,6 +194,9 @@ var aduit = (function(){
             //申請教室
             _td = $("<td />",{"text":v.lessonClass});
             _tr.append(_td);
+            //申請人數
+            _td = $("<td />",{"text":v.people});
+            _tr.append(_td);
             //申請時間
             _td = $("<td />",{"text":v.time + ' - ' + v.period});
             _tr.append(_td);
