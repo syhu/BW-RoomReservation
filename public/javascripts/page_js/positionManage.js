@@ -27,6 +27,14 @@ var positionManage = (function(){
       this._areaClass = $("#areaClass");
       this._areaPeople = $("#areaPeople");
       this._areaNote = $("#areaNote");
+      this._form_name = $(".form_name")
+      this._form_floor = $(".form_floor")
+      this._form_class = $(".form_class")
+      this._form_people = $(".form_people")
+
+
+
+
       this._area = $("#area");
 
       this._start();
@@ -107,7 +115,7 @@ var positionManage = (function(){
       //確認新增地點
       this._btnSubmit.on('click', $.proxy(function(){
         var objThis = this;
-        if('a' == 'a')
+        if(objThis._checkSubmit())
         {
           bootbox.confirm({
             message:"<br/><b style='font-size:20px;'>確定新增場地嗎?</b><br/>" +
@@ -173,6 +181,44 @@ var positionManage = (function(){
     },
 
     _checkSubmit:function(){
+      var objThis = this;
+      var returnCheck = true;
+      //檢查大樓名稱
+      if(objThis._areaBuilding.val() == ''){
+        returnCheck = false;
+        this._form_name.addClass("has-error");
+        layer.msg('<b>請輸入大樓名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+
+      }else{
+        objThis._form_name.removeClass("has-error");
+      }
+      //檢查樓層
+      var positiveInteger = /^[0-9]*[1-9][0-9]*$/ ;
+      if(objThis._areaFloor.val() == "" || objThis._areaFloor.val() <1 || !positiveInteger.test(objThis._areaFloor.val()) ){
+        returnCheck = false;
+				objThis._form_floor.addClass("has-error");
+				layer.msg('<b>請輸入正確的樓層格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+      }else{
+        objThis._form_floor.removeClass("has-error");
+      }
+      //教室名稱
+      if(objThis._areaClass.val() == ''){
+        returnCheck = false;
+        objThis._form_class.addClass("has-error");
+        layer.msg('<b>請輸入教室名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+      }else{
+        objThis._form_class.removeClass("has-error");
+      }
+      //容納人數
+      if(objThis._areaPeople.val() == "" || objThis._areaPeople.val() <1 || !positiveInteger.test(objThis._areaPeople.val()) ){
+        returnCheck = false;
+				objThis._form_people.addClass("has-error");
+				layer.msg('<b>請輸入正確的容納人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+      }else{
+        objThis._form_people.removeClass("has-error");
+      }
+
+      return returnCheck;
     },
     _getPositionList:function(){
       var objThis = this;

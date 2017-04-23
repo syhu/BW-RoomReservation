@@ -9,7 +9,7 @@ var router = express.Router();
 /*** Include javascript file ***/
 var allLessonAbbreviation = require('./showLessonAbbreviation.js');
 var checkLessonRepeat = require('./checkLessonRepeat');
-var createAbbreviation = require('./createLessonAbbreviation.js');
+var lessonAbbreviation = require('./lessonAbbreviation.js');
 var createNewLesson = require('./createNewLesson.js');
 var lessonInformation = require('./lessonInformation.js');
 var login = require('./login.js');
@@ -314,7 +314,7 @@ router.post('/lessonNormalManage', function(req, res, next){
         {
           if (data == 'no data')
           {
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
+            lessonAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
@@ -522,9 +522,11 @@ router.post('/lessonManage', function(req, res, next){
   var lessonAbbreviation = req.body.lessonAbbreviation;
   var userName = req.session.userName;
   var currectTime = getNowTime();
+  var contract = '';
+  var contractPhone = '';
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    createAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, function(err, repeat, id)
+    lessonAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, contract, contractPhone, function(err, repeat, id)
     {
       if(repeat == 0)
       {
@@ -536,6 +538,13 @@ router.post('/lessonManage', function(req, res, next){
       }
     })
   }
+})
+
+router.post('/updateLessonAbbreviation', function(req, res, next){
+  var data = req.body.strJson;
+  lessonAbbreviation.updateLessonAbbreviation(data, function(){
+    res.send({ success: 'yes' })
+  })
 })
 
 router.post('/getupdateLessonID', function(req, res, next){
@@ -599,7 +608,7 @@ router.post('/apply', function(req, res, next){
         {
           if (data == 'no data')
           {
-            createAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
+            lessonAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'

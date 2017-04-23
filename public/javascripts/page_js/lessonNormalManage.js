@@ -68,7 +68,6 @@ var lessonNormalManage = (function(){
 		_start:function(){
 			var objThis = this;
 			objThis._initialAll();
-			objThis._getPositionList();
 			objThis._getlessonIDList();
 		},
 		_initialAll:function(){
@@ -404,6 +403,9 @@ var lessonNormalManage = (function(){
 				{
 					bootbox.alert('error: ' + xhr);console.log(xhr);
 					layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				},
+				complete:function(){
+					objThis._getPositionList();
 				}
 			});
 		},
@@ -442,13 +444,14 @@ var lessonNormalManage = (function(){
                   arrBuilding[index] = arrBuilding[i];
               }
           }
-          for(var j = arrBuilding.length; j > index;j--){
+          for(var j = arrBuilding.length; j > index; j--){
               delete arrBuilding[j];
           }
           for(var k=0;k <= index;k++){
-                _option = $("<option />",{"text":arrBuilding[k],"value":arrBuilding[k]});
-                objThis._lessonBuilding.append(_option);
-								objThis._filterBuilding.append(_option);
+                // _option = $("<option />",{"text":arrBuilding[k],"value":arrBuilding[k]});
+								// console.log(arrBuilding[k])
+								objThis._filterBuilding.append("<option value='" + arrBuilding[k] + "'>" + arrBuilding[k] + "</option>");
+                objThis._lessonBuilding.append("<option value='" + arrBuilding[k] + "'>" + arrBuilding[k] + "</option>");
           }
 
       }

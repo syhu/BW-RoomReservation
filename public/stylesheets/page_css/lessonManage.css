@@ -18,22 +18,14 @@ body {
 	margin-bottom: 0%;
 	overflow:hidden;
 }*/
-#manager_left{
-	float:left;
-	border:2px solid black;
-	border-radius:10px;
-	height:60%;
-	width:20%;
-	margin:20px;
-	overflow:hidden;
-}
+
 #manager_center{
 	border:2px solid black;
 	border-radius:10px;
 	/*height:60%;*/
-	width:80%;
-	margin-left: 10%;
-	margin-right: 10%;
+	width:90%;
+	margin-left: 5%;
+	margin-right: 5%;
 	overflow:hidden;
 }
 /*#manager_right{
@@ -45,12 +37,12 @@ body {
 	margin-top:20px;
 }*/
 
-#lessonList{
+/*#lessonList{
 	margin:20px;
 	border-radius:0px;
 	width:95%;
 
-}
+}*/
 
 ul li
 {

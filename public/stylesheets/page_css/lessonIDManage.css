@@ -1,10 +1,11 @@
 #manager_center{
-	float:left;
+	/*float:left;*/
 	border:2px solid black;
 	border-radius:15px;
-	height:80%;
-	width:80%;
-	margin-left: 10%;
+	height:100%;
+	width:90%;
+	margin-left: 5%;
+	margin-right: 5%;
 	overflow:hidden;
 }
 #manager_top

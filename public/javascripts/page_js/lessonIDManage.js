@@ -6,6 +6,7 @@ var lessonIDManage = (function(){
   _const.prototype = {
     _construct:function(){
       this._bounce_new = $('#bounce_new');
+      this._bounce_edit = $('#bounce_edit');
       this._btnCancel = $('#btnCancelID');
       this._btnSubmit = $('#btnSubmitID');
       this._form_name = $('.form_name');
@@ -15,6 +16,16 @@ var lessonIDManage = (function(){
       this._lessonAbbreviation = $('#lessonAbbreviation');
       this._new = $('#new');
       this._todayTime = $(".todayTime");
+
+      //編輯課程ID
+      this._EditlessonIDName = $("#EditlessonIDName");
+      this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
+      this._EditContractName = $("#EditContractName");
+      this._EditContractPhone = $("#EditContractPhone");
+      this._btnEditCancel = $("#btnEditCancel");
+      this._btnEditSubmit = $("#btnEditSubmit");
+      this.EditlessonID = '';
+
 
       this._start();
     },
@@ -88,6 +99,39 @@ var lessonIDManage = (function(){
           this._bounce_new.modal('hide');
         }
       }, this));
+      //編輯 取消
+      this._btnEditCancel.on("click",$.proxy(function(e){
+        this._bounce_edit.modal('hide');
+      },this));
+      //編輯 確定
+      this._btnEditSubmit.on("click",$.proxy(function(e){
+        this._updateLessonAbbreviation();
+      },this));
+
+    },
+    //編輯 送出
+    _updateLessonAbbreviation:function(){
+      var objThis = this;
+      var arr = new Array();
+      var obj = new Object;
+      obj.id = objThis.EditlessonID;
+      obj.abbreviation = objThis._EditlessonIDabbreviation.val();
+      obj.contract = objThis._EditContractName.val();
+      obj.contractPhone = objThis._EditContractPhone.val();
+      arr = arr.concat(obj);
+
+      $.ajax({
+        type:'post',
+        data: {strJson:JSON.stringify(arr)},
+        url:'/updateLessonAbbreviation',
+        success:function(datas){
+            if(datas.success == 'yes'){
+              layer.msg('<b>編輯成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+              objThis._getlessonIDList();
+              objThis._bounce_edit.modal('hide');
+            }
+        }
+      });
     },
     _checkSubmit:function(){
       var returnCheck = true;
@@ -122,6 +166,7 @@ var lessonIDManage = (function(){
       var _tr;
       var _td;
       var _input;
+      console.log(strJson)
       objThis._lesson.empty();
       $.each(strJson,function(i,v){
         var trClass;
@@ -160,12 +205,33 @@ var lessonIDManage = (function(){
           _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
           _tr.append(_td);
           //詳細資料
-          _input = $("<span />",{"class":"label label-default","text":"聯絡人資訊","style":"font-size:100%;"});
+          _input = $("<span />",{"class":"label label-success","text":"編輯","style":"font-size:100%;"});
           _input.bind("click",function(){
-              bootbox.alert("聯絡人資訊")
+              objThis.EditlessonID = v.id;
+              objThis._EditlessonIDName.html(v.name)
+              objThis._EditlessonIDabbreviation.val(v.abbreviation)
+              objThis._EditContractName.val(v.contract);
+              objThis._EditContractPhone.val(v.contractPhone);
+
+              objThis._bounce_edit.modal('show');
           })
+
           _td = $("<td />");
           _td.append(_input)
+          _input = $("<span />",{"class":"label label-default","text":"聯絡人資訊","style":"margin-left:10px;font-size:100%;"});
+          _input.bind("click",function(){
+              bootbox.alert("<b>聯絡人資訊</b>" +
+                    "<br/><br/>上傳者：" + v.userName +
+                    "<br/><br/>課程名稱：" + v.name +
+                    "<br/><br/>課程簡稱：" + v.abbreviation +
+                    "<br/><br/>新增時間：" + v.createTime +
+                    "<br/><br/>修改時間：" + v.modifyTime+
+                    "<br/><br/>聯絡人姓名：" + v.contract+
+                    "<br/><br/>聯絡人電話：" + v.contractPhone
+              )
+          })
+          _td.append(_input)
+
           _tr.append(_td);
 
           objThis._lesson.append(_tr)
