@@ -11,7 +11,6 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var Lesson = require('./lesson_model.js');
-      console.log(contract + ' -> ' + contractPhone);
       if (mode == 'single')
       {
         doc = new Lesson
@@ -42,6 +41,7 @@ module.exports = {
           {
             console.log(doc.count + ' save successful');
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback();
           }
@@ -78,6 +78,7 @@ module.exports = {
           {
             console.log(doc.count + ' save successful');
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback();
           }
@@ -155,7 +156,6 @@ module.exports = {
             if(err){console.log(err);}
             else
             {
-              console.log(thisTime);
               checkSameTimeLessom(thisTime);
               console.log(doc.lessonID + ' save successful');
               callback();
@@ -214,8 +214,6 @@ module.exports = {
       //同時間地點的自動審核失敗
       function auditFail(data)
       {
-        // console.log(data);
-        // console.log(data.lessonID);
         Lesson.update({lessonID: data.lessonID}, {$set: {checkSituation: 'fail', modifyTime: sentTime}}, function(err)
         {
           return;
@@ -276,6 +274,7 @@ module.exports = {
         function()
         {
           mongoose.disconnect();
+          mongoose.connection.close();
           console.log('disconnect successful');
           callback();
         }
@@ -292,6 +291,7 @@ module.exports = {
       var Lesson = require('./lesson_model.js');
       Lesson.update({lessonID: lessonID}, {$set: {modifyTime: sentTime, checkSituation: 'fail', reason: reason}}, function(err){
         mongoose.disconnect();
+        mongoose.connection.close();
         console.log('disconnect successful');
         callback();
       })

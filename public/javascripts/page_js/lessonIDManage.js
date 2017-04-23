@@ -89,7 +89,6 @@ var lessonIDManage = (function(){
         }
       }, this));
     },
-
     _checkSubmit:function(){
       var returnCheck = true;
       //課程名稱

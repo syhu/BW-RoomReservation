@@ -103,6 +103,7 @@ module.exports = {
           else
           {
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             var err = new Error('something wrong');
             callback(err, 1);
@@ -130,12 +131,14 @@ module.exports = {
         if (counts == 0)
         {
           mongoose.disconnect();;
+          mongoose.connection.close();
           console.log('disconnect successful');
           callback('no data');
         }
         else
         {
           mongoose.disconnect();
+          mongoose.connection.close();
           console.log('disconnect successful');
           callback(data);
         }
@@ -156,6 +159,7 @@ module.exports = {
       authorty = data[0].authorty;
       User.find({account: new RegExp(account, 'i'), name: new RegExp(name, 'i'), authorty: new RegExp(authorty, 'i')}, function(err, data){
         mongoose.disconnect();
+        mongoose.connection.close();
         console.log('disconnect successful');
         callback(err,data);
       })
@@ -175,6 +179,7 @@ module.exports = {
       if (authorty == 'User')
       {
         User.update({account: account}, {$set: {authorty: 'Owner'}}, function(err){
+          mongoose.connection.close();
           mongoose.disconnect();
           callback();
         })
@@ -182,6 +187,7 @@ module.exports = {
       else if (authorty == 'Owner')
       {
         User.update({account: account}, {$set: {authorty: 'User'}}, function(err){
+          mongoose.connection.close();
           mongoose.disconnect();
           callback();
         })

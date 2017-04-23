@@ -13,6 +13,7 @@ module.exports = {
       Lesson.find({lessonID: lessonID}, function(err, data)
       {
         mongoose.disconnect();
+        mongoose.connection.close();
         console.log('disconnect successful');
         callback(err, data);
       });

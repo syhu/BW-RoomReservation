@@ -17,12 +17,14 @@ module.exports = {
           if(data != '')
           {
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback(err, data);
           }
           else if(data == '')
           {
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback(err, 'no data');
           }
@@ -35,12 +37,14 @@ module.exports = {
           if(data != '')
           {
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback(err, data);
           }
           else if(data == '')
           {
             mongoose.disconnect();
+            mongoose.connection.close();
             console.log('disconnect successful');
             callback(err, 'no data');
           }

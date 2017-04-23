@@ -31,6 +31,7 @@ module.exports = {
                 else
                 {
                   mongoose.disconnect();
+                  mongoose.connection.close();
                   callback(err, 0, data[0].name, data);
                 }
               })
@@ -38,6 +39,7 @@ module.exports = {
             else
             {
               mongoose.disconnect();
+              mongoose.connection.close();
               callback(err, 1, null);
             }
           }
@@ -45,6 +47,7 @@ module.exports = {
           {
             var err = new Error('something wrong');
             mongoose.disconnect();
+            mongoose.connection.close();
             callback(err, 2, null);
           }
         }

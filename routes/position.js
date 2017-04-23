@@ -20,11 +20,13 @@ module.exports = {
         if (counts == 0)
         {
           mongoose.disconnect();
+          mongoose.connection.close();
           callback(0)
         }
         else
         {
           mongoose.disconnect();
+          mongoose.connection.close();
           callback(1)
         }
       })
@@ -79,6 +81,7 @@ module.exports = {
       Position.find({}, function(err, data)
       {
         mongoose.disconnect();
+        mongoose.connection.close();
         callback(data);
       })
     })
@@ -99,6 +102,7 @@ module.exports = {
       {
         Position.update({location: location}, {$set: {lock: 'yes'}}, function(err){
           mongoose.disconnect();
+          mongoose.connection.close();
           callback();
         })
       }
@@ -106,6 +110,7 @@ module.exports = {
       {
         Position.update({location: location}, {$set: {lock: 'no'}}, function(err){
           mongoose.disconnect();
+          mongoose.connection.close();
           callback();
         })
       }

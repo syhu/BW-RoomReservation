@@ -22,6 +22,7 @@ module.exports = {
           counts++;
         }
         mongoose.disconnect();
+        mongoose.connection.close();
         console.log('disconnect successful');
         if (counts == 0)
         {

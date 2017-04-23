@@ -254,8 +254,7 @@ router.get('/logout',function(req, res, next){
 router.get('/lessonNormalManage', function(req, res, next){
   if(req.session.account)
   {
-    // specifyLesson.searchLesson('', '', function(err, todayLesson)
-    specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'success', function(err, todayLesson)
+    specifyLesson.searchLesson('', '', 'success', function(err, todayLesson)
     {
       if(todayLesson != 'no data')
       {
@@ -648,7 +647,7 @@ router.post('/updateAuditLesson', function(req, res, next){
 })
 
 router.post('/getAllPassLesson', function(req, res, next){
-  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'success', function(err, todayLesson)
+  specifyLesson.searchLesson('', '', 'success', function(err, todayLesson)
   {
     if(todayLesson != 'no data')
     {
@@ -712,7 +711,6 @@ router.post('/lockPosition', function(req, res, next){
     res.send({ success: 'yes' })
   })
 })
-
 
 /*** User Feedback Page ***/
 router.get('/feedback', function(req, res, next){

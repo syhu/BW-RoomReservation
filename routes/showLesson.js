@@ -14,18 +14,19 @@ module.exports = {
       var now = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
       if (requireFirstDay == '' && requireSecondDay == '')
       {
-        Lesson.find({time: now, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
+        Lesson.find({checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
         {
             if(data != '')
             {
               mongoose.disconnect();
+              mongoose.connection.close();
               console.log('disconnect successful');
               callback(err, data)
             }
             else if(data == '')
             {
-              console.log('no data');
               mongoose.disconnect();
+              mongoose.connection.close();
               console.log('disconnect successful');
               callback(err, 'no data')
             }
@@ -34,9 +35,9 @@ module.exports = {
       else if (requireFirstDay != '' && requireSecondDay != '')
       {
         var first = requireFirstDay.split('/');
-        var firstMillionSecond = new Date(first[0], first[1], first[2]).getTime();
+        var firstMillionSecond = new Date(first[0], (first[1]-1), first[2]).getTime();
         var second = requireSecondDay.split('/');
-        var secondMillionSecond = new Date(second[0], second[1], second[2]).getTime();
+        var secondMillionSecond = new Date(second[0], (second[1]-1), second[2]).getTime();
         if (secondMillionSecond >= firstMillionSecond)
         {
           if (check == '')
@@ -44,6 +45,7 @@ module.exports = {
             Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}}).sort({'time':'asc'}).exec(function(err, data)
             {
                 mongoose.disconnect();
+                mongoose.connection.close();
                 console.log('disconnect successful');
                 callback(err, data);
             });
@@ -53,6 +55,7 @@ module.exports = {
             Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: check}).sort({'time':'asc'}).exec(function(err, data)
             {
                 mongoose.disconnect();
+                mongoose.connection.close();
                 console.log('disconnect successful');
                 callback(err, data);
             });
@@ -63,6 +66,7 @@ module.exports = {
       {
         console.log('Please send full data about require.');
         mongoose.disconnect();
+        mongoose.connection.close();
         console.log('disconnect successful');
       }
     });

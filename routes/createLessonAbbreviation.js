@@ -19,7 +19,7 @@ module.exports = {
         }
         counts = counts+1;
         var total = counts;
-        var fullLessonName = lessonName + '(' + userName + ')';
+        var fullLessonName = lessonName + '(' + contract + ')';
         doc = new Abbreviation
         ({
           id: counts,

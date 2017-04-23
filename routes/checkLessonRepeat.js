@@ -13,8 +13,6 @@ module.exports = {
       var Lesson = require('./lesson_model.js');
       var repeat = false ;
       var length = currentTime.length;
-      console.log(currentTime + ' -> ' + period + ' -> ' + lessonClass);
-      console.log(length);
 
       function asyncLoop(iterations, func, callback) {
         var index = 0;
@@ -69,10 +67,8 @@ module.exports = {
       }
 
       asyncLoop(length, function(loop) {
-          console.log(loop.iteration()-1);
           thisTime = currentTime[(loop.iteration()-1)];
           searchRepeat(thisTime, function(result) {
-            // console.log(loop + ' -> ' + thisTime);
               if (result == 1)
               {
                 repeat = true;
@@ -82,15 +78,18 @@ module.exports = {
           })},
           function(){
             mongoose.disconnect();
-            console.log(repeat);
             if (repeat == true)
             {
               console.log('disconnect successful');
+              mongoose.disconnect();
+              mongoose.connection.close();
               callback(1);
             }
             else if(repeat == false)
             {
               console.log('disconnect successful');
+              mongoose.connection.close();
+              mongoose.disconnect();
               callback(0);
             }
           }
