@@ -1,7 +1,7 @@
 extends layout
 block main
     link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
-    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    //- link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     link(rel='stylesheet', href='stylesheets/customized.css')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
@@ -161,8 +161,8 @@ block main
                           option(value='環球') 環球
                           option(value='里仁') 里仁
                           option(value='學苑') 學苑
-                        select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
-                        select#lessonClass.form-control(disabled='disabled', name='lessonClass')
+                        select#lessonFloor.form-control(name='lessonFloor')
+                        select#lessonClass.form-control(name='lessonClass')
                       .col-md-6.form-group.form_time.form
                         | 開始上課時間
                         input#lessonTime.date-picker.form-control(type='text', placeholder='開始時間', name='lessonTime')
@@ -199,3 +199,6 @@ block main
           .modal-footer
             input#btnSubmit.btn.btn-primary(type='button', value='確定')
             button#btnCancel.btn.btn-default 取消
+            
+    input#hiddenPositionData(type='hidden', value='')
+    

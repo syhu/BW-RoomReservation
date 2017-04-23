@@ -143,8 +143,10 @@ var aduit = (function(){
           success:function(datas){
               console.log(datas);
               console.log(datas.showLesson)
-              var data = datas.showLesson
-              objThis._setAuditList(data);
+              if(datas.success == 'yes'){
+                var data = datas.showLesson;
+                objThis._setAuditList(data);
+              }
           }
         });
     },

@@ -10,6 +10,15 @@ var positionManage = (function(){
       this._new = $('.new');
       this._todayTime = $(".todayTime");
 
+      //查詢地點
+      this._filterBuilding = $("#filterBuilding");
+      this._filterFloor = $("#filterFloor");
+      this._filterClass = $("#filterClass");
+      this._cancelFilter = $("#cancelFilter");
+      this._btnFilter = $("#btnFilter");
+
+      this._hiddenPositionData = $("#hiddenPositionData");
+
       //新增地點
       this._btnCancel = $('#btnCancel');
       this._btnSubmit = $('#btnSubmit');
@@ -40,6 +49,42 @@ var positionManage = (function(){
         (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
           + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
           + now.getSeconds());
+
+
+      //大樓change
+      this._filterBuilding.on("change",$.proxy(function(e){
+        var objThis = this;
+        var check = true;
+        if($(e.currentTarget).val() != "請選擇"){
+            objThis._filterFloor.empty().append("<option value='請選擇'>請選擇</option>")
+            objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>")
+            var data = JSON.parse(this._hiddenPositionData.val());
+            $.each(data,function(i,v){
+                check = true;
+                if($(e.currentTarget).val() == v.building){
+                  $("#filterFloor option").each(function(index,element){
+                    if($(element).val() == v.floor )  check = false;
+                  });
+                  if(check){
+                    objThis._filterFloor.append("<option value='" + v.floor + "'>" + v.floor + "</option>");
+                  }
+                }
+            })
+        }
+      },this));
+      //樓層change
+      this._filterFloor.on("change",$.proxy(function(e){
+        var objThis = this;
+        if($(e.currentTarget).val() != "請選擇"){
+          objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
+          var data = JSON.parse(this._hiddenPositionData.val());
+          $.each(data,function(i,v){
+              if($(e.currentTarget).val() == v.floor && objThis._filterBuilding.val() == v.building){
+                  objThis._filterClass.append("<option value='" + v.classroom + "'>" + v.classroom + "</option>");
+              }
+          })
+        }
+      },this));
 
       //新增地點
       this._new.on('click', $.proxy(function(){
@@ -136,10 +181,58 @@ var positionManage = (function(){
         url:'/getPositionData',
         success:function(datas){
             var data = datas.success
+            objThis._setPositionOption(data);
             objThis._setPositionList(data);
         }
       });
 
+    },
+    _setPositionOption:function(strJson){
+      var objThis = this;
+      objThis._filterBuilding.empty().append("<option value='請選擇'>請選擇</option>");
+      objThis._filterFloor.empty().append("<option value='請選擇'>請選擇</option>");
+      objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
+
+      console.log(strJson)
+      var arrBuilding = new Array();
+      var arrFloor = new Array();
+      var arrClass = new Array();
+      var jsonData = '[';
+      $.each(strJson,function(i,v){
+
+          arrBuilding.push(v.building);
+          // arrFloor.push(v.floor)
+          // arrClass.push(v.classroom)
+
+          jsonData += '{"building":"' + v.building + '",';
+          jsonData += '"floor":"' + v.floor + '",';
+          jsonData += '"classroom":"' + v.classroom + '"},';
+
+
+      });
+      jsonData = jsonData.substring(0,jsonData.length - 1);
+      jsonData += ']'
+      console.log(jsonData)
+      objThis._hiddenPositionData.val(jsonData)
+
+      //刪除重複
+      if(arrBuilding.length > 0){
+          var index = 0;
+          for(var i=0;i<arrBuilding.length;i++){
+              if(arrBuilding[index] != arrBuilding[i]){
+                  index++;
+                  arrBuilding[index] = arrBuilding[i];
+              }
+          }
+          for(var j = arrBuilding.length; j > index;j--){
+              delete arrBuilding[j];
+          }
+          for(var k=0;k <= index;k++){
+                _option = $("<option />",{"text":arrBuilding[k],"value":arrBuilding[k]});
+                objThis._filterBuilding.append(_option);
+          }
+
+      }
     },
     _setPositionList:function(strJson){
       var objThis = this;
@@ -147,7 +240,7 @@ var positionManage = (function(){
       var _td;
       var _input;
       objThis._area.empty();
-      console.log(strJson)
+      // console.log(strJson)
       $.each(strJson,function(i,v){
         var trClass;
           switch(i%4){

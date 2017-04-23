@@ -2,7 +2,7 @@ extends layout
 
 block main
     link(rel='stylesheet', href='stylesheets/page_css/apply.css')
-    link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
+    //- link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     link(rel='stylesheet', href='stylesheets/customized.css')
     link(rel='stylesheet', href='stylesheets/ui.css')
     script(src='javascripts/jquery-ui.js')
@@ -47,8 +47,8 @@ block main
                                       option(value='環球') 環球
                                       option(value='里仁') 里仁
                                       option(value='學苑') 學苑
-                                    select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
-                                    select#lessonClass.form-control(disabled='disabled', name='lessonClass')
+                                    select#lessonFloor.form-control(name='lessonFloor')
+                                    select#lessonClass.form-control(name='lessonClass')
                                   .col-md-5.form-group.form_period.form
                                     | 上課時段:
                                     br
@@ -79,3 +79,4 @@ block main
                         .modal-footer
                           input#btnSubmit.btn.btn-primary(type='button', value='確定')
                           input#btnCancel.btn.btn-default(type='button', value='取消')
+    input#hiddenPositionData(type='hidden', value='')
