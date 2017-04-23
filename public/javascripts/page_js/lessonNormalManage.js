@@ -44,9 +44,10 @@ var lessonNormalManage = (function(){
 			//查詢
 			this._btnFilter = $("#btnFilter");
 			this._cancelFilter = $("#cancelFilter");
-			this._filterTimeZone = $("#filterTimeZone");
+			this._filterBuilding = $("#filterBuilding");
+			this._filterFloor = $("#filterFloor");
 			this._filterClass = $("#filterClass");
-			this._filterLocal = $("#filterLocal");
+			this._filterTimeZone = $("#filterTimeZone");
 			//編輯課程
 			this._EditlessonName = $("#EditlessonName");
 			this._EditlessonTimes = $("#EditlessonTimes");
@@ -60,6 +61,7 @@ var lessonNormalManage = (function(){
 			this._btnEditSubmit = $("#btnEditSubmit");
 
 			this._hiddenPositionData = $("#hiddenPositionData");		/* 存放地點資訊 */
+			this.checkPeople = 0;
 
 			this._start();
 		},
@@ -98,16 +100,7 @@ var lessonNormalManage = (function(){
 				this._bounce_lesson.modal('show');
 			},this));
 
-			//清除查詢
-			this._cancelFilter.on("click",$.proxy(function(){
-				this._filterTimeZone.val('請選擇');
-				this._filterClass.val('請選擇');
-				this._filterLocal.val('請選擇');
-			},this));
-			//查詢
-			this._btnFilter.on("click",$.proxy(function(){
 
-			},this))
 
 			//關閉課程明細
 			this._btnClose.on("click",$.proxy(function(){
@@ -191,41 +184,42 @@ var lessonNormalManage = (function(){
 			this._btnCancel.on("click",$.proxy(function(){
 				this._bounce_lesson.modal("hide");
 			},this));
-
+			//filter 大樓 change
+			this._filterBuilding.on("change",$.proxy(function(e){
+				var objThis = this;
+        var check = true;
+				if($(e.currentTarget).val() != "請選擇"){
+            objThis._filterFloor.empty().append("<option value='請選擇'>請選擇</option>")
+            objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>")
+            var data = JSON.parse(this._hiddenPositionData.val());
+            $.each(data,function(i,v){
+                check = true;
+                if($(e.currentTarget).val() == v.building){
+                  $("#filterFloor option").each(function(index,element){
+                    if($(element).val() == v.floor )  check = false;
+                  });
+                  if(check){
+                    objThis._filterFloor.append("<option value='" + v.floor + "'>" + v.floor + "</option>");
+                  }
+                }
+            })
+        }
+			},this));
+			//filter 樓層 change
+			this._filterFloor.on("change",$.proxy(function(e){
+				var objThis = this;
+        if($(e.currentTarget).val() != "請選擇"){
+          objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
+          var data = JSON.parse(this._hiddenPositionData.val());
+          $.each(data,function(i,v){
+              if($(e.currentTarget).val() == v.floor && objThis._filterBuilding.val() == v.building){
+                  objThis._filterClass.append("<option value='" + v.classroom + "'>" + v.classroom + "</option>");
+              }
+          })
+        }
+			},this));
 			//大樓change
 			this._lessonBuilding.on("change",$.proxy(function(e){
-				// this._lessonClass.attr('disabled','');
-				// this._lessonClass.empty();
-				// switch (this._lessonBuilding.val()) {
-				// 	case '請選擇':
-				// 		this._lessonFloor.attr('disabled','');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonClass.attr('disabled','');
-				// 		this._lessonClass.empty();
-				// 		break;
-				// 	case '環球':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='環球3f'>3樓</option>");
-				// 		this._lessonFloor.append("<option value='環球12f'>12樓</option>");
-				// 		break;
-				// 	case '里仁':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='里仁2f'>2樓</option>");
-				// 		break;
-				// 	case '學苑':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='學苑7f'>7樓</option>");
-				// 		this._lessonFloor.append("<option value='學苑12f'>12樓</option>");
-				// 		this._lessonFloor.append("<option value='學苑13f'>13樓</option>");
-				// 		break;
-				// }
-
 				var objThis = this;
         var check = true;
         if($(e.currentTarget).val() != "請選擇"){
@@ -247,59 +241,39 @@ var lessonNormalManage = (function(){
 			},this))
 			// 樓層change
 			this._lessonFloor.on("change",$.proxy(function(e){
-				// switch (this._lessonFloor.val()) {
-				// 	case '請選擇':
-				// 		this._lessonClass.attr('disabled','');
-				// 		this._lessonClass.empty();
-				// 		break;
-				// 	case '環球3f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='環球3-1'>3-1 (70人)</option>");
-				// 		this._lessonClass.append("<option value='環球3-2'>3-2 (60人)</option>");
-				// 		break;
-				// 	case '環球12f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='環球12-1'>12-1 (35人)</option>");
-				// 		this._lessonClass.append("<option value='環球12-2'>12-2 (35人)</option>");
-				// 		this._lessonClass.append("<option value='環球12-3'>12-3 (45人)</option>");
-				// 		break;
-				// 	case '里仁2f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='里仁2-1'>2-1 (80人)</option>");
-				// 		this._lessonClass.append("<option value='里仁2-2'>2-2 (20人會議室)</option>");
-				// 		break;
-				// 	case '學苑7f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑7-4'>7-4 (40人)</option>");
-				// 		this._lessonClass.append("<option value='學苑7-5'>7-5 (40人)</option>");
-				// 		this._lessonClass.append("<option value='學苑7-6'>7-6 (45人)</option>");
-				// 		break;
-				// 	case '學苑12f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑12-1'>12-1 (120人)</option>");
-				// 		break;
-				// 	case '學苑13f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑13-3'>13-3 (20人)</option>");
-				// 		break;
-				// }
-
 				var objThis = this;
         if($(e.currentTarget).val() != "請選擇"){
           objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
           var data = JSON.parse(this._hiddenPositionData.val());
           $.each(data,function(i,v){
               if($(e.currentTarget).val() == v.floor && objThis._lessonBuilding.val() == v.building){
-                  objThis._lessonClass.append("<option value='" + v.classroom + "'>" + v.classroom + "</option>");
+                  objThis._lessonClass.append("<option value='" + v.classroom + "'>" + v.classroom + "  (最大容納人數：" + v.people + "人)</option>");
               }
           })
         }
+			},this));
+			// 教室change 儲存人數
+			this._lessonClass.on("change",$.proxy(function(e){
+				var objThis = this;
+					if($(e.currentTarget).val() != "請選擇"){
+						var data = JSON.parse(this._hiddenPositionData.val());
+						$.each(data,function(i,v){
+								if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
+										objThis.checkPeople  = v.people;
+								}
+						})
+					}
+			},this));
+			//清除查詢
+			this._cancelFilter.on("click",$.proxy(function(){
+				this._filterBuilding.val('請選擇');
+				this._filterFloor.empty().append("<option value='請選擇'>請選擇</option>");
+				this._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
+				this._filterTimeZone.val('請選擇');
+			},this));
+			//查詢
+			this._btnFilter.on("click",$.proxy(function(){
+
 			},this))
 		},
 
@@ -389,49 +363,7 @@ var lessonNormalManage = (function(){
 				}
 				else
 				{
-					var checkPeopleNum = 1;
-					var peopleNum = this._lessonPeople.val();
-					var useClass = this._lessonClass.val();
-					switch (useClass)
-					{
-						case '環球3-1':
-						if (peopleNum <= 70) {checkPeopleNum = 0;}
-						break;
-						case '環球3-2':
-						if (peopleNum <= 60) {checkPeopleNum = 0;}
-						break;
-						case '環球12-1':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-						case '環球12-2':
-						if (peopleNum <= 35) {checkPeopleNum = 0;}
-						break;
-						case '環球12-3':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-						case '里仁2-1':
-						if (peopleNum <= 80) {checkPeopleNum = 0;}
-						break;
-						case '里仁2-2':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-4':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-5':
-						if (peopleNum <= 40) {checkPeopleNum = 0;}
-						break;
-						case '學苑7-6':
-						if (peopleNum <= 45) {checkPeopleNum = 0;}
-						break;
-						case '學苑12-1':
-						if (peopleNum <= 120) {checkPeopleNum = 0;}
-						break;
-						case '學苑13-3':
-						if (peopleNum <= 20) {checkPeopleNum = 0;}
-						break;
-					}
-					if (checkPeopleNum == 1)
+					if (this.checkPeople < this._lessonPeople.val())
 					{
 						returnCheck = false;
 						this._form_people.addClass("has-error");
@@ -477,6 +409,9 @@ var lessonNormalManage = (function(){
 		},
 		_setPositionOption:function(strJson){
       var objThis = this;
+			objThis._filterBuilding.empty().append("<option value='請選擇'>請選擇</option>");
+			objThis._filterFloor.empty().append("<option value='請選擇'>請選擇</option>");
+			objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
       objThis._lessonBuilding.empty().append("<option value='請選擇'>請選擇</option>");
       objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>");
       objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
@@ -489,7 +424,8 @@ var lessonNormalManage = (function(){
 
           jsonData += '{"building":"' + v.building + '",';
           jsonData += '"floor":"' + v.floor + '",';
-          jsonData += '"classroom":"' + v.classroom + '"},';
+					jsonData += '"classroom":"' + v.classroom + '",';
+          jsonData += '"people":"' + v.people + '"},'
 
 
       });
@@ -512,6 +448,7 @@ var lessonNormalManage = (function(){
           for(var k=0;k <= index;k++){
                 _option = $("<option />",{"text":arrBuilding[k],"value":arrBuilding[k]});
                 objThis._lessonBuilding.append(_option);
+								objThis._filterBuilding.append(_option);
           }
 
       }

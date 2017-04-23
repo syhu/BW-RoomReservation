@@ -131,38 +131,6 @@ var apply = (function(){
 
       //大樓change
 			this._lessonBuilding.on("change",$.proxy(function(e){
-				// this._lessonClass.attr('disabled','');
-				// this._lessonClass.empty();
-				// switch (this._lessonBuilding.val()) {
-				// 	case '請選擇':
-				// 		this._lessonFloor.attr('disabled','');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonClass.attr('disabled','');
-				// 		this._lessonClass.empty();
-				// 		break;
-				// 	case '環球':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='環球3f'>3樓</option>");
-				// 		this._lessonFloor.append("<option value='環球12f'>12樓</option>");
-				// 		break;
-				// 	case '里仁':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='里仁2f'>2樓</option>");
-				// 		break;
-				// 	case '學苑':
-				// 		this._lessonFloor.removeAttr('disabled');
-				// 		this._lessonFloor.empty();
-				// 		this._lessonFloor.append("<option value='請選擇'>請選擇</option>");
-				// 		this._lessonFloor.append("<option value='學苑7f'>7樓</option>");
-				// 		this._lessonFloor.append("<option value='學苑12f'>12樓</option>");
-				// 		this._lessonFloor.append("<option value='學苑13f'>13樓</option>");
-				// 		break;
-				// }
-
         var objThis = this;
         var check = true;
         if($(e.currentTarget).val() != "請選擇"){
@@ -184,49 +152,6 @@ var apply = (function(){
 			},this))
       // 樓層change
 			this._lessonFloor.on("change",$.proxy(function(e){
-				// switch (this._lessonFloor.val()) {
-				// 	case '請選擇':
-				// 		this._lessonClass.attr('disabled','');
-				// 		this._lessonClass.empty();
-				// 		break;
-				// 	case '環球3f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='環球3-1'>3-1 (70人)</option>");
-				// 		this._lessonClass.append("<option value='環球3-2'>3-2 (60人)</option>");
-				// 		break;
-				// 	case '環球12f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='環球12-1'>12-1 (35人)</option>");
-				// 		this._lessonClass.append("<option value='環球12-2'>12-2 (35人)</option>");
-				// 		this._lessonClass.append("<option value='環球12-3'>12-3 (45人)</option>");
-				// 		break;
-				// 	case '里仁2f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='里仁2-1'>2-1 (80人)</option>");
-				// 		this._lessonClass.append("<option value='里仁2-2'>2-2 (20人會議室)</option>");
-				// 		break;
-				// 	case '學苑7f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑7-4'>7-4 (40人)</option>");
-				// 		this._lessonClass.append("<option value='學苑7-5'>7-5 (40人)</option>");
-				// 		this._lessonClass.append("<option value='學苑7-6'>7-6 (45人)</option>");
-				// 		break;
-				// 	case '學苑12f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑12-1'>12-1 (120人)</option>");
-				// 		break;
-				// 	case '學苑13f':
-				// 		this._lessonClass.removeAttr('disabled');
-				// 		this._lessonClass.empty();
-				// 		this._lessonClass.append("<option value='學苑13-3'>13-3 (20人)</option>");
-        //     break;
-				// }
-
         var objThis = this;
         if($(e.currentTarget).val() != "請選擇"){
           objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
@@ -249,7 +174,7 @@ var apply = (function(){
                 }
             })
           }
-      },this))
+      },this));
     },
     _checkSubmit:function(){  // 確認新增課程欄位判斷
 			var returnCheck = true;
