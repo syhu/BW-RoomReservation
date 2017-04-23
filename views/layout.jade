@@ -60,30 +60,29 @@ html
                     img(src='images/lesson.png')
                     |    課程查詢
           if user && (information[0].authorty != 'User')
-              ul.nav.navbar-nav
-                li.dropdown
-                  a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
-                    | 管理專區
-                    b.caret
-                  ul.dropdown-menu
-                    if user && (information[0].authorty == 'Admin')
-                      li
-                        a#lesson_time(onclick='userManage();', style='font-size:15px;')
-                          img(src='images/time.png')
-                          |    使用者管理
-                      li
-                        a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
-                          img(src='images/time.png')
-                          |    課程管理
-                      li
-                        a#lesson_time(onclick='positionManage();', style='font-size:15px;')
-                          img(src='images/time.png')
-                          |    場地管理                          
-                    if user && (information[0].authorty != 'User')  
-                      li
-                        a#lesson_time(onclick='audit();', style='font-size:15px;')
-                          img(src='images/time.png')
-                          | 審核專區
+            ul.nav.navbar-nav
+              li.dropdown
+                a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
+                  | 管理專區
+                  b.caret
+                ul.dropdown-menu
+                  if user && (information[0].authorty == 'Admin')
+                    li
+                      a#lesson_time(onclick='userManage();', style='font-size:15px;')
+                        img(src='images/time.png')
+                        |    使用者管理
+                    li
+                      a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
+                        img(src='images/time.png')
+                        |    課程管理
+                    li
+                      a#lesson_time(onclick='positionManage();', style='font-size:15px;')
+                        img(src='images/time.png')
+                        |    場地管理                          
+                  li
+                    a#lesson_time(onclick='audit();', style='font-size:15px;')
+                      img(src='images/time.png')
+                      | 審核專區
           if user
             ul.nav.navbar-nav
               li.dropdown

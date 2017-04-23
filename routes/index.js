@@ -7,15 +7,10 @@ var mongoose = require('mongoose');
 var router = express.Router();
 
 /*** Include javascript file ***/
-var allLessonAbbreviation = require('./showLessonAbbreviation.js');
-var checkLessonRepeat = require('./checkLessonRepeat');
-var lessonAbbreviation = require('./lessonAbbreviation.js');
-var createNewLesson = require('./createNewLesson.js');
-var lessonInformation = require('./lessonInformation.js');
+var abbreviation = require('./abbreviation.js');
+var lesson = require('./lesson.js');
 var login = require('./login.js');
 var position = require('./position.js');
-var search = require('./search.js');
-var specifyLesson = require('./showLesson.js');
 var user = require('./user.js');
 
 /*** Variable ***/
@@ -254,7 +249,7 @@ router.get('/logout',function(req, res, next){
 router.get('/lessonNormalManage', function(req, res, next){
   if(req.session.account)
   {
-    specifyLesson.searchLesson('', '', 'success', function(err, todayLesson)
+    lesson.searchLesson('', '', 'success', function(err, todayLesson)
     {
       if(todayLesson != 'no data')
       {
@@ -306,21 +301,21 @@ router.post('/lessonNormalManage', function(req, res, next){
   var applyPeriod = lessonPeriod;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    checkLessonRepeat.searchLessonRepeat(currentTime, lessonPeriod, lessonClass, function(repeat)
+    lesson.searchLessonRepeat(currentTime, lessonPeriod, lessonClass, function(repeat)
     {
       if (repeat == 0)
       {
-        allLessonAbbreviation.searchLessonAbbreviation(lessonName, function(err, data)
+        abbreviation.searchLessonAbbreviation(lessonName, function(err, data)
         {
           if (data == 'no data')
           {
-            lessonAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
+            abbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'normal';
-              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
+              lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               });
@@ -331,7 +326,7 @@ router.post('/lessonNormalManage', function(req, res, next){
             var lessonIndex = data[0].id;
             var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
             + applyLocation + '-' + applyPeriod;
-            createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
+            lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
             {
               res.send({ success: "yes"});
             });
@@ -362,7 +357,7 @@ router.get('/information', function(req, res, next){
 router.get('/lesson', function(req, res, next){
   if(req.session.account)
   {
-    specifyLesson.searchLesson('2017/01/01', '2017/12/31', '', function(err, applyLesson)
+    lesson.searchLesson('', '', '', function(err, applyLesson)
     {
       if(applyLesson != 'no data')
       {
@@ -443,7 +438,7 @@ router.post('/searchAccount', function(req, res, next){
   var account = req.body.account;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    search.searchAccountReapet(account, function(err, repeat){
+    user.searchAccountReapet(account, function(err, repeat){
       if(repeat==0)
       {
         res.send({ success: "no"});
@@ -471,7 +466,7 @@ router.get('/audit', function(req, res, next){
 /*** Aduit lesson Pass ***/
 router.post('/auditpass', function(req, res, next){
   var lessonID = req.body.lessonID;
-  lessonInformation.getLessonInfo(lessonID, function(err, data){
+  lesson.getLessonInfo(lessonID, function(err, data){
     var lessonCount = data[0].count;
     var lessonPeriod = data[0].period;
     var lessonClass = data[0].lessonClass
@@ -488,7 +483,7 @@ router.post('/auditpass', function(req, res, next){
       currentTime[(no-1)] = timeCurrentFormat
     }
     console.log(currentTime);
-    createNewLesson.createAllLesson(data, currentTime, sentTime, function()
+    lesson.createAllLesson(data, currentTime, sentTime, function()
     {
       res.send({success: 'yes'});
     })
@@ -499,7 +494,7 @@ router.post('/auditFail', function(req, res, next){
   var lessonID = req.body.lessonID;
   var sentTime = getNowTime();
   var reason = 'Q_Q'
-  createNewLesson.auditFail(lessonID, reason, sentTime, function()
+  lesson.auditFail(lessonID, reason, sentTime, function()
   {
     res.send({success: 'yes'});
   })
@@ -526,7 +521,7 @@ router.post('/lessonManage', function(req, res, next){
   var contractPhone = '';
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    lessonAbbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, contract, contractPhone, function(err, repeat, id)
+    abbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, function(err, repeat, id)
     {
       if(repeat == 0)
       {
@@ -550,7 +545,7 @@ router.post('/updateLessonAbbreviation', function(req, res, next){
 router.post('/getupdateLessonID', function(req, res, next){
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    allLessonAbbreviation.searchLessonAbbreviation('', function(err, data)
+    abbreviation.searchLessonAbbreviation('', function(err, data)
     {
       if(data == 'no data')
       {
@@ -600,21 +595,21 @@ router.post('/apply', function(req, res, next){
   var applyPeriod = lessonPeriod;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    checkLessonRepeat.checkSingleReapet(lessonTime, lessonPeriod, lessonClass, function(repeat)
+    lesson.checkSingleReapet(lessonTime, lessonPeriod, lessonClass, function(repeat)
     {
       if (repeat == 0)
       {
-        allLessonAbbreviation.searchLessonAbbreviation(lessonName, function(err, data)
+        abbreviation.searchLessonAbbreviation(lessonName, function(err, data)
         {
           if (data == 'no data')
           {
-            lessonAbbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
+            abbreviation.createLessonAbbreviation(userName, lessonName, '', sentTime, contract, contractPhone, function(err, repeat, total)
             {
               var lessonIndex = total;
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'single';
-              createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
+              lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               })
@@ -625,7 +620,7 @@ router.post('/apply', function(req, res, next){
             var lessonIndex = data[0].id;
             var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
             + applyLocation + '-' + applyPeriod;
-            createNewLesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
+            lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
             {
               res.send({ success: "yes"});
             })
@@ -642,7 +637,7 @@ router.post('/apply', function(req, res, next){
 
 /*** Update Lesson List ***/
 router.post('/updateAuditLesson', function(req, res, next){
-  specifyLesson.searchLesson('2017/01/01', '2017/12/31', 'uncheck', function(err, auditLesson)
+  lesson.searchLesson('', '', 'uncheck', function(err, auditLesson)
   {
     if (auditLesson == '[]')
     {
@@ -656,7 +651,7 @@ router.post('/updateAuditLesson', function(req, res, next){
 })
 
 router.post('/getAllPassLesson', function(req, res, next){
-  specifyLesson.searchLesson('', '', 'success', function(err, todayLesson)
+  lesson.searchLesson('', '', 'success', function(err, todayLesson)
   {
     if(todayLesson != 'no data')
     {

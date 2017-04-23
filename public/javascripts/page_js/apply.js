@@ -107,7 +107,6 @@ var apply = (function(){
           							if(message.success == 'yes')
           							{
           								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-                          setTimeout("location.href = '/lesson'",1500);
           							}
                         else if(message.success == 'no')
                         {
