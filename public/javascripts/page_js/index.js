@@ -99,7 +99,7 @@ var master = (function(){
 				url:'/getPositionData',
 				success:function(datas){
 						var data = datas.success
-						console.log(data)
+						// console.log(data)
 						if(data != null){
 							if(data.length > 0){
 								objThis._setPositionOption(data);
@@ -142,6 +142,8 @@ var master = (function(){
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
 						var data = datas.success
+						console.log(data)
+						
 						if(data != null){
 							if(data.length > 0){
 								objThis._setTodayLessonList(data);

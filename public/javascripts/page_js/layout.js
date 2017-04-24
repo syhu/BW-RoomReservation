@@ -3,19 +3,31 @@ $(function(){
     $("html,body").animate({scrollTop:0},'slow');
   })
 
-  if($("#hiddenIdentity").val() == '管理員') {
+  if($("#hiddenIdentity").val() == 'Admin') {
       $("#user").attr({"class":"label label-success","style":"font-size:100%;"})
       $("#user").bind("mouseover",function(){
-        layer.tips('最高管理者', $("#user") ,{tips:3,time:1000});
+        layer.tips('最高管理員', $("#user") ,{tips:3,time:1000});
       })
-  }else{
+  }else if($("#hiddenIdentity").val() == 'Hyper'){
     $("#user").attr({"class":"label label-info","style":"font-size:100%;"})
+    $("#user").bind("mouseover",function(){
+      layer.tips('超級管理員', $("#user") ,{tips:3,time:1000});
+    });
+  }else if($("#hiddenIdentity").val() == 'Owner'){
+    $("#user").attr({"class":"label label-warning","style":"font-size:100%;"})
+    $("#user").bind("mouseover",function(){
+      layer.tips('管理員', $("#user") ,{tips:3,time:1000});
+    });
+  }
+  else{
+    $("#user").attr({"class":"label label-primary","style":"font-size:100%;"})
     $("#user").bind("mouseover",function(){
       layer.tips('使用者', $("#user") ,{tips:3,time:1000});
     })
   }
 
   showTime();
+
 });
 //取得時間
 function showTime(){

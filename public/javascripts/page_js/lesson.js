@@ -1,4 +1,4 @@
-var apply = (function(){
+var lesson = (function(){
   var _const;
   _const = function(){
     this._construct();
@@ -6,7 +6,6 @@ var apply = (function(){
   _const.prototype = {
     _construct:function(){
       this._new = $(".new");
-      this._todayTime = $("#todayTime");
       this._btnSubmit = $("#btnSubmit");
       this._btnCancel = $("#btnCancel");
       //課程新增欄位
@@ -44,17 +43,13 @@ var apply = (function(){
 
     _start:function(){
       var objThis = this;
+
       objThis._initialAll();
-      objThis._getPositionList();
+      objThis._getUserLessonList();
+      // objThis._getPositionList();
     },
 
     _initialAll:function(){
-      //顯示當天時間
-      var now = new Date();
-			this._todayTime.append(
-            now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
 
       //確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
@@ -109,7 +104,7 @@ var apply = (function(){
           						success: function(message){
           							if(message.success == 'yes')
           							{
-          								layer.msg('<b>申請課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          								layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
           							}
                         else if(message.success == 'no')
                         {
@@ -275,66 +270,144 @@ var apply = (function(){
 			}
 			return returnCheck;
 		},
-    _getPositionList:function(){
+    _getUserLessonList:function(){
       var objThis = this;
       $.ajax({
         type:'post',
-        url:'/getPositionData',
+        url:'/getUserLessonList',
         success:function(datas){
+          console.log(datas)
             var data = datas.success
-            objThis._setPositionOption(data);
+            objThis._setApplyList(data);
         }
       });
     },
-    _setPositionOption:function(strJson){
+    _setApplyList:function(strJson){
       var objThis = this;
-      objThis._lessonBuilding.empty().append("<option value='請選擇'>請選擇</option>");
-      objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>");
-      objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
+      var _tr;
+      var _td;
 
-      var arrBuilding = new Array();
-      var arrFloor = new Array();
-      var arrClass = new Array();
-      var jsonData = '[';
+      this._lesson.empty();
       $.each(strJson,function(i,v){
+        // switch(i%3){
+        //   case 0:
+        //   css = "danger";
+        //   break;
+        //   case 1:
+        //   css = "active";
+        //   break;
+        //   case 2:
+        //   css = "warning";
+        //   break;
+        // }
 
-          arrBuilding.push(v.building);
+        var css = '';
+        //顯示當天時間
+        var now = new Date();
+        var nowTime = new Date(now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate()).getTime();
+        var date = new Date(v.time).getTime()
+        // console.log(nowTime)
+        // console.log(date)
+        if(v.checkSituation == 'success' && date > nowTime){
+          css = "danger";
+        }else if (v.checkSituation == 'success')
+        {
+          css = "warning";
+        }
 
-          jsonData += '{"building":"' + v.building + '",';
-          jsonData += '"floor":"' + v.floor + '",';
-          jsonData += '"classroom":"' + v.classroom + '",';
-          jsonData += '"people":"' + v.people + '"},'
+        _tr = $("<tr />",{"class":css});
+        //#
+        _td = $("<td />",{"text":(i+1)});
+				_tr.append(_td);
+        //申請事項
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //申請事由
+        _input = $("<span />");
+        var textLegth = v.aim.length;
+        if(textLegth > 10){
+          text = v.aim.substr(0,9) + '...';
+          _input.bind("mouseover",$.proxy(function(e){
+            layer.tips(v.aim, $(e.currentTarget) ,{tips:3,time:2000});
+          },this)).html(text);
+        }else{
+          _input.html(v.aim);
+        }
+        _td = $("<td />");
+        _td.append(_input)
+        _tr.append(_td);
+        //申請堂數
+        _td = $("<td />",{"text":v.count});
+        _tr.append(_td);
+        //申請地點
+        _td = $("<td />",{"text":v.building + " " +  v.lessonClass});
+        _tr.append(_td);
+        //申請時間
+        var periodText = '';
+        switch(v.period){
+          case 'A1':
+            periodText = 'A1 (09:15 ~ 11:45)';
+            break;
+          case 'A2':
+            periodText = 'A2 (11:45 ~ 13:15)';
+            break;
+          case 'P1':
+            periodText = 'P1 (13:15 ~ 15:45)';
+            break;
+          case 'P2':
+            periodText = 'P2 (16:00 ~ 18:00)';
+            break;
+          case 'P3':
+            periodText = 'P3 (19:00 ~ 21:30)';
+            break;
 
+        }
 
+        _input = $("<span />",{"text":v.time + ' - ' + v.period});
+        _input.bind("mouseover",$.proxy(function(e){
+          layer.tips(periodText, $(e.currentTarget) ,{tips:2,time:2000});
+        },this));
+        _td = $("<td />");
+        _td.append(_input)
+        _tr.append(_td);
+        //送出時間
+        _td = $("<td />",{"text":v.createTime});
+        _tr.append(_td);
+        //審核狀趟
+        switch (v.checkSituation) {
+          case 'success':
+            _input = $("<span />",{"class":"label label-success","text":"已通過","style":"font-size:100%;cursor:default;"});
+            break;
+          case 'fail':
+            _input = $("<span />",{"class":"label label-danger","text":"未通過","style":"font-size:100%;cursor:default;"});
+            break;
+          default:
+            _input = $("<span />",{"class":"label label-default","text":"未審核","style":"font-size:100%;cursor:default;"});
+            break;
+        }
+        _td = $("<td />");
+        _td.append(_input);
+        _tr.append(_td);
+        //詳細資料
+        _input = $("<span />",{"class":"label label-success","text":"詳細資料","style":"cursor:pointer;font-size:100%;"})
+        _input.bind("click",function(){
+          bootbox.alert("詳細資料")
+        })
+        _td = $("<td />");
+        _td.append(_input);
+				_tr.append(_td);
+
+        objThis._lesson.append(_tr);
       });
-      jsonData = jsonData.substring(0,jsonData.length - 1);
-      jsonData += ']'
-      objThis._hiddenPositionData.val(jsonData)
 
-      //刪除重複
-      if(arrBuilding.length > 0){
-          var index = 0;
-          for(var i=0;i<arrBuilding.length;i++){
-              if(arrBuilding[index] != arrBuilding[i]){
-                  index++;
-                  arrBuilding[index] = arrBuilding[i];
-              }
-          }
-          for(var j = arrBuilding.length; j > index;j--){
-              delete arrBuilding[j];
-          }
-          for(var k=0;k <= index;k++){
-                _option = $("<option />",{"text":arrBuilding[k],"value":arrBuilding[k]});
-                objThis._lessonBuilding.append(_option);
-          }
 
-      }
-    },
+    }
+
   }
   return _const;
 }());
 
-var apply;
+var lesson;
 $(function(){
-  apply = new apply();
+  lesson = new lesson();
 })

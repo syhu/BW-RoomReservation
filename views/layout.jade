@@ -152,7 +152,7 @@ html
                   a#question.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message
           if user
-            input#hiddenIdentity(type='hidden',value='#{user}')
+            input#hiddenIdentity(type='hidden',value='#{information[0].authorty}')
             |Hi~ 
             font#user #{user}
             font#time.label.label-default(style='margin-left:10px;') 
