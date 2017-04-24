@@ -345,7 +345,7 @@ router.post('/lessonNormalManage', function(req, res, next){
 router.get('/information', function(req, res, next){
   if(req.session.account)
   {
-    res.render('information', { user: req.session.userName});
+    res.render('information', { user: req.session.userName, information: req.session.information});
   }
   else
   {
@@ -357,17 +357,7 @@ router.get('/information', function(req, res, next){
 router.get('/lesson', function(req, res, next){
   if(req.session.account)
   {
-    lesson.searchLesson('', '', '', function(err, applyLesson)
-    {
-      if(applyLesson != 'no data')
-      {
-        res.render('lesson', { user: req.session.userName, showLesson: applyLesson, information: req.session.information});
-      }
-      else if(applyLesson == 'no data')
-      {
-        res.render('lesson', { user: req.session.userName});
-      }
-    })
+    res.render('lesson', { user: req.session.userName, information: req.session.information});
   }
   else
   {
@@ -375,6 +365,14 @@ router.get('/lesson', function(req, res, next){
   }
 });
 
+router.post('/getUserLessonList', function(req, res, next)
+{
+  account = req.session.account;
+  lesson.getUserLessonList(account, function(lessonData)
+  {
+    res.send({ success: lessonData })
+  })
+})
 /*** User Manage ***/
 router.get('/userManage', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Admin'))

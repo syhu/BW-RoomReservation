@@ -509,5 +509,23 @@ module.exports = {
         console.log('disconnect successful');
       }
     });
+  },
+  getUserLessonList : function(account, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      Lesson.find({account: account}).sort({'time':'asc'}).exec(function(err, data)
+      {
+        mongoose.disconnect();
+        mongoose.connection.close();
+        console.log('disconnect successful');
+        callback(data)
+      })
+    });
   }
 }

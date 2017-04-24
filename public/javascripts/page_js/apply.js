@@ -45,7 +45,7 @@ var apply = (function(){
     _start:function(){
       var objThis = this;
       objThis._initialAll();
-      objThis._getApplyList();
+      objThis._getUserLessonList();
       objThis._getPositionList();
     },
 
@@ -276,12 +276,13 @@ var apply = (function(){
 			}
 			return returnCheck;
 		},
-    _getApplyList:function(){
+    _getUserLessonList:function(){
       var objThis = this;
       $.ajax({
         type:'post',
-        url:'/',
+        url:'/getUserLessonList',
         success:function(datas){
+          console.log(datas)
             var data = datas.success
             objThis._setApplyList(data);
         }
