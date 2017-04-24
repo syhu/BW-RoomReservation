@@ -87,6 +87,11 @@ html
                     a#lesson_time(onclick='audit();', style='font-size:15px;')
                       img(src='images/time.png')
                       | 審核專區
+                  if user && (information[0].authorty == 'Hyper')
+                    li
+                      a#lesson_time(onclick='superfast();', style='font-size:15px;')
+                        img(src='images/time.png')
+                        | 快速建立專區                
           if user
             ul.nav.navbar-nav
               li.dropdown

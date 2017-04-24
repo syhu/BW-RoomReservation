@@ -96,16 +96,20 @@ var userManage = (function(){
            _tr.append(_td);
            //權限
            switch (v.authorty) {
+             case 'Hyper':
+                labelClass = 'label label-info badge';
+                text = '超級管理者';
+                break;
              case 'Admin':
                 labelClass = 'label label-primary badge';
                 text = '最高管理者';
                 break;
-            case 'Owner':
+             case 'Owner':
                 labelClass = 'label label-warning badge';
                 text = '管理員';
                 break;
-            case 'User':
-                labelClass = 'label label-info badge';
+             case 'User':
+                labelClass = 'label label-default badge';
                 text = '使用者';
                 break;
            }

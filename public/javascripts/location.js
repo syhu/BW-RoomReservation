@@ -52,3 +52,7 @@ function feedback()
 {
   location.href = '/feedback' ;
 }
+function superfast()
+{
+  location.href = '/superfast';
+}

@@ -384,7 +384,8 @@ router.post('/getUserLessonList', function(req, res, next){
 
 /*** User Manage ***/
 router.get('/userManage', function(req, res, next){
-  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
+  authorty = req.session.information[0].authorty;
+  if(req.session.account && (authorty == 'Admin' || authorty == 'Hyper'))
   {
     user.getAllUser(function(data)
     {
@@ -516,7 +517,8 @@ router.post('/auditFail', function(req, res, next){
 
 /*** Lesson identity Manage Page ***/
 router.get('/lessonManage', function(req, res, next){
-  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
+  authorty = req.session.information[0].authorty;
+  if(req.session.account && (authorty == 'Admin' || authorty == 'Hyper'))
   {
       res.render('lessonManage', { user: req.session.userName, information: req.session.information});
   }
@@ -681,7 +683,8 @@ router.post('/getAllPassLesson', function(req, res, next){
 
 /*** Position Manage Page ***/
 router.get('/positionManage', function(req, res, next){
-  if(req.session.account && (req.session.information[0].authorty == 'Admin'))
+  authorty = req.session.information[0].authorty;
+  if(req.session.account && (authorty == 'Admin' || authorty == 'Hyper'))
   {
       res.render('positionManage', { user: req.session.userName, information: req.session.information});
   }
@@ -743,4 +746,16 @@ router.get('/feedback', function(req, res, next){
   }
 })
 
+/*** Super Fast Create Any Data Page ***/
+router.get('/superfast', function(req, res, nect){
+  if(req.session.account && (req.session.information[0].authorty == 'Hyper'))
+  {
+      res.render('superfast', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+
+})
 module.exports = router;
