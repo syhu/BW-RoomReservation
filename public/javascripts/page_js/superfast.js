@@ -37,8 +37,15 @@ var superfast = (function(){
         this._btnCreate.on("click",$.proxy(function(e){
           if(this._createMethod.val() != "請選擇" && this._createData.val()!="請選擇" && this._createNum.val()!="")
           {
+            if (parseInt(this._createNum.val()) <= 50)
+            {
               $(e.currentTarget).button('loading');
               this._createAllData();
+            }
+            else
+            {
+              layer.msg('<b>一次創太多了啦！不行不行，最多只能50個</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+            }
           }
           else
           {
@@ -77,16 +84,101 @@ var superfast = (function(){
         url:'/fastCreateUser',
         data:{strJson : JSON.stringify(detail)},
         success:function(datas){
-          layer.msg('<b>新增成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          if (datas.success == 'yes')
+          {
+            layer.msg('<b>新增成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          }
+          else
+          {
+            layer.msg('<b>我還沒做QQ</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          }
         },
         complete:function(){
             objThis._btnCreate.button('reset')
         }
       });
     },
-    _createUncheck:function(dataDetail){},
-    _createCheckSingle:function(dataDetail){},
-    _createPosition:function(dataDetail){},
+    _createUncheck:function(dataDetail){
+      var objThis = this;
+      var detail =
+      {
+        method: this._createMethod.val(),
+        num: this._createNum.val(),
+        detailData: this._createDataDetail.val()
+      }
+      $.ajax({
+        type:'post',
+        url:'/fastCreateUncheckLesson',
+        data:{strJson : JSON.stringify(detail)},
+        success:function(datas){
+          if (datas.success == 'yes')
+          {
+            layer.msg('<b>新增成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          }
+          else
+          {
+            layer.msg('<b>我還沒做QQ</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          }
+        },
+        complete:function(){
+            objThis._btnCreate.button('reset')
+        }
+      });
+    },
+    _createCheckSingle:function(dataDetail){
+      var objThis = this;
+      var detail =
+      {
+        method: this._createMethod.val(),
+        num: this._createNum.val(),
+        detailData: this._createDataDetail.val()
+      }
+      $.ajax({
+        type:'post',
+        url:'/fastCreateCheckSingleLesson',
+        data:{strJson : JSON.stringify(detail)},
+        success:function(datas){
+          if (datas.success == 'yes')
+          {
+            layer.msg('<b>新增成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          }
+          else
+          {
+            layer.msg('<b>我還沒做QQ</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          }
+        },
+        complete:function(){
+            objThis._btnCreate.button('reset')
+        }
+      });
+    },
+    _createPosition:function(dataDetail){
+      var objThis = this;
+      var detail =
+      {
+        method: this._createMethod.val(),
+        num: this._createNum.val(),
+        detailData: this._createDataDetail.val()
+      }
+      $.ajax({
+        type:'post',
+        url:'/fastCreatePosition',
+        data:{strJson : JSON.stringify(detail)},
+        success:function(datas){
+          if (datas.success == 'yes')
+          {
+            layer.msg('<b>新增成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+          }
+          else
+          {
+            layer.msg('<b>我還沒做QQ</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          }
+        },
+        complete:function(){
+            objThis._btnCreate.button('reset')
+        }
+      });
+    },
   }
   return _const;
 }());

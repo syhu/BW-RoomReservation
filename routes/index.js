@@ -103,7 +103,7 @@ function getRandEmail(){
 
 function getRandID(sex){
   var string = getRandSingleCapitalAlphebet();
-  aa = (sex=='男') ? '1' : '2';
+  aa = (sex=='male') ? '1' : '2';
   string = string + aa;
   for (var i=1 ; i<=8 ; i++)
   {
@@ -870,52 +870,57 @@ router.get('/superfast', function(req, res, next){
 router.post('/fastCreateUser', function(req, res, next){
   var data = req.body.strJson;
   var createData = JSON.parse(data)
-  console.log(createData);
   var method = createData.method;
   var num = createData.num;
   var detailData = createData.detailData;
-  asyncLoop(num, function(loop)
+  if (method == 'rand')
   {
-    var name = getRandString(10);
-    var account = getRandString(10);
-    var pw = getRandString(10);
-    var pwHash = hashPW(account, pw);
-    var email = getRandEmail();
-    var telephone = getRandNumber(8);
-    var telephone = '09' + telephone;
-    var sex = Math.floor((Math.random() * 2) + 1);
-    var sex = (sex==1) ? '男' : '女';
-    var id = getRandID(sex);
-    var idHash = hashID(pwHash, id)
-    var birthday = getRandTime();
-    var address = getRandString(10);
-    console.log
-    (
-      '\n' +
-      name + '\n' +
-      account + '\n' +
-      pw + '\n' +
-      email + '\n' +
-      telephone + '\n' +
-      sex + '\n' +
-      id + '\n' +
-      birthday + '\n' +
-      address
-    );
-    user.searchAccountReapet(account, function(err, repeat)
+    asyncLoop(num, function(loop)
     {
-      if (repeat == 0)
+      var name = getRandString(10);
+      var account = getRandString(10);
+      var pw = getRandString(10);
+      var pwHash = hashPW(account, pw);
+      var email = getRandEmail();
+      var telephone = getRandNumber(8);
+      var telephone = '09' + telephone;
+      var sex = Math.floor((Math.random() * 2) + 1);
+      var sex = (sex==1) ? 'male' : 'female';
+      var id = getRandID(sex);
+      var idHash = hashID(pwHash, id)
+      var birthday = getRandTime();
+      var address = getRandString(10);
+      user.searchAccountReapet(account, function(err, repeat)
       {
-        user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, num)
+        if (repeat == 0)
         {
-          loop.next();
-        })
-      }
+          user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, num)
+          {
+            loop.next();
+          })
+        }
+      })
+    },
+    function()
+    {
+      res.send({success:'yes'})
     })
-  },
-  function()
+  }
+  else
   {
-    res.send({success:'yes'})
-  })
+    res.send({success:'no'})
+  }
+})
+
+router.post('/fastCreateUncheckLesson', function(req, res, next){
+  res.send({success:'no'})
+})
+
+router.post('/fastCreateCheckSingleLesson', function(req, res, next){
+  res.send({success:'no'})
+})
+
+router.post('/fastCreatePosition', function(req, res, next){
+  res.send({success:'no'})
 })
 module.exports = router;
