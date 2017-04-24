@@ -156,7 +156,11 @@ var lessonNormalManage = (function(){
 												success: function(message){
 													if(message.success == 'yes')
 													{
-														layer.msg('<b>新增課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+														layer.msg('<b>申請課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+													}
+													else if(message.success == 'no')
+													{
+														layer.msg('<b>申請失敗，原因：時間衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 													}
 												},
 												error: function (xhr)
