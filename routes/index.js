@@ -426,9 +426,16 @@ router.post('/getUpdateUser', function(req, res, next){
 
 router.post('/updateAuthorty', function(req, res, next){
   var data = req.body.strJson;
-  user.updateAuthorty(data, function()
+  user.updateAuthorty(data, function(check)
   {
-    res.send({success : 'success'});
+    if (check == 'ok')
+    {
+      res.send({success : 'success'});
+    }
+    else if(check == 'no good')
+    {
+      res.send({success : 'no'});
+    }
   })
 })
 /*** Search Account Reapet ***/
@@ -535,7 +542,7 @@ router.post('/lessonManage', function(req, res, next){
 
 router.post('/updateLessonAbbreviation', function(req, res, next){
   var data = req.body.strJson;
-  lessonAbbreviation.updateLessonAbbreviation(data, function(){
+  abbreviation.updateLessonAbbreviation(data, function(){
     res.send({ success: 'yes' })
   })
 })

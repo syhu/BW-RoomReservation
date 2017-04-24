@@ -115,5 +115,25 @@ module.exports = {
         });
       }
     });
+  },
+  updateLessonAbbreviation : function(abbreviationData, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Abbreviation = require('./lessonAbbreviation_model.js');
+      var data = JSON.parse(abbreviationData);
+      id = data[0].id;
+      abbreviation = data[0].abbreviation;
+      contract = data[0].contract;
+      contractPhone = data[0].contractPhone;
+      Abbreviation.update({id: id}, {$set: {abbreviation: abbreviation, contract: contract, contractPhone: contractPhone}}, function(err){
+        mongoose.disconnect();
+        callback();
+      })
+    })
   }
 }

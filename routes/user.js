@@ -121,7 +121,7 @@ module.exports = {
     {
       console.log('mongoose opened !');
       var User = require('./accounts_model.js');
-      User.find({}, function(err, data)
+      User.find({}).sort({'authorty':'asc'}).exec(function(err, data)
       {
         var counts = 0;
         for(var key in data)
@@ -183,7 +183,7 @@ module.exports = {
         User.update({account: account}, {$set: {authorty: 'Owner'}}, function(err){
           mongoose.connection.close();
           mongoose.disconnect();
-          callback();
+          callback('ok');
         })
       }
       else if (authorty == 'Owner')
@@ -191,8 +191,14 @@ module.exports = {
         User.update({account: account}, {$set: {authorty: 'User'}}, function(err){
           mongoose.connection.close();
           mongoose.disconnect();
-          callback();
+          callback('ok');
         })
+      }
+      else if(authorty == 'Admin')
+      {
+        mongoose.connection.close();
+        mongoose.disconnect();
+        callback('no good');
       }
     })
   },

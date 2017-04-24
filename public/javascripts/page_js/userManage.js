@@ -16,7 +16,7 @@ var userManage = (function(){
         this._filterName = $("#filterName");
         this._filterAccount = $("#filterAccount");
         this._filterAuthority = $("#filterAuthority");
-    
+
         this._start();
     },
 
@@ -68,7 +68,6 @@ var userManage = (function(){
          type:'post',
          url:'/getUpdateUser',
          success:function(datas){
-          //  console.log(datas);
              var data = datas.success
              objThis._setUserList(data);
          }
@@ -135,13 +134,18 @@ var userManage = (function(){
                         data:{strJson:JSON.stringify(arr)},
                         url:'/updateAuthorty',
                         success:function(datas){
-                          // console.log(datas);
-
-                         objThis._getUserList();
-                       },
-                       complete:function(){
-                         layer.msg('<b>升級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-                       }
+                          if (datas.success == 'success')
+                          {
+                            layer.msg('<b>升級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                          }
+                          else if(datas.success == 'no')
+                          {
+                            layer.msg('<b>升級失敗，請別動不該動的權限</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                          }
+                        },
+                        complete:function(){
+                          objThis._getUserList();
+                        }
                      });
                     }
 
@@ -169,12 +173,17 @@ var userManage = (function(){
                        data:{strJson:JSON.stringify(arr)},
                        url:'/updateAuthorty',
                        success:function(datas){
-                        //  console.log(datas);
-
-                         objThis._getUserList();
+                         if (datas.success == 'success')
+                         {
+                           layer.msg('<b>降級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                         }
+                         else if(datas.success == 'no')
+                         {
+                           layer.msg('<b>降級失敗，請別動不該動的權限</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                         }
                        },
                        complete:function(){
-                         layer.msg('<b>降級成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                         objThis._getUserList();
                        }
                      });
                    }
