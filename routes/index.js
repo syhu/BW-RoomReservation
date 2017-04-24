@@ -69,6 +69,113 @@ function padLeft(num){
     return num;
   }
 }
+
+function getRandString(num){
+  var string = '';
+  for (var i=1 ; i<=num ; i++)
+  {
+    var aa = Math.floor((Math.random() * 3) + 1);
+    if (aa == 1)
+    {
+      s = getRandSingleLowerAlphebet();
+    }
+    else if(aa == 2)
+    {
+      s = getRandSingleCapitalAlphebet();
+    }
+    else if(aa ==3)
+    {
+      s = getRandSingleNumber();
+    }
+    var string = string + s;
+  }
+  return string;
+}
+
+function getRandEmail(){
+  var string = ''
+  var first = getRandString(5);
+  var second = getRandString(5);
+  var third = getRandString(3);
+  string = first + '@' + second + '.' + third;
+  return string;
+}
+
+function getRandID(sex){
+  var string = getRandSingleCapitalAlphebet();
+  aa = (sex=='男') ? '1' : '2';
+  string = string + aa;
+  for (var i=1 ; i<=8 ; i++)
+  {
+    var string = string + getRandSingleNumber();
+  }
+  return string;
+}
+
+function getRandNumber(num){
+  var n = "";
+  for (var i=1 ; i<=num ; i++)
+  {
+    n = n + getRandSingleNumber()
+  }
+  return n;
+}
+
+function getRandTime(){
+  var millionSecond = Math.round(new Date().getTime());
+  var aa = Math.floor((Math.random() * millionSecond) + 1);
+  var time = timeFormat(aa);
+  return time;
+}
+
+function getRandSingleNumber(){
+  var num = Math.floor((Math.random() * 10) + 48);
+  num = String.fromCharCode(num);
+  return num
+}
+
+function getRandSingleLowerAlphebet(){
+  var num = Math.floor((Math.random() * 26) + 97);
+  num = String.fromCharCode(num);
+  return num
+}
+
+function getRandSingleCapitalAlphebet(){
+  var num = Math.floor((Math.random() * 26) + 65);
+  num = String.fromCharCode(num);
+  return num
+}
+
+function asyncLoop(iterations, func, callback) {
+  var index = 0;
+  var done = false;
+  var loop = {
+      next: function()
+      {
+          if (done) { return; }
+          if (index < iterations)
+          {
+              index++;
+              func(loop);
+          }
+          else
+          {
+              done = true;
+              callback();
+          }
+      },
+      iteration: function() {
+          return index;
+      },
+
+      break: function() {
+          done = true;
+          callback();
+      }
+  };
+  loop.next();
+  return loop;
+}
 /******************   Routes   ******************/
 
 /*** Home Page ***/
@@ -210,7 +317,8 @@ router.post('/register',function(req, res, next) {
   var pwHash = hashPW(account, password);
   var email = req.body.email;
   var telephone = req.body.telephone;
-  var sex = req.body.sex;
+  var sex = req.body.gender;
+  console.log(sex);
   var identity = req.body.identity;
   var idHash = hashID(pwHash, identity);
   var birthday = req.body.birthday1 + '/' + req.body.birthday2 + '/' + req.body.birthday3;
@@ -747,7 +855,7 @@ router.get('/feedback', function(req, res, next){
 })
 
 /*** Super Fast Create Any Data Page ***/
-router.get('/superfast', function(req, res, nect){
+router.get('/superfast', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Hyper'))
   {
       res.render('superfast', { user: req.session.userName, information: req.session.information});
@@ -757,5 +865,57 @@ router.get('/superfast', function(req, res, nect){
     res.redirect('/?identity=visitor');
   }
 
+})
+
+router.post('/fastCreateUser', function(req, res, next){
+  var data = req.body.strJson;
+  var createData = JSON.parse(data)
+  console.log(createData);
+  var method = createData.method;
+  var num = createData.num;
+  var detailData = createData.detailData;
+  asyncLoop(num, function(loop)
+  {
+    var name = getRandString(10);
+    var account = getRandString(10);
+    var pw = getRandString(10);
+    var pwHash = hashPW(account, pw);
+    var email = getRandEmail();
+    var telephone = getRandNumber(8);
+    var telephone = '09' + telephone;
+    var sex = Math.floor((Math.random() * 2) + 1);
+    var sex = (sex==1) ? '男' : '女';
+    var id = getRandID(sex);
+    var idHash = hashID(pwHash, id)
+    var birthday = getRandTime();
+    var address = getRandString(10);
+    console.log
+    (
+      '\n' +
+      name + '\n' +
+      account + '\n' +
+      pw + '\n' +
+      email + '\n' +
+      telephone + '\n' +
+      sex + '\n' +
+      id + '\n' +
+      birthday + '\n' +
+      address
+    );
+    user.searchAccountReapet(account, function(err, repeat)
+    {
+      if (repeat == 0)
+      {
+        user.userSave(name, account, pwHash, email, telephone, sex, idHash, birthday, address, function(err, num)
+        {
+          loop.next();
+        })
+      }
+    })
+  },
+  function()
+  {
+    res.send({success:'yes'})
+  })
 })
 module.exports = router;

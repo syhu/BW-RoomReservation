@@ -1,4 +1,50 @@
 extends layout
 
 block main
-  | qq
+    link(rel='stylesheet', href='stylesheets/page_css/userManage.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+    script(src='javascripts/page_js/superfast.js')  
+    div    
+      #manager_center.panel(style='border:2px solid black;')
+        .row
+          .col-lg-12
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                    .row
+                      .col-md-12
+                        div(style='text-align: center;')   
+                          h3
+                            i.fa.fa-users                            
+                            strong(style='margin-left:5px;') 快速新增專區
+                          br
+                        table.table.table-bordered
+                          tr
+                            th 新增方式
+                            th
+                              select#createMethod.form-control
+                                option(value='請選擇') 請選擇
+                                option(value='rand') 隨機新增
+                                option(value='data') 資料新增
+                            th 新增項目
+                            th
+                              select#createData.form-control
+                                option(value='請選擇') 請選擇
+                                option(value='user') 會員
+                                option(value='uncheck') 未審核的課程
+                                option(value='checkSingle') 已審核的單次課程
+                                option(value='position') 地點
+                            th 新增數量
+                            th
+                              input#createNum.form-control(type='text')
+                          tr(style='border:0px;')
+                            th(colspan='6')
+                              button#cancelCreate.btn.btn-default(type='button') 清除
+                              button#btnCreate.btn.btn-primary(type='button') 建立
+                      .col-md-12(style='height:50px;')
+                      #createDataDetail.col-md-12(style='height:500px;')
+                        table.table.table-condensed
+                          tr
+                            th
+                              textarea(rows='18', cols='100' ,placeholder="^_^")

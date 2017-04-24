@@ -489,47 +489,6 @@ var registered = (function(){
 				}
 			},this));
 
-			//地址 blur
-			// objThis._address.on("blur",$.proxy(function(event){
-			// 	objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
-			// 	if(objThis._address.val().length >= 6 && !objThis._getSpeStr2(objThis._address.val())){
-			// 		objThis._form_address.removeClass("has-error");
-			// 		objThis._form_address.addClass("has-success");
-			// 		objThis._checkField[10] = 1;
-			// 	}
-			// 	else if(objThis._address.val() == ""){
-			// 		objThis._form_address.removeClass("has-error");
-			// 		objThis._form_address.removeClass("has-success");
-			// 		objThis._checkField[10] = 0;
-			// 	}
-			// 	else{
-			// 		objThis._form_address.addClass("has-error");
-			// 		objThis._form_address.removeClass("has-success");
-			// 		objThis._checkField[10] = 0;
-			// 	}
-			// },this));
-			//地址 限制長度輸入
-			// objThis._address.bind("input",function(evt){
-			// 	var o = $(this),v=o.val();
-			// 	if(v.length>100){
-			// 		o.val(v.slice(0,100));
-			// 		evt.preventDefault();
-			// 	}
-			// });
-			// //地址 focus
-			// objThis._address.on("focus",$.proxy(function(event){
-			// 	objThis._promptText.empty();
-			// 	objThis._promptText.append("貼心小提示:地址須留下現居地址，一百個字以下。");
-			// // },this));
-			// //地址 防止特殊符號
-			// objThis._address.on("keyup",$.proxy(function(event){
-			// 		objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
-			// },this));
-			// //地址 防止特殊符號 貼上
-			// objThis._address.on("paste",$.proxy(function(event){
-			// 		objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
-			// },this));
-
 			objThis._address.on("contextmenu",$.proxy(function(event){
 					objThis._address.val(objThis._address.val().replace(/[(\$)(\()(\))(\@)(\_)(\')(\")(\?)(\#)]/g,''))
 			},this));

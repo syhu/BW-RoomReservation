@@ -111,7 +111,7 @@ var userManage = (function(){
              case 'User':
                 labelClass = 'label label-default badge';
                 text = '使用者';
-                break;
+                break;              
            }
            _input = $("<span />",{"class":labelClass,"text":text,"style":"font-size:100%;"});
            _td = $("<td />");

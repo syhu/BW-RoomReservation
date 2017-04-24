@@ -70,7 +70,7 @@ html
                   | 管理專區
                   b.caret
                 ul.dropdown-menu
-                  if user && (information[0].authorty == 'Admin')
+                  if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')
                     li
                       a#lesson_time(onclick='userManage();', style='font-size:15px;')
                         img(src='images/time.png')
