@@ -531,5 +531,39 @@ module.exports = {
         callback(data)
       })
     });
+  },
+  getLessonLocation : function(searchData, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      var data = JSON.parse(searchData);
+      date = data[0].date;
+      location = data[0].location;
+      if (location == '')
+      {
+        Lesson.find({ time: data }, function(err, data)
+        {
+          mongoose.disconnect();
+          mongoose.connection.close();
+          console.log('disconnect successful');
+          callback(err, data);
+        })
+      }
+      else
+      {
+        Lesson.find({ time: data, lessonClass: location }, function(err, data)
+        {
+          mongoose.disconnect();
+          mongoose.connection.close();
+          console.log('disconnect successful');
+          callback(err, data);
+        })
+      }
+    })
   }
 }

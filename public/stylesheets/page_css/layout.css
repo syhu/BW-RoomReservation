@@ -6,13 +6,13 @@ body{
 	font-size: 18px;
 	vertical-align:middle;
 }
-span,label{
-	cursor:pointer;
-}
+
 td:hover{
 	background-color:#E3E3E3;
 	cursor:pointer;
 }
+
+
 
 table{
 	border-radius:10px;
@@ -21,28 +21,12 @@ table{
 	border-spacing:0;  /* 使表格間沒有空隙 */
 	table-layout:fixed;		/*防止內容被撐開*/
 	word-wrap:break-word;   /* 不執行換行 */
-
-
 }
 table td{
 	padding:0 0 0 0;
 }
 
-/*
-	td,th{
-	vertical-align:middle;
-	width:200px;
 
-	}
-*/
-/*
-	tr:first-child th:first-child{
-	border-top-left-radius:20px;
-	}
-	tr:first-child th:last-child{
-	border-top-right-radius:20px;
-	}
-*/
 tr:last-child th:first-child{
 	border-bottom-left-radius:20px;
 }
@@ -70,23 +54,14 @@ tr:last-child th:last-child{
 	display:inline-block;
 	vertical-align:middle;
 	z-index: 10;
-
-
 	border-bottom-left-radius:1em;
 	border-bottom-right-radius:1em;
-
 	-webkit-user-select:none;  /* 禁止反白 */
-
-
-	/*-webkit-box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 7px 0 #0880d7, 0 8px 3px rgba(0, 0, 0, 0.3);*/
-
-
-    -webkit-transition-property: all;
+  -webkit-transition-property: all;
 	transition-property: all;
-    -webkit-transition-duration: .15s;
+  -webkit-transition-duration: .15s;
 	transition-duration: .15s;
-    -webkit-box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 #admin_hide{	/* 左邊選單 */
@@ -94,7 +69,7 @@ tr:last-child th:last-child{
 	float:left;
 
 }
-#list table{
+/*#list table{
 
 	 -webkit-transition-property: all;
 	transition-property: all;
@@ -102,16 +77,9 @@ tr:last-child th:last-child{
 	transition-duration: .15s;
     -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
-}
+}*/
 
-#index{		/* 回首頁 福智基金會 */
-	margin-left:20px;
-	cursor:pointer;
-	font-size:24px;
-	color:#4F709F;
-	float:left;
 
-}
 #index:hover{
 	cursor:pointer;
 	font-size:24px;
@@ -124,22 +92,9 @@ tr:last-child th:last-child{
 #admin_authority{		/*右邊選單*/
 	float:right;
 	margin-right:45px;
-/*
-	-webkit-transition-property: all;
-	transition-property: all;
-    -webkit-transition-duration: .15s;
-	transition-duration: .15s;
-    -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
 }
 #admin_authority ul{		/*右邊選單*/
-border-radius:10px;
-	/*-webkit-transition-property: all;*/
-/*	transition-property: all;*/
-  /*  -webkit-transition-duration: .15s;*/
-/*	transition-duration: .15s;*/
-  /*  -webkit-box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
-/*	box-shadow: 0 5px 0 #bbbbbb, 0 5px 5px rgba(0, 0, 0, 0.2);*/
+	border-radius:10px;
 }
 #message{		/*使用者訊息 時間*/
 	float:right;
@@ -152,11 +107,7 @@ margin-left:100px;
 }
 
 #mainDropdown ul li{
-	/*-webkit-box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);*/
-	/*box-shadow: 0 2px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);*/
 	border-radius:10px;
-
-
 }
 #main{		/* 主頁面 */
 	margin-top:60px;
@@ -174,12 +125,7 @@ margin-left:100px;
 	margin-bottom:10px;
 	margin-left:10px;
 	margin-right:10px;
-	/*border:1px solid black;*/
 	height:100px;
-	/*background-color:#95A5A6;*/
-	/*text-align:center;*/
-
-	/*-webkit-user-select:none;  /* 禁止反白 */
 }
 #footer-context{
 		margin:10px;
@@ -187,13 +133,11 @@ margin-left:100px;
 		margin-right:100px;
 }
 #goTop{
-
 	position:fixed;
 	bottom:0;
 	right:0;
 	margin:10px;
 	z-index: 5;
-	/*background-color:black;*/
 }
 #top{
 	cursor:pointer;
@@ -205,28 +149,11 @@ margin-left:100px;
 	width:90%
 }
 
-.item{
+#index{		/* 回首頁 福智基金會 */
+	margin-left:20px;
 	cursor:pointer;
-	opacity:0.8;
-	width:100%;
-	transition:width 1s;
-	-webkit-transition:width 1s;
-	-moz-transition:width 1s;
-	-o-transition:width 1s;
-	/*z-index: -1;*/
-}
-.item:hover{
-	/*z-index:3;*/
-	opacity:1;
-	/*width:110%;*/
-	position:relative;
-}
-
-/*透明div*/
-#opacityDiv{
-	/*background:rgba(255,255,255,0.60);*/
-	background:rgba(217,217,217,0.60);
-	border-radius: 10px;
-	padding:10px 10px 10px 10px;		/* 上右下左 */
+	font-size:24px;
+	color:#4F709F;
+	float:left;
 
 }

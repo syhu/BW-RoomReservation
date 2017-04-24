@@ -1,0 +1,28 @@
+
+
+
+.item{
+	cursor:pointer;
+	opacity:0.8;
+	width:100%;
+	transition:width 1s;
+	-webkit-transition:width 1s;
+	-moz-transition:width 1s;
+	-o-transition:width 1s;
+	/*z-index: -1;*/
+}
+.item:hover{
+	/*z-index:3;*/
+	opacity:1;
+	/*width:110%;*/
+	position:relative;
+}
+
+/*透明div*/
+#opacityDiv{
+	/*background:rgba(255,255,255,0.60);*/
+	background:rgba(217,217,217,0.60);
+	border-radius: 10px;
+	padding:10px 10px 10px 10px;		/* 上右下左 */
+
+}

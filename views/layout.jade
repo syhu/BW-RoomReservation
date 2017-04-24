@@ -4,7 +4,7 @@ html
     meta(charset='utf-8')
     // CSS
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
-    link(rel='stylesheet', href='stylesheets/page_css/master.css')
+    link(rel='stylesheet', href='stylesheets/page_css/layout.css')
     // Loading Flat UI
     link(href='stylesheets/flat-ui/dist/css/flat-ui.css', rel='stylesheet')
     link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
@@ -150,18 +150,12 @@ html
             input#hiddenIdentity(type='hidden',value='#{user}')
             |Hi~ 
             font#user #{user}
-            font#time.label.label-default(style='margin-left:10px;cursor:pointer;') 
+            font#time.label.label-default(style='margin-left:10px;') 
           else
             font#time Hi~ 訪客
       #main
         block main
-        .owl-carousel
-          .item
-            img(src='images/01.jpg')
-          .item
-            img(src='images/02.jpg')
-          .item
-            img(src='images/03.jpg')            
+                  
       #footer
         #footer-context
           span

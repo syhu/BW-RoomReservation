@@ -116,6 +116,14 @@ router.get('/',  function(req, res, next) {
   }
 });
 
+router.post('/getLesson', function(req, res, next){
+  searchData = req.body.strJson;
+  lesson.getLessonLocation(searchData, function(data)
+  {
+      res.send({ success: data })
+  })
+})
+
 /*** Loading ***/
 router.get('/loading',function(req, res, next){
   res.render('loading', { title: 'Loading'});

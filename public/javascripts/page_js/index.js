@@ -18,15 +18,14 @@ var master = (function(){
 			this._message = $("#message");
 			this._index = $("#index");
 			this._welcome = $("#welcome");
-			this._top = $("#top");
 
 
 			//今日課表查詢
 			this._filterTime = $("#filterTime");
-			this._filterBuilding = $("#filterBuilding");
-			this._filterFloor = $("#filterFloor");
+			this._filterLocation = $("#filterLocation");
 			this._cancelFilter = $("#cancelFilter");
 			this._btnFilter = $("#btnFilter");
+			//列表
 			this._todayLessonList = $("#todayLessonList");
 
 			this._start();	//開始網頁執行function
@@ -37,9 +36,10 @@ var master = (function(){
 		},
 		_start:function(){
 			var objThis = this;
-			this._setOwl();
-			this._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
-			this._setLessonList();		//載入今天課程
+			objThis._setOwl();
+			objThis._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
+
+			objThis._getPositionList();	  //取得地點資料
 
 			//歡迎視窗
 			if(objThis._identity != "visitor"){
@@ -92,19 +92,71 @@ var master = (function(){
 			});
 
 		},
-		_setLessonList:function(){
+		_getPositionList:function(){
+			var objThis = this;
+			$.ajax({
+				type:'post',
+				url:'/getPositionData',
+				success:function(datas){
+						var data = datas.success
+						console.log(data)
+						if(data != null){
+							if(data.length > 0){
+								objThis._setPositionOption(data);
+							}
+						}
+				},complete:function(){
+
+					//取得今天日期
+					var nowTime = new Date();
+				  var year = objThis._padLeft(nowTime.getFullYear());
+				  var month = objThis._padLeft(nowTime.getMonth() + 1);
+				  var day = objThis._padLeft(nowTime.getDate());
+					var todayDate = year + '/' + month + '/' + day
+					objThis._getTodayLessonList(todayDate,'');		//載入今天課程
+				}
+			})
+		},
+		_setPositionOption:function(strJson){
+      var objThis = this;
+			var _option;
+      objThis._filterLocation.empty().append("<option value='請選擇'>請選擇</option>");
+      $.each(strJson,function(i,v){
+					_option = $("<option />",{"text":v.location,"value":v.location});
+					objThis._filterLocation.append(_option);
+			})
+    },
+		//取得今日課表
+		_getTodayLessonList:function(date , location){
+			var objThis = this;
+
+			var arr = new Array();
+			var obj = new Object;
+			obj.date = date;
+			obj.location = location;
+			arr = arr.concat(obj);
+
+			$.ajax({
+				type:'post',
+				url:'/getLesson',
+				data:{strJson:JSON.stringify(arr)},
+				success:function(datas){
+						var data = datas.success
+						if(data != null){
+							if(data.length > 0){
+								objThis._setTodayLessonList(data);
+							}
+						}
+				}
+			})
+
+		},
+		_setTodayLessonList:function(){
 				var objThis = this;
 				var _tr;
 				var _td;
 
-				for(var i = 0 ; i < 10;i++){
-						_tr = $("<tr />");
-						for(var j = 0; j < 4 ; j++){
-							_td = $("<td />",{"text":i+1});
-							_tr.append(_td);
-						}
-						objThis._todayLessonList.append(_tr);
-				}
+
 
 		},
 		_initialAll:function(){
@@ -142,6 +194,17 @@ var master = (function(){
 				}
 			}
 			return aryPara[para];
+		},
+		_padLeft:function(num){
+		  num = '' + num;
+		  if (num.length == 1)
+		  {
+		    return ('0' + num);
+		  }
+		  else
+		  {
+		    return num;
+		  }
 		}
 
 	}
