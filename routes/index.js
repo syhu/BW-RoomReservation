@@ -268,6 +268,7 @@ router.get('/lessonNormalManage', function(req, res, next){
 })
 
 router.post('/lessonNormalManage', function(req, res, next){
+  var account = req.session.account;
   var lessonName = req.body.lessonName;
   var lessonCount = req.body.lessonCount;
   var lessonBuilding = req.body.lessonBuilding;
@@ -315,7 +316,7 @@ router.post('/lessonNormalManage', function(req, res, next){
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'normal';
-              lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
+              lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime , origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               });
@@ -326,7 +327,7 @@ router.post('/lessonNormalManage', function(req, res, next){
             var lessonIndex = data[0].id;
             var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
             + applyLocation + '-' + applyPeriod;
-            lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
+            lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
             {
               res.send({ success: "yes"});
             });
@@ -365,14 +366,14 @@ router.get('/lesson', function(req, res, next){
   }
 });
 
-router.post('/getUserLessonList', function(req, res, next)
-{
+router.post('/getUserLessonList', function(req, res, next){
   account = req.session.account;
   lesson.getUserLessonList(account, function(lessonData)
   {
     res.send({ success: lessonData })
   })
 })
+
 /*** User Manage ***/
 router.get('/userManage', function(req, res, next){
   if(req.session.account && (req.session.information[0].authorty == 'Admin'))
@@ -576,6 +577,7 @@ router.get('/apply', function(req, res, next){
 })
 
 router.post('/apply', function(req, res, next){
+  var account = req.session.account;
   var lessonName = req.body.lessonName;
   var lessonCount = 1;
   var lessonBuilding = req.body.lessonBuilding;
@@ -614,7 +616,7 @@ router.post('/apply', function(req, res, next){
               var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
               + applyLocation + '-' + applyPeriod;
               var mode = 'single';
-              lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
+              lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function()
               {
                 res.send({ success: "yes"});
               })
@@ -625,7 +627,7 @@ router.post('/apply', function(req, res, next){
             var lessonIndex = data[0].id;
             var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-'
             + applyLocation + '-' + applyPeriod;
-            lesson.createLesson(userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
+            lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function()
             {
               res.send({ success: "yes"});
             })

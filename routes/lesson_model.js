@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 var foundationSchema = new mongoose.Schema
 ({
+  account: String,
   user: String,
   lessonID: String,
   name: String,

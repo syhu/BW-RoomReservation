@@ -113,7 +113,7 @@ var lessonNormalManage = (function(){
 				{
 					bootbox.confirm({
             message:"<br/><b style='font-size:20px;'>確定申請 <font style='color:red;'>" + objThis._lessonName.val() + "</font> 課程嗎?</b><br/>" +
-            "<br/><br/><b>地點：</b>" + objThis._lessonClass.val() +
+            "<br/><br/><b>地點：</b>" + objThis._lessonBuilding.val() + objThis._lessonClass.val() +
             "<br/><br/><b>時間：</b>" + objThis._lessonTime.val() +
 						"<br/><br/><b>聯絡人：</b>" + objThis._detailContract.val() +
 						"<br/><br/><b>聯絡電話：</b>" + objThis._detailPhone.val() +
