@@ -33,15 +33,19 @@ var apply = (function(){
       //select
       this._selectLocal = $("#selectLocal");
       this._selectClass = $("#selectClass");
-
+      //
       this._hiddenPositionData = $("#hiddenPositionData");
       this.checkPeople = 0;
+      //lessonList
+      this._lesson = $("#lesson");
+
       this._start();
     },
 
     _start:function(){
       var objThis = this;
       objThis._initialAll();
+      objThis._getApplyList();
       objThis._getPositionList();
     },
 
@@ -272,6 +276,72 @@ var apply = (function(){
 			}
 			return returnCheck;
 		},
+    _getApplyList:function(){
+      var objThis = this;
+      $.ajax({
+        type:'post',
+        url:'/',
+        success:function(datas){
+            var data = datas.success
+            objThis._setApplyList(data);
+        }
+      });
+    },
+    _setApplyList:function(strJson){
+      var objThis = this;
+      var _tr;
+      var _td;
+
+      this._lesson.empty();
+      $.each(strJson,function(i,v){
+        switch(i%3){
+          case 0:
+          css = "danger";
+          break;
+          case 1:
+          css = "active";
+          break;
+          case 2:
+          css = "warning";
+          break;
+        }
+
+        _tr = $("<tr />",{"class":css});
+        //#
+        _td = $("<td />",{"text":(i+1)});
+				_tr.append(_td);
+        //申請事項
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //申請堂數
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //申請地點
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //申請時間
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //送出時間
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //審核狀趟
+        _td = $("<td />",{"text":v.name});
+        _tr.append(_td);
+        //詳細資料
+        _input = $("<span />",{"class":"label label-success","text":"詳細資料","style":"cursor:pointer;font-size:100%;"})
+        _input.bind("click",function(){
+          bootbox.alert("詳細資料")
+        })
+        _td = $("<td />");
+        _td.append(_input);
+				_tr.append(_td);
+
+        objThis._lesson.append(_tr);
+      });
+
+
+    },
     _getPositionList:function(){
       var objThis = this;
       $.ajax({
@@ -282,7 +352,6 @@ var apply = (function(){
             objThis._setPositionOption(data);
         }
       });
-
     },
     _setPositionOption:function(strJson){
       var objThis = this;

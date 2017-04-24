@@ -28,7 +28,11 @@ html
     //bootbox
     script(src='javascripts/bootbox/bootbox.min.js')
     link(rel='stylesheet', href='stylesheets/ui.css')
+    //page_js
+    script(src='javascripts/page_js/layout.js')
 
+    
+      
     // 彈出視窗
     title 福智基金會
   body(background='images/bgimage.jpg')
@@ -143,7 +147,10 @@ html
                   a#question.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message
           if user
-            font#time Hi~ #{user}
+            input#hiddenIdentity(type='hidden',value='#{user}')
+            |Hi~ 
+            font#user #{user}
+            font#time.label.label-default(style='margin-left:10px;cursor:pointer;') 
           else
             font#time Hi~ 訪客
       #main
@@ -176,9 +183,4 @@ html
           br
     #goTop
       img#top(src='images/up.png')
-    script.
-      $(function(){
-      $("#top").click(function(){
-      $("html,body").animate({scrollTop:0},'slow');
-      })
-      })
+  

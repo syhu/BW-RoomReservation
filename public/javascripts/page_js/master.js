@@ -17,7 +17,6 @@ var master = (function(){
 			this._title = $("#title");
 			this._message = $("#message");
 			this._index = $("#index");
-			this._time = $("#time");
 			this._welcome = $("#welcome");
 			this._top = $("#top");
 
@@ -118,8 +117,6 @@ var master = (function(){
 			objThis._header.addClass("freeze").css("width",objThis._page.width() + 'px');
 			//時間
 
-			var nowTime = new Date();
-			objThis._time.append(" , 今天日期:" + nowTime.getFullYear() + "/" + (nowTime.getMonth()+1) + "/" + nowTime.getDate());
 
 
 			//標題 回首頁
