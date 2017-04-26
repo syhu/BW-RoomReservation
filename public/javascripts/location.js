@@ -56,3 +56,8 @@ function superfast()
 {
   location.href = '/superfast';
 }
+
+function searchLesson()
+{
+  location.href= '/searchLesson'
+}

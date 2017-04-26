@@ -1,0 +1,76 @@
+extends layout
+
+block main
+    link(rel='stylesheet', href='stylesheets/page_css/searchLesson.css')
+    link(rel='stylesheet', href='stylesheets/customized.css')
+      
+    script(src='javascripts/page_js/userManage.js')  
+
+    div    
+      #manager_center.panel(style='border:2px solid black;')
+        .row
+          .col-lg-12
+            .form-group
+              .row
+                .col-md-12
+                  div(style='text-align: center;')   
+                    h3
+                      i.fa.fa-search                   
+                      strong(style='margin-left:5px;') 課程查詢
+                    br
+                  table.table.table-bordered
+                    tr
+                      th 時段
+                      th
+                        select#filterTimeZone.form-control
+                          option(value='請選擇') 請選擇
+                      th 地點
+                      th
+                        select#filterLocation.form-control
+                          option(value='請選擇') 請選擇
+                
+                      th 課程
+                      th
+                        select#filterAuthority.form-control
+                          option(value='請選擇') 請選擇
+                          option(value='Admin') 最高管理者
+                          option(value='Owner') 一般管理員
+                          option(value='User') 會員
+                      th 空教室
+                      th
+                        select#filterAuthority.form-control
+                          option(value='請選擇') 請選擇
+                          option(value='Admin') 最高管理者
+                          option(value='Owner') 一般管理員
+                          option(value='User') 會員
+                    tr(style='border:0px;')
+                      th(colspan='8')
+                        button#cancelFilter.btn.btn-default(type='button') 清除
+                        button#btnFilter.btn.btn-primary(type='button') 查詢
+
+                  .col-md-12
+                    div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                      .row
+                        .col-md-12(style='height:650px;')
+                          table#lessonList.table.table-condensed
+                            tr
+                              th(width='5%') #
+                              th(width='15%', style='border-left:1px #ddd solid;') 課程名稱
+                              th(width='10%', style='border-left:1px #ddd solid;') 使用教室
+                              th(width='10%', style='border-left:1px #ddd solid;') 上課人數
+                              th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                              th(width='10%', style='border-left:1px #ddd solid;') 聯絡人
+                              th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
+                              th(width='20%', style='border-left:1px #ddd solid;') 操作
+                            tbody#lesson
+                            
+                            tr#nobodyList.tr-empty(align='center')
+                              td(colspan='8')
+                                br
+                                span#new(style='cursor:pointer;')
+                                  i.fa.fa-exclamation.fa-3x
+                                  | 查無資料
+                  
+                        
+                        
+    

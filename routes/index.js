@@ -864,7 +864,6 @@ router.get('/superfast', function(req, res, next){
   {
     res.redirect('/?identity=visitor');
   }
-
 })
 
 router.post('/fastCreateUser', function(req, res, next){
@@ -923,4 +922,20 @@ router.post('/fastCreateCheckSingleLesson', function(req, res, next){
 router.post('/fastCreatePosition', function(req, res, next){
   res.send({success:'no'})
 })
+
+/*** Search Lesson Page ***/
+router.get('/searchLesson', function(req, res, next){
+      res.render('searchLesson');
+})
+
+/*** Forget Password Page ***/
+router.get('/forgetPassword', function(req, res, next){
+      res.render('forgetPassword');
+})
+
+/*** Change Password Page ***/
+router.get('/changePassword', function(req, res, next){
+      res.render('changePassword');
+})
+
 module.exports = router;

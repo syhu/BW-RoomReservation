@@ -24,6 +24,7 @@ var login = (function(){
 			this._reload = $(".reload");
 			this._check_img = $(".check_img");
 			this._chk = $(".chk");
+			this._forgotPsd = $("#forgotPsd");
 			this._registered = $(".registered");
 			this._registered1 = $("#registered1");
 			this._index = $("#index");
@@ -60,6 +61,11 @@ var login = (function(){
 			objThis._getRandom();
 			//檢驗驗證碼
 
+			//忘記密碼
+			objThis._forgotPsd.on("click",$.proxy(function(event){
+					location.href = '/forgetPassword'
+			},this))
+			//登入
 			objThis._chk.on("mousedown",$.proxy(function(event){
 				if(objThis._correctNum != objThis._currentNum.val()){
 

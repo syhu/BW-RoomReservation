@@ -45,22 +45,21 @@ html
         #mainDropdown
           ul.nav.navbar-nav
             li.dropdown
-              a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')
+              a.dropdown-toggle(onclick='searchLesson();',style='font-size:18px;', data-toggle='dropdown')
                 | 課程查詢
-                b.caret
-              ul.dropdown-menu
-                li
-                  a#lesson_time(style='font-size:15px;')
-                    img(src='images/time.png')
-                    |    時段查詢
-                li
-                  a#lesson_place(style='font-size:15px;')
-                    img(src='images/place.png')
-                    |    地點查詢
-                li
-                  a#lesson_name(style='font-size:15px;')
-                    img(src='images/lesson.png')
-                    |    課程查詢
+              //- ul.dropdown-menu
+              //-   li
+              //-     a#lesson_time(style='font-size:15px;')
+              //-       img(src='images/time.png')
+              //-       |    時段查詢
+              //-   li
+              //-     a#lesson_place(style='font-size:15px;')
+              //-       img(src='images/place.png')
+              //-       |    地點查詢
+              //-   li
+              //-     a#lesson_name(style='font-size:15px;')
+              //-       img(src='images/lesson.png')
+              //-       |    課程查詢
           if user && (information[0].authorty != 'User')
             ul.nav.navbar-nav
               li.dropdown

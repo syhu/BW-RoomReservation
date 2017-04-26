@@ -48,6 +48,7 @@ block main
                                 span#new(style='cursor:pointer;')
                                   i.fa.fa-plus-circle.fa-3x
                                   | 新增課程編號
+                            
           div.tab-pane.fade.row#lessonManage
             .col-lg-12
               .form-group
@@ -105,9 +106,13 @@ block main
                               th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
                               th(width='20%', style='border-left:1px #ddd solid;') 操作
                             tbody#lesson
+                            
                             tr#nobodyList.tr-empty(align='center')
-                              td(colspan='5')
-                                
+                              td(colspan='8')
+                                br
+                                span#new(style='cursor:pointer;')
+                                  i.fa.fa-exclamation.fa-3x
+                                  | 查無資料
                   .col-md-12
                     .paginationWrap.pagesCenter
                       nav
