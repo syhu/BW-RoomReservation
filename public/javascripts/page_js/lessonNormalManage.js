@@ -225,9 +225,11 @@ var lessonNormalManage = (function(){
 			this._lessonBuilding.on("change",$.proxy(function(e){
 				var objThis = this;
         var check = true;
+				objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>")
+				objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>")
+				objThis._lessonPeople.attr("disabled","disabled").val('')
         if($(e.currentTarget).val() != "請選擇"){
-            objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>")
-            objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>")
+
             var data = JSON.parse(this._hiddenPositionData.val());
             $.each(data,function(i,v){
                 check = true;
@@ -245,8 +247,9 @@ var lessonNormalManage = (function(){
 			// 樓層change
 			this._lessonFloor.on("change",$.proxy(function(e){
 				var objThis = this;
+				objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
+				objThis._lessonPeople.attr("disabled","disabled").val('')
         if($(e.currentTarget).val() != "請選擇"){
-          objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
           var data = JSON.parse(this._hiddenPositionData.val());
           $.each(data,function(i,v){
               if($(e.currentTarget).val() == v.floor && objThis._lessonBuilding.val() == v.building){
@@ -258,13 +261,19 @@ var lessonNormalManage = (function(){
 			// 教室change 儲存人數
 			this._lessonClass.on("change",$.proxy(function(e){
 				var objThis = this;
+				objThis._lessonPeople.attr("disabled","disabled").val('')
+
 					if($(e.currentTarget).val() != "請選擇"){
 						var data = JSON.parse(this._hiddenPositionData.val());
 						$.each(data,function(i,v){
 								if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
 										objThis.checkPeople  = v.people;
+										console.log(objThis.checkPeople)
 								}
 						})
+						objThis._lessonPeople.removeAttr("disabled")
+					}else{
+						objThis.checkPeople = 0;
 					}
 			},this));
 			//清除查詢
@@ -282,12 +291,13 @@ var lessonNormalManage = (function(){
 
 		_checkSubmit:function(){  // 確認新增課程欄位判斷
 			var returnCheck = true;
+			var errorText = '';		//存放錯誤訊息
 			//課程名稱
 			if(this._lessonName.val() == "")
 			{
 				returnCheck = false;
 				this._form_name.addClass("has-error");
-				layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				errorText += '<b>請輸入課程名稱</b><br/>';
 			}else
 			{
 				this._form_name.removeClass("has-error");
@@ -298,7 +308,7 @@ var lessonNormalManage = (function(){
 			{
 				returnCheck = false;
 				this._form_count.addClass("has-error");
-				layer.msg('<b>請輸入阿拉伯數字(大於1)</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				errorText += '<b>請輸入阿拉伯數字(大於1)</b><br/>';
 			}else
 			{
 				this._form_count.removeClass("has-error");
@@ -308,10 +318,20 @@ var lessonNormalManage = (function(){
 			{
 				returnCheck = false;
 				this._form_class.addClass("has-error");
-				layer.msg('<b>請選擇使用教室</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				errorText += '<b>請選擇使用教室</b><br/>';
+				if(this._lessonPeople.val() == "")		this._form_people.addClass("has-error");
+
 			}else
 			{
 				this._form_class.removeClass("has-error");
+
+				//在判斷人數
+				if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
+				{
+					returnCheck = false;
+					this._form_people.addClass("has-error");
+					errorText += '<b>請輸入正確的上課人數格式</b><br/>';
+				}
 			}
 			//開始上課時間
 			var correctTimeFormat = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/ ;
@@ -319,7 +339,7 @@ var lessonNormalManage = (function(){
 			{
 				returnCheck = false;
 				this._form_time.addClass("has-error");
-				layer.msg('<b>請輸入正確的時間格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				errorText += '<b>請輸入正確的時間格式</b><br/>';
 			}else
 			{
 				var date = new Date;
@@ -330,7 +350,7 @@ var lessonNormalManage = (function(){
 				{
 					returnCheck = false;
 					this._form_time.addClass("has-error");
-					layer.msg('<b>請選擇明天以後的上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					errorText += '<b>請選擇明天以後的上課時間</b><br/>';
 				}
 				else
 				{
@@ -342,41 +362,15 @@ var lessonNormalManage = (function(){
 			{
 				returnCheck = false;
 				this._form_period.addClass("has-error");
-				layer.msg('<b>請選擇上課時段</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				errorText += '<b>請選擇上課時段</b><br/>';
 			}
 			else
 			{
 				this._form_period.removeClass("has-error");
 			}
 
-			//上課人數
-			if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
-			{
-				returnCheck = false;
-				this._form_people.addClass("has-error");
-				layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}
-			else
-			{
-				if (this._lessonClass.val() == undefined)
-				{
-					this._form_people.addClass("has-error");
-					this._lessonPeople.val("");
-					layer.msg('<b>請選擇教室再輸入人數</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-				}
-				else
-				{
-					if (this.checkPeople < this._lessonPeople.val())
-					{
-						returnCheck = false;
-						this._form_people.addClass("has-error");
-						layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-					}
-					else
-					{
-						this._form_people.removeClass("has-error");
-					}
-				}
+			if(errorText != ''){
+						layer.msg(errorText, {time: 3000, icon:2,shade:[0.5,'black']});
 			}
 			return returnCheck;
 		},
