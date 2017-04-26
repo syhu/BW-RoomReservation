@@ -499,7 +499,7 @@ var lessonNormalManage = (function(){
 				_td = $("<td />",{"text":v.name});
 				_tr.append(_td);
 				//使用教室
-				_td = $("<td />",{"text":v.lessonClass});
+				_td = $("<td />",{"text":v.building + v.lessonClass});
 				_tr.append(_td);
 				//時間-時段
 				_td = $("<td />",{"text":v.time + "-" + v.period});

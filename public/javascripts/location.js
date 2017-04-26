@@ -56,8 +56,11 @@ function superfast()
 {
   location.href = '/superfast';
 }
-
 function searchLesson()
 {
   location.href= '/searchLesson'
+}
+function forgetPassword()
+{
+  location.href= '/forgetPassword'
 }

@@ -925,17 +925,26 @@ router.post('/fastCreatePosition', function(req, res, next){
 
 /*** Search Lesson Page ***/
 router.get('/searchLesson', function(req, res, next){
+  if(req.session.account)
+  {
+      res.render('searchLesson', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
       res.render('searchLesson');
+  }
 })
 
 /*** Forget Password Page ***/
 router.get('/forgetPassword', function(req, res, next){
+  if(req.session.account)
+  {
+      res.render('forgetPassword', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
       res.render('forgetPassword');
-})
-
-/*** Change Password Page ***/
-router.get('/changePassword', function(req, res, next){
-      res.render('changePassword');
+  }
 })
 
 module.exports = router;
