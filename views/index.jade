@@ -7,41 +7,63 @@ block main
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
     
+    
+    //owl 輪播
+    link(href='stylesheets/owl/owl.carousel.min.css', rel="stylesheet")
+    link(href="stylesheets/owl/owl.theme.default.min.css", rel="stylesheet")
+    script(src='javascripts/owl/owl.carousel.min.js')
+      
     input#welcome(type='hidden', value="<div style='margin:15px;'><span class='fui-user'></span>#{user}，歡迎進入福智基金會網站。<br/><br/><br/><br/><br/></div>", <='', body='')
     
     
     div#opacityDiv
-      .owl-carousel
-        .item
-          img(src='images/01.jpg')
-        .item
-          img(src='images/02.jpg')
-        .item
-          img(src='images/03.jpg') 
-      .panel-header.table-responsive(style='padding: 20px 80px;')
-        h3
-          i.fa.fa-bookmark
-          strong 今日課表
-          
-        table.table.table-condensed(style='width:100%;')
-          tr
-            th 日期
-            th
-              input#filterTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
-            th 地點
-            th
-              select#filterLocation.form-control(name='lessonBuilding')
-                      
-          tr(style='border:0px solid #eee;')
-            th(colspan='4')
-              button#cancelFilter.btn.btn-default(type='button') 清除
-              button#btnFilter.btn.btn-primary(type='button') 查詢
+      //- .owl-carousel
+      //-   .item
+      //-     img(src='images/01.jpg')
+      //-   .item
+      //-     img(src='images/02.jpg')
+      //-   .item
+      //-     img(src='images/03.jpg') 
+      
 
-          
-        table.table
-          tr
-            th(width='5%') #
-            th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
-            th(width='15%', style='border-left:1px #ddd solid;') 使用教室
-            th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-          tbody#todayLessonList
+      .panel-header.table-responsive(style='padding: 20px 20px;')
+        .row
+          .col-lg-12
+            .row
+              .col-md-3
+                marquee(direction='up',style='height:500px;width:250px;')
+                  div
+                    img(src='images/01.jpg')  
+                    img(src='images/02.jpg')
+                    img(src='images/03.jpg')  
+                  div
+                    img(src='images/03.jpg')  
+                    img(src='images/02.jpg')
+                    img(src='images/01.jpg')  
+              .col-md-9
+                h3
+                  i.fa.fa-bookmark
+                  strong 今日課表
+                  
+                table.table.table-condensed(style='width:100%;')
+                  tr
+                    th 日期
+                    th
+                      input#filterTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
+                    th 地點
+                    th
+                      select#filterLocation.form-control(name='lessonBuilding')
+                              
+                  tr(style='border:0px solid #eee;')
+                    th(colspan='4')
+                      button#cancelFilter.btn.btn-default(type='button') 清除
+                      button#btnFilter.btn.btn-primary(type='button') 查詢
+
+                  
+                table.table
+                  tr
+                    th(width='5%') #
+                    th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
+                    th(width='15%', style='border-left:1px #ddd solid;') 使用教室
+                    th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                  tbody#todayLessonList

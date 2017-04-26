@@ -15,11 +15,10 @@ block main
       #manager_center.panel
         div(style='text-align: center;')   
           h3
-            i.fa.fa-users                            
+            i.fa.fa-book                           
             strong(style='margin-left:5px;') 課程管理
-          .col-md-12(style='height:40px;')
-            font.todayTime 今天時間：
-        ul#myTab.nav.nav-tabs(style='padding:10px 0px 0px 10px;')
+          br
+        ul#myTab.nav.nav-tabs(style='padding:0px 0px 0px 10px;')
           li.active
             a(href='#lessonIDManage',data-toggle='tab') 課程聯絡
           li
@@ -165,125 +164,125 @@ block main
                     th 備註
                     th
                   tbody#detailData
-        // 彈跳視窗 新增課程
-        #bounce_lesson.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-          .modal-dialog
-            .modal-content
-              .modal-header.bg-blue
-                button.close(type='button', data-dismiss='modal', aria-hidden='true')
-                  i.fa.fa-times-circle(style='font-size:20px;color:white;')
-                font(style='font-size:18px;font-weight:bold;') 新增課程ID
-              .modal-body(align='left', style='height:520px;overflow-y:scroll;')
-                .form-group
-                  .row
-                    .col-md-12
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-6.form-group.form_name.form
-                            i.fa.fa-child(style='font-size:20px;')
-                            | 課程名稱
-                            input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
-                          .col-md-6.form-group.form_count.form
-                            | 課程堂數
-                            input#lessonCount.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='lessonCount')
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-6.form-group.form_class.form
-                            | 使用教室
-                            select#lessonBuilding.form-control(name='lessonBuilding')
-                              option(value='請選擇') 請選擇
-                              option(value='環球') 環球
-                              option(value='里仁') 里仁
-                              option(value='學苑') 學苑
-                            select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
-                            select#lessonClass.form-control(disabled='disabled', name='lessonClass')
-                          .col-md-6.form-group.form_time.form
-                            | 開始上課時間
-                            input#lessonTime.date-picker.form-control(type='text', placeholder='開始時間', name='lessonTime')
-                          .col-md-6.form-group.form_period.form
-                            | 上課時段
-                            br
-                            select#lessonPeriod.form-control(name='lessonPeriod')
-                              option(value='請選擇', selected="selected") 請選擇
-                              option(value='A1') A1 (09:15 ~ 11:45)
-                              option(value='A2') A2 (11:45 ~ 13:15)
-                              option(value='P1') P1 (13:15 ~ 15:45)
-                              option(value='P2') P2 (16:00 ~ 18:00)
-                              option(value='P3') P3 (19:00 ~ 21:30)
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-6.form-group.form_detailName.form
-                            | 聯絡人姓名
-                            input#detailName.form-control(type='text', placeholder='請填入聯絡人姓名')
-                          .col-md-6.form-group.form_detailPhone.form
-                            | 聯絡人電話
-                            input#detailPhone.form-control(type='text', placeholder='請填入聯絡人電話')
-                                    
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-12.form-group.form_people.form
-                            | 上課人數
-                            input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-12.form-group.form_note.form
-                            i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
-                            | 備註:
-                            textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
-              .modal-footer
-                input#btnSubmit.btn.btn-primary(type='button', value='確定')
-                button#btnCancel.btn.btn-default 取消
-        // 彈跳視窗 編輯課程
-        #bounce_edit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal', aria-hidden='true')
-                  i.fa.fa-times-circle(style='font-size:20px;')
-                font(style='font-size:18px;font-weight:bold;') 編輯課程ID
-              .modal-body(align='left', style='height:350px;overflow-y:auto;')
-                .form-group
-                  .row
-                    .col-md-12
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-12.form-group.form_name.form(style='text-align:center;')
-                            b(style='font-size:30px;')
-                              span#EditlessonIDName
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-12.form-group.form
-                            | 課程簡稱:
-                            input#EditlessonIDabbreviation.form-control(type='text', placeholder='請填入課程簡稱')
-                        
-                      div(style='margin:0 0 20px 0;')
-                        .row
-                          .col-md-6.form-group.form
-                            i.fa.fa-user(aria-hidden='true', style='font-size:20px;')
-                            | 聯絡人姓名:
-                            input#EditContractName.form-control(type='text', placeholder='請填入聯絡人姓名')
-                          .col-md-6.form-group.form
-                            i.fa.fa-phone(aria-hidden='true', style='font-size:20px;')
-                            | 聯絡人電話:
-                            input#EditContractPhone.form-control(type='text', placeholder='請填入聯絡人電話')
-              .modal-footer
-                input#btnEditSubmit.btn.btn-primary(type='button', value='確定')
-                button#btnEditCancel.btn.btn-default 取消
-        // 彈跳視窗 查看詳情
-        #bounce_datail.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal', aria-hidden='true')
-                  i.fa.fa-times-circle(style='font-size:20px;')
-                font(style='font-size:18px;font-weight:bold;') 查看課程明細
-              .modal-body(align='left', style='height:450px;overflow-y:scroll;')
-                .form-group
-                  .row
-                    .col-md-12
-                      
-              .modal-footer
-                button#btnClose.btn.btn-success 關閉                        
+    // 彈跳視窗 新增課程
+    #bounce_lesson.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header.bg-blue
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;color:white;')
+            font(style='font-size:18px;font-weight:bold;') 新增課程ID
+          .modal-body(align='left', style='height:520px;overflow-y:scroll;')
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form_name.form
+                        i.fa.fa-child(style='font-size:20px;')
+                        | 課程名稱
+                        input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
+                      .col-md-6.form-group.form_count.form
+                        | 課程堂數
+                        input#lessonCount.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='lessonCount')
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form_class.form
+                        | 使用教室
+                        select#lessonBuilding.form-control(name='lessonBuilding')
+                          option(value='請選擇') 請選擇
+                          option(value='環球') 環球
+                          option(value='里仁') 里仁
+                          option(value='學苑') 學苑
+                        select#lessonFloor.form-control(disabled='disabled', name='lessonFloor')
+                        select#lessonClass.form-control(disabled='disabled', name='lessonClass')
+                      .col-md-6.form-group.form_time.form
+                        | 開始上課時間
+                        input#lessonTime.date-picker.form-control(type='text', placeholder='開始時間', name='lessonTime')
+                      .col-md-6.form-group.form_period.form
+                        | 上課時段
+                        br
+                        select#lessonPeriod.form-control(name='lessonPeriod')
+                          option(value='請選擇', selected="selected") 請選擇
+                          option(value='A1') A1 (09:15 ~ 11:45)
+                          option(value='A2') A2 (11:45 ~ 13:15)
+                          option(value='P1') P1 (13:15 ~ 15:45)
+                          option(value='P2') P2 (16:00 ~ 18:00)
+                          option(value='P3') P3 (19:00 ~ 21:30)
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form_detailName.form
+                        | 聯絡人姓名
+                        input#detailName.form-control(type='text', placeholder='請填入聯絡人姓名')
+                      .col-md-6.form-group.form_detailPhone.form
+                        | 聯絡人電話
+                        input#detailPhone.form-control(type='text', placeholder='請填入聯絡人電話')
+                                
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-12.form-group.form_people.form
+                        | 上課人數
+                        input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-12.form-group.form_note.form
+                        i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                        | 備註:
+                        textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
+          .modal-footer
+            input#btnSubmit.btn.btn-primary(type='button', value='確定')
+            button#btnCancel.btn.btn-default 取消
+    // 彈跳視窗 編輯課程
+    #bounce_edit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;')
+            font(style='font-size:18px;font-weight:bold;') 編輯課程ID
+          .modal-body(align='left', style='height:350px;overflow-y:auto;')
+            .form-group
+              .row
+                .col-md-12
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-12.form-group.form_name.form(style='text-align:center;')
+                        b(style='font-size:30px;')
+                          span#EditlessonIDName
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-12.form-group.form
+                        | 課程簡稱:
+                        input#EditlessonIDabbreviation.form-control(type='text', placeholder='請填入課程簡稱')
+                    
+                  div(style='margin:0 0 20px 0;')
+                    .row
+                      .col-md-6.form-group.form
+                        i.fa.fa-user(aria-hidden='true', style='font-size:20px;')
+                        | 聯絡人姓名:
+                        input#EditContractName.form-control(type='text', placeholder='請填入聯絡人姓名')
+                      .col-md-6.form-group.form
+                        i.fa.fa-phone(aria-hidden='true', style='font-size:20px;')
+                        | 聯絡人電話:
+                        input#EditContractPhone.form-control(type='text', placeholder='請填入聯絡人電話')
+          .modal-footer
+            input#btnEditSubmit.btn.btn-primary(type='button', value='確定')
+            button#btnEditCancel.btn.btn-default 取消
+    // 彈跳視窗 查看詳情
+    #bounce_datail.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              i.fa.fa-times-circle(style='font-size:20px;')
+            font(style='font-size:18px;font-weight:bold;') 查看課程明細
+          .modal-body(align='left', style='height:450px;overflow-y:scroll;')
+            .form-group
+              .row
+                .col-md-12
+                  
+          .modal-footer
+            button#btnClose.btn.btn-success 關閉                        
     // 彈跳視窗 查看詳情
     #bounce_new.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
       .modal-dialog

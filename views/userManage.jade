@@ -13,95 +13,43 @@ block main
             .form-group
               .row
                 .col-md-12
-                  div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
-                    .row
-                      .col-md-12
-                        div(style='text-align: center;')   
-                          h3
-                            i.fa.fa-users                            
-                            strong(style='margin-left:5px;') 使用者管理專區
-                          br
-                        table.table.table-bordered
-                          tr
-                            th 姓名
-                            th
-                              input#filterName.form-control(type='text')
-                            th 帳號
-                            th
-                              input#filterAccount.form-control(type='text')
-                      
-                            th 權限
-                            th
-                              select#filterAuthority.form-control
-                                option(value='請選擇') 請選擇
-                                option(value='Admin') 最高管理者
-                                option(value='Owner') 一般管理員
-                                option(value='User') 會員
-                          tr(style='border:0px;')
-                            th(colspan='6')
-                              button#cancelFilter.btn.btn-default(type='button') 清除
-                              button#btnFilter.btn.btn-primary(type='button') 查詢
+                  div(style='text-align: center;')   
+                    h3
+                      i.fa.fa-users                            
+                      strong(style='margin-left:5px;') 使用者管理
+                    br
+                  table.table.table-bordered
+                    tr
+                      th 姓名
+                      th
+                        input#filterName.form-control(type='text')
+                      th 帳號
+                      th
+                        input#filterAccount.form-control(type='text')
+                
+                      th 權限
+                      th
+                        select#filterAuthority.form-control
+                          option(value='請選擇') 請選擇
+                          option(value='Admin') 最高管理者
+                          option(value='Owner') 一般管理員
+                          option(value='User') 會員
+                    tr(style='border:0px;')
+                      th(colspan='6')
+                        button#cancelFilter.btn.btn-default(type='button') 清除
+                        button#btnFilter.btn.btn-primary(type='button') 查詢
 
-                      .col-md-12(style='height:50px;')
-                          //- button.btn.btn-success.new(style='float:right;margin-top:0px;margin-right:10px;') 新增使用者
-                          font#todayTime 今天時間：
-                                
-                      #lessonForm.col-md-12(style='height:500px;')
-                        table.table.table-condensed
-                          tr
-                            th(width='4%') #
-                            th(width='16%', style='border-left:1px #ddd solid;') 姓名 
-                            th(width='16%', style='border-left:1px #ddd solid;') 帳號
-                            th(width='24%', style='border-left:1px #ddd solid;') E-mail
-                            th(width='16%', style='border-left:1px #ddd solid;') 權限
-                            th(width='24%', style='border-left:1px #ddd solid;') 操作    
-                          tbody#userList
-                            
-                          //- if userData
-                          //-   - var sn = 0
-                          //-   - for user in userData
-                          //-     - sn = sn +1
-                          //-     tr(class=color, id=user.account)   
-                          //-       th #{sn}
-                          //-       th #{user.name}
-                          //-       th #{user.account}
-                          //-       th #{user.email}
-                          //-       th #{user.authorty}
-                          //-       th
-                          //-         if (user.authorty == 'User')
-                          //-           span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
-                          //-         if (user.authorty == 'Owner')
-                          //-           span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
-                          //-         span.label.label-default(style='font-size:100%;') 詳細資料
-                                      
-                          //-   tr
-                          //-     td 1
-                          //-     td 撿到錢
-                          //-     td test111
-                          //-     td ssss22222@gmail.com
-                          //-     td 會員
-                          //-     td
-                          //-       span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
-                          //-       span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
-                          //-       span.label.label-default(style='font-size:100%;') 詳細資料
-                          //-   tr
-                          //-     td 2
-                          //-     td 撿到很多錢
-                          //-     td test11133333
-                          //-     td 55555sssss@gmail.com
-                          //-     td 會員
-                          //-     td
-                          //-       span.label.label-success(style='margin-right:10px;font-size:100%;') 升級管理員
-                          //-       span.label.label-danger(style='margin-right:10px;font-size:100%;') 降級管理員
-                          //-       span.label.label-default(style='font-size:100%;') 詳細資料
-                          tr#nobodyList.tr-empty(align='center')
-                          
-
-                            td(colspan='6')
-                              br
-                              //- span#new.new(style='cursor:pointer;')
-                              //-   i.fa.fa-plus-circle.fa-3x
-                              //-   | 新增使用者
-                              
-                              
+                #lessonForm.col-md-12(style='height:500px;')
+                  table.table.table-condensed
+                    tr
+                      th(width='4%') #
+                      th(width='16%', style='border-left:1px #ddd solid;') 姓名 
+                      th(width='16%', style='border-left:1px #ddd solid;') 帳號
+                      th(width='24%', style='border-left:1px #ddd solid;') E-mail
+                      th(width='16%', style='border-left:1px #ddd solid;') 權限
+                      th(width='24%', style='border-left:1px #ddd solid;') 操作    
+                    tbody#userList
+                    
+                        
+                        
     

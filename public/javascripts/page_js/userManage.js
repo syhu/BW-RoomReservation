@@ -111,7 +111,7 @@ var userManage = (function(){
              case 'User':
                 labelClass = 'label label-default badge';
                 text = '使用者';
-                break;              
+                break;
            }
            _input = $("<span />",{"class":labelClass,"text":text,"style":"font-size:100%;"});
            _td = $("<td />");
@@ -251,4 +251,6 @@ var userManage = (function(){
 var userManage;
 $(function(){
   userManage = new userManage();
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
+
 })

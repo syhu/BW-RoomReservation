@@ -14,14 +14,11 @@ html
     link(href='stylesheets/font-awesome/font-awesome.css', rel='stylesheet')
     // bootcss
     link(href='stylesheets/bootcss.css', rel='stylesheet')
-    //owl 輪播
-    link(href='stylesheets/owl/owl.carousel.min.css', rel="stylesheet")
-    link(href="stylesheets/owl/owl.theme.default.min.css", rel="stylesheet")
+  
     // Javascript
     script(src='javascripts/jquery.js')
     script(src='javascripts/bootstrap.min.js')
     script(src='javascripts/location.js')
-    script(src='javascripts/owl/owl.carousel.min.js')
     script(src='javascripts/icheck.js')
     script(src='javascripts/layer/layer.js')
     
@@ -35,7 +32,8 @@ html
       
     // 彈出視窗
     title 福智基金會
-  body(background='images/bgimage.jpg')
+  img#bg-img(src='images/bgimage.png')
+  body(background='')
     #page
       #header
         #admin_hide.nav.navbar-nav
@@ -73,25 +71,27 @@ html
                   if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')
                     li
                       a#lesson_time(onclick='userManage();', style='font-size:15px;')
-                        img(src='images/time.png')
-                        |    使用者管理
+                        //- img(src='images/time.png')
+                        i.fa.fa-users    
+                        font 使用者管理  
                     li
                       a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
-                        img(src='images/time.png')
-                        |    課程管理
+                        i.fa.fa-book    
+                        font 課程管理     
                     li
-                      a#lesson_time(onclick='positionManage();', style='font-size:15px;')
-                        img(src='images/time.png')
-                        |    場地管理                          
+                      a#lesson_time(onclick='positionManage();', style='font-size:15px;')            
+                        i.fa.fa-location-arrow                  
+                        font 場地管理     
                   li
                     a#lesson_time(onclick='audit();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      | 審核專區
+                      i.fa.fa-eye                          
+                      font 審核專區                      
                   if user && (information[0].authorty == 'Hyper')
                     li
                       a#lesson_time(onclick='superfast();', style='font-size:15px;')
-                        img(src='images/time.png')
-                        | 快速建立專區                
+                        i.fa.fa-fighter-jet
+                        font 快速建立專區
+                      
           if user
             ul.nav.navbar-nav
               li.dropdown
@@ -101,16 +101,16 @@ html
                 ul.dropdown-menu
                   li
                     a#lesson_time(onclick='manage();' style='font-size:15px;')
-                      img(src='images/time.png')
-                      | 申請常態課程
+                      i.fa.fa-file-o            
+                      font 申請常態課程
                   li
                     a#lesson_time(onclick='apply();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      | 申請使用單次教室
+                      i.fa.fa-files-o         
+                      font 申請單次教室
                   li
                     a#lesson_time(onclick='lesson();', style='font-size:15px;')
-                      img(src='images/time.png')
-                      | 申請資料
+                      i.fa.fa-pencil-square-o
+                      font 申請資料
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(style='font-size:18px;', data-toggle='dropdown')

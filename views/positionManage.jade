@@ -15,8 +15,8 @@ block main
             .col-md-12
               div(style='text-align: center;')   
                 h3
-                  i.fa.fa-map-marker                           
-                  strong(style='margin-left:5px;') 地點管理
+                  i.fa.fa-location-arrow      
+                  strong(style='margin-left:5px;') 場地管理
                 br
               table.table.table-bordered
                 tr
@@ -101,45 +101,45 @@ block main
                     li
                       a(href='#', onclick='return false;') 尾頁
                       
-    // 彈跳視窗 新增地點
-    #bounce_area.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-      .modal-dialog
-        .modal-content
-          .modal-header.bg-blue
-            button.close(type='button', data-dismiss='modal', aria-hidden='true')
-              i.fa.fa-times-circle(style='font-size:20px;color:white;')
-            font(style='font-size:18px;font-weight:bold;') 新增地點
-          .modal-body(align='left', style='height:520px;overflow-y:scroll;')
-            .form-group
-              .row
-                .col-md-12
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-6.form-group.form_name.form
-                        i.fa.fa-child(style='font-size:20px;')
-                        | 大樓
-                        input#areaBuilding.form-control(type='text', placeholder='請填入大樓名稱', name='areaBuilding')
-                      .col-md-6.form-group.form_floor.form
-                        | 樓層
-                        input#areaFloor.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='areaFloor')
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-6.form-group.form_class.form
-                        | 教室名稱
-                        input#areaClass.form-control(type='text', placeholder='請填入教室名稱', name='areaClass')
+  // 彈跳視窗 新增地點
+  #bounce_area.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header.bg-blue
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            i.fa.fa-times-circle(style='font-size:20px;color:white;')
+          font(style='font-size:18px;font-weight:bold;') 新增地點
+        .modal-body(align='left', style='height:520px;overflow-y:scroll;')
+          .form-group
+            .row
+              .col-md-12
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_name.form
+                      i.fa.fa-child(style='font-size:20px;')
+                      | 大樓
+                      input#areaBuilding.form-control(type='text', placeholder='請填入大樓名稱', name='areaBuilding')
+                    .col-md-6.form-group.form_floor.form
+                      | 樓層
+                      input#areaFloor.form-control(type='text', placeholder='請填入(限阿拉伯數字)', name='areaFloor')
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-6.form-group.form_class.form
+                      | 教室名稱
+                      input#areaClass.form-control(type='text', placeholder='請填入教室名稱', name='areaClass')
 
-                      .col-md-6.form-group.form_people.form
-                        | 容納人數
-                        input#areaPeople.form-control(type='text', placeholder='請填入容納人數', name='areaPeople')
+                    .col-md-6.form-group.form_people.form
+                      | 容納人數
+                      input#areaPeople.form-control(type='text', placeholder='請填入容納人數', name='areaPeople')
 
-                  div(style='margin:0 0 20px 0;')
-                    .row
-                      .col-md-12.form-group.form_note.form
-                        i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
-                        | 備註:
-                        textarea#areaNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
-          .modal-footer
-            input#btnSubmit.btn.btn-primary(type='button', value='確定')
-            button#btnCancel.btn.btn-default 取消
-    input#hiddenPositionData(type='hidden', value='')
-    
+                div(style='margin:0 0 20px 0;')
+                  .row
+                    .col-md-12.form-group.form_note.form
+                      i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
+                      | 備註:
+                      textarea#areaNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
+        .modal-footer
+          input#btnSubmit.btn.btn-primary(type='button', value='確定')
+          button#btnCancel.btn.btn-default 取消
+  input#hiddenPositionData(type='hidden', value='')
+  

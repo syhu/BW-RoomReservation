@@ -11,20 +11,19 @@ block main
     script(src='javascripts/plugins.js')
     //- script(src='javascripts/layer/layer.js')
     div
-      #manager_top.panel(style='border:2px solid black;')
-        div(style='text-align: center;')
-          | 申請課程專區
-          i.fa.fa-filter
       #manager_center.panel(style='border:2px solid black;')
         .row
           .col-lg-12
             .form-group
               .row
                 .col-md-12
+                  div(style='text-align: center;')   
+                    h3
+                      i.fa.fa-files-o                      
+                      strong(style='margin-left:5px;') 申請單次教室
+                    br
                   div(style='margin: 20px 20px 20px 20px;overflow-x:hidden;')
-                    .row
-                      .col-md-12(style='height:40px;')
-                        font#todayTime 今天時間：
+                    .row                      
                       #lessonForm.col-md-12(style='height:525px;')
                         .form-group
                           .row
@@ -33,15 +32,15 @@ block main
                                 .row
                                   .col-md-5.form-group.form_name.form
                                     i.fa.fa-child(style='font-size:20px;')
-                                    | 課程名稱:
+                                    | 課程名稱
                                     input#lessonName.form-control(type='text', placeholder='請填入課程名稱', name='lessonName')
                                   .col-md-5.form-group.form_time.form
-                                    | 上課時間:
+                                    | 上課時間
                                     input#lessonTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
                               div(style='margin:0 10% 20px;')
                                 .row
                                   .col-md-5.form-group.form_class.form
-                                    | 使用教室:
+                                    | 使用教室
                                     select#lessonBuilding.form-control(name='lessonBuilding')
                                       option(value='請選擇') 請選擇
                                       option(value='環球') 環球
@@ -50,7 +49,7 @@ block main
                                     select#lessonFloor.form-control(name='lessonFloor')
                                     select#lessonClass.form-control(name='lessonClass')
                                   .col-md-5.form-group.form_period.form
-                                    | 上課時段:
+                                    | 上課時段
                                     br
                                     select#lessonPeriod.form-control(name='lessonPeriod')
                                       option(value='請選擇', selected="selected") 請選擇
@@ -60,8 +59,8 @@ block main
                                       option(value='P2') P2 (16:00 ~ 18:00)
                                       option(value='P3') P3 (19:00 ~ 21:30)
                                   .col-md-5.form-group.form_people.form
-                                    | 上課人數:
-                                    input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople')
+                                    | 上課人數(請先選擇使用教室)
+                                    input#lessonPeople.form-control(type='text', placeholder='請填入上課人數', name='lessonPeople',disabled='disabled')
                               div(style='margin:0 10% 0px;')
                                 .row
                                   .col-md-5.form-group.form_detailName.form
@@ -74,7 +73,7 @@ block main
                                 .row
                                   .col-md-10.form-group.form_note.form
                                     i.fa.fa-comments(aria-hidden='true', style='font-size:20px;')
-                                    | 申請事由:
+                                    | 申請事由
                                     textarea#lessonNote.form-control(rows='4', placeholder='申請事由...', name='lessonNote')
                         .modal-footer
                           input#btnSubmit.btn.btn-primary(type='button', value='確定')

@@ -10,7 +10,6 @@ var lessonManage = (function(){
 			//this._new = $("#new");
 			this._new = $(".new");
 			this._lesson = $("#lesson");
-			// this._todayTime = $("#todayTime");
 			this._bounce_lesson = $("#bounce_lesson");
 			this._bounce_edit = $("#bounce_edit");
 			this._bounce_detail = $("#bounce_datail");
@@ -314,4 +313,5 @@ var lessonManage = (function(){
 var lessonManage;
 $(function(){
 	lessonManage = new lessonManage();
+	setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })

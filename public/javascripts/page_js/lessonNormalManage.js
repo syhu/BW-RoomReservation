@@ -313,26 +313,7 @@ var lessonNormalManage = (function(){
 			{
 				this._form_count.removeClass("has-error");
 			}
-			//使用教室
-			if(this._lessonClass.val() == '請選擇' || this._lessonFloor.val() == '請選擇' || this._lessonBuilding.val() == '請選擇')
-			{
-				returnCheck = false;
-				this._form_class.addClass("has-error");
-				errorText += '<b>請選擇使用教室</b><br/>';
-				if(this._lessonPeople.val() == "")		this._form_people.addClass("has-error");
 
-			}else
-			{
-				this._form_class.removeClass("has-error");
-
-				//在判斷人數
-				if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
-				{
-					returnCheck = false;
-					this._form_people.addClass("has-error");
-					errorText += '<b>請輸入正確的上課人數格式</b><br/>';
-				}
-			}
 			//開始上課時間
 			var correctTimeFormat = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/ ;
 			if(this._lessonTime.val() == "" || !correctTimeFormat.test(this._lessonTime.val()))
@@ -368,6 +349,43 @@ var lessonNormalManage = (function(){
 			{
 				this._form_period.removeClass("has-error");
 			}
+			//使用教室
+			if(this._lessonClass.val() == '請選擇' || this._lessonFloor.val() == '請選擇' || this._lessonBuilding.val() == '請選擇')
+			{
+				returnCheck = false;
+				this._form_class.addClass("has-error");
+				errorText += '<b>請選擇使用教室</b><br/>';
+				if(this._lessonPeople.val() == "")		this._form_people.addClass("has-error");
+
+			}else
+			{
+				this._form_class.removeClass("has-error");
+
+				//在判斷人數格式
+				if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()))
+				{
+					returnCheck = false;
+					this._form_people.addClass("has-error");
+					errorText += '<b>請輸入正確的上課人數格式</b><br/>';
+				}
+				else
+				{
+					this._form_people.removeClass("has-error");
+				}
+				//在判斷容納人數
+				if (this.checkPeople < this._lessonPeople.val())
+				{
+					returnCheck = false;
+					this._form_people.addClass("has-error");
+					errorText += '<b>輸入人數超出教室容量</b><br/>';
+				}
+				else
+				{
+					this._form_people.removeClass("has-error");
+				}
+
+			}
+
 
 			if(errorText != ''){
 						layer.msg(errorText, {time: 3000, icon:2,shade:[0.5,'black']});
@@ -497,4 +515,5 @@ var lessonNormalManage = (function(){
 var lessonNormalManage;
 $(function(){
 	lessonNormalManage = new lessonNormalManage();
+	setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })

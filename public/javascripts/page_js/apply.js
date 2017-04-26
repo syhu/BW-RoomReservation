@@ -6,7 +6,6 @@ var apply = (function(){
   _const.prototype = {
     _construct:function(){
       this._new = $(".new");
-      this._todayTime = $("#todayTime");
       this._btnSubmit = $("#btnSubmit");
       this._btnCancel = $("#btnCancel");
       //課程新增欄位
@@ -49,12 +48,6 @@ var apply = (function(){
     },
 
     _initialAll:function(){
-      //顯示當天時間
-      var now = new Date();
-			this._todayTime.append(
-            now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
 
       //確認新增課程
 			this._btnSubmit.on("click",$.proxy(function(){
@@ -120,7 +113,10 @@ var apply = (function(){
           						{
           							alert('error: ' + xhr);console.log(xhr);
           							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-          						}
+          						},
+                      complete:function(){
+                          location.href = '/lesson'
+                      }
           					});
                   });
                 }else{
@@ -135,9 +131,10 @@ var apply = (function(){
 			this._lessonBuilding.on("change",$.proxy(function(e){
         var objThis = this;
         var check = true;
+        objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>")
+        objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>")
+        objThis._lessonPeople.attr("disabled","disabled").val('')
         if($(e.currentTarget).val() != "請選擇"){
-            objThis._lessonFloor.empty().append("<option value='請選擇'>請選擇</option>")
-            objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>")
             var data = JSON.parse(this._hiddenPositionData.val());
             $.each(data,function(i,v){
                 check = true;
@@ -155,6 +152,9 @@ var apply = (function(){
       // 樓層change
 			this._lessonFloor.on("change",$.proxy(function(e){
         var objThis = this;
+        objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
+        objThis._lessonPeople.attr("disabled","disabled").val('')
+
         if($(e.currentTarget).val() != "請選擇"){
           objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
           var data = JSON.parse(this._hiddenPositionData.val());
@@ -168,6 +168,7 @@ var apply = (function(){
       // 教室change 儲存人數
       this._lessonClass.on("change",$.proxy(function(e){
         var objThis = this;
+        objThis._lessonPeople.attr("disabled","disabled").val('')
           if($(e.currentTarget).val() != "請選擇"){
             var data = JSON.parse(this._hiddenPositionData.val());
             $.each(data,function(i,v){
@@ -175,17 +176,22 @@ var apply = (function(){
                     objThis.checkPeople  = v.people;
                 }
             })
-          }
+            objThis._lessonPeople.removeAttr("disabled")
+          }else{
+						objThis.checkPeople = 0;
+					}
       },this));
     },
     _checkSubmit:function(){  // 確認新增課程欄位判斷
 			var returnCheck = true;
+      var errorText = '';		//存放錯誤訊息
 			//課程名稱
 			if(this._lessonName.val() == "")
 			{
 				returnCheck = false;
 				this._form_name.addClass("has-error");
-				layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				// layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        errorText += '<b>請輸入課程名稱</b><br/>';
 			}else
 			{
 				this._form_name.removeClass("has-error");
@@ -195,7 +201,8 @@ var apply = (function(){
       {
         returnCheck = false;
         this._form_note.addClass("has-error");
-        layer.msg('<b>請輸入申請事由</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        // layer.msg('<b>請輸入申請事由</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        errorText += '<b>請輸入申請事由</b><br/>';
       }else
       {
         this._form_note.removeClass("has-error");
@@ -205,10 +212,35 @@ var apply = (function(){
 			{
 				returnCheck = false;
 				this._form_class.addClass("has-error");
-				layer.msg('<b>請選擇使用教室</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				// layer.msg('<b>請選擇使用教室</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        errorText += '<b>請選擇使用教室</b><br/>';
 			}else
 			{
 				this._form_class.removeClass("has-error");
+
+        //上課人數
+        var positiveInteger = /^[0-9]*[1-9][0-9]*$/ ;
+  			if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()) )
+  			{
+  				returnCheck = false;
+  				this._form_people.addClass("has-error");
+  				// layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          errorText += '<b>請輸入正確的上課人數格式</b><br/>';
+  			}
+
+
+				if (this.checkPeople < this._lessonPeople.val())
+				{
+					returnCheck = false;
+					this._form_people.addClass("has-error");
+					// layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          errorText += '<b>輸入人數超出教室容量</b><br/>';
+				}
+				else
+				{
+					this._form_people.removeClass("has-error");
+				}
+
 			}
 			//開始上課時間
 			var correctTimeFormat = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/ ;
@@ -216,7 +248,8 @@ var apply = (function(){
 			{
 				returnCheck = false;
 				this._form_time.addClass("has-error");
-				layer.msg('<b>請輸入正確的時間格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				// layer.msg('<b>請輸入正確的時間格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        errorText += '<b>請輸入正確的時間格式</b><br/>';
 			}else
 			{
 				var date = new Date;
@@ -227,7 +260,8 @@ var apply = (function(){
 				{
 					returnCheck = false;
 					this._form_time.addClass("has-error");
-					layer.msg('<b>請選擇明天以後的上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					// layer.msg('<b>請選擇明天以後的上課時間</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+          errorText += '<b>請選擇明天以後的上課時間</b><br/>';
 				}
 				else
 				{
@@ -239,39 +273,43 @@ var apply = (function(){
 			{
 				returnCheck = false;
 				this._form_period.addClass("has-error");
-				layer.msg('<b>請選擇上課時段</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				// layer.msg('<b>請選擇上課時段</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        errorText += '<b>請選擇上課時段</b><br/>';
 			}
 			else
 			{
 				this._form_period.removeClass("has-error");
 			}
 
-			//上課人數
-      var positiveInteger = /^[0-9]*[1-9][0-9]*$/ ;
-			if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()) )
-			{
-				returnCheck = false;
-				this._form_people.addClass("has-error");
-				layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-			}
-      else if (this._lessonClass.val() == undefined)
-      {
-        this._form_people.addClass("has-error");
-        this._lessonPeople.val("");
-				layer.msg('<b>請選擇教室再輸入人數</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-      }
-      else
-			{
-				if (this.checkPeople < this._lessonPeople.val())
-				{
-					returnCheck = false;
-					this._form_people.addClass("has-error");
-					layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-				}
-				else
-				{
-					this._form_people.removeClass("has-error");
-				}
+			// //上課人數
+      // var positiveInteger = /^[0-9]*[1-9][0-9]*$/ ;
+			// if(this._lessonPeople.val() == "" || this._lessonPeople.val() <1 || !positiveInteger.test(this._lessonPeople.val()) )
+			// {
+			// 	returnCheck = false;
+			// 	this._form_people.addClass("has-error");
+			// 	layer.msg('<b>請輸入正確的上課人數格式</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+			// }
+      // else if (this._lessonClass.val() == undefined)
+      // {
+      //   this._form_people.addClass("has-error");
+      //   this._lessonPeople.val("");
+			// 	layer.msg('<b>請選擇教室再輸入人數</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+      // }
+      // else
+			// {
+			// 	if (this.checkPeople < this._lessonPeople.val())
+			// 	{
+			// 		returnCheck = false;
+			// 		this._form_people.addClass("has-error");
+			// 		layer.msg('<b>輸入人數超出教室容量</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+			// 	}
+			// 	else
+			// 	{
+			// 		this._form_people.removeClass("has-error");
+			// 	}
+			// }
+      if(errorText != ''){
+						layer.msg(errorText, {time: 3000, icon:2,shade:[0.5,'black']});
 			}
 			return returnCheck;
 		},
@@ -337,4 +375,5 @@ var apply = (function(){
 var apply;
 $(function(){
   apply = new apply();
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })

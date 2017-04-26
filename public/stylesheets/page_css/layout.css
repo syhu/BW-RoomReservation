@@ -157,3 +157,38 @@ margin-left:100px;
 	float:left;
 
 }
+
+
+#bg-img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: -99;
+}
+
+
+
+#manager_center{
+	border:2px solid black;
+	border-radius:10px;
+	opacity:0.8;
+	width:90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	overflow:hidden;
+}
+#manager_center tr :hover{
+	opacity: 1;
+}
+
+
+li a i{
+	float:left;
+}
+li a{
+	text-align:center;
+	font-weight: bold;
+}
+/*.dropdown-menu li{
+		overflow: none;
+}*/

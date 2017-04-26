@@ -7,7 +7,6 @@ var aduit = (function(){
     _construct:function(){
       this._btnCancel = $('#btnCancel');
       this._btnSubmit = $('#btnSubmit');
-      this._todayTime = $("#todayTime");
       this._bounce_check = $("#bounce_check");
       this._checkText = $("#checkText");
       this._lessonID = $(".lessonID");
@@ -28,12 +27,6 @@ var aduit = (function(){
       this._bounce_check.css('position','absolute');
       this._bounce_check.css('top', '30%');
 
-      //顯示當天時間
-      var now = new Date();
-			this._todayTime.append(
-            now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
 
       //審核通過
       this._btnSubmit.on('click',$.proxy(function(){
@@ -239,4 +232,5 @@ var aduit = (function(){
 var aduit;
 $(function(){
   aduit = new aduit();
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })

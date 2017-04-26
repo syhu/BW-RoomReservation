@@ -405,4 +405,5 @@ var positionManage = (function(){
 var positionManage;
 $(function(){
   positionManage = new positionManage();
-})
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
+});

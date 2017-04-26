@@ -185,4 +185,5 @@ var superfast = (function(){
 var superfast;
 $(function(){
   superfast = new superfast();
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })

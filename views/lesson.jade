@@ -11,16 +11,17 @@ block main
     script(src='javascripts/plugins.js')
     //- script(src='javascripts/layer/layer.js')
     div
-      #manager_top.panel(style='border:2px solid black;')
-        div(style='text-align: center;')
-          | 申請資料
-          i.fa.fa-filter
       #manager_center.panel(style='border:2px solid black;')
         .row
           .col-lg-12
             .form-group
               .row
                 .col-md-12
+                  div(style='text-align: center;')   
+                    h3
+                      i.fa.fa-filter                             
+                      strong(style='margin-left:5px;') 申請資料
+                    br
                   div(style='margin: 20px 20px 20px 20px;overflow-x:hidden;')
                     .row
                       #lessonForm.col-md-12(style='height:500px;')

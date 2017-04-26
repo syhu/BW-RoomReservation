@@ -1,4 +1,4 @@
-#manager_center{
+/*#manager_center{
 	float:left;
 	border:2px solid black;
 	border-radius:15px;
@@ -13,10 +13,9 @@
 	font-size: 30px;
 	border:2px solid black;
 	border-radius: 10px;
-	/*height: 30%;*/
 	width: 90%;
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-top: 5%;
 	overflow:hidden;
-}
+}*/

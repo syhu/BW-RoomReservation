@@ -1,50 +1,9 @@
-body {
-	margin-top: 40px;
-	/*text-align: center;*/
-	font-size: 18px;
-	font-family: "Microsoft JhengHei",Helvetica,Arial,Verdana,sans-serif;
-	vertical-align:middle;
-	background-color:#E3E3E3;
-}
-/*#manager_header{
-	text-align:center;
-	border:2px solid black;
-	border-radius:10px;
-	margin-right:20px;
-	font-size: 30px;
-	width: 96.75%;
-	margin-left: 1.25%;
-	margin-top: 5%;
-	margin-bottom: 0%;
-	overflow:hidden;
-}*/
 
-#manager_center{
+/*#manager_center{
 	border:2px solid black;
 	border-radius:10px;
-	/*height:60%;*/
 	width:90%;
 	margin-left: 5%;
 	margin-right: 5%;
 	overflow:hidden;
-}
-/*#manager_right{
-	float:left;
-	border:2px solid black;
-	border-radius:10px;
-	height:500px;
-	width:10%;
-	margin-top:20px;
 }*/
-
-/*#lessonList{
-	margin:20px;
-	border-radius:0px;
-	width:95%;
-
-}*/
-
-ul li
-{
-list-style-type:none;
-}

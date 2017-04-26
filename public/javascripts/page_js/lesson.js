@@ -410,4 +410,5 @@ var lesson = (function(){
 var lesson;
 $(function(){
   lesson = new lesson();
+  setTimeout('layout._resize_tab();',100)    /* 調整背景 */
 })
