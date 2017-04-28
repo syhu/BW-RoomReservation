@@ -83,7 +83,7 @@ var userManage = (function(){
 
            _tr = $("<tr />");
            //#
-           _td = $("<td />",{"text":(i+1)});
+           _td = $("<td />",{"nowrap":"nowrap","text":(i+1)});
            _tr.append(_td);
            //姓名
            _td = $("<td />",{"style":"text-align:left","text":v.name});
