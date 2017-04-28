@@ -10,8 +10,7 @@ var login = (function(){
 			this._checkNum[i] = 0;
 		}
 
-		this._identity =this._getPara("identity");	//驗證身分
-		this._error = this._getPara("error");		//顯示錯誤
+
 
 		this._construct();
 	}
@@ -30,7 +29,7 @@ var login = (function(){
 			this._index = $("#index");
 			this._currentNum = $(".currentNum");
 			this._account = $("#account");
-			this._psd = $("#psd");
+			this._pwd = $("#pwd");
 
 
 			this._start();	//開始網頁執行function
@@ -42,13 +41,7 @@ var login = (function(){
 			setTimeout("$('#account').val('')",200);
 			setTimeout("$('#psd').val('')",200);
 
-			//顯示錯誤
-			if(objThis._error == "userNotFound"){
-				layer.msg('無此使用者', {area: '130px'});
-			}
-			else if(objThis._error == "passwordError"){
-				layer.msg('密碼錯誤', {area: '130px'});
-			}
+
 		},
 		_initialAll:function(){
 			var objThis = this;
@@ -68,14 +61,13 @@ var login = (function(){
 			//登入
 			objThis._chk.on("mousedown",$.proxy(function(event){
 				if(objThis._correctNum != objThis._currentNum.val()){
-
 					layer.msg('驗證碼錯誤');
 					objThis._currentNum.val("");
 					objThis._getRandom();
-					objThis._chk.attr("type","button")
 					return false;
 				}else{
-					objThis._chk.attr("type","submit")
+					objThis._login();
+
 				}
 			},this));
 			//註冊提示  學員
@@ -95,7 +87,78 @@ var login = (function(){
 			//reload
 			objThis._reload.on("click",$.proxy(function(event){
 				objThis._getRandom();
+			},this));
+			//判斷enter直接登入bug
+			objThis._pwd.on("keydown",$.proxy(function(event){
+				if(event.which == 13){
+					if(objThis._correctNum != objThis._currentNum.val()){
+						layer.msg('驗證碼錯誤');
+						objThis._currentNum.val("");
+						objThis._getRandom();
+						return false;
+					}else{
+						objThis._login();
+					}
+				}
+			},this));
+			//驗證碼enter
+			objThis._currentNum.on("keydown",$.proxy(function(event){
+				if(event.which == 13){
+					if(objThis._correctNum != objThis._currentNum.val()){
+						layer.msg('驗證碼錯誤');
+						objThis._currentNum.val("");
+						objThis._getRandom();
+						return false;
+					}else{
+							objThis._login();
+					}
+				}
 			},this))
+
+		},
+		_login:function(){
+			var objThis = this;
+			var obj = new Object;
+			var arr = new Array();
+
+			obj.account = objThis._account.val();
+			obj.password = objThis._pwd.val();
+			arr = arr.concat(obj);
+
+			$.ajax({
+				type: "post",
+				url: "/login",
+				data: {strJson:JSON.stringify(arr)} ,
+				success: function(message){
+					if(message.success == 'loginFinish')
+					{
+						layer.msg('<b>登入成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+						location.href = '/';
+					}
+					else if(message.success == 'passwordError')
+					{
+						layer.msg('<b>密碼錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+						objThis._pwd.val('');
+						objThis._currentNum.val("");
+						objThis._getRandom();
+
+					}
+					else if(message.success == 'userNotFound')
+					{
+						layer.msg('<b>無此使用者</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+						objThis._account.val('');
+						objThis._pwd.val('');
+						objThis._currentNum.val("");
+						objThis._getRandom();
+
+					}
+				},
+				error: function (xhr)
+				{
+					alert('error: ' + xhr);console.log(xhr);
+					layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				}
+			});
 		},
 		_getRandom:function(){
 			var objThis = this;

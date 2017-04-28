@@ -8,7 +8,6 @@ var positionManage = (function(){
       this._bounce_area = $('#bounce_area');
 
       this._new = $('.new');
-      this._todayTime = $(".todayTime");
 
       //查詢地點
       this._filterBuilding = $("#filterBuilding");
@@ -51,14 +50,7 @@ var positionManage = (function(){
       this._bounce_area.css('position','absolute');
       // this._bounce_area.css('top', '20%');
 
-      //顯示當天時間
-      var now = new Date();
-			this._todayTime.append
-        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
-
-
+      
       //大樓change
       this._filterBuilding.on("change",$.proxy(function(e){
         var objThis = this;

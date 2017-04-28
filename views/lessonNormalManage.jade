@@ -19,7 +19,7 @@ block main
                     i.fa.fa-file-o                  
                     strong(style='margin-left:5px;') 申請常態課程
                   br
-                table.table.table-bordered
+                table.table.table-condensed
                   tr
                     th 大樓
                     th
@@ -45,14 +45,14 @@ block main
                         option(value='時段五') 時段五
                   tr
                     th(colspan='8')
-                      button#cancelFilter.btn.btn-default(type='button') 清除
-                      button#btnFilter.btn.btn-primary(type='button') 查詢
+                      button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+                      button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
 
               .col-md-12
                 div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                   .row
                     .col-md-12(style='height:50px;')
-                      button.btn.btn-success.new(style='float:right;margin-top:0px;') 新增課程
+                      button.btn.btn-success.btn-embossed.new(style='float:right;margin-top:0px;') 新增課程
                       
                     .col-md-12(style='height:650px;')
                       table#lessonList.table.table-condensed
@@ -185,8 +185,8 @@ block main
                         | 備註:
                         textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
           .modal-footer
-            input#btnSubmit.btn.btn-primary(type='button', value='確定')
-            button#btnCancel.btn.btn-default 取消
+            input#btnSubmit.btn.btn-primary.btn-embossed(type='button', value='確定')
+            button#btnCancel.btn.btn-default.btn-embossed 取消
             
     input#hiddenPositionData(type='hidden', value='')
     

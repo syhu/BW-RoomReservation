@@ -53,9 +53,19 @@ var lessonManage = (function(){
 			this._EditlessonPeriod = $("#EditlessonPeriod");
 			this._EditlessonPeople = $("#EditlessonPeople");
 			this._EditlessonNote = $("#EditlessonNote");
+			
+			// this._btnEditCancel = $("#btnEditCancel");
+			// this._btnEditSubmit = $("#btnEditSubmit");
 
-			this._btnEditCancel = $("#btnEditCancel");
-			this._btnEditSubmit = $("#btnEditSubmit");
+			//lessonIDManage
+			//編輯課程ID
+      this._EditlessonIDName = $("#EditlessonIDName");
+      this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
+      this._EditContractName = $("#EditContractName");
+      this._EditContractPhone = $("#EditContractPhone");
+      this._btnEditCancel = $("#btnEditCancel");
+      this._btnEditSubmit = $("#btnEditSubmit");
+      this.EditlessonID = '';
 
 			this._start();
 		},

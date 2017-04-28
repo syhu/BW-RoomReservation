@@ -119,13 +119,16 @@ margin-left:100px;
 	z-index: -1;
 }
 #footer{		/* 下面 */
+	padding:70px 40px 70px 60px;
+	/*border:1px solid black;*/
 	font-size:15px;
 	border-radius:10px;
 	margin-top:10px;
-	margin-bottom:10px;
-	margin-left:10px;
-	margin-right:10px;
-	height:100px;
+	/*margin-bottom:10px;*/
+	/*margin-left:10px;*/
+	/*margin-right:10px;*/
+	background-color:		#FFFAFA;
+	height:200px;
 }
 #footer-context{
 		margin:10px;

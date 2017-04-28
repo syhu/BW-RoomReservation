@@ -32,8 +32,8 @@ html
       
     // 彈出視窗
     title 福智基金會
-  img#bg-img(src='images/bgimage.png')
   body(background='')
+    img#bg-img(src='images/bgimage.png',style='display:none;')
     #page
       #header
         #admin_hide.nav.navbar-nav
@@ -73,23 +73,29 @@ html
                         //- img(src='images/time.png')
                         i.fa.fa-users    
                         font 使用者管理  
+                    li.divider
                     li
                       a#lesson_time(onclick='lessonIDManage();', style='font-size:15px;')
                         i.fa.fa-book    
-                        font 課程管理     
+                        font 課程管理    
+                    li.divider 
                     li
                       a#lesson_time(onclick='positionManage();', style='font-size:15px;')            
                         i.fa.fa-location-arrow                  
-                        font 場地管理     
+                        font 場地管理    
+                  li.divider
                   li
                     a#lesson_time(onclick='audit();', style='font-size:15px;')
                       i.fa.fa-eye                          
-                      font 審核專區                      
+                      font 審核專區  
+                  li.dividerc                    
                   if user && (information[0].authorty == 'Hyper')
+                    li.dividerc
                     li
                       a#lesson_time(onclick='superfast();', style='font-size:15px;')
                         i.fa.fa-fighter-jet
                         font 快速建立專區
+                    li.dividerc
                       
           if user
             ul.nav.navbar-nav
@@ -102,10 +108,12 @@ html
                     a#lesson_time(onclick='manage();' style='font-size:15px;')
                       i.fa.fa-file-o            
                       font 申請常態課程
+                  li.divider
                   li
                     a#lesson_time(onclick='apply();', style='font-size:15px;')
                       i.fa.fa-files-o         
                       font 申請單次教室
+                  li.divider
                   li
                     a#lesson_time(onclick='lesson();', style='font-size:15px;')
                       i.fa.fa-pencil-square-o
@@ -121,6 +129,7 @@ html
                     a#opinion(onclick='feedback()' style='font-size:15px;')
                       img(src='images/opinion.png')
                       |    意見回饋
+                  li.divider
                 li
                   a(style='font-size:15px;')
                     img(src='images/contact.png')
@@ -134,19 +143,26 @@ html
                 if user
                   li
                     a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown') ID:#{user}
+                  li.divider
                   li
                     a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  更改密碼
+                  li.divider
                   li
                     a.dropdown-toggle(onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
+                  li.divider
                   li
                     a.dropdown-toggle(onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
                 else
+                  li.divider
                   li
                     a.dropdown-toggle(onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
+                  li.divider
                   li
                     a.dropdown-toggle(onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
+                li.divider
                 li
                   a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  使用說明
+                li.divider
                 li
                   a#question.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  回報問題
         #message

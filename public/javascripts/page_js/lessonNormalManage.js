@@ -10,7 +10,6 @@ var lessonNormalManage = (function(){
 			//this._new = $("#new");
 			this._new = $(".new");
 			this._lesson = $("#lesson");
-			this._todayTime = $("#todayTime");
 			this._bounce_lesson = $("#bounce_lesson");
 			this._bounce_edit = $("#bounce_edit");
 			this._bounce_detail = $("#bounce_datail");
@@ -72,12 +71,6 @@ var lessonNormalManage = (function(){
 		},
 		_initialAll:function(){
 
-			//顯示當天時間
-			var now = new Date();
-			this._todayTime.append
-        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
 
 			//新增課程
 			this._new.on("click",$.proxy(function(){

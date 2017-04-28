@@ -40,7 +40,7 @@ module.exports = {
             {
               mongoose.disconnect();
               mongoose.connection.close();
-              callback(err, 1, null);
+              callback(err, 1, null,'');
             }
           }
           else
@@ -48,7 +48,7 @@ module.exports = {
             var err = new Error('something wrong');
             mongoose.disconnect();
             mongoose.connection.close();
-            callback(err, 2, null);
+            callback(err, 2, null,'');
           }
         }
       });

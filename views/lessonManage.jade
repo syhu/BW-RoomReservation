@@ -5,11 +5,11 @@ block main
     //- link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
     link(rel='stylesheet', href='stylesheets/customized.css')
     link(rel='stylesheet', href='stylesheets/ui.css')
-    script(src='javascripts/page_js/lessonIDManage.js')
+    //- script(src='javascripts/page_js/lessonIDManage.js')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
-    //- script(src='javascripts/page_js/lessonManage.js')
+    script(src='javascripts/page_js/lessonManage.js')
       
     div      
       #manager_center.panel
@@ -55,7 +55,7 @@ block main
                 .row
                   .col-md-12
                     
-                    table.table.table-bordered
+                    table.table.table-condensed
                       tr
                         th 地點
                         th
@@ -88,8 +88,8 @@ block main
                             option(value='時段五') 時段五
                       tr(style='border:0px;')
                         th(colspan='6')
-                          button#cancelFilter.btn.btn-default(type='button') 清除
-                          button#btnFilter.btn.btn-primary(type='button') 查詢
+                          button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+                          button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
     
                   .col-md-12
                     div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
@@ -235,8 +235,8 @@ block main
                         | 備註:
                         textarea#lessonNote.form-control(rows='4', placeholder='您想說甚麼...', name='lessonNote')
           .modal-footer
-            input#btnSubmit.btn.btn-primary(type='button', value='確定')
-            button#btnCancel.btn.btn-default 取消
+            input#btnSubmit.btn.btn-primary.btn-embossed(type='button', value='確定')
+            button#btnCancel.btn.btn-default.btn-embossed 取消
     // 彈跳視窗 編輯課程
     #bounce_edit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
       .modal-dialog
@@ -271,8 +271,8 @@ block main
                         | 聯絡人電話:
                         input#EditContractPhone.form-control(type='text', placeholder='請填入聯絡人電話')
           .modal-footer
-            input#btnEditSubmit.btn.btn-primary(type='button', value='確定')
-            button#btnEditCancel.btn.btn-default 取消
+            input#btnEditSubmit.btn.btn-primary.btn-embossed(type='button', value='確定')
+            button#btnEditCancel.btn.btn-default.btn-embossed 取消
     // 彈跳視窗 查看詳情
     #bounce_datail.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
       .modal-dialog
@@ -287,7 +287,7 @@ block main
                 .col-md-12
                   
           .modal-footer
-            button#btnClose.btn.btn-success 關閉                        
+            button#btnClose.btn.btn-success.btn-embossed 關閉                        
     // 彈跳視窗 查看詳情
     #bounce_new.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='overflow-y: hidden')
       .modal-dialog
@@ -310,5 +310,5 @@ block main
                       | 課程代號(簡稱):
                       input#lessonAbbreviation.form-control(type='text', placeholder='請輸入中文或英文代號(簡稱), 如果多個代號請使用半形空格(一格)隔開', name='lessonAbbreviation')
           .modal-footer
-            input#btnSubmitID.btn.btn-primary(type='button', value='確定')
-            button#btnCancelID.btn.btn-default 取消
+            input#btnSubmitID.btn.btn-primary.btn-embossed(type='button', value='確定')
+            button#btnCancelID.btn.btn-default.btn-embossed 取消

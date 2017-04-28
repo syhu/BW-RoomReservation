@@ -18,15 +18,19 @@ var layout = (function(){
 		_start:function(){
 			var objThis = this;
 			objThis._initialAll();
-      objThis._resize_tab();
+      // objThis._resize_tab();
+			setTimeout('$(window).resize()',100)
 		},
 		_initialAll:function(){
       var objThis = this;
+			//
+      // $(window).resize(function () {
+      //       //  setTimeout("layout._resize_tab()",500);
+      // });
+			$(window).on("resize",$.proxy(function(){
+				objThis._resize_tab();
 
-      $(window).resize(function () {
-            //  setTimeout("resize_tab()",100);
-             objThis._resize_tab();
-      }).resize();
+			},this))
       //往上
       this._top.on("click",$.proxy(function(e){
         $("html,body").animate({scrollTop:0},'slow');
@@ -61,6 +65,8 @@ var layout = (function(){
         var viewportWidth = $(window).innerWidth();
         var viewportHeight = $(window).innerHeight();
 
+				console.log(viewportWidth + "   "  + viewportHeight)
+
         var width = $('#bg-img').width();
         var height = $('#bg-img').height();
 
@@ -82,6 +88,7 @@ var layout = (function(){
             });
 
         }
+				$('#bg-img').show();
     },
     //時間補0
     _padLeft:function(num){
@@ -104,6 +111,7 @@ var layout;
 $(function(){
 	layout = new layout();
 
+	setTimeout('layout._resize_tab();',100)    /* 調整背景 */
   _showTime();      /* 顯示時間 */
 })
 

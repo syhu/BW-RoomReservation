@@ -242,26 +242,6 @@ router.get('/login', function(req, res, next) {
   {
     res.redirect('/?a=' + req.session.logining);
   }
-  if (req.session.error == req.query.error)
-  {
-    req.session.error = "";
-    res.render('login', { title: 'Login'})
-  }
-  else if(req.query.error !=  req.session.error)
-  {
-    if(!req.query.error)
-    {
-      res.render('login', { title: 'Login'})
-    }
-    else if(req.session.error == "")
-    {
-      res.redirect('/login');
-    }
-    else
-    {
-      res.redirect('/login?error=' + req.session.error);
-    }
-  }
   else
   {
     res.render('login', { title: 'Login'})
@@ -269,29 +249,31 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-  var account = req.body.account;
-  var password = req.body.password;
-  login.loginCheck(account, hashPW(account, password), function(err, situation, user, userInformation)
+  data = JSON.parse(req.body.strJson)
+  var account = data[0].account;
+  var password = data[0].password;
+  if(req.xhr || req.accepts('json, html') === 'json')
   {
-    if(situation == 0)
+    login.loginCheck(account, hashPW(account, password), function(err, situation, user, userInformation)
     {
-      req.session.account = account;
-      req.session.userName = user;
-      req.session.logining = 0;
-      req.session.information = userInformation;
-      res.redirect('/?a=0');
-    }
-    else if(situation == 1)
-    {
-      req.session.error = 'passwordError';
-      res.redirect('/login?error=passwordError');
-    }
-    else if(situation == 2)
-    {
-      req.session.error = 'userNotFound';
-      res.redirect('/login?error=userNotFound');
-    }
-  });
+      if(situation == 0)
+      {
+        req.session.account = account;
+        req.session.userName = user;
+        req.session.logining = 0;
+        req.session.information = userInformation;
+        res.send({success :'loginFinish'});
+      }
+      else if(situation == 1)
+      {
+        res.send({success :'passwordError'});
+      }
+      else if(situation == 2)
+      {
+        res.send({success :'userNotFound'});
+      }
+    });
+  }
 })
 
 /*** Register Page ***/
