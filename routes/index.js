@@ -627,7 +627,7 @@ router.post('/lessonManage', function(req, res, next){
   var contractPhone = '';
   if(req.xhr || req.accepts('json, html') === 'json')
   {
-    abbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, function(err, repeat, id)
+    abbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, contract, contractPhone, function(err, repeat, id)
     {
       if(repeat == 0)
       {
