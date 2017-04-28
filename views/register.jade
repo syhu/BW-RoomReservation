@@ -16,7 +16,8 @@ html
     //bootbox
     script(src='javascripts/bootbox/bootbox.min.js')
     link(rel='stylesheet', href='stylesheets/ui.css')
-      
+    //recaptcha
+    script(src='https://www.google.com/recaptcha/api.js')
     // 彈出視窗
     title 註冊
   body
@@ -47,13 +48,12 @@ html
                         | 姓名
                       input#name.form-control(type='text', placeholder='請輸入您的姓名', name='name')
                   .col-md-3
-                    .form-inline
-                      .form-group.form_account
-                        font.field
-                          span.symbol *
-                          | 帳號  
-                          i#searchAccount.fa.fa-search(style='cursor:pointer;', title='查詢帳號是否重複')
-                        input#account.form-control(type='text', placeholder='請輸入您的帳號', name='account')
+                    .form-group.form_account
+                      font.field
+                        span.symbol *
+                        | 帳號  
+                        i#searchAccount.fa.fa-search(style='cursor:pointer;', title='查詢帳號是否重複')
+                      input#account.form-control(type='text', placeholder='請輸入您的帳號', name='account')
                   .col-md-3
                     .form-group.form_password
                       font.field
@@ -119,6 +119,7 @@ html
                   .col-md-3
                   .col-md-3
                     input#chk.btn-block.btn-lg.btn.btn-primary.chk.btn-embossed(type='button', value='送出')  
+               
       // 驗證
       #verification.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
         .modal-dialog.modal-lg
@@ -127,11 +128,13 @@ html
               button.close(type='button', data-dismiss='modal', aria-hidden='true')
                 i.fa.fa-times-circle(style='font-size:20px;color:white;')
               span.modal-title 驗證
-            div(style='padding:50px 20px 20px 200px;')
-              .check_img(style='margin: 20px 0 20px 0;')
-              .form-inline.form-group.form_check
-                input#registerCheck.form-control(type='text', style='width:50%;', placeholder='請輸入上方驗證碼')
-                img.reload(src='images/reload.png', style='cursor:pointer;margin-left:10px;', title='重新產生')
+            div(style='padding:50px 10px 20px 150px;')
+              .g-recaptcha(data-sitekey='6LfAIh8UAAAAAGbt95Y7C-3JbmmtUp-t5-fZQjGu')
+              
+              //- .check_img(style='margin: 20px 0 20px 0;')
+              //- .form-inline.form-group.form_check
+              //-   input#registerCheck.form-control(type='text', style='width:50%;', placeholder='請輸入上方驗證碼')
+              //-   img.reload(src='images/reload.png', style='cursor:pointer;margin-left:10px;', title='重新產生')
             .modal-footer
               button#btnSubmit.btn.btn-success.btn-embossed(type='button') 提交
               button.btn.btn-default.btn-embossed(type='button', data-dismiss='modal') 取消

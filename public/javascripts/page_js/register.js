@@ -365,8 +365,9 @@ var registered = (function(){
 			},this))
 			//電話 blur
 			objThis._telephone.on("blur",$.proxy(function(event){
+				var frontNum = objThis._telephone.val().substr(0,2);
 				objThis._telephone.val(objThis._telephone.val().replace(/[^0-9]/g,''))
-				if(objThis._telephone.val().length >= 9 && objThis._telephone.val().length <= 10 &&
+				if(frontNum == "09" && objThis._telephone.val().length >= 9 && objThis._telephone.val().length <= 10 &&
 				objThis._telephone.val().match(/\d$/))
 				{
 					objThis._form_telephone.removeClass("has-error");
@@ -401,7 +402,7 @@ var registered = (function(){
 			//電話 focus
 			objThis._telephone.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:電話須再十二個數字以下，只能輸入數字。");
+				objThis._promptText.append("貼心小提示:電話須再十二個數字以下，09開頭，只能輸入數字。");
 			},this));
 			//身分證 blur
 			objThis._identity.on("blur",$.proxy(function(event){
@@ -557,14 +558,20 @@ var registered = (function(){
 			},this));
 
 			//檢驗驗證碼
-			objThis._btnSubmit.on("click",$.proxy(function(event){
-				objThis._btnSubmit.attr('disabled', true);
+			objThis._btnSubmit.on("click",$.proxy(function(e){
+				// objThis._btnSubmit.attr('disabled', true);
+				objThis._btnSubmit.button("loading");
 				// 1.先驗證驗證碼
-				if(objThis._correctNum != objThis._registerCheck.val()){
-					objThis._form_check.addClass("has-error");
-					objThis._registerCheck.val("");
-					objThis._getRandom();
-					setTimeout(function(){objThis._btnSubmit.removeAttr('disabled');}, 200);
+				// if(objThis._correctNum != objThis._registerCheck.val()){
+				// 	objThis._form_check.addClass("has-error");
+				// 	objThis._registerCheck.val("");
+				// 	objThis._getRandom();
+				// 	setTimeout(function(){objThis._btnSubmit.removeAttr('disabled');}, 200);
+				// 	return false;
+				// }
+				if(grecaptcha.getResponse() == ""){
+					layer.msg('<b>請通過驗證</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					objThis._btnSubmit.button("reset");
 					return false;
 				}
 
@@ -573,26 +580,28 @@ var registered = (function(){
 				for(i=0;i<10;i++){
 					if(objThis._checkField[i] != 1) {
 						check = false;
-						objThis._btnSubmit.removeAttr('disabled');
+						break;
 					}
 				}
 
-			 	var registerData =
-				{
-					name : this._name.val(),
-					account : this._account.val(),
-					password : this._password.val(),
-					email : this._email.val(),
-					telephone : this._telephone.val(),
-					gender : $('input[name=gender]:checked').val(),
-					identity : this._identity.val(),
-					birthday1 : this._birthday1.val(),
-					birthday2 : this._birthday2.val(),
-					birthday3 : this._birthday3.val(),
-					address : this._address.val(),
-				};
+
 
 				if(check==true){
+
+					var registerData =
+					{
+						name : this._name.val(),
+						account : this._account.val(),
+						password : this._password.val(),
+						email : this._email.val(),
+						telephone : this._telephone.val(),
+						gender : $('input[name=gender]:checked').val(),
+						identity : this._identity.val(),
+						birthday1 : this._birthday1.val(),
+						birthday2 : this._birthday2.val(),
+						birthday3 : this._birthday3.val(),
+						address : this._address.val(),
+					};
 					$.ajax({
 						type: "post",
 						url: "/register",
@@ -607,11 +616,13 @@ var registered = (function(){
 							else if(message.success == "yes")
 							{
 								layer.msg('<b>註冊失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-								objThis._btnSubmit.removeAttr('disabled');
+								objThis._btnSubmit.button("reset");
 							}
 						},
 						error: function (xhr) {alert('error: ' + xhr);console.log(xhr);}
 					})
+				}else{
+					objThis._btnSubmit.button("reset");
 				}
 			},this));
 		},
@@ -719,4 +730,5 @@ var registered = (function(){
 var registered
 $(function(){
 	registered = new registered();
+
 })
