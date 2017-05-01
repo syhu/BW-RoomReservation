@@ -452,28 +452,28 @@ function tableDynamic() {
 
 
 // Handles custom checkboxes & radios using jQuery iCheck plugin
-function handleiCheck() {
-
-    if (!$().iCheck) return;
-    $(':checkbox:not(.js-switch, .switch-input, .switch-iphone, .onoffswitch-checkbox, .ios-checkbox, .md-checkbox), :radio:not(.md-radio)').each(function () {
-
-        var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
-        var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
-
-        if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
-            $(this).iCheck({
-                checkboxClass: checkboxClass,
-                radioClass: radioClass,
-                insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
-            });
-        } else {
-            $(this).iCheck({
-                checkboxClass: checkboxClass,
-                radioClass: radioClass
-            });
-        }
-    });
-}
+// function handleiCheck() {
+//
+//     if (!$().iCheck) return;
+//     $(':checkbox:not(.js-switch, .switch-input, .switch-iphone, .onoffswitch-checkbox, .ios-checkbox, .md-checkbox), :radio:not(.md-radio)').each(function () {
+//
+//         var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+//         var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+//
+//         if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+//             $(this).iCheck({
+//                 checkboxClass: checkboxClass,
+//                 radioClass: radioClass,
+//                 insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+//             });
+//         } else {
+//             $(this).iCheck({
+//                 checkboxClass: checkboxClass,
+//                 radioClass: radioClass
+//             });
+//         }
+//     });
+// }
 
 
 /* Time picker */
@@ -509,7 +509,7 @@ function bDatepicker() {
             language: $(this).data('lang') ? $(this).data('lang') : "en",
             forceParse: $(this).data('parse') ? $(this).data('parse') : false,
             daysOfWeekDisabled: $(this).data('day-disabled') ? $(this).data('day-disabled') : "", // Disable 1 or various day. For monday and thursday: 1,3
-            calendarWeeks: $(this).data('calendar-week') ? $(this).data('calendar-week') : false, // Display week number 
+            calendarWeeks: $(this).data('calendar-week') ? $(this).data('calendar-week') : false, // Display week number
             autoclose: $(this).data('autoclose') ? $(this).data('autoclose') : false,
             todayHighlight: $(this).data('today-highlight') ? $(this).data('today-highlight') : true, // Highlight today date
             toggleActive: $(this).data('toggle-active') ? $(this).data('toggle-active') : true, // Close other when open
@@ -537,19 +537,19 @@ function multiDatesPicker() {
 function rating() {
     $('.rateit').each(function () {
         $(this).rateit({
-            readonly: $(this).data('readonly') ? $(this).data('readonly') : false, // Not editable, for example to show rating that already exist 
+            readonly: $(this).data('readonly') ? $(this).data('readonly') : false, // Not editable, for example to show rating that already exist
             resetable: $(this).data('resetable') ? $(this).data('resetable') : false,
             value: $(this).data('value') ? $(this).data('value') : 0, // Current value of rating
             min: $(this).data('min') ? $(this).data('min') : 1, // Maximum of star
             max: $(this).data('max') ? $(this).data('max') : 5, // Maximum of star
             step: $(this).data('step') ? $(this).data('step') : 0.1
         });
-        // Tooltip Option      
+        // Tooltip Option
         if ($(this).data('tooltip')) {
-            var tooltipvalues = ['bad', 'poor', 'ok', 'good', 'super']; // You can change text here 
+            var tooltipvalues = ['bad', 'poor', 'ok', 'good', 'super']; // You can change text here
             $(this).bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value - 1]); });
         }
-        // Confirmation before voting option      
+        // Confirmation before voting option
         if ($(this).data('confirmation')) {
             $(this).on('beforerated', function (e, value) {
                 value = value.toFixed(1);
@@ -575,7 +575,7 @@ function rating() {
                 $(this).parent().find('.rating-value').text('Your rating: ' + value);
             });
         }
-        // Display hover value as text below     
+        // Display hover value as text below
         if ($(this).parent().find('.hover-value')) {
             $(this).bind('over', function (event, value) {
                 if (value) value = value.toFixed(1);
@@ -673,7 +673,7 @@ function slider() {
                 nextArrow: '<button type="button" data-role="none" class="slick-next">Next</button>', // next arrow
                 autoplay: $(this).attr('data-autoplay') ? $(this).attr('data-autoplay') : true, // Enables auto play of slides
                 autoplaySpeed: $(this).data('timing') ? $(this).data('timing') : 4000, // Auto play change interval
-                centerMode: $(this).data('center') ? $(this).data('center') : false, // Enables centered view with partial prev/next slides. 
+                centerMode: $(this).data('center') ? $(this).data('center') : false, // Enables centered view with partial prev/next slides.
                 centerPadding: '50px', // Side padding when in center mode. (px or %)
                 cssEase: 'ease', // CSS3 easing
                 dots: $(this).attr('data-dots') ? $(this).attr('data-dots') : true, // Current slide indicator dots
@@ -916,7 +916,7 @@ $(document).ready(function () {
     inputTags();
     tableResponsive();
     //tableDynamic();
-    handleiCheck();
+    // handleiCheck();
     timepicker();
     datepicker();
     //bDatepicker();

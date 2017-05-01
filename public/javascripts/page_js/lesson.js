@@ -376,20 +376,20 @@ var lesson = (function(){
         //審核狀趟
         switch (v.checkSituation) {
           case 'success':
-            _input = $("<span />",{"class":"label label-success","text":"已通過","style":"font-size:100%;cursor:default;"});
+            _input = $("<span />",{"class":"label label-success btn-embossed","text":"已通過","style":"font-size:100%;cursor:default;"});
             break;
           case 'fail':
-            _input = $("<span />",{"class":"label label-danger","text":"未通過","style":"font-size:100%;cursor:default;"});
+            _input = $("<span />",{"class":"label label-danger btn-embossed","text":"未通過","style":"font-size:100%;cursor:default;"});
             break;
           default:
-            _input = $("<span />",{"class":"label label-default","text":"未審核","style":"font-size:100%;cursor:default;"});
+            _input = $("<span />",{"class":"label label-default btn-embossed","text":"未審核","style":"font-size:100%;cursor:default;"});
             break;
         }
         _td = $("<td />");
         _td.append(_input);
         _tr.append(_td);
         //詳細資料
-        _input = $("<span />",{"class":"label label-success","text":"詳細資料","style":"cursor:pointer;font-size:100%;"})
+        _input = $("<span />",{"class":"label label-success btn-embossed","text":"詳細資料","style":"cursor:pointer;font-size:100%;"})
         _input.bind("click",function(){
           bootbox.alert("詳細資料")
         })

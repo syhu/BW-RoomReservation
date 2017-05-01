@@ -140,8 +140,10 @@ var master = (function(){
 			var _option;
       objThis._filterLocation.empty().append("<option value='請選擇'>請選擇</option>");
       $.each(strJson,function(i,v){
+				if(v.lock == 'no'){
 					_option = $("<option />",{"text":v.location,"value":v.location});
 					objThis._filterLocation.append(_option);
+				}
 			})
     },
 		//取得今日課表

@@ -335,15 +335,14 @@ var apply = (function(){
       var arrClass = new Array();
       var jsonData = '[';
       $.each(strJson,function(i,v){
-
+        if(v.lock == 'no'){
           arrBuilding.push(v.building);
 
           jsonData += '{"building":"' + v.building + '",';
           jsonData += '"floor":"' + v.floor + '",';
           jsonData += '"classroom":"' + v.classroom + '",';
           jsonData += '"people":"' + v.people + '"},'
-
-
+        }
       });
       jsonData = jsonData.substring(0,jsonData.length - 1);
       jsonData += ']'

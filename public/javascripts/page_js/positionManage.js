@@ -50,7 +50,7 @@ var positionManage = (function(){
       this._bounce_area.css('position','absolute');
       // this._bounce_area.css('top', '20%');
 
-      
+
       //大樓change
       this._filterBuilding.on("change",$.proxy(function(e){
         var objThis = this;
@@ -231,7 +231,7 @@ var positionManage = (function(){
       objThis._filterFloor.empty().append("<option value='請選擇'>請選擇</option>");
       objThis._filterClass.empty().append("<option value='請選擇'>請選擇</option>");
 
-      console.log(strJson)
+      // console.log(strJson)
       var arrBuilding = new Array();
       var arrFloor = new Array();
       var arrClass = new Array();
@@ -250,7 +250,7 @@ var positionManage = (function(){
       });
       jsonData = jsonData.substring(0,jsonData.length - 1);
       jsonData += ']'
-      console.log(jsonData)
+      // console.log(jsonData)
       objThis._hiddenPositionData.val(jsonData)
 
       //刪除重複
@@ -315,16 +315,25 @@ var positionManage = (function(){
           //備註
           _td = $("<td />",{"nowrap":"nowrap","text":v.note});
           _tr.append(_td);
+          //上鎖
+          if(v.lock == "no"){
+            _input = $("<span />",{"class":"label label-default btn-embossed","text":"未上鎖","style":"font-size:90%"});
+          }else{
+            _input = $("<span />",{"class":"label label-danger btn-embossed","text":"已上鎖","style":"font-size:90%"});
+          }
+          _td = $("<td />");
+          _td.append(_input)
+          _tr.append(_td)
           //操作
           _td = $("<td />");
-  				_input = $("<span />",{"class":"label label-success","text":"編輯","style":"margin-right:10px;font-size:100%;"});
+  				_input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"margin-right:10px;font-size:100%;"});
   				_input.bind("click",function(){
 					       bootbox.alert("編輯" + v.location);
           })
           _td.append(_input);
           _tr.append(_td);
 
-          _input = $("<span />",{"class":"label label-danger","text":"刪除","style":"margin-right:10px;font-size:100%;"});
+          _input = $("<span />",{"class":"label label-danger btn-embossed","text":"刪除","style":"margin-right:10px;font-size:100%;"});
           _input.bind("click",function(){
             bootbox.alert("刪除" + v.location);
           });
@@ -333,7 +342,7 @@ var positionManage = (function(){
 
           if (v.lock == 'no')
           {
-            _input = $("<span />",{"class":"label label-success","text":"鎖定場地","id":"lock" + i,"style":"margin-right:10px;:10px;font-size:100%;"});
+            _input = $("<span />",{"class":"label label-success btn-embossed","text":"鎖定場地","id":"lock" + i,"style":"margin-right:10px;:10px;font-size:100%;"});
             _input.bind("click",$.proxy(function(e){
               bootbox.confirm("您確定要鎖定 <b style='color:red;'>" + v.location + " </b>場地嗎?",function(result){
                  if(result){
@@ -359,7 +368,7 @@ var positionManage = (function(){
           }
           else if(v.lock == 'yes')
           {
-            _input = $("<span />",{"class":"label label-danger","text":"解鎖場地","id":"unlock" + i,"style":"margin-right:10px;font-size:100%;"});
+            _input = $("<span />",{"class":"label label-danger btn-embossed","text":"解鎖場地","id":"unlock" + i,"style":"margin-right:10px;font-size:100%;"});
             _input.bind("click",function(){
               bootbox.confirm("您確定要解鎖 <b style='color:red;'>" + v.location + " </b>場地嗎?",function(result){
                  if(result){

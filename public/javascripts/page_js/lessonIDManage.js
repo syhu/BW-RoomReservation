@@ -205,7 +205,7 @@ var lessonIDManage = (function(){
           _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
           _tr.append(_td);
           //詳細資料
-          _input = $("<span />",{"class":"label label-success","text":"編輯","style":"font-size:100%;"});
+          _input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
           _input.bind("click",function(){
               objThis.EditlessonID = v.id;
               objThis._EditlessonIDName.html(v.name)
@@ -218,7 +218,7 @@ var lessonIDManage = (function(){
 
           _td = $("<td />");
           _td.append(_input)
-          _input = $("<span />",{"class":"label label-default","text":"聯絡人資訊","style":"margin-left:10px;font-size:100%;"});
+          _input = $("<span />",{"class":"label label-default btn-embossed","text":"聯絡人資訊","style":"margin-left:10px;font-size:100%;"});
           _input.bind("click",function(){
               bootbox.alert("<b>聯絡人資訊</b>" +
                     "<br/><br/>上傳者：" + v.userName +

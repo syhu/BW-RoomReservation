@@ -97,19 +97,19 @@ var userManage = (function(){
            //權限
            switch (v.authorty) {
              case 'Hyper':
-                labelClass = 'label label-info badge';
+                labelClass = 'label label-info badge btn-embossed';
                 text = '超級管理者';
                 break;
              case 'Admin':
-                labelClass = 'label label-primary badge';
+                labelClass = 'label label-primary badge btn-embossed';
                 text = '最高管理者';
                 break;
              case 'Owner':
-                labelClass = 'label label-warning badge';
+                labelClass = 'label label-warning badge btn-embossed';
                 text = '管理員';
                 break;
              case 'User':
-                labelClass = 'label label-default badge';
+                labelClass = 'label label-default badge btn-embossed';
                 text = '使用者';
                 break;
            }
@@ -122,7 +122,7 @@ var userManage = (function(){
 
            switch (v.authorty) {
              case "User":
-               _input = $("<span />",{"class":"label label-success","text":"升級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+               _input = $("<span />",{"class":"label label-success btn-embossed","text":"升級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
                _input.bind("click",$.proxy(function(e){
                  bootbox.confirm("您確定要升級 <b style='color:red;'>" + v.account + " </b>帳號嗎?",function(result){
                     if(result){
@@ -161,7 +161,7 @@ var userManage = (function(){
                _td.append(_input);
                break;
              case "Owner":
-              _input = $("<span />",{"class":"label label-danger","text":"降級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+              _input = $("<span />",{"class":"label label-danger btn-embossed","text":"降級管理員","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
               _input.bind("click",$.proxy(function(e){
                 bootbox.confirm("您確定要降級 <b style='color:red;'>" + v.account + " </b>帳號嗎?",function(result){
                    if(result){
@@ -199,7 +199,7 @@ var userManage = (function(){
               _td.append(_input);
                break;
            }
-           _input = $("<span />",{"class":"label label-default","text":"詳細資料","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
+           _input = $("<span />",{"class":"label label-default btn-embossed","text":"詳細資料","id":"update" + i,"style":"margin-right:10px;font-size:100%;"});
            _input.bind("click",$.proxy(function(e){
 
              bootbox.alert("<br/><b style='font-size:20px;'><font style='color:red;'>" + v.name + "</font> 的詳細資料</b><br/>" +

@@ -231,6 +231,14 @@ router.post('/getLesson', function(req, res, next){
   })
 })
 
+router.post('/searchLessonDetail', function(req, res, next){
+  searchData = req.body.strJson;
+  lesson.searchLessonDetail(searchData, function()
+  {
+    
+  })
+})
+
 /*** Loading ***/
 router.get('/loading',function(req, res, next){
   res.render('loading', { title: 'Loading'});
@@ -623,8 +631,8 @@ router.post('/lessonManage', function(req, res, next){
   var lessonAbbreviation = req.body.lessonAbbreviation;
   var userName = req.session.userName;
   var currectTime = getNowTime();
-  var contract = '';
-  var contractPhone = '';
+  var contract = req.body.contract;
+  var contractPhone = req.body.contractPhone;
   if(req.xhr || req.accepts('json, html') === 'json')
   {
     abbreviation.createLessonAbbreviation(userName, lessonName, lessonAbbreviation, currectTime, contract, contractPhone, function(err, repeat, id)

@@ -18,7 +18,12 @@ var layout = (function(){
 		_start:function(){
 			var objThis = this;
 			objThis._initialAll();
-      // objThis._resize_tab();
+			//icheck
+			$("input").iCheck({
+				checkboxClass:"icheckbox_flat-blue",
+				radioClass:"iradio_flat-blue"
+			});
+
 			setTimeout('$(window).resize()',100)
 		},
 		_initialAll:function(){
@@ -38,23 +43,23 @@ var layout = (function(){
 
 
       if(this._hiddenIdentity.val() == 'Admin') {
-          this._user.attr({"class":"label label-success","style":"font-size:100%;"})
+          this._user.attr({"class":"label label-success btn-embossed","style":"font-size:100%;"})
           this._user.bind("mouseover",function(){
             layer.tips('最高管理員', $("#user") ,{tips:3,time:1000});
           })
       }else if($("#hiddenIdentity").val() == 'Hyper'){
-        this._user.attr({"class":"label label-info","style":"font-size:100%;"})
+        this._user.attr({"class":"label label-info btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('超級管理員', $("#user") ,{tips:3,time:1000});
         });
       }else if($("#hiddenIdentity").val() == 'Owner'){
-        this._user.attr({"class":"label label-warning","style":"font-size:100%;"})
+        this._user.attr({"class":"label label-warning btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('管理員', $("#user") ,{tips:3,time:1000});
         });
       }
       else{
-        this._user.attr({"class":"label label-primary","style":"font-size:100%;"})
+        this._user.attr({"class":"label label-primary btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('使用者', $("#user") ,{tips:3,time:1000});
         });
@@ -65,7 +70,7 @@ var layout = (function(){
         var viewportWidth = $(window).innerWidth();
         var viewportHeight = $(window).innerHeight();
 
-				console.log(viewportWidth + "   "  + viewportHeight)
+				// console.log(viewportWidth + "   "  + viewportHeight)
 
         var width = $('#bg-img').width();
         var height = $('#bg-img').height();
@@ -125,6 +130,6 @@ function _showTime(){
   var h = layout._padLeft(nowTime.getHours());
   var m = layout._padLeft(nowTime.getMinutes());
   var s = layout._padLeft(nowTime.getSeconds());
-  $('#time').empty().append( "現在時間：" + year + '/' + month + '/' + day + '&nbsp;&nbsp;&nbsp;' + h + ':' + m + ':' + s)
+  $('#time').empty().append( "現在時間：" + year + '/' + month + '/' + day + '&nbsp;&nbsp;&nbsp;' + h + ':' + m + ':' + s).addClass("btn-embossed")
   setTimeout('_showTime()',1000);
 }

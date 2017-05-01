@@ -34,6 +34,7 @@ tr:last-child th:last-child{
 	border-bottom-right-radius:20px;
 }
 
+
 #mainDiv{
 	border-bottom-left-radius:20px;
 	border-bottom-right-radius:20px;
@@ -146,10 +147,13 @@ margin-left:100px;
 	cursor:pointer;
 	border-radius:36px;
 	border:2px black dsdh;
-	box-shadow: 1px 1px 1px #ddd;
+	/*box-shadow: 1px 1px 1px #ddd;*/
+	box-shadow: 3px 3px 12px gray;
+	opacity:0.8;
 }
 #top:hover{
-	width:90%
+	width:90%;
+	opacity:1;
 }
 
 #index{		/* 回首頁 福智基金會 */

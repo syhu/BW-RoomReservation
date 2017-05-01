@@ -7,9 +7,13 @@ var lessonManage = (function(){
 	}
 	_const.prototype = {
 		_construct:function(){
-			//this._new = $("#new");
-			this._new = $(".new");
+			this._new = $("#new");
+			// this._new = $(".new");
 			this._lesson = $("#lesson");
+			this._lessonloadingList = $("#lessonloadingList");
+			this._lessonnobodyList = $("#lessonnobodyList");
+			this._lessonIDloadingList = $("#lessonIDloadingList");
+			this._lessonIDnobodyList = $("#lessonIDnobodyList");
 			this._bounce_lesson = $("#bounce_lesson");
 			this._bounce_edit = $("#bounce_edit");
 			this._bounce_detail = $("#bounce_datail");
@@ -53,11 +57,24 @@ var lessonManage = (function(){
 			this._EditlessonPeriod = $("#EditlessonPeriod");
 			this._EditlessonPeople = $("#EditlessonPeople");
 			this._EditlessonNote = $("#EditlessonNote");
-			
-			// this._btnEditCancel = $("#btnEditCancel");
-			// this._btnEditSubmit = $("#btnEditSubmit");
 
+
+			//tab
+			this._tab1 = $("#tab1");
+			this._tab2 = $("#tab2");
 			//lessonIDManage
+			//新增課程ID
+			this._bounce_new = $("#bounce_new");
+			this._lessonIDName = $("#lessonIDName");
+			this._lessonIDAbbreviation =$("#lessonIDAbbreviation");
+			this._lessonIDContractName =$("#lessonIDContractName");
+			this._lessonIDContractPhone =$("#lessonIDContractPhone");
+			this._btnSubmitID = $("#btnSubmitID");
+			this._btnCancelID = $("#btnCancelID");
+
+			this._form_lessonName = $(".form_lessonName");
+			this._form_contractName = $(".form_contractName");
+			this._form_telephone = $(".form_telephone");
 			//編輯課程ID
       this._EditlessonIDName = $("#EditlessonIDName");
       this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
@@ -65,36 +82,85 @@ var lessonManage = (function(){
       this._EditContractPhone = $("#EditContractPhone");
       this._btnEditCancel = $("#btnEditCancel");
       this._btnEditSubmit = $("#btnEditSubmit");
+			// this._editSelectId = $("#editSelectId")
+			this._form_editName = $(".form_editName");
+			this._form_editPhone = $(".form_editPhone");
       this.EditlessonID = '';
+			this._lessonID = $("#lessonID")
 
 			this._start();
 		},
 		_start:function(){
 			var objThis = this;
 			objThis._initialAll();
-
-			objThis._getlessonIDList();
+			this._lessonnobodyList.hide();
+			this._lessonloadingList.hide();
+			this._lessonIDnobodyList.hide();
+			this._lessonIDloadingList.hide();
+			this._getAllPassLesson();		//取得課程聯絡列表
 		},
 		_initialAll:function(){
-
-			//新增課程
-			this._new.on("click",$.proxy(function(){
-				this._lessonName.val("");
-				this._lessonCount.val("");
-				this._lessonTime.val("");
-				this._lessonBuilding.val("請選擇");
-				this._lessonPeriod.val("請選擇");
-				this._lessonFloor.attr('disabled','');
-				this._lessonFloor.empty();
-				this._lessonClass.attr('disabled','');
-				this._lessonClass.empty();
-				this._lessonPeople.val("");
-				this._lessonNote.val("");
-				this._form.removeClass("has-error");
-				//新增課程 視窗
-				this._bounce_lesson.modal('show');
+			//tab1 課程聯絡
+			this._tab1.on("click",$.proxy(function(){
+				this._getAllPassLesson();		//取得課程聯絡列表
 			},this));
+			//tab2 課程細節
+			this._tab2.on("click",$.proxy(function(){
+				this._getlessonIDList();		//取得課程細節列表
+			},this));
+			//新增課程ID
+			this._new.on("click",$.proxy(function(){
+				//先清空欄位
+				this._lessonIDName.val('');
+				this._lessonIDAbbreviation.val('');
+				this._lessonIDContractName.val('');
+				this._lessonIDContractPhone.val('');
+				//新增課程ID 視窗
+				this._bounce_new.modal('show');
+			},this));
+			//提交 新增課程ID
+			this._btnSubmitID.on("click",$.proxy(function(){
+				var objThis = this;
+				var check = true;
 
+				//判斷課程名稱
+				if(objThis._lessonIDName.val() != '' ){
+						objThis._form_lessonName.removeClass("has-error");
+				}else{
+						check = false;
+						objThis._form_lessonName.addClass("has-error");
+						objThis._lessonIDName.focus();
+				}
+				//判斷聯絡人姓名
+				if(objThis._lessonIDContractName.val() != ''){
+					objThis._form_contractName.removeClass('has-error');
+				}else{
+					check = false;
+					objThis._form_contractName.addClass('has-error');
+					objThis._lessonIDContractName.focus();
+				}
+				//判斷聯絡人電話
+				var frontNum = objThis._lessonIDContractPhone.val().substr(0,2);
+				objThis._lessonIDContractPhone.val(objThis._lessonIDContractPhone.val().replace(/[^0-9]/g,''))
+				if(frontNum == "09" && objThis._lessonIDContractPhone.val().length >= 9 && objThis._lessonIDContractPhone.val().length <= 10 &&
+				objThis._lessonIDContractPhone.val().match(/\d$/))
+				{
+					objThis._form_telephone.removeClass("has-error");
+				}else{
+					check = false;
+					objThis._form_telephone.addClass("has-error");
+					objThis._lessonIDContractPhone.focus();
+				}
+
+
+				if(check){
+					objThis._insertLessonID();
+				}
+			},this));
+			//關閉新增課程ID
+			this._btnCancelID.on("click",$.proxy(function(){
+				this._bounce_new.modal("hide");
+			},this));
 			//清除查詢
 			this._cancelFilter.on("click",$.proxy(function(){
 				this._filterTimeZone.val('請選擇');
@@ -110,11 +176,41 @@ var lessonManage = (function(){
 			this._btnClose.on("click",$.proxy(function(){
 				this._bounce_detail.modal("hide");
 			},this));
-
+			//關閉編輯課程聯絡
 			this._btnEditCancel.on("click",$.proxy(function(){
 				this._bounce_edit.modal("hide");
 			},this));
+			//提交 編輯課程ID
+			this._btnEditSubmit.on("click",$.proxy(function(){
+				var objThis = this;
+				var check = true;
 
+				//判斷聯絡人姓名
+				if(objThis._EditContractName.val() != ''){
+					objThis._form_editName.removeClass('has-error');
+				}else{
+					check = false;
+					objThis._form_editName.addClass('has-error');
+					objThis._EditContractName.focus();
+				}
+				//判斷聯絡人電話
+				var frontNum = objThis._EditContractPhone.val().substr(0,2);
+				objThis._EditContractPhone.val(objThis._EditContractPhone.val().replace(/[^0-9]/g,''))
+				if(frontNum == "09" && objThis._EditContractPhone.val().length >= 9 && objThis._EditContractPhone.val().length <= 10 &&
+				objThis._EditContractPhone.val().match(/\d$/))
+				{
+					objThis._form_editPhone.removeClass("has-error");
+				}else{
+					check = false;
+					objThis._form_editPhone.addClass("has-error");
+					objThis._EditContractPhone.focus();
+				}
+
+				if(check){
+					objThis._updateLessonID(this.EditlessonID);
+				}
+
+			},this))
 			//隨地點自動更新
 			this._lessonBuilding.on("change",$.proxy(function(){
 				this._lessonClass.attr('disabled','');
@@ -195,17 +291,124 @@ var lessonManage = (function(){
 				}
 			},this))
 		},
-		_getlessonIDList:function(){	/* 插入課程 */
+		_getlessonIDList:function(){
+      var objThis = this;
+
+      $.ajax({
+        type:'post',
+        url:'/getupdateLessonID',
+        success:function(datas){
+						// console.log(datas);
+            var data = datas.success
+						if(data.length > 0){
+							objThis._lessonIDloadingList.hide();
+							objThis._setlessonIDList(data);
+						}else{
+							objThis._lessonIDnobodyList.show();
+						}
+        },
+				beforeSend:function(){
+					objThis._lessonIDloadingList.show();
+				}
+      });
+
+    },
+    _setlessonIDList:function(strJson){
+      var objThis = this;
+      var _tr;
+      var _td;
+      var _input;
+      // console.log(strJson)
+      objThis._lessonID.empty();
+      $.each(strJson,function(i,v){
+        var trClass;
+          switch(i%4){
+              case 0:
+                trClass = 'active'
+                break;
+              case 1:
+                trClass = 'success'
+                break;
+              case 2:
+                trClass = 'warning'
+                break;
+              case 3:
+                trClass = 'danger'
+                break;
+
+          }
+          _tr = $("<tr />",{"class":trClass});
+          //#
+          _td = $("<td />",{"text":(i+1)});
+          _tr.append(_td);
+          //上傳者
+          _td = $("<td />",{"style":"text-align:left","text":v.userName});
+          _tr.append(_td);
+          //課程名稱
+          _td = $("<td />",{"style":"text-align:left","text":v.name});
+          _tr.append(_td);
+          //課程簡稱
+          _td = $("<td />",{"text":v.abbreviation});
+          _tr.append(_td);
+          //新增時間
+          _td = $("<td />",{"nowrap":"nowrap","text":v.createTime});
+          _tr.append(_td);
+          //修改時間
+          _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
+          _tr.append(_td);
+          //詳細資料
+          _input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
+          _input.bind("click",function(){
+              objThis.EditlessonID = v.id;
+              objThis._EditlessonIDName.html(v.name)
+              objThis._EditlessonIDabbreviation.val(v.abbreviation)
+              objThis._EditContractName.val(v.contract);
+              objThis._EditContractPhone.val(v.contractPhone);
+
+              objThis._bounce_edit.modal('show');
+          })
+
+          _td = $("<td />");
+          _td.append(_input)
+          _input = $("<span />",{"class":"label label-default btn-embossed","text":"聯絡人資訊","style":"margin-left:10px;font-size:100%;"});
+          _input.bind("click",function(){
+              bootbox.alert("<b>聯絡人資訊</b>" +
+                    "<br/><br/>上傳者：" + v.userName +
+                    "<br/><br/>課程名稱：" + v.name +
+                    "<br/><br/>課程簡稱：" + v.abbreviation +
+                    "<br/><br/>新增時間：" + v.createTime +
+                    "<br/><br/>修改時間：" + v.modifyTime+
+                    "<br/><br/>聯絡人姓名：" + v.contract+
+                    "<br/><br/>聯絡人電話：" + v.contractPhone
+              )
+          })
+          _td.append(_input)
+
+          _tr.append(_td);
+
+          objThis._lessonID.append(_tr)
+      });
+		},
+		_getAllPassLesson:function(){	/* 插入課程 */
 			var objThis = this;
 			$.ajax({
 				type: "post",
 				url: "/getAllPassLesson",
 				dataType: "json",
 				success: function(datas){
-						console.log(datas)
-						if(datas.success == 'yes'){
-							objThis._setlessonIDList(datas.howLesson);
+						var data = datas.howLesson;
+						// console.log(data.length)
+						if(data.length > 0){
+							objThis._lessonloadingList.hide();
+							objThis._setAllPassLesson(data);
+						}else{
+							objThis._lessonnobodyList.show();
 						}
+				},
+				beforeSend:function(){
+						objThis._lessonloadingList.show();
+				},complete:function(){
+						objThis._getPositionList();
 				},
 				error: function (xhr)
 				{
@@ -213,15 +416,13 @@ var lessonManage = (function(){
 					layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 				}
 			});
-
-
-
 		},
-		_setlessonIDList:function(data){
+		_setAllPassLesson:function(data){
 			var objThis = this;
 			var _td;
 			var _tr;
-			console.log(data)
+			objThis._lesson.empty();
+			// console.log(data)
 			$.each(data,function(i,v){
 				switch(i%3){
 					case 0:
@@ -261,7 +462,7 @@ var lessonManage = (function(){
 				_tr.append(_td)
 				//編輯 刪除
 				_td = $("<td />");
-				_input = $("<span />",{"class":"label label-success","text":"編輯","style":"font-size:100%;"});
+				_input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
 				_input.bind("click",function(){
 						// bootbox.alert("編輯" + v.lessonID)
 						objThis._EditlessonName.html("<font style='color:blue;'>" + v.name + "</font>  ");
@@ -277,7 +478,7 @@ var lessonManage = (function(){
 						objThis._bounce_edit.modal("show");
 				})
 				_td.append(_input);
-				_input = $("<span />",{"class":"label label-danger","text":"刪除","style":"margin-left:10px;font-size:100%;"});
+				_input = $("<span />",{"class":"label label-danger btn-embossed","text":"刪除","style":"margin-left:10px;font-size:100%;"});
 				_input.bind("click",function(){
 						var arrTimes = v.lessonID.split('-');
 
@@ -295,17 +496,20 @@ var lessonManage = (function(){
 								buttons:{
 									confirm:{
 											label:'確定刪除',
-											className:'btn-success'
+											className:'btn-success btn-embossed'
 									},
 									cancel:{
 											label:'取消',
-											className:'btn-default'
+											className:'btn-default btn-embossed'
 									}
 
 								},
 								callback:function(result){
+									if(result != ""){
 										console.log(result)
 										console.log(v.lessonID)
+									}
+
 								}
 							})
 
@@ -315,7 +519,89 @@ var lessonManage = (function(){
 				_tr.append(_td);
 				objThis._lesson.append(_tr);
 			})
-		}
+		},
+		//新增課程ID
+		_insertLessonID:function(){
+			var objThis = this;
+
+
+			$.ajax({
+				type: "post",
+				url: "/lessonManage",
+				data:{
+					lessonName:objThis._lessonIDName.val() ,
+					lessonAbbreviation:objThis._lessonIDAbbreviation.val(),
+					contract:objThis._lessonIDContractName.val(),
+					contractPhone:objThis._lessonIDContractPhone.val()
+				},
+				success: function(datas){
+					var data = datas.success;
+					if(data == "no repeat"){
+						objThis._bounce_new.modal('hide');
+						objThis._getlessonIDList();
+						layer.msg('<b>新增課程ID成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+
+					}else{
+						layer.msg('<b>課程ID重複</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}
+				},
+				error: function (xhr)
+				{
+					bootbox.alert('error: ' + xhr);console.log(xhr);
+					layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+				}
+			});
+
+		},
+		//更新課程ID
+		_updateLessonID:function(id){
+			var objThis = this;
+			var arr = new Array();
+			var obj = new Object;
+			obj.id = id;
+			obj.abbreviation = objThis._EditlessonIDabbreviation.val();
+			obj.contract = objThis._EditContractName.val();
+			obj.contractPhone = objThis._EditContractPhone.val();
+			arr = arr.concat(obj)
+			$.ajax({
+				type:'post',
+				url:'/updateLessonAbbreviation',
+				data:{strJson:JSON.stringify(arr)},
+				success:function(datas){
+					if(datas.success == 'yes'){
+						layer.msg('<b>編輯課程ID成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+						objThis._bounce_edit.modal('hide');
+						objThis._getlessonIDList();
+					}else{
+						layer.msg('<b>編輯課程ID失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}
+
+				}
+			})
+		},
+		_getPositionList:function(){
+      var objThis = this;
+      $.ajax({
+        type:'post',
+        url:'/getPositionData',
+        success:function(datas){
+            var data = datas.success
+            objThis._setPositionOption(data);
+        }
+      });
+
+    },
+		_setPositionOption:function(strJson){
+      var objThis = this;
+      objThis._filterLocal.empty().append("<option value='請選擇'>請選擇</option>");
+
+      console.log(strJson)
+			$.each(strJson,function(i,v){
+				if(v.lock == "no"){
+					objThis._filterLocal.append("<option value='" + v.location + "'>" + v.location + "</option>");					
+				}
+			})
+    },
 	}
 	return _const;
 }());

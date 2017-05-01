@@ -134,8 +134,8 @@ var aduit = (function(){
           type:'post',
           url:'/updateAuditLesson',
           success:function(datas){
-              console.log(datas);
-              console.log(datas.showLesson)
+              // console.log(datas);
+              // console.log(datas.showLesson)
               if(datas.success == 'yes'){
                 var data = datas.showLesson;
                 objThis._setAuditList(data);
@@ -199,7 +199,7 @@ var aduit = (function(){
             _td = $("<td />",{"text":v.modifyTime});
             _tr.append(_td);
             //審核
-            _input = $("<span />",{"class":"label label-success","text":"審核","id":v.lessonID,"name":(i+1),"style":"font-size:100%"});
+            _input = $("<span />",{"class":"label label-success btn-embossed","text":"審核","id":v.lessonID,"name":(i+1),"style":"font-size:100%"});
             _input.click(function(){
               clickID = $(this).attr('id');
               clickName = $(this).attr('name');

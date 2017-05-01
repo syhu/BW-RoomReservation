@@ -565,5 +565,36 @@ module.exports = {
         })
       }
     })
+  },
+  searchLessonDetail : function(searchData, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      var Abbreviation = require('./abbreviation_model.js');
+      var data = JSON.parse(searchData);
+      firstDay = data[0].timestart;
+      secondDay = data[0].timedue;
+      period = data[0].timezone;
+      location = data[0].location;
+      escapeClass = data[0].emptyclass;
+      lesson = data[0].lesson;
+      if (escapeClass == 1)
+      {
+
+      }
+      else
+      {
+        Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: 'success', period: period}).sort({'time':'asc'}).exec(function(err, data)
+        {
+          var searchLocationResult = data;
+          Abbreviation
+        }
+      }
+    }
   }
 }

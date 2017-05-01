@@ -20,29 +20,36 @@ block main
                     br
                   table.table.table-condensed
                     tr
-                      th 時段
-                      th
+                      th(width='10%') 時段
+                      th(width='25%')
                         select#filterTimeZone.form-control
                           option(value='請選擇') 請選擇
-                      th 地點
-                      th
+                          option(value='A1') A1 (09:15 ~ 11:45)
+                          option(value='A2') A2 (11:45 ~ 13:15)
+                          option(value='P1') P1 (13:15 ~ 15:45)
+                          option(value='P2') P2 (16:00 ~ 18:00)
+                          option(value='P3') P3 (19:00 ~ 21:30)
+                      th(width='10%') 地點
+                      th(width='25%')
                         select#filterLocation.form-control
                           option(value='請選擇') 請選擇
                 
-                      th 課程
-                      th
-                        select#filterAuthority.form-control
-                          option(value='請選擇') 請選擇
-                          option(value='Admin') 最高管理者
-                          option(value='Owner') 一般管理員
-                          option(value='User') 會員
-                      th 空教室
-                      th
-                        select#filterAuthority.form-control
-                          option(value='請選擇') 請選擇
-                          option(value='Admin') 最高管理者
-                          option(value='Owner') 一般管理員
-                          option(value='User') 會員
+                      th(width='10%') 空教室
+                      th(width='20%')
+                        label.filterEmptyClass(style='font-size:18px;cursor:pointer;')
+                          input#filterEmptyClass(type='checkbox')
+                    tr
+                      th(width='10%') 課程時間
+                      th(width='20%') 
+                        input#filterTimeStart.date-picker.form-control(type='text', placeholder='請選擇開始時間')
+                        input#filterTimeDue.date-picker.form-control(type='text', placeholder='請選擇結束時間')
+                          
+                      th(width='15%') 課程
+                      th(width='25%')
+                        input#filterLesson.form-control(type='text')
+                      th(width='5%')
+                      th(width='5%')
+                        
                     tr(style='border:0px;')
                       th(colspan='8')
                         button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除

@@ -117,11 +117,11 @@ var lessonNormalManage = (function(){
             buttons:{
               confirm:{
                   label:'確定申請',
-                  className:'btn-success'
+                  className:'btn-success btn-embossed'
               },
               cancel:{
                   label:'取消',
-                  className:'btn-default'
+                  className:'btn-default btn-embossed'
               }
 
             },
@@ -261,7 +261,7 @@ var lessonNormalManage = (function(){
 						$.each(data,function(i,v){
 								if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
 										objThis.checkPeople  = v.people;
-										console.log(objThis.checkPeople)
+										// console.log(objThis.checkPeople)
 								}
 						})
 						objThis._lessonPeople.removeAttr("disabled")
@@ -430,15 +430,15 @@ var lessonNormalManage = (function(){
       var arrBuilding = new Array();
       var jsonData = '[';
       $.each(strJson,function(i,v){
-
-          arrBuilding.push(v.building);
+				if(v.lock == 'no'){
+					arrBuilding.push(v.building);
 
           jsonData += '{"building":"' + v.building + '",';
           jsonData += '"floor":"' + v.floor + '",';
 					jsonData += '"classroom":"' + v.classroom + '",';
           jsonData += '"people":"' + v.people + '"},'
 
-
+				}
       });
       jsonData = jsonData.substring(0,jsonData.length - 1);
       jsonData += ']'
