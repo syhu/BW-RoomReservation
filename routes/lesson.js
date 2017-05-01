@@ -593,8 +593,8 @@ module.exports = {
         {
           var searchLocationResult = data;
           Abbreviation
-        }
+        })
       }
-    }
+    })
   }
 }
