@@ -1,0 +1,12 @@
+html
+  head
+    title blank
+    script.
+      var stateObj = { qq: "^_^" };
+      setTimeout("location.href='/'", 1000)
+      history.pushState(stateObj, "跳轉中", "跳轉中");
+      window.location.href = "/"
+  body
+    p 跳轉中！
+    
+    

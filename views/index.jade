@@ -1,11 +1,24 @@
 extends layout
 
 block main
+    script.
+      //驗證身分
+      var identity = (location.search.substr(1)).split('=');
+      $.ajax({
+        type:'post',
+        url:'/getAccountSession',
+        success:function(datas)
+        {
+          var data = datas.success
+          if ((data == undefined) && (identity[0] != 'identity') || (data != undefined) && (identity[0] == 'identity'))
+          {
+            location.href="/";
+          }
+        }
+      })
     link(rel='stylesheet', href='stylesheets/page_css/index.css')
     script(src='javascripts/page_js/index.js')
-  
-    
-    
+      
     //owl 輪播
     link(href='stylesheets/owl/owl.carousel.min.css', rel="stylesheet")
     link(href="stylesheets/owl/owl.theme.default.min.css", rel="stylesheet")

@@ -10,7 +10,7 @@ var master = (function(){
 		this._construct();
 	}
 	_const.prototype = {
-		_construct:function(){
+		_construct:function(){			
 			this._page = $("#page");
 			this._header = $("#header");
 			this._option = $("#option");

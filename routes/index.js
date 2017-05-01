@@ -348,7 +348,7 @@ router.get('/successful', function(req, res, next){
 /*** Log out ***/
 router.get('/logout',function(req, res, next){
   req.session.destroy();
-  res.redirect('/?identity=visitor');
+  res.redirect('/blank');
 })
 
 /*** Lessson manage page***/
@@ -934,6 +934,23 @@ router.get('/forgetPassword', function(req, res, next){
   else
   {
       res.render('forgetPassword');
+  }
+})
+
+/*** Buffer Blank Page ***/
+router.get('/blank', function(req, res, next){
+    res.render('blank');
+})
+
+/*** Get Account Session Data ***/
+router.post('/getAccountSession', function(req, res, next){
+  if (req.session.account)
+  {
+    res.send({success : ''})
+  }
+  else
+  {
+    res.send({success : req.session.account})
   }
 })
 
