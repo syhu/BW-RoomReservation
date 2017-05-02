@@ -574,8 +574,9 @@ module.exports = {
     db.once('open', function()
     {
       console.log('mongoose opened !');
+      var Abbreviation = require('./lessonAbbreviation_model.js');
       var Lesson = require('./lesson_model.js');
-      var Abbreviation = require('./abbreviation_model.js');
+      var Position = require('./position_model.js');
       var data = JSON.parse(searchData);
       firstDay = data[0].timestart;
       secondDay = data[0].timedue;
@@ -583,17 +584,244 @@ module.exports = {
       location = data[0].location;
       escapeClass = data[0].emptyclass;
       lesson = data[0].lesson;
-      if (escapeClass == 1)
+      getAllAbbrData(function(allAbbrData)
       {
-
-      }
-      else
-      {
-        Lesson.find({'millionSecond': {'$gte': firstMillionSecond, '$lte': secondMillionSecond}, checkSituation: 'success', period: period}).sort({'time':'asc'}).exec(function(err, data)
+        splitAllAbbrData = allAbbrData.split(',');
+        allAbbr = splitAllAbbrData[0];
+        allName = splitAllAbbrData[1];
+        if (escapeClass == 1)
         {
-          var searchLocationResult = data;
-          Abbreviation
+          Lesson.find({millionSecond: { '$gte': firstDay, '$lte': secondDay}, checkSituation: 'success'}).sort({'time':'asc'}).exec(function(err, data)
+          {
+            Position.find({}, function(err, positionData)
+            {
+              allPosition = '';
+              for (var a in positionData)
+              {
+                allPosition = allPosition + positionData[a].location + ' '
+              }
+              allPosition = allPosition.trim();
+              allPosition = allPosition.split(' ');
+              escape = [];
+              if (period != '') {data = checkPeriod(data, period);}
+              if (location != '') {data = checkLocation(data, location);}
+              noEscapeClass = getAllUsedClass(data);
+              for (i=firstDay ; i<=secondDay ; i=i+86400000)
+              {
+                checkEscapeClass(i, escape, allPosition, period, location)
+              }
+              for (i=0 ; i<escape.length ; i++)
+              {
+                if (noEscapeClass.indexOf(escape[i]) != -1)
+                {
+                  escape.splice(i,1);
+                  i--
+                }
+              }
+              mongoose.disconnect();
+              mongoose.connection.close();
+              callback(escape);
+            })
+          })
+        }
+        else
+        {
+          if (lesson == '')
+          {
+            Lesson.find({millionSecond: { '$gte': firstDay, '$lte': secondDay}, checkSituation: 'success'}).sort({'time':'asc'}).exec(function(err, data)
+            {
+              if (period != '') {data = checkPeriod(data, period);}
+              if (location != '') {data = checkLocation(data, location);}
+              mongoose.disconnect();
+              mongoose.connection.close();
+              if (data.length == 0)
+              {
+                callback('no data');
+              }
+              else
+              {
+                callback(data);
+              }
+            })
+          }
+          else
+          {
+            search = getCorrectName(allName, allAbbr, lesson);
+            if (search != '')
+            {
+              Lesson.find({millionSecond: { '$gte': firstDay, '$lte': secondDay}, checkSituation: 'success', name: search}).sort({'time':'asc'}).exec(function(err, data)
+              {
+                if (period != '') {data = checkPeriod(data, period);}
+                if (location != '') {data = checkLocation(data, location);}
+                mongoose.disconnect();
+                mongoose.connection.close();
+                if (data.length == 0)
+                {
+                  callback('no data');
+                }
+                else
+                {
+                  callback(data);
+                }
+              })
+            }
+            else
+            {
+              mongoose.disconnect();
+              mongoose.connection.close();
+              callback('no data');
+            }
+          }
+        }
+      });
+
+      function getAllAbbrData(callback)
+      {
+        var allAbbr = '';
+        var allName = '';
+        Abbreviation.find(function(err, data)
+        {
+          for (var a in data)
+          {
+            if (data[a].abbreviation == '')
+            {
+              aa = '\'' + a + '\'';
+            }
+            else
+            {
+              aa = data[a].abbreviation
+            }
+            allAbbr = allAbbr + aa + ' ';
+            newDate = data[a].name.split('(')
+            allName = allName + newDate[0] + ' ';
+          }
+          allAbbr = allAbbr.trim()
+          allName = allName.trim()
+          callback(allAbbr + ',' + allName);
         })
+      }
+
+      function getCorrectName(allName, allAbbr, name)
+      {
+        allAbbr = allAbbr.split(' ');
+        allName = allName.split(' ');
+        searchName = '';
+        check = allAbbr.indexOf(name);
+        if (check == -1)
+        {
+          check = allName.indexOf(name);
+          if (check == -1)
+          {
+            searchName = '';
+          }
+          else
+          {
+            searchName = allName[check];
+          }
+        }
+        else
+        {
+          searchName = allName[check];
+        }
+        return searchName;
+      }
+
+      function checkPeriod(searchData, period)
+      {
+        for (i=0 ; i<searchData.length ; i++)
+        {
+          if (searchData[i].period != period)
+          {
+            searchData.splice(i,1);
+            i-- ;
+          }
+        }
+        return searchData
+      }
+
+      function checkLocation(searchData, location)
+      {
+        for (i=0 ; i<searchData.length ; i++)
+        {
+          if (searchData[i].building+searchData[i].lessonClass != location)
+          {
+            searchData.splice(i,1);
+            i-- ;
+          }
+        }
+        return searchData
+      }
+
+      function checkEscapeClass(millionSecond, escape, allPosition, period, location)
+      {
+        if (period == '' && location == '')
+        {
+          for (var a in allPosition)
+          {
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + 'A1')
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + 'A2')
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + 'P1')
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + 'P2')
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + 'P3')
+          }
+        }
+        else if (period != '' && location == '')
+        {
+          for (var a in allPosition)
+          {
+            escape.push(unixToTime(millionSecond) + ' ' + allPosition[a] + ' ' + period)
+          }
+        }
+        else if (period == '' && location != '')
+        {
+            escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + 'A1')
+            escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + 'A2')
+            escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + 'P1')
+            escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + 'P2')
+            escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + 'P3')
+        }
+        else if (period != '' && location != '')
+        {
+          escape.push(unixToTime(millionSecond) + ' ' + location + ' ' + period)
+        }
+      }
+
+      function unixToTime(millionSecond)
+      {
+        millionSecond = parseInt(millionSecond);
+        var origDay = new Date(millionSecond);
+        var year = origDay.getFullYear();
+        var month = padLeft(origDay.getMonth()+1);
+        var day = padLeft(origDay.getDate());
+        var time = year + '/' + month + '/' + day ;
+        return time;
+      }
+
+      function padLeft(num)
+      {
+        num = '' + num;
+        if (num.length == 1)
+        {
+          return ('0' + num);
+        }
+        else
+        {
+          return num;
+        }
+      }
+
+      function getAllUsedClass(searchData)
+      {
+        var ec = [];
+        for (var a in searchData)
+        {
+          if (ec.indexOf(unixToTime(searchData[a].millionSecond) + ' ' + searchData[a].building + searchData[a].lessonClass + ' ' + searchData[a].period) == -1)
+          {
+            newTime = unixToTime(searchData[a].millionSecond)
+            ec.push(newTime + ' ' + searchData[a].building + searchData[a].lessonClass + ' ' + searchData[a].period);
+          }
+        }
+        return ec;
       }
     })
   }

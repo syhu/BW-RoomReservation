@@ -21,8 +21,11 @@ var searchLesson = (function(){
 
     _start:function(){
       var objThis = this;
+      var today = layout._showTime();
       objThis._initialAll();
       objThis._getPositionList();
+      objThis._filterTimeStart.val(today)
+      objThis._filterTimeDue.val(today)
       $('input').iCheck('check');   //将输入框的状态设置为checked
 
     },
@@ -31,10 +34,9 @@ var searchLesson = (function(){
       this._btnFilter.on("click",$.proxy(function(){
         var arr = new Array();
         var obj = new Object;
-
+        var date = new Date();
         var start = this._filterTimeStart.val() == '' ? "0" : new Date(this._filterTimeStart.val()).getTime();
         var due = this._filterTimeDue.val() == '' ? "0" : new Date(this._filterTimeDue.val()).getTime();
-
         if(start > due){
           layer.msg('<b>請選擇正確的時間範圍</b>', {time: 1500, icon:2,shade:[0.5,'black']});
           this._filterTimeStart.val('');
@@ -50,28 +52,36 @@ var searchLesson = (function(){
         obj.emptyclass = this._filterEmptyClass.is(":checked") == true ? "1" : "0";
         arr = arr.concat(obj);
 
-        this._getlessonList(JSON.stringify(arr));
+        this._getlessonList(arr);
       },this));
       //清除查詢
       this._cancelFilter.on("click",$.proxy(function(){
+        var today = layout._showTime();
         this._filterTimeZone.val('請選擇');
         this._filterLocation.val('請選擇');
-        this._filterTimeStart.val('');
-        this._filterTimeDue.val('');
+        this._filterTimeStart.val(today);
+        this._filterTimeDue.val(today);
         this._filterLesson.val('');
         $('input').iCheck('check');   //将输入框的状态设置为checked
         // this._filterEmptyClass = $("#filterEmptyClass");
       },this));
     },
     //取得列表查詢
-    _filterEmptyClass:function(val){
-      var objThis = this;
+    _getlessonList:function(val){
       $.ajax({
         type:'post',
-        // url:'/searchLessonDetail',
-        data:{val},
+        url:'/searchLessonDetail',
+        data:{strJson: JSON.stringify(val)},
         success:function(datas){
             var data = datas.success
+            if (data == 'no data')
+            {
+              layer.msg('<b>no data</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+            }
+            else
+            {
+              layer.msg('<b>Q_Q</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+            }
         }
       });
     },

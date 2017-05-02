@@ -233,9 +233,9 @@ router.post('/getLesson', function(req, res, next){
 
 router.post('/searchLessonDetail', function(req, res, next){
   searchData = req.body.strJson;
-  lesson.searchLessonDetail(searchData, function()
+  lesson.searchLessonDetail(searchData, function(result)
   {
-    
+    res.send({success : result})
   })
 })
 
@@ -386,6 +386,7 @@ router.post('/lessonNormalManage', function(req, res, next){
   var lessonNote = req.body.lessonNote;
   var contract = req.body.contract;
   var contractPhone = req.body.contractPhone;
+  var lessonNameContract = lessonName + '(' + contract + ')';
   var sentTime = getNowTime();
   var splitTime = lessonTime.split('/');
   var millionSecond = new Date(splitTime[0], splitTime[1]-1, splitTime[2]).getTime();
@@ -412,7 +413,7 @@ router.post('/lessonNormalManage', function(req, res, next){
     {
       if (repeat == 0)
       {
-        abbreviation.searchLessonAbbreviation(lessonName, function(err, data)
+        abbreviation.searchLessonAbbreviation(lessonNameContract, function(err, data)
         {
           if (data == 'no data')
           {
@@ -645,14 +646,33 @@ router.post('/lessonManage', function(req, res, next){
       {
         res.send({success: "repeat"})
       }
+      else if (repeat == 2)
+      {
+        res.send({success: "abbrRepeat"})
+      }
     })
   }
 })
 
 router.post('/updateLessonAbbreviation', function(req, res, next){
   var data = req.body.strJson;
-  abbreviation.updateLessonAbbreviation(data, function(){
-    res.send({ success: 'yes' })
+  var sentTime = getNowTime();
+  abbreviation.checkAbbreviationReapet(data, function(repeat)
+  {
+    if (repeat == 0)
+    {
+      abbreviation.updateLessonAbbreviationData(data, sentTime, function(){
+        res.send({ success: 'yes' })
+      })
+    }
+    else if (repeat == 1)
+    {
+      res.send({ success: 'no' })
+    }
+    else if (repeat == 2)
+    {
+      res.send({ success: 'repeat' })
+    }
   })
 })
 
@@ -672,6 +692,7 @@ router.post('/getupdateLessonID', function(req, res, next){
     })
   }
 })
+
 /*** Use classroom apply Page ***/
 router.get('/apply', function(req, res, next){
   if(req.session.account)
@@ -702,6 +723,7 @@ router.post('/apply', function(req, res, next){
   var aim = req.body.lessonAim;
   var contract = req.body.contract;
   var contractPhone = req.body.contractPhone;
+  var lessonNameContract = req.body.lessonName + '(' + contract + ')';
   console.log(contract + ' -> ' + contractPhone);
   var timeTemp = lessonTime.replace(/\//g, '');
   var applyUseTime = timeTemp.substr(2);
@@ -714,7 +736,7 @@ router.post('/apply', function(req, res, next){
     {
       if (repeat == 0)
       {
-        abbreviation.searchLessonAbbreviation(lessonName, function(err, data)
+        abbreviation.searchLessonAbbreviation(lessonNameContract, function(err, data)
         {
           if (data == 'no data')
           {

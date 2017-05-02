@@ -79,7 +79,6 @@ var apply = (function(){
             callback:function(e){
                 if(e){
 
-                  bootbox.alert("申請了課程 " + objThis._lessonName.val(),function(){
                     var lessonData =
                     {
                       lessonName : objThis._lessonName.val(),
@@ -118,9 +117,8 @@ var apply = (function(){
                           location.href = '/lesson'
                       }
           					});
-                  });
                 }else{
-                  bootbox.alert("取消了申請課程");
+                  layer.msg('<b>取消申請課程</b>', {time: 1500, icon:2,shade:[0.5,'black']});
                 }
               }
           });

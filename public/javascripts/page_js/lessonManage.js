@@ -359,6 +359,9 @@ var lessonManage = (function(){
           //詳細資料
           _input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
           _input.bind("click",function(){
+						  objThis._form_editName.removeClass('has-error')
+							objThis._form_editPhone.removeClass('has-error')
+
               objThis.EditlessonID = v.id;
               objThis._EditlessonIDName.html(v.name)
               objThis._EditlessonIDabbreviation.val(v.abbreviation)
@@ -541,8 +544,10 @@ var lessonManage = (function(){
 						objThis._getlessonIDList();
 						layer.msg('<b>新增課程ID成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 
-					}else{
-						layer.msg('<b>課程ID重複</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}else if(data == "repeat"){
+						layer.msg('<b>課程名稱重複</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}else if(data == "abbrRepeat"){
+						layer.msg('<b>課程縮寫重複</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 					}
 				},
 				error: function (xhr)
@@ -559,6 +564,7 @@ var lessonManage = (function(){
 			var arr = new Array();
 			var obj = new Object;
 			obj.id = id;
+			obj.name = objThis._EditlessonIDName.html();
 			obj.abbreviation = objThis._EditlessonIDabbreviation.val();
 			obj.contract = objThis._EditContractName.val();
 			obj.contractPhone = objThis._EditContractPhone.val();
@@ -569,13 +575,14 @@ var lessonManage = (function(){
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
 					if(datas.success == 'yes'){
-						layer.msg('<b>編輯課程ID成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+						layer.msg('<b>編輯課程聯絡資料成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 						objThis._bounce_edit.modal('hide');
 						objThis._getlessonIDList();
-					}else{
-						layer.msg('<b>編輯課程ID失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}else if(datas == 'no'){
+						layer.msg('<b>已有相同的課程名稱及聯絡人</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}else {
+						layer.msg('<b>已有相同的課程縮寫</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 					}
-
 				}
 			})
 		},
@@ -598,7 +605,7 @@ var lessonManage = (function(){
       console.log(strJson)
 			$.each(strJson,function(i,v){
 				if(v.lock == "no"){
-					objThis._filterLocal.append("<option value='" + v.location + "'>" + v.location + "</option>");					
+					objThis._filterLocal.append("<option value='" + v.location + "'>" + v.location + "</option>");
 				}
 			})
     },

@@ -156,6 +156,15 @@ var layout = (function(){
 		//
 		// 	}
 		// }
+    },
+		 _showTime:function(){
+		  var nowTime = new Date();
+
+		  var year = nowTime.getFullYear();
+		  var month = nowTime.getMonth() + 1;
+		  var day = nowTime.getDate();
+			return year + "/" + this._padLeft(month) + '/' + this._padLeft(day);
+		}
   }
 return _const;
 }());
