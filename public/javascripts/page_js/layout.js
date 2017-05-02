@@ -18,20 +18,15 @@ var layout = (function(){
 		_start:function(){
 			var objThis = this;
 			objThis._initialAll();
-			//icheck
-			$("input").iCheck({
-				checkboxClass:"icheckbox_flat-blue",
-				radioClass:"iradio_flat-blue"
-			});
+			objThis._setiCheck();		/* 初始化icheck */
+			objThis._initialAllfirebase();		/* 初始化firebase */
 
+			// objThis._hiddenIdentity.val() != "" ?	objThis._saveMonitorData() : "";        /* 儲存監控資料 */
 			setTimeout('$(window).resize()',100)
 		},
 		_initialAll:function(){
       var objThis = this;
-			//
-      // $(window).resize(function () {
-      //       //  setTimeout("layout._resize_tab()",500);
-      // });
+
 			$(window).on("resize",$.proxy(function(){
 				objThis._resize_tab();
 
@@ -65,6 +60,51 @@ var layout = (function(){
         });
       }
     },
+		_initialAllfirebase:function(){
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyBKOUVKQ4UvaUQahYzU2oC_9cdqLodEHsY",
+				authDomain: "fuzhi-65a33.firebaseapp.com",
+				databaseURL: "https://fuzhi-65a33.firebaseio.com",
+				projectId: "fuzhi-65a33",
+				storageBucket: "fuzhi-65a33.appspot.com",
+				messagingSenderId: "49991221265"
+			};
+			firebase.initializeApp(config);
+
+		},
+		_saveMonitorData:function(){
+			var Path = this._getPath();
+      //取得現在時間
+      var today = new Date();
+      var nowTime = today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var ConverTime = new Date(nowTime).getTime();
+
+
+      var postData = {
+          user: this._hiddenIdentity.val(),
+          loginTime: ConverTime,
+      };
+
+      var updates = {};
+      updates[Path] = postData;
+
+      firebase.database().ref().update(updates);
+
+      setTimeout("layout._saveMonitorData()", 5000);         /* 設定監控間隔時間 */
+		},
+		//取得路徑
+    _getPath: function () {
+        this.Path = "monitorUser" + "/" ;
+        return this.Path;
+    },
+		_setiCheck:function(){
+			//icheck
+			$("input").iCheck({
+				checkboxClass:"icheckbox_flat-blue",
+				radioClass:"iradio_flat-blue"
+			});
+		},
     //調整首頁
     _resize_tab:function(){
         var viewportWidth = $(window).innerWidth();
@@ -107,6 +147,15 @@ var layout = (function(){
         return num;
       }
     }
+		//分頁
+		//總頁數 當前頁數 跳轉頁數 第一頁和最後一頁之間顯示的頁碼數量
+		// _pageBar:function(tp,cp,url,pn){
+		// 	var str = '<div class="paginationWrap pagesCenter"><nav><ul id="pageList" class="pagination">'
+		//
+		// 	if(tp>1 && cp>1){
+		//
+		// 	}
+		// }
   }
 return _const;
 }());

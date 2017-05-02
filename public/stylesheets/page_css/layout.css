@@ -115,12 +115,12 @@ margin-left:100px;
 	margin-left:10px;
 	margin-right:10px;
 	/*border:1px solid black;*/
-	height: 1500px;
+	/*height: 1500px;*/
 	-webkit-user-select:none;  /* 禁止反白 */
 	z-index: -1;
 }
 #footer{		/* 下面 */
-	padding:70px 40px 70px 60px;
+	padding:20px 0px 20px 0px;
 	/*border:1px solid black;*/
 	font-size:15px;
 	border-radius:10px;
@@ -129,7 +129,11 @@ margin-left:100px;
 	/*margin-left:10px;*/
 	/*margin-right:10px;*/
 	background-color:		#FFFAFA;
-	height:200px;
+	height:400px;
+	overflow: hidden;
+}
+#footer table tr th{
+	text-align: left;
 }
 #footer-context{
 		margin:10px;

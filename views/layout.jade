@@ -5,6 +5,8 @@ html
     // CSS
     link(rel='stylesheet', href='stylesheets/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/page_css/layout.css')
+    //- link(rel='stylesheet', href='stylesheets/style.css')
+      
     // Loading Flat UI
     link(href='stylesheets/flat-ui/dist/css/flat-ui.css', rel='stylesheet')
     link(href='stylesheets/flat-ui/docs/assets/css/demo.css', rel='stylesheet')
@@ -25,14 +27,15 @@ html
     //bootbox
     script(src='javascripts/bootbox/bootbox.min.js')
     link(rel='stylesheet', href='stylesheets/ui.css')
-    //page_js
-    script(src='javascripts/page_js/layout.js')
+    
     //時間
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
-    
-      
+    //firebase
+    script(src='https://www.gstatic.com/firebasejs/3.9.0/firebase.js')
+    //page_js
+    script(src='javascripts/page_js/layout.js')
     // 彈出視窗
     title 福智基金會
   body(background='')
@@ -91,14 +94,14 @@ html
                     a#lesson_time(onclick='audit();', style='font-size:15px;')
                       i.fa.fa-eye.fa-lg                          
                       font 審核專區  
-                  li.dividerc                    
+                  li.divider                  
                   if user && (information[0].authorty == 'Hyper')
-                    li.dividerc
+                    li.divider
                     li
                       a#lesson_time(onclick='superfast();', style='font-size:15px;')
                         i.fa.fa-fighter-jet.fa-lg
                         font 快速建立專區
-                    li.dividerc
+                    li.divider
                       
           if user
             ul.nav.navbar-nav
@@ -177,29 +180,142 @@ html
             font#user #{user}
             font#time.label.label-default(style='margin-left:10px;') 
           else
+            input#hiddenIdentity(type='hidden',value='')
             font#time Hi~ 訪客
       #main
         block main
                   
-      #footer
-        #footer-context
-          span
-            b 電話:04-23445567
-          br
-          span
-            b 福智基金會  聯絡地址:台中市台灣大道一段XXX號     
-            em
-              b Copyright © 2016 福智 All rights reserved
-          span(style='float:right;')
-            a(href='http://www.blisswisdom.org/', target='_blank') 福智全球資訊網
-            b |
-            a(href='http://bwsangha.org/', target='_blank') 福智僧團全球資訊網
-            b |
-            a(href='http://lrannotations.org/', target='_blank') 《廣論．四家合註》淺釋
-            b |
-          br
-          span
-          br
+      #footer.table-responsive.btn-embossed.bg-light
+        table.table( cellpadding='30',align='left')
+          thead
+            tr
+              th(width='10%',nowrap='nowrap')  
+              th(width='20%',nowrap='nowrap')  
+                span.label.label-primary.btn-embossed(style='font-size:20px;')
+                  相關網站
+              th(width='20%',nowrap='nowrap')  
+              th(width='20%',nowrap='nowrap')  
+              th(width='20%',nowrap='nowrap')  
+              th(width='10%',nowrap='nowrap')  
+          tfoot
+            tr
+              th(width='10%',nowrap='nowrap')  
+              th(colspan='4') 
+                em.label.label-default.btn-embossed
+                  Copyright © 2017 福智 All rights reserved
+                font(style='cursor:pointer;margin-left:10px;margin-right:10px;', onclick='window.open("https://www.google.com.tw/maps/place/%E7%A6%8F%E6%99%BA%E6%B3%95%E4%BA%BA%E5%8F%B0%E4%B8%AD%E5%AD%B8%E8%8B%91/@24.1586305,120.6617002,16z/data=!4m8!1m2!2m1!1z56aP5pm6!3m4!1s0x34693d9cae4ac9d1:0xa0537cbe711ac1a0!8m2!3d24.1584538!4d120.6565705","_blank")')
+                  i.fa.fa-map-marker.fa-lg(style='cursor:pointer;',aria-hidden='true')
+                  |  聯絡地址:403臺中市西區台灣大道二段659號
+                |  聯絡電話:(04)2326-1600 
+              th(width='10%',nowrap='nowrap')  
+              //- th(width='20%',nowrap='nowrap')  
+              //-   
+              //- th(width='20%',nowrap='nowrap')   
+              //-   
+              //- th(width='20%',nowrap='nowrap')  
+              //- th(width='20%',nowrap='nowrap')  
+              //- th(width='10%',nowrap='nowrap') 
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap')  
+              
+                  
+              th(width='20%',nowrap='nowrap')   
+              th(width='20%',nowrap='nowrap')  
+              th(width='20%',nowrap='nowrap')  
+              th(width='10%',nowrap='nowrap') 
+          tbody
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap')
+                a(href='http://www.blisswisdom.org/', target='_blank') 福智全球資訊網
+              th(width='20%',nowrap='nowrap') 
+                a(href='https://lrannotations.org/', target='_blank') 四家合註淺釋網站        
+              th(width='20%',nowrap='nowrap') 
+                a(href='https://www.facebook.com/BWpublish/', target='_blank') 福智文化        
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/BWpublish/","_blank")')           
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://www.bwfa.org.au/', target='_blank') 澳洲福智      
+              th(width='10%',nowrap='nowrap')  
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://bwsangha.org/', target='_blank') 福智僧團全球資訊網
+              th(width='20%',nowrap='nowrap') 
+                a(href='https://lotus.zhen-ru.org/', target='_blank') 思荷集      
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://www.tw-toc.com/big5/index.asp', target='_blank') 慈心有機驗證股份有限公司 
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap') 
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='https://www.leezen.com.tw/', target='_blank') 天天里仁
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/leezeneveryday/","_blank")')           
+                |  
+                i.fa.fa-comments.fa-lg(title='line',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://line.me/ti/p/%40sow0795a","_blank")')
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://elite.blisswisdom.org/', target='_blank') 福智企業聯誼會      
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://www.luciditv.com/', target='_blank') 澈見網路電視台     
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/luciditv","_blank")')           
+                |  
+                i.fa.fa-comments.fa-lg(title='line',style='cursor:pointer;',aria-hidden='true',onclick='window.open("http://line.me/ti/p/%40jxw0416m","_blank")')
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap') 
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://toaf.org.tw/ch/index.asp', target='_blank') 慈心有機農業發展基金會           
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/toaf.org.tw","_blank")')           
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://youth.blisswisdom.org/', target='_blank') 福智青年全球資訊網      
+                |   
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/bwyouth","_blank")')           
+                |   
+                i.fa.fa-comments.fa-lg(title='line',style='cursor:pointer;',aria-hidden='true',onclick='window.open("http://line.me/ti/p/%40bwyouth","_blank")')
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://www.dreamlotus.org/', target='_blank') 夢蓮花文化藝術基金會 
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap') 
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://edu.blisswisdom.org/', target='_blank') 福智文教基金會           
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/bwmedu","_blank")')           
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://voicefriend.blisswisdom.org/index.php/%E5%90%84%E6%9C%9F%E7%A6%8F%E8%81%B2', target='_blank') 福智之聲      
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://www.us.blisswisdom.org/', target='_blank') 北美福智 
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap')  
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://bwedupark.org/', target='_blank') 福智教育園區          
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://voicefriend.blisswisdom.org/index.php/%E7%A6%8F%E6%99%BA%E4%B9%8B%E5%8F%8B', target='_blank') 福智之友      
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://bwmonastery.org.sg/zh/', target='_blank') 新加坡吉祥宝聚寺 
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap') 
+            tr
+              th(width='10%',nowrap='nowrap') 
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://buddhism.blisswisdom.org/', target='_blank') 福智佛教基金會          
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://bwgoodthings.com/', target='_blank') 福智好事多     
+                |  
+                i.fa.fa-facebook-official.fa-lg(title='facebook',style='cursor:pointer;',aria-hidden='true',onclick='window.open("https://www.facebook.com/bwgoodthings/","_blank")')           
+              th(width='20%',nowrap='nowrap') 
+                a(href='http://bwcf.org.hk/index.php/zh-tw/', target='_blank') 香港福智
+              th(width='20%',nowrap='nowrap') 
+              th(width='10%',nowrap='nowrap')  
     #goTop
       img#top(src='images/up.png')
   
