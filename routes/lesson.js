@@ -618,6 +618,24 @@ module.exports = {
                   i--
                 }
               }
+              for (var a in positionData)
+              {
+                for (var e in escape)
+                {
+                  splite = e.split(' ');
+                  if ((positionData[a].lock == 'yes') && (splite[1] == positionData[a].location))
+                  {
+                    escape[e] = escape[e] + ' lock';
+                  }
+                }
+              }
+              for (var e in escape)
+              {
+                if (escape[e].substr(-5) != ' lock')
+                {
+                  escape[e] = escape[e] + ' no';
+                }
+              }
               mongoose.disconnect();
               mongoose.connection.close();
               callback(escape);
