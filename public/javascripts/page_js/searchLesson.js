@@ -156,8 +156,16 @@ var searchLesson = (function(){
         //上課人數
         _td = $("<td />",{"text":emptyData[2]});
         _tr.append(_td);
-
-
+        //上鎖
+        if (emptyData[3] == 'lock')
+        {
+          _td = $("<td />",{"text":'已上鎖'});
+        }
+        else
+        {
+          _td = $("<td />",{"text":''});
+        }
+        _tr.append(_td);
         objThis._emptySearchList.append(_tr);
       }
 

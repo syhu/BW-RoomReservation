@@ -622,7 +622,8 @@ module.exports = {
               {
                 for (var e in escape)
                 {
-                  splite = e.split(' ');
+                  splite = escape[e].split(' ');
+                  console.log(positionData[a].lock + ' ' + positionData[a].location + ' ' + splite[1]);
                   if ((positionData[a].lock == 'yes') && (splite[1] == positionData[a].location))
                   {
                     escape[e] = escape[e] + ' lock';
