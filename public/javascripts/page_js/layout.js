@@ -146,7 +146,7 @@ var layout = (function(){
       {
         return num;
       }
-    }
+    },
 		//分頁
 		//總頁數 當前頁數 跳轉頁數 第一頁和最後一頁之間顯示的頁碼數量
 		// _pageBar:function(tp,cp,url,pn){
@@ -156,7 +156,7 @@ var layout = (function(){
 		//
 		// 	}
 		// }
-    },
+    // },
 		 _showTime:function(){
 		  var nowTime = new Date();
 

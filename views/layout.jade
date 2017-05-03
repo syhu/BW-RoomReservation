@@ -28,10 +28,8 @@ html
     script(src='javascripts/bootbox/bootbox.min.js')
     link(rel='stylesheet', href='stylesheets/ui.css')
     
-    //時間
-    script(src='javascripts/jquery-ui.js')
-    script(src='javascripts/jquery-ui.cache.js')
-    script(src='javascripts/plugins.js')
+    
+    
     //firebase
     script(src='https://www.gstatic.com/firebasejs/3.9.0/firebase.js')
     //page_js
@@ -96,7 +94,6 @@ html
                       font 審核專區  
                   li.divider                  
                   if user && (information[0].authorty == 'Hyper')
-                    li.divider
                     li
                       a#lesson_time(onclick='superfast();', style='font-size:15px;')
                         i.fa.fa-fighter-jet.fa-lg
