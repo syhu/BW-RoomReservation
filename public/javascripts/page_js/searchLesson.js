@@ -114,10 +114,11 @@ var searchLesson = (function(){
             {
               objThis._nobodyList.hide();
 
-              layer.msg('<b>查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
               if(objThis._filterEmptyClass.is(":checked")){
+                layer.msg('<b>空教室查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setemptyList(datas.success);
               }else{
+                layer.msg('<b>課程查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setlessonList(datas.success);
               }
             }
