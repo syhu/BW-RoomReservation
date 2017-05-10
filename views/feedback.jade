@@ -18,8 +18,8 @@ block main
                   i.fa.fa-pencil                          
                   strong(style='margin-left:5px;') 意見回饋
                 br
-          .row(style='padding:10px 20px 10px 20px;border-radius:20px;')
-            .col-md-12.bg-info(style='height:150px;')
+          .row(style='padding:10px 20px 10px 20px;')
+            .col-md-12.bg-info(style='height:175px;padding:10px;')
               | 親愛的學員您好，本討論平台，非常歡迎您對「福智基金會」提出相關問題或提出您的寶貴意見
               | ，本意見回饋區歡迎針對「課程管理」、「教室調動」、「地點管理」等相關問題，在此提供改進意見。
               br
@@ -65,6 +65,36 @@ block main
                         i.fa.fa-exclamation.fa-3x
                         br
                         | 查無資料
+          else
+            .row(style='padding:10px 20px 10px 20px;')
+              .col-md-12.bg-success(style='height:650px;overflow-y:scroll;overflow-x:hidden;')
+                table.table.table-condensed
+                  tr
+                    th(width='10%') 編號
+                    th(width='10%', style='border-left:1px #ddd solid;') 意見者
+                    th(width='10%', style='border-left:1px #ddd solid;') 標題
+                    th(width='10%', style='border-left:1px #ddd solid;') 選項
+                    th(width='30%', style='border-left:1px #ddd solid;') 內容
+                    th(width='10%', style='border-left:1px #ddd solid;') 意見時間
+                    th(width='10%', style='border-left:1px #ddd solid;') 狀態
+                    th(width='10%', style='border-left:1px #ddd solid;') 詳細
+                  tbody#opinionList
+                  tbody
+                    tr#loadingList(align='center')
+                      td(colspan='8')
+                        br
+                        span
+                          i.fa.fa-spinner.fa-pulse.fa-3x
+                          br
+                          br
+                          | 資料讀取中...
+                    tr#nobodyList(align='center')
+                      td(colspan='8')
+                        br
+                        span(style='cursor:pointer;')
+                          i.fa.fa-exclamation.fa-3x
+                          br
+                          | 查無資料
 
   //彈跳視窗黑屏
   #popupBackground.modal-overlay
@@ -79,23 +109,6 @@ block main
         span.tablet 1
         |  意見回饋
     .modal-message-body
-      //- .detailWrap
-      //-   .user-info
-      //-     .icon
-      //-       i.icon-feedback
-      //-     .txt
-      //-       span.tablet
-      //-       span.timestamp
-      //-   .detail-c
-      //-     .detail-c-txt
-      //-       p#note
-      //-     .detail-c-pic
-      //-       #note_photo.fileImage
-      //-         .act-image(style='background: url() no-repeat center center; background-size: cover;')
-      //-           span 放大預覽
-          //- #note_noPhoto.fileImageEmpty
-          //-   | 無附加檔案
-            // /住戶msg
       // 管理人員msg
       if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')      
         #replyUser
@@ -104,7 +117,7 @@ block main
           .txt-panel
             div(style='overflow: hidden; padding: 15px; min-height: 180px;')
               .detail-c-txt
-                #optionDetail.bg-gray(style='font-size:15px;border-radius:10px;padding:20px;')
+                #optionDetail.bg-info(style='font-size:15px;border-radius:10px;padding:20px;')
                 .form-group.form_text
                   label
                     | 回覆意見
@@ -125,7 +138,7 @@ block main
                 .form-group.form_title
                   label
                     | 意見標題
-                  input.form-control#opinionTitle(type='text',placeholder=' 請輸入意見標題')
+                  input.form-control#opinionTitle(type='text',placeholder=' 請輸入意見標題',maxlength="20")
                 .form-group.form_option
                   label
                     | 意見選項

@@ -42,6 +42,7 @@ var master = (function(){
 			objThis._resize_img();
 			objThis._getPositionList();	  //取得地點資料
 
+
 			//歡迎視窗
 			if(objThis._identity != "visitor"){
 				if(objThis._loginTimes == 0){
@@ -162,7 +163,7 @@ var master = (function(){
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
 						var data = datas.success
-						console.log(data)
+						console.log(datas)
 
 						if(data != null){
 							if(data.length > 0){
@@ -173,11 +174,50 @@ var master = (function(){
 			})
 
 		},
-		_setTodayLessonList:function(){
+		_setTodayLessonList:function(strJson){
 				var objThis = this;
 				var _tr;
 				var _td;
 
+				objThis._todayLessonList.empty();
+				$.each(strJson,function(i,v){
+					_tr = $("<tr />");
+
+					//#
+					_td = $("<td />",{"text":(i+1)});
+					_tr.append(_td);
+					//課程名稱
+					_td = $("<td />",{"text":v.name});
+					_tr.append(_td);
+					//使用教室
+					_td = $("<td />",{"text": v.building+ v.lessonClass});
+					_tr.append(_td);
+					//時間
+					_td = $("<td />",{"text": v.time + '-' + v.period});
+					_tr.append(_td);
+					//詳細資料
+					_input = $("<span />",{"text":"詳細資料","style":"font-size:100%;","class":"label label-default btn-embossed"});
+					_input.bind("click",function(){
+						bootbox.alert("<b style='font-size:20px;'>課程資訊</b><hr/>" +
+									"課程名稱 ： " + v.name +
+									"<br/><br/>使用教室 ： " + v.building + v.lessonClass +
+									"<br/><br/>新增時間 ： " + v.createTime +
+									"<br/><br/>修改時間 ： " + v.modifyTime+
+									"<br/><br/>時間 - 時段 ： " + v.time + '-' + v.period+
+									"<br/><br/>上課人數 ： " + v.count +
+									"<br/><br/>上課限制人數 ： " + v.people +
+									"<br/><br/>聯絡人姓名 ： " + v.contract+
+									"<br/><br/>聯絡人電話 ： " + v.contractPhone +
+									"<br/><br/>簡易介紹 ： " + v.aim
+
+						)
+					})
+					_td = $("<td />");
+					_td.append(_input)
+					_tr.append(_td);
+
+					objThis._todayLessonList.append(_tr);
+				})
 
 
 		},
@@ -211,7 +251,6 @@ var master = (function(){
 		    return num;
 		  }
 		},
-
 		_resize_img:function(){
         var viewportWidth = $("marquee div").innerWidth();
         var viewportHeight = $("marquee div").innerHeight();
@@ -237,7 +276,7 @@ var master = (function(){
             });
 
         }
-    },
+    }
 
 
 	}
@@ -245,13 +284,8 @@ var master = (function(){
 }());
 var myMaster
 $(function(){
+	setTimeout("layout._changeImageSize();",500)
 	myMaster = new master();
-
-
-		//網頁load完會執行一次
-	//五個屬性各別是：外面div的id名稱、包在裡面的標籤類型
-	//延遲毫秒數、速度、高度
-	//slideLine('ann_box','div',1000,25,20);
 })
 
 //上下輪播

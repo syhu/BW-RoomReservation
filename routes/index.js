@@ -854,6 +854,14 @@ router.post('/lockPosition', function(req, res, next){
   })
 })
 
+router.post('/deletePosition', function(req, res, next){
+  var location = req.body.val
+  position.deletePosition(location, function()
+  {
+    res.send({ success: 'yes' })
+  })
+})
+
 /*** User Feedback Page ***/
 router.get('/feedback', function(req, res, next){
   if(req.session.account)

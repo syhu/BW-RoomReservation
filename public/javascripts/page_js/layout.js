@@ -17,12 +17,14 @@ var layout = (function(){
     },
 		_start:function(){
 			var objThis = this;
+			objThis._initialAllfirebase();		/* 初始化firebase */
 			objThis._initialAll();
 			objThis._setiCheck();		/* 初始化icheck */
-			objThis._initialAllfirebase();		/* 初始化firebase */
 
 			// objThis._hiddenIdentity.val() != "" ?	objThis._saveMonitorData() : "";        /* 儲存監控資料 */
-			setTimeout('$(window).resize()',100)
+			setTimeout('$(window).resize()',100);
+
+
 		},
 		_initialAll:function(){
       var objThis = this;
@@ -38,22 +40,26 @@ var layout = (function(){
 
 
       if(this._hiddenIdentity.val() == 'Admin') {
+					this._checkFeedback();
           this._user.attr({"class":"label label-success btn-embossed","style":"font-size:100%;"})
           this._user.bind("mouseover",function(){
             layer.tips('最高管理員', $("#user") ,{tips:3,time:1000});
           })
       }else if($("#hiddenIdentity").val() == 'Hyper'){
+				this._checkFeedback();
         this._user.attr({"class":"label label-info btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('超級管理員', $("#user") ,{tips:3,time:1000});
         });
       }else if($("#hiddenIdentity").val() == 'Owner'){
+				this._checkFeedback();
         this._user.attr({"class":"label label-warning btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('管理員', $("#user") ,{tips:3,time:1000});
         });
       }
       else{
+				this._checkFeedback();
         this._user.attr({"class":"label label-primary btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('使用者', $("#user") ,{tips:3,time:1000});
@@ -166,11 +172,86 @@ var layout = (function(){
 			return year + "/" + this._padLeft(month) + '/' + this._padLeft(day);
 		},
 		_dialogClose: function (type) {
-      
+
           $(".modal-overlay").hide();
           $("#" + type).hide();
-      }
+    },
+		_checkFeedback:function(){
+			var pathname = location.pathname.replace(/\//,'');
+			var authority = this._hiddenIdentity.val();
+			//先判斷是不是在本頁
+			if(pathname != 'feedback'){
+				if(authority == 'Admin' || authority == 'Hyper'){
+					firebase.database().ref('/feedback').once('value').then(function(e){
+						var data = e.val();
+						$.each(data,function(i,v){
+							$.each(v,function(n,m){
+								if(n == 'feedback' && m == ''){
+									var fn = function(){
+									 var log =	alertify.log("<div onclick='_goFeedback()'><div style='float:left;'><i class='fa fa-comments fa-3x' aria-hidden='true'></i></div><div style='float:right;'>管理者您好<br/>您還有意見尚未回饋<br/>#" + v.id + " 請點擊此連結前往</div></div><a href='#' class='close-icon'></a>", "", 0);
+									};
+									fn();
+								}
+							})
+						});
+					})
+				}else{
+					var user = $("#user").html();
+					firebase.database().ref('/feedback').once('value').then(function(e){
+						var data = e.val();
+						$.each(data,function(i,v){
+							$.each(v,function(n,m){
+								if((n == 'user' && m == user) && v.feedback != '' && v.isCheck == ''){
+									var sn = function(){
+										var log =	alertify.log("<div onclick='_goFeedback()'><div style='float:left;'><i class='fa fa-comments fa-3x' aria-hidden='true'></i></div><div style='float:right;font-size:16px;'>" + user + "您好<br/>管理者已經回覆您的意見<br/>#" + v.id + " 請點擊此連結前往</div></div><a href='#' class='close-icon'></a>", "", 0);
+									};
+									sn();
+								}
+							})
+
+						});
+					})
+				}
+
+				setTimeout("$('#alertify-logs').empty();",59000);
+				setTimeout("layout._checkFeedback()",60000);
+
+			}
+
+		},
+		_changeImageSize:function(){
+
+				$("img").each(function(i){
+					if($(this).attr("alumb")=="true"){
+					//移除目前設定的影像長寬
+					$(this).removeAttr('width');
+					$(this).removeAttr('height');
+
+					//取得影像實際的長寬
+					var imgW = $(this).width();
+					var imgH = $(this).height();
+					//計算縮放比例
+					var w=$(this).attr("_w")/imgW;
+					var h=$(this).attr("_h")/imgH;
+
+					var pre=1;
+					if(w>h){
+						pre=h;
+					}else{
+						pre=w;
+					}
+
+					//設定目前的縮放比例
+					$(this).width(imgW*pre);
+					$(this).height(imgH*pre);
+					}
+				});
+		},
+
+
   }
+
+
 return _const;
 }());
 
@@ -196,3 +277,37 @@ function _showTime(){
   $('#time').empty().append( "現在時間：" + year + '/' + month + '/' + day + '&nbsp;&nbsp;&nbsp;' + h + ':' + m + ':' + s).addClass("btn-embossed")
   setTimeout('_showTime()',1000);
 }
+
+//
+function _goFeedback(){
+	location.href='/feedback'
+}
+
+//
+// $(window).load(function(){
+// 	$("img").each(function(i){
+// 		if($(this).attr("alumb")=="true"){
+// 			//移除目前設定的影像長寬
+// 			$(this).removeAttr('width');
+// 			$(this).removeAttr('height');
+//
+// 			//取得影像實際的長寬
+// 			var imgW = $(this).width();
+// 			var imgH = $(this).height();
+//
+// 			//計算縮放比例
+// 			var w=$(this).attr("_w")/imgW;
+// 			var h=$(this).attr("_h")/imgH;
+// 			var pre=1;
+// 			if(w>h){
+// 				pre=h;
+// 			}else{
+// 				pre=w;
+// 			}
+//
+// 			//設定目前的縮放比例
+// 			$(this).width(imgW*pre);
+// 			$(this).height(imgH*pre);
+// 		}
+// 	});
+// });

@@ -48,13 +48,13 @@ block main
               .col-md-3
                 marquee(direction='up',style='height:500px;width:250px;')
                   div
-                    img(src='images/01.jpg')  
-                    img(src='images/02.jpg')
-                    img(src='images/03.jpg')  
+                    img(alumb='true',_w="300",_h="300",src='images/01.jpg',onclick='window.open("images/01.jpg","_blank")') 
+                    img(alumb='true',_w="300",_h="300",src='images/02.jpg',onclick='window.open("images/02.jpg","_blank")')
+                    img(alumb='true',_w="300",_h="300",src='images/03.jpg',onclick='window.open("images/03.jpg","_blank")')  
                   div
-                    img(src='images/03.jpg')  
-                    img(src='images/02.jpg')
-                    img(src='images/01.jpg')  
+                    img(alumb='true',_w="300",_h="300",src='images/04.jpg',onclick='window.open("images/04.jpg","_blank")')  
+                    img(alumb='true',_w="300",_h="300",src='images/03.jpg',onclick='window.open("images/03.jpg","_blank")')
+                    img(alumb='true',_w="300",_h="300",src='images/02.jpg',onclick='window.open("images/02.jpg","_blank")')  
               .col-md-9
                 h3
                   i.fa.fa-bookmark
@@ -78,7 +78,8 @@ block main
                 table.table
                   tr
                     th(width='5%') #
-                    th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
+                    th(width='30%', style='border-left:1px #ddd solid;') 課程名稱
                     th(width='15%', style='border-left:1px #ddd solid;') 使用教室
                     th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                    th(width='15%', style='border-left:1px #ddd solid;') 詳細資料
                   tbody#todayLessonList

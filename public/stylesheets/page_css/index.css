@@ -28,3 +28,9 @@
 }
 
 /*.ann{overflow:hidden;height:20px;}*/
+
+marquee div img{
+	margin:10px;
+	opacity: 0.9;
+	cursor:pointer;
+}

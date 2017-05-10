@@ -285,7 +285,7 @@ var positionManage = (function(){
       var _td;
       var _input;
       objThis._area.empty();
-      // console.log(strJson)
+      console.log(strJson)
       $.each(strJson,function(i,v){
         var trClass;
           switch(i%4){
@@ -323,9 +323,12 @@ var positionManage = (function(){
           _td = $("<td />",{"nowrap":"nowrap","text":v.note});
           _tr.append(_td);
           //上鎖
+          var status = '';
           if(v.lock == "no"){
+            status = "<span class='label label-default btn-embossed' style='font-size:90%'>未上鎖</span>";
             _input = $("<span />",{"class":"label label-default btn-embossed","text":"未上鎖","style":"font-size:90%"});
           }else{
+            status = "<span class='label label-danger btn-embossed' style='font-size:90%'>已上鎖</span>";
             _input = $("<span />",{"class":"label label-danger btn-embossed","text":"已上鎖","style":"font-size:90%"});
           }
           _td = $("<td />");
@@ -342,7 +345,52 @@ var positionManage = (function(){
 
           _input = $("<span />",{"class":"label label-danger btn-embossed","text":"刪除","style":"margin-right:10px;font-size:100%;"});
           _input.bind("click",function(){
-            bootbox.alert("刪除" + v.location);
+            bootbox.confirm({
+                message:"<b style='font-size:20px;'>您確定要刪除場地  #" + v.location + "  嗎?</b><hr/>" +
+                      "場地位置 : " + v.location +
+                      "<br/><br/>場地大樓 : " + v.building +
+                      "<br/><br/>場地樓層 : " + v.floor+
+                      "<br/><br/>場地教室 : " + v.classroom +
+                      "<br/><br/>場地最大容納人數 : " + v.people +
+                      "<br/><br/>建立時間 : " + v.createTime+
+                      "<br/><br/>狀態 : " + status+
+                      "<br/><br/>上次修改時間 : " + v.modifyTime +
+                      "<br/><br/>備註 : " + v.note,
+              buttons:{
+                confirm:{
+                    label:'確定刪除',
+                    className:'btn-success btn-embossed'
+                },
+                cancel:{
+                    label:'取消',
+                    className:'btn-default btn-embossed'
+                }
+              },
+              callback:function(e){
+                if(e){
+                  bootbox.confirm("您確定要刪除嗎?",function(result){
+                    if(result){
+                      $.ajax({
+                        type:'post',
+                        data:{val:v.location},
+                        url:'/deletePosition',
+                        success:function(datas){
+                          if(datas.success == 'yes'){
+                            layer.msg('<b>刪除場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                          }else{
+                            layer.msg('<b>刪除場地失敗</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                          }
+                       },
+                       complete:function(){
+                         objThis._getPositionList();
+                       }
+                     });
+                    }
+                  })
+                }
+              }
+
+            })
           });
           _td.append(_input);
           _tr.append(_td);
@@ -362,8 +410,12 @@ var positionManage = (function(){
                      type:'post',
                      data:{strJson:JSON.stringify(arr)},
                      url:'/lockPosition',
-                     success:function(){
-                      objThis._getPositionList();
+                     success:function(datas){
+                       if(datas.success == 'yes'){
+                         objThis._getPositionList();
+                       }else{
+                         layer.msg('<b>鎖定場地失敗，發生錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                       }
                     },
                     complete:function(){
                       layer.msg('<b>鎖定場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
@@ -388,8 +440,12 @@ var positionManage = (function(){
                      type:'post',
                      data:{strJson:JSON.stringify(arr)},
                      url:'/lockPosition',
-                     success:function(){
-                      objThis._getPositionList();
+                     success:function(datas){
+                       if(datas.success == 'yes'){
+                         objThis._getPositionList();
+                       }else{
+                         layer.msg('<b>解鎖場地失敗，發生錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+                       }
                     },
                     complete:function(){
                       layer.msg('<b>解鎖場地成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
