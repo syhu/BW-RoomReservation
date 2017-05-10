@@ -187,6 +187,7 @@ margin-left:100px;
 	margin-left: 5%;
 	margin-right: 5%;
 	overflow:hidden;
+	height:800px;
 }
 #manager_center tr :hover{
 	opacity: 1;

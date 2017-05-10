@@ -2,7 +2,7 @@ extends layout
 
 block main
     link(rel='stylesheet', href='stylesheets/page_css/searchLesson.css')
-    link(rel='stylesheet', href='stylesheets/customized.css')
+    //- link(rel='stylesheet', href='stylesheets/customized.css')
     //時間
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
@@ -84,18 +84,20 @@ block main
                                 th(width='22.5%', style='border-left:1px #ddd solid;') 上鎖
                               tbody#emptySearchList
                             tbody
-                              tr#lessonloadingList.tr-empty(align='center')
+                              tr#lessonloadingList(align='center')
                                 td(colspan='1')
                                   br
                                   span
-                                    i.fa.fa-spinner.fa-pulse
+                                    i.fa.fa-spinner.fa-pulse.fa-3x
+                                    br
                                     br
                                     | 資料讀取中...
-                              tr#nobodyList.tr-empty(align='center')
+                              tr#nobodyList(align='center')
                                 td(colspan='1')
                                   br
                                   span#new(style='cursor:pointer;')
                                     i.fa.fa-exclamation.fa-3x
+                                    br
                                     | 查無資料
                     
                         

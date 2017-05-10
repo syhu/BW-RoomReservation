@@ -31,6 +31,8 @@ var positionManage = (function(){
       this._form_class = $(".form_class")
       this._form_people = $(".form_people")
 
+      this._positionloadingList = $("#positionloadingList");
+      this._positionnobodyList = $("#positionnobodyList");
 
 
 
@@ -41,8 +43,13 @@ var positionManage = (function(){
 
     _start:function(){
       var objThis = this;
+      this._positionloadingList.hide();
+      this._positionnobodyList.hide();
+
       objThis._initialAll();
       objThis._getPositionList();
+
+
     },
 
     _initialAll:function(){

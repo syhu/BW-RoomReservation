@@ -16,6 +16,7 @@ html
     link(href='stylesheets/font-awesome/font-awesome.css', rel='stylesheet')
     // bootcss
     link(href='stylesheets/bootcss.css', rel='stylesheet')
+    link(href='stylesheets/customized1.css', rel='stylesheet')
   
     // Javascript
     script(src='javascripts/jquery.js')
@@ -51,19 +52,6 @@ html
             li.dropdown
               a.dropdown-toggle(onclick='searchLesson();',style='font-size:18px;', data-toggle='dropdown')
                 | 課程查詢
-              //- ul.dropdown-menu
-              //-   li
-              //-     a#lesson_time(style='font-size:15px;')
-              //-       img(src='images/time.png')
-              //-       |    時段查詢
-              //-   li
-              //-     a#lesson_place(style='font-size:15px;')
-              //-       img(src='images/place.png')
-              //-       |    地點查詢
-              //-   li
-              //-     a#lesson_name(style='font-size:15px;')
-              //-       img(src='images/lesson.png')
-              //-       |    課程查詢
           if user && (information[0].authorty != 'User')
             ul.nav.navbar-nav
               li.dropdown
@@ -99,7 +87,6 @@ html
                         i.fa.fa-fighter-jet.fa-lg
                         font 快速建立專區
                     li.divider
-                      
           if user
             ul.nav.navbar-nav
               li.dropdown
@@ -178,7 +165,7 @@ html
             font#time.label.label-default(style='margin-left:10px;') 
           else
             input#hiddenIdentity(type='hidden',value='')
-            font#time Hi~ 訪客
+            font#time.label.label-default Hi~ 訪客
       #main
         block main
                   
@@ -205,13 +192,6 @@ html
                   |  聯絡地址:403臺中市西區台灣大道二段659號
                 |  聯絡電話:(04)2326-1600 
               th(width='10%',nowrap='nowrap')  
-              //- th(width='20%',nowrap='nowrap')  
-              //-   
-              //- th(width='20%',nowrap='nowrap')   
-              //-   
-              //- th(width='20%',nowrap='nowrap')  
-              //- th(width='20%',nowrap='nowrap')  
-              //- th(width='10%',nowrap='nowrap') 
             tr
               th(width='10%',nowrap='nowrap') 
               th(width='20%',nowrap='nowrap')  

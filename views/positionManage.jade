@@ -2,7 +2,7 @@ extends layout
 
 block main
   link(rel='stylesheet', href='stylesheets/page_css/positionManage.css')
-  link(rel='stylesheet', href='stylesheets/customized.css')
+  //- link(rel='stylesheet', href='stylesheets/customized1.css')
   
   script(src='javascripts/page_js/positionManage.js')
   
@@ -46,7 +46,7 @@ block main
                 .row
                   .col-md-12(style='height:50px;')
                     button.btn.btn-success.new.btn-embossed(style='float:right;margin-top:0px;') 新增地點
-                  .col-md-12(style='height:650px;')
+                  .col-md-12(style='height:500px;')
                     table#lessonList.table.table-condensed
                       tr
                         th(width='5%') #
@@ -58,12 +58,28 @@ block main
                         th(width='10%', style='border-left:1px #ddd solid;') 上鎖
                         th(width='25%', style='border-left:1px #ddd solid;') 操作
                       tbody#area
-                      tr#nobodyList.tr-empty(align='center')
+                      tr#nobodyList(align='center')
                         td(colspan='8')
                           br
                           span#new.new(style='cursor:pointer;')
                             i.fa.fa-plus-circle.fa-3x
+                            br
                             | 新增地點
+                      tr#positionloadingList(align='center')
+                        td(colspan='8')
+                          br
+                          span
+                            i.fa.fa-spinner.fa-pulse.fa-3x
+                            br
+                            br
+                            | 資料讀取中...
+                      tr#positionnobodyList(align='center')
+                        td(colspan='8')
+                          br
+                          span#new(style='cursor:pointer;')
+                            i.fa.fa-exclamation.fa-3x
+                            br
+                            | 查無資料
             .col-md-12
               .paginationWrap.pagesCenter
                 nav

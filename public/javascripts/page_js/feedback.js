@@ -5,186 +5,349 @@ var feedback = (function(){
   }
   _const.prototype = {
     _construct:function(){
-      this._bounce_area = $('#bounce_area');
-
-      this._new = $('.new');
-      this._todayTime = $(".todayTime");
-
-      this._optionText = $("#optionText");
-      this._optionList = $('#optionList');
-      this._optionData = $('#optionData');
-      this._authority = $("#authority").val();
 
 
+      this._addOpinion = $("#addOpinion");
+      this._close = $(".close");
+      this._feedback_box = $('#feedback_box');
+      this._replyBtn = $("#replyBtn");
+      this._responseBtn = $("#responseBtn");
+
+      this._form_title = $(".form_title");
+      this._form_text = $(".form_text");
+      this._form_option = $(".form_option");
+      this._opinionTitle = $("#opinionTitle");
+      this._opinionText = $("#opinionText");
+      this._opinionOption = $("#opinionOption");
+      this._tablet = $('.tablet');  //標題id
+      this._feedback = $("#feedback");
+      this._feedbackNum = $("#feedbackNum");
+      this.id = 1;
+
+      this._opinionList = $("#opinionList");
+      this._loadingList = $("#loadingList");
+      this._nobodyList = $("#nobodyList");
+      this._optionDetail = $("#optionDetail");
       this._start();
     },
 
     _start:function(){
       var objThis = this;
+
+      this._loadingList.hide();
+      this._nobodyList.hide();
       objThis._initialAll();
-      // objThis._getFeedbackList();
-      objThis._setFeedbackList()
+
+      objThis._setOpinionList();    //取得意見列表
     },
 
     _initialAll:function(){
-      //初始化彈跳視窗位置
-      this._bounce_area.css('position','absolute');
-      // this._bounce_area.css('top', '20%');
 
-      //顯示當天時間
-      var now = new Date();
-			this._todayTime.append
-        (   now.getFullYear() + '/' + (now.getMonth()+1) + '/'
-          + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":"
-          + now.getSeconds());
-
-      //新增地點
-      this._new.on('click', $.proxy(function(){
-
-        this._areaBuilding.val('');
-        this._areaFloor.val('');
-        this._areaClass.val('');
-        this._areaPeople.val('');
-        this._areaNote.val('');
-
-        //開啟新增地點視窗
-        this._bounce_area.modal('show');
-      }, this));
-
-
-
-    },
-
-    _checkSubmit:function(){
-      var returnCheck = true;
-      //課程名稱
-      if(this._lessonName.val() == '')
-      {
-        returnCheck = false;
-        this._form_name.addClass("has-error");
-        layer.msg('<b>請輸入課程名稱</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-      }
-      else
-      {
-        this._form_name.removeClass("has-error");
-      }
-      return returnCheck;
-    },
-    _getFeedbackList:function(){
-      var objThis = this;
-      //G_G
-      $.ajax({
-        type:'post',
-        url:'/',
-        success:function(datas){
-            var data = datas.success
-            objThis._setFeedbackList(data);
+      //管理員回覆意見
+      this._responseBtn.on("click",$.proxy(function(e){
+        var objThis = this;
+        $(e.currentTarget).button("loading");
+        var check = true;
+        //判斷是否空值
+        if(this._opinionText.val() ==  ""){
+            this._form_text.addClass("has-error");
+            $(e.currentTarget).button("reset");
+            check = false;
+        }else{
+            this._form_text.removeClass("has-error");
         }
-      });
+        if(check){
+            var id = this._tablet.html();
+            var response = this._opinionText.val();
+            objThis._submitResponse(id,response);
+
+        }else{
+          layer.msg('<b>請回覆意見</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        }
+        $(e.currentTarget).button("reset");
+
+      },this))
+      //回覆意見
+      this._feedback.on("mouseover",$.proxy(function(e){
+        layer.tips('回覆意見', $("#feedback") ,{tips:3,time:1000});
+      },this));
+      //回覆意見
+      // this._feedback.on("click",$.proxy(function(e){
+      //   this._feedback_box.slideToggle();
+      // },this));
+
+      //填寫意見
+      this._addOpinion.on("mouseover",$.proxy(function(e){
+        layer.tips('填寫意見', $("#addOpinion") ,{tips:3,time:1000});
+      },this));
+      //填寫意見
+      this._addOpinion.on("click",$.proxy(function(e){
+        this._getOpinionID()
+        this._opinionTitle.val('');
+        this._opinionText.val('');
+        this._opinionOption.val('請選擇');
+
+        this._feedbackNum.html("0");
+        this._form_title.removeClass("has-error");
+        this._form_text.removeClass("has-error");
+        this._form_option.removeClass("has-error");
+        this._feedback_box.slideToggle();
+      },this));
+
+      //提交意見
+      this._replyBtn.on("click",$.proxy(function(e){
+        var objThis = this;
+        $(e.currentTarget).button("loading");
+        var check = true;
+        //判斷是否空值
+        if(this._opinionTitle.val() ==  ""){
+            this._form_title.addClass("has-error");
+            $(e.currentTarget).button("reset");
+            check = false;
+        }else{
+            this._form_title.removeClass("has-error");
+        }
+
+        if(this._opinionText.val() == ""){
+          this._form_text.addClass("has-error");
+          $(e.currentTarget).button("reset");
+          check = false;
+        }else{
+          this._form_text.removeClass("has-error");
+        }
+
+        if(this._opinionOption.val() == "請選擇"){
+          this._form_option.addClass("has-error");
+          $(e.currentTarget).button("reset");
+          check = false;
+        }else{
+          this._form_option.removeClass("has-error");
+        }
+        if(check){
+            var id = this._tablet.html();
+            var title = this._opinionTitle.val();
+            var text = this._opinionText.val();
+            var option = this._opinionOption.val();
+            objThis._submitOpinion(id,title,text,option);
+
+        }else{
+          layer.msg('<b>請輸入意見標題、內容、選擇選項</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+        }
+        $(e.currentTarget).button("reset");
+      },this));
+
+      //
+      this._opinionTitle.on("blur",$.proxy(function(e){
+        if($(e.currentTarget).val() != ""){
+          this._form_title.removeClass("has-error");
+        }
+      },this));
+      //
+      this._opinionText.on("blur",$.proxy(function(e){
+        if($(e.currentTarget).val() != ""){
+          this._form_text.removeClass("has-error");
+        }
+      },this));
+      //
+      this._opinionOption.on("change",$.proxy(function(e){
+        if($(e.currentTarget).val() != "請選擇"){
+          this._form_option.removeClass("has-error");
+        }
+      },this));
+    },
+    //取得ID
+    _getOpinionID:function(){
+      var Path = this._getPath();
+      var maxid = 1;
+      var objThis = this;
+
+      firebase.database().ref(Path).once('value').then(function(snapshot){
+        var data = snapshot.val();
+        // console.log(data)
+        $.each(data,function(i,v){
+          if(v.id >= maxid){
+            maxid = Number(v.id) + 1;
+            // console.log(maxid)
+            objThis.id = maxid;
+          }
+        });
+        objThis._tablet.html(objThis.id);
+      })
 
     },
-    _setFeedbackList:function(strJson){
+    _submitOpinion:function(id,title,text,option){
+        var Path = this._getPath();
+         //取得現在時間
+         var today = new Date();
+         var nowTime = today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+         var ConverTime = new Date(nowTime).getTime();
+
+
+         var postData = {
+             id:id,
+             title: title,
+             text:text,
+             option:option,
+             createTime: ConverTime,
+             responseTime:'',
+             responseAdmin:'',
+             user: $("#user").html(),
+             feedback:""
+         };
+
+
+         firebase.database().ref(Path).push(postData);
+         layer.msg('<b>新增意見成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+         this._feedback_box.hide();
+    },
+    _submitResponse:function(id,response){
       var objThis = this;
-      var _div;
-      var _input;
-      var _message;
-      var _feedback;
-      var _br;
-      var _row;
-      var _textarea
-      var _button
-      var _label
+      var Path = this._getPath();
+      var key;
+      //取得現在時間
+      var today = new Date();
+      var nowTime = today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var ConverTime = new Date(nowTime).getTime();
 
-      //最高管理者
-      if(objThis._authority == "Admin"){
-        _div = $("<div />",{"class":"row text-primary bg-primary","style":"padding:20px 20px 20px 20px;border-radius:10px;cursor:pointer"});
-        _input = $("<span />",{"text":"1.test123"});
-        _div.bind("click",function(){
-            objThis._optionData.empty();
+      var postData = {
+          id:id,
+          responseTime:ConverTime,
+          responseAdmin: $("#user").html(),
+          feedback:response
+      };
 
-            _div = $("<div />",{"class":"row bg-danger","style":"padding:20px 20px 20px 20px;border-radius:5px;height:500px;"});
-            _row = $("<div />",{"class":"row","style":"padding:0px 20px 0px 20px;"});
 
-            _message = $("<div />",{"class":"triangle-right left bg-info ","style":"float:left;border-radius:10px;",
-                        "text":"這系統太棒了，前端做的太棒了"});
-            _row.append(_message)
-            _div.append(_row);
+      firebase.database().ref(Path).once('value').then(function(e){
+        var data = e.val();
+        $.each(data,function(i,v){
+          $.each(v,function(n,m){
+            if(n == 'id' && m == id){
+              key = i;
+              firebase.database().ref(Path + '/' + key).update(postData);
 
-            _row = $("<div />",{"class":"row","style":"padding:0px 20px 0px 20px;"});
-            _feedback = $("<div />",{"class":"triangle-right right bg-primary ","style":"float:right;border-radius:10px;",
-                        "text":"謝謝"});
-            _row.append(_feedback)
-            _div.append(_row);
+              layer.msg('<b>回覆意見成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+              objThis._setOpinionList();
+              objThis._feedback_box.hide();
+            }
+          })
+        });
+      })
 
-            objThis._optionData.append(_div)
 
-            _row = $("<div />",{"class":"row"});
-            _div = $("<div />",{"class":"col-md-9"});
-            _textarea = $("<textarea />",{"class":"form-control","id":"1","rows":"3","placeholder":"請填寫意見..."});
-            _div.append(_textarea);
-            _row.append(_div);
+    },
+    _setOpinionList:function(){
+      var Path = this._getPath();
+      var objThis = this;
+      var _tr;
+      var _td;
 
-            _div = $("<div />",{"class":"col-md-3"});
-            _button = $("<button />",{"class":"btn btn-primary btn-lg","text":"提交意見","style":"margin-left:10px;"})
-            _button.bind("click",function(){
-                bootbox.alert("管理者提交")
+      objThis._loadingList.show();
+      objThis._nobodyList.hide();
+
+      objThis._opinionList.empty();
+      firebase.database().ref(Path).once('value').then(function(snapshot){
+        var data = snapshot.val();
+        // console.log(data)
+        if(data == null){
+          objThis._loadingList.hide();
+          objThis._nobodyList.show();
+        }
+        $.each(data,function(i,v){
+          _tr = $("<tr />");
+
+          //編號
+          _td = $("<td />",{"text":v.id});
+          _tr.append(_td);
+          //意見者
+          _td = $("<td />",{"text":v.user})
+          _tr.append(_td);
+
+          //標題
+          _td = $("<td />",{"text":v.title})
+          _tr.append(_td);
+
+          //選項
+          _td = $("<td />",{"text":v.option})
+          _tr.append(_td);
+
+          //內容
+          var content='';
+          if(v.text.length > 10){
+            content = v.text.substr(0,10) + "...";
+          }else{
+            content = v.text
+          }
+          _td = $("<td />",{"text":content})
+          _tr.append(_td);
+
+          //意見時間
+          var cTime = new Date(v.createTime).toLocaleString();
+          cTime = cTime.replace(/\-/g,'/')
+          _td = $("<td />",{"text":cTime})
+          _tr.append(_td);
+          //狀態
+          if(v.feedback == ''){
+            _input = $("<span />",{"text":"未回覆","class":"label label-default btn-embossed","style":"font-size:100%;"})
+          }else{
+            _input = $("<span />",{"text":"已回覆","class":"label label-primary btn-embossed","style":"font-size:100%;"})
+          }
+          _td = $("<td />");
+          _td.append(_input);
+          _tr.append(_td);
+
+          //詳細
+          if(v.feedback == ''){
+            _input =$("<span />",{"text":"回覆意見","class":"label label-info btn-embossed","style":"font-size:100%;"});
+            _input.bind("click",function(){
+                objThis._optionDetail
+                    .empty()
+                    .append("<font>意見編號:" + v.id+ "</font><br/><br/>" +
+                            "<font>提供意見者:" + v.user+ "</font><br/><br/>" +
+                            "<font>意見標題:" + v.title+ "</font><br/><br/>" +
+                            "<font>意見選項:" + v.option+ "</font><br/><br/>" +
+                            "<font>意見內容:" + v.text+ "</font><br/><br/>" +
+                            "<font>意見時間:" + cTime+ "</font><br/>");
+                objThis._form_text.removeClass("has-error");
+                objThis._opinionText.val('');
+                objThis._feedbackNum.html("0");
+                objThis._tablet.html(v.id)
+                objThis._responseBtn.show();
+                objThis._replyBtn.hide();
+                objThis._feedback_box.slideToggle();
+
             })
-            _div.append(_button);
-            _row.append(_div);
-
-            objThis._optionText.append(_row);    //右邊下面
-        })
-        _div.append(_input);
-
-        objThis._optionList.append(_div)
-
-      }
-      else{     //使用者
-
-        _div = $("<div />",{"class":"row text-primary bg-primary","style":"padding:20px 20px 20px 20px;border-radius:10px;cursor:pointer"});
-        _input = $("<span />",{"text":"新增意見"});
-        _div.bind("click",function(){
-            objThis._optionData.empty();
-
-            _div = $("<div />",{"class":"row bg-danger","style":"padding:20px 20px 20px 20px;border-radius:5px;height:500px;"});
-            _row = $("<div />",{"class":"row","style":"padding:0px 20px 0px 20px;"});
-            _message = $("<div />",{"class":"triangle-right right bg-info ","style":"float:right;border-radius:10px;",
-                        "text":"這系統太棒了，前端做的太棒了"});
-            _row.append(_message)
-            _div.append(_row);
-
-            _row = $("<div />",{"class":"row","style":"padding:20px 20px 10px 20px;"});
-            _feedback = $("<div />",{"class":"triangle-right left bg-primary","style":"float:left;border-radius:10px;",
-                        "text":"謝謝"});
-            _row.append(_feedback)
-            _div.append(_row);
-
-            objThis._optionData.append(_div)    //右邊訊息
-            _row = $("<div />",{"class":"row"});
-            _div = $("<div />",{"class":"col-md-9"});
-            _textarea = $("<textarea />",{"class":"form-control","id":"1","rows":"3","placeholder":"請填寫意見..."});
-            _div.append(_textarea);
-            _row.append(_div);
-
-            _div = $("<div />",{"class":"col-md-3"});
-            _button = $("<button />",{"class":"btn btn-primary btn-lg","text":"提交意見","style":"margin-left:10px;"})
-            _button.bind("click",function(){
-                bootbox.alert("使用者提交")
-            })
-            _div.append(_button);
-            _row.append(_div);
-
-            objThis._optionText.append(_row);    //右邊下面
-        })
-        _div.append(_input);
-
-        objThis._optionList.append(_div)    //左邊訊息
-
-      }
+          }else{
+            _input =$("<span />",{"text":"查看意見","class":"label label-default btn-embossed","style":"font-size:100%;"});
+            _input.bind("click",function(){
+                bootbox.alert("<b style='font-size:20px;'>查看意見 #" + v.id + "</b><hr/>" +
+                      "意見編號" + v.id +
+                      "<br/><br/>提供意見者:" + v.user +
+                      "<br/><br/>意見標題:" + v.title +
+                      "<br/><br/>意見選項:" + v.option+
+                      "<br/><br/>意見內容:" + v.text+
+                      "<br/><br/>意見時間:" + cTime)
+                    })
+          }
+          _td = $("<td />")
+          _td.append(_input)
+          _tr.append(_td);
 
 
 
+          objThis._nobodyList.hide();
 
+          objThis._opinionList.append(_tr);
+
+        });
+      })
+      objThis._loadingList.hide();
+
+      setTimeout("feedback._setOpinionList()",60000)     //取得意見列表1分鐘
+    },
+    //取得路徑
+    _getPath: function () {
+        this.Path = "/feedback";
+        return this.Path;
     }
   }
   return _const;
@@ -194,3 +357,12 @@ var feedback;
 $(function(){
   feedback = new feedback();
 })
+
+
+function checkNum() {
+    if ($('#opinionText').val().length > 255) {
+        $('#opinionText').val($('#opinionText').val().substring(0, 255));
+        bootbox.alert("字數不可超過255個");
+    }
+    $("#feedbackNum").html($('#opinionText').val().length);
+}

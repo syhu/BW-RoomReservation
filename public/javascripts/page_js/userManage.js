@@ -17,17 +17,25 @@ var userManage = (function(){
         this._filterAccount = $("#filterAccount");
         this._filterAuthority = $("#filterAuthority");
 
+        this._nobodyList = $("#nobodyList");
+        this._loadingList = $("#loadingList");
+
+
         this._start();
     },
 
     _start:function(){
       var objThis = this;
-      objThis._initialAll();
 
+      this._loadingList.hide();
+      this._nobodyList.hide();
+
+      objThis._initialAll();
       objThis._getUserList();
     },
     _initialAll:function(){
         var objThis = this;
+
 
         $("input").iCheck({
           checkboxClass:"icheckbox_flat-blue",
@@ -77,7 +85,7 @@ var userManage = (function(){
        var objThis = this;
        var _td;
        var _tr;
-       console.log(strJson)
+      //  console.log(strJson)
        objThis._userList.empty();
        $.each(strJson,function(i,v){
 
@@ -226,19 +234,24 @@ var userManage = (function(){
      },
      _selectUserList:function(val){
        var objThis = this;
+       objThis._nobodyList.hide();
        $.ajax({
          type:'post',
          url:'/getSearchUser',
          data:{strJson : JSON.stringify(val)},
          success:function(datas){
-           console.log(datas);
              var data = datas.success
+             objThis._loadingList.hide();
              objThis._setUserList(data);
+             if(data.length == 0){
+               objThis._nobodyList.show();
+             }
+         },
+         beforeSend:function(){
+           objThis._loadingList.show();
          },
          complete:function(){
-            // bootbox.alert("查詢成功");
             layer.msg('<b>查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-
          }
        });
 

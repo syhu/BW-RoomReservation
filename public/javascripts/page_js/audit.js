@@ -23,10 +23,7 @@ var aduit = (function(){
     },
 
     _initialAll:function(){
-      //初始化彈跳視窗位置
-      this._bounce_check.css('position','absolute');
-      this._bounce_check.css('top', '30%');
-
+  
 
       //審核通過
       this._btnSubmit.on('click',$.proxy(function(){

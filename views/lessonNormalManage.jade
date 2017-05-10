@@ -2,7 +2,7 @@ extends layout
 block main
     link(rel='stylesheet', href='stylesheets/page_css/lessonManage.css')
     //- link(rel='stylesheet', href='stylesheets/css/font-awesome.min.css')
-    link(rel='stylesheet', href='stylesheets/customized.css')
+    //- link(rel='stylesheet', href='stylesheets/customized.css')
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/page_js/lessonNormalManage.js')
@@ -54,7 +54,7 @@ block main
                     .col-md-12(style='height:50px;')
                       button.btn.btn-success.btn-embossed.new(style='float:right;margin-top:0px;') 新增課程
                       
-                    .col-md-12(style='height:650px;')
+                    .col-md-12(style='height:400px;')
                       table#lessonList.table.table-condensed
                         tr
                           th(width='5%') #
@@ -62,12 +62,13 @@ block main
                           th(width='15%', style='border-left:1px #ddd solid;') 使用教室
                           th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
                         tbody#lesson
-                        tr#nobodyList.tr-empty(align='center')
+                        tr#nobodyList(align='center')
                           td(colspan='4')
                             br
                             span#new.new(style='cursor:pointer;')
                               i.fa.fa-plus-circle.fa-3x
-                              | 															新增課程
+                              br
+                              | 新增課程
               .col-md-12
                 .paginationWrap.pagesCenter
                   nav

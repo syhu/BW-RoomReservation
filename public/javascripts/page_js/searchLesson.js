@@ -55,7 +55,7 @@ var searchLesson = (function(){
           }
 
        },this))
-      this._btnFilter.on("click",$.proxy(function(){
+      this._btnFilter.on("click",$.proxy(function(e){
         var arr = new Array();
         var obj = new Object;
         var date = new Date();
@@ -77,6 +77,7 @@ var searchLesson = (function(){
         arr = arr.concat(obj);
 
         this._getlessonList(arr);
+
       },this));
       //清除查詢
       this._cancelFilter.on("click",$.proxy(function(){
@@ -93,6 +94,8 @@ var searchLesson = (function(){
     //取得列表查詢
     _getlessonList:function(val){
       var objThis = this;
+      objThis._nobodyList.hide();
+
       objThis._lessonList.hide();
       objThis._emptyList.hide();
       objThis._lessonSearchList.hide();
@@ -103,7 +106,7 @@ var searchLesson = (function(){
         data:{strJson: JSON.stringify(val)},
         success:function(datas){
             var data = datas.success
-            console.log(datas)
+            // console.log(datas)
             if (data == 'no data')
             {
               layer.msg('<b>查無資料</b>', {time: 1500, icon:2,shade:[0.5,'black']});
@@ -128,7 +131,6 @@ var searchLesson = (function(){
         },
         complete:function(){
           objThis._lessonloadingList.hide();
-
         }
       });
     },
@@ -137,7 +139,7 @@ var searchLesson = (function(){
       var objThis = this;
       var _tr;
       var _td;
-      console.log(strJson)
+      // console.log(strJson)
 
       objThis._emptySearchList.empty();
       for (var data in strJson)

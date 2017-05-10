@@ -133,7 +133,7 @@ var login = (function(){
 					if(message.success == 'loginFinish')
 					{
 						layer.msg('<b>登入成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-						location.href = '/blank';
+						setTimeout("location.href = '/blank';",1500);
 					}
 					else if(message.success == 'passwordError')
 					{

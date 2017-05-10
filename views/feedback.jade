@@ -2,11 +2,10 @@ extends layout
 
 block main
   link(rel='stylesheet', href='stylesheets/page_css/feedback.css')
-  link(rel='stylesheet', href='stylesheets/customized.css')
+  link(rel='stylesheet', href='stylesheets/customized1.css')
+  link(rel='stylesheet', href='stylesheets/font-hp-icon.css')
   
   script(src='javascripts/page_js/feedback.js')
-    
-    
     
   #manager_center.panel
     .row
@@ -19,25 +18,133 @@ block main
                   i.fa.fa-pencil                          
                   strong(style='margin-left:5px;') 意見回饋
                 br
-          if user && (information[0].authorty == 'Admin')  
-            input#authority(type='hidden', value='Admin')
-            .row(style='padding:10px 20px 10px 20px;')
-              .col-md-3.bg-info(style='height:720px;')
-                font.todayTime 今天時間：
-                div#optionList(style='padding:20px 20px 20px 20px;')
-                  
-              .col-md-9.bg-success(style='height:720px;')
-                div#optionData(style='height:500px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;border-radius:15px;')
-                div#optionText.form-inline(style='height:200px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;')
-                  
-          if user && (information[0].authorty != 'Admin')
-            input#authority(type='hidden', value='')
-            .row(style='padding:10px 20px 10px 20px;')
-              .col-md-3.bg-info(style='height:720px;')
-                font.todayTime 今天時間：
-                div#optionList(style='padding:20px 20px 20px 20px;')
-                  
-              .col-md-9.bg-success(style='height:720px;')
-                div#optionData(style='height:500px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;border-radius:15px;')
-                div#optionText.form-inline(style='height:200px;margin: 20px 20px 20px 20px;overflow-y:auto;overflow-x:hidden;')
+          .row(style='padding:10px 20px 10px 20px;border-radius:20px;')
+            .col-md-12.bg-info(style='height:150px;')
+              | 親愛的學員您好，本討論平台，非常歡迎您對「福智基金會」提出相關問題或提出您的寶貴意見
+              | ，本意見回饋區歡迎針對「課程管理」、「教室調動」、「地點管理」等相關問題，在此提供改進意見。
+              br
+              br
+              font(style='font-size:14px;color:red;')
+                | *內容如有妨害善良風俗、顯然不當之言詞、違反個人資料保護法或與福智基金會無關者，
+                | 發言者應負其法律上民（刑）法及行政責任，且我們將逕為刪除該內容，敬請見諒！
+              br
+              if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')      
+                .icon#feedback
+                  i.fa.fa-reply-all(aria-hidden='true')
                 
+              else 
+                .icon#addOpinion
+                  i.icon-feedback
+                    
+          if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')      
+            .col-md-12(style='height:650px;overflow-y:scroll;overflow-x:hidden;')
+              table.table.table-condensed
+                tr
+                  th(width='10%') 編號
+                  th(width='10%', style='border-left:1px #ddd solid;') 意見者
+                  th(width='10%', style='border-left:1px #ddd solid;') 標題
+                  th(width='10%', style='border-left:1px #ddd solid;') 選項
+                  th(width='30%', style='border-left:1px #ddd solid;') 內容
+                  th(width='10%', style='border-left:1px #ddd solid;') 意見時間
+                  th(width='10%', style='border-left:1px #ddd solid;') 狀態
+                  th(width='10%', style='border-left:1px #ddd solid;') 詳細
+                tbody#opinionList
+                tbody
+                  tr#loadingList(align='center')
+                    td(colspan='8')
+                      br
+                      span
+                        i.fa.fa-spinner.fa-pulse.fa-3x
+                        br
+                        br
+                        | 資料讀取中...
+                  tr#nobodyList(align='center')
+                    td(colspan='8')
+                      br
+                      span(style='cursor:pointer;')
+                        i.fa.fa-exclamation.fa-3x
+                        br
+                        | 查無資料
+
+  //彈跳視窗黑屏
+  #popupBackground.modal-overlay
+
+  // 詳細資訊
+  #feedback_box.modal-basic.modal-message.bg-info(title='', style='border:1px solid black;width: 1000px; margin-left: -500px;overflow:auto')
+    .modal-header.header
+      button.close(type='button', onclick="return layout._dialogClose('feedback_box');")
+        i.icon-close
+      h4.modal-title
+        | #
+        span.tablet 1
+        |  意見回饋
+    .modal-message-body
+      //- .detailWrap
+      //-   .user-info
+      //-     .icon
+      //-       i.icon-feedback
+      //-     .txt
+      //-       span.tablet
+      //-       span.timestamp
+      //-   .detail-c
+      //-     .detail-c-txt
+      //-       p#note
+      //-     .detail-c-pic
+      //-       #note_photo.fileImage
+      //-         .act-image(style='background: url() no-repeat center center; background-size: cover;')
+      //-           span 放大預覽
+          //- #note_noPhoto.fileImageEmpty
+          //-   | 無附加檔案
+            // /住戶msg
+      // 管理人員msg
+      if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')      
+        #replyUser
+          .icon
+            i.fa.fa-user(aria-hidden='true')
+          .txt-panel
+            div(style='overflow: hidden; padding: 15px; min-height: 180px;')
+              .detail-c-txt
+                #optionDetail.bg-gray(style='font-size:15px;border-radius:10px;padding:20px;')
+                .form-group.form_text
+                  label
+                    | 回覆意見
+                  textarea#opinionText.form-control(rows='4', placeholder='   請回覆意見', onkeyup='return checkNum();',style='')
+                div(style='text-align: right;')
+                  | 字數 
+                  span#feedbackNum 0
+                  | /255
+      else 
+        #replyDiv.replyWrap
+          .user-info
+            .icon
+              i.icon-user
+            span
+          .txt-panel
+            div(style='overflow: hidden; padding: 15px; min-height: 180px;')
+              .detail-c-txt
+                .form-group.form_title
+                  label
+                    | 意見標題
+                  input.form-control#opinionTitle(type='text',placeholder=' 請輸入意見標題')
+                .form-group.form_option
+                  label
+                    | 意見選項
+                  select.form-control#opinionOption 
+                    option(value='請選擇') 請選擇
+                    option(value='設計太棒') 設計太棒
+                    option(value='鬼斧神工') 鬼斧神工
+                    option(value='其他') 其他
+                .form-group.form_text 
+                  label
+                    | 意見內容
+                  textarea#opinionText.form-control(rows='4', placeholder='   請輸入意見回饋', onkeyup='return checkNum();',style='')
+                div(style='text-align: right;')
+                  | 字數 
+                  span#feedbackNum 0
+                  | /255
+      .wordsumWrap
+        .content
+          .submit-part(style='margin-top:20px;float:right;')
+            button.btn.btn-default.btn-embossed(type='button',onclick="return layout._dialogClose('feedback_box');") 取消
+            button#responseBtn.btn.btn-success.btn-embossed(type='button',style='display:none;') 提交回饋
+            button#replyBtn.btn.btn-primary.btn-embossed(type='button') 確定送出

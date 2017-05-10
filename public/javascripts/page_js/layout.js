@@ -164,7 +164,12 @@ var layout = (function(){
 		  var month = nowTime.getMonth() + 1;
 		  var day = nowTime.getDate();
 			return year + "/" + this._padLeft(month) + '/' + this._padLeft(day);
-		}
+		},
+		_dialogClose: function (type) {
+      
+          $(".modal-overlay").hide();
+          $("#" + type).hide();
+      }
   }
 return _const;
 }());
