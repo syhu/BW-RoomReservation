@@ -137,10 +137,7 @@ html
               ul.dropdown-menu
                 if user
                   li
-                    a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown') ID:#{user}
-                  li.divider
-                  li
-                    a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  忘記密碼
+                    a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  更改密碼
                   li.divider
                   li
                     a.dropdown-toggle(onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
@@ -154,9 +151,9 @@ html
                   li.divider
                   li
                     a.dropdown-toggle(onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
-                li.divider
-                li
-                  a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  忘記密碼
+                  li.divider
+                  li
+                    a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  忘記密碼
                 li.divider
                 li
                   a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  使用說明

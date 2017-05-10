@@ -22,9 +22,9 @@ function hashPW(account, password){
   return hash.digest('hex');
 }
 
-function hashID(pwHash, identity){
+function hashID(account, identity){
   var hash = crypto.createHash('md5');
-  hash.update(pwHash + identity);
+  hash.update(account + identity);
   return hash.digest('hex');
 }
 
@@ -310,7 +310,7 @@ router.post('/register',function(req, res, next) {
   var sex = req.body.gender;
   console.log(sex);
   var identity = req.body.identity;
-  var idHash = hashID(pwHash, identity);
+  var idHash = hashID(account, identity);
   var birthday = req.body.birthday1 + '/' + req.body.birthday2 + '/' + req.body.birthday3;
   var address = req.body.address;
   if(req.xhr || req.accepts('json, html') === 'json')
@@ -906,7 +906,7 @@ router.post('/fastCreateUser', function(req, res, next){
       var sex = Math.floor((Math.random() * 2) + 1);
       var sex = (sex==1) ? 'male' : 'female';
       var id = getRandID(sex);
-      var idHash = hashID(pwHash, id)
+      var idHash = hashID(account, id)
       var birthday = getRandTime();
       var address = getRandString(10);
       user.searchAccountReapet(account, function(err, repeat)
