@@ -102,6 +102,7 @@ var apply = (function(){
           							if(message.success == 'yes')
           							{
           								layer.msg('<b>申請課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                          location.href = '/lesson'
           							}
                         else if(message.success == 'no')
                         {
@@ -112,10 +113,7 @@ var apply = (function(){
           						{
           							alert('error: ' + xhr);console.log(xhr);
           							layer.msg('<b>好像出現了意外錯誤</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-          						},
-                      complete:function(){
-                          location.href = '/lesson'
-                      }
+          						}
           					});
                 }else{
                   layer.msg('<b>取消申請課程</b>', {time: 1500, icon:2,shade:[0.5,'black']});
@@ -171,7 +169,7 @@ var apply = (function(){
             var data = JSON.parse(this._hiddenPositionData.val());
             $.each(data,function(i,v){
                 if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
-                    objThis.checkPeople  = v.people;
+                    objThis.checkPeople  = parseInt(v.people);
                 }
             })
             objThis._lessonPeople.removeAttr("disabled")

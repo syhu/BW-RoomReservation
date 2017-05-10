@@ -260,7 +260,7 @@ var lessonNormalManage = (function(){
 						var data = JSON.parse(this._hiddenPositionData.val());
 						$.each(data,function(i,v){
 								if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
-										objThis.checkPeople  = v.people;
+										objThis.checkPeople  = parseInt(v.people);
 										// console.log(objThis.checkPeople)
 								}
 						})

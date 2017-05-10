@@ -51,16 +51,16 @@ html
               td
                 br
                 b 驗證碼
-                input.form-control.input-sm.currentNum(type='text')
+                input#code.form-control.input-sm.currentNum(type='text')
                 br
-                .check_img(style='float:left;')
+                #verification.check_img(style='float:left;')
                 img.reload(src='images/reload.png', style='margin-left:10px;cursor:pointer;', title='重新產生')
             tr
               td
                 a#registered1.registered(href='/register', style='cursor:pointer;font-size:12px;float:right;') 還沒有帳號
             tr
               td
-                input.btn.btn-primary.chk.btn-embossed(type='button', value='登入', style='width:250px;')
+                input#login.btn.btn-primary.chk.btn-embossed(type='button', value='登入', style='width:250px;')
             tr
               td  
             tr

@@ -10,7 +10,7 @@ var master = (function(){
 		this._construct();
 	}
 	_const.prototype = {
-		_construct:function(){			
+		_construct:function(){
 			this._page = $("#page");
 			this._header = $("#header");
 			this._option = $("#option");
@@ -45,17 +45,17 @@ var master = (function(){
 			//歡迎視窗
 			if(objThis._identity != "visitor"){
 				if(objThis._loginTimes == 0){
-					layer.open({
-						type: 1,
-						title:"<b>登入成功</b>",
-						skin: 'layui-layer-lan',
-						shade: false,
-						area: ['400px', '200px'], //宽高
-						content: objThis._welcome.val(),
-						time:3000,
-
-						cancel: function(){
-							layer.msg('您可以進行課程查詢或教室調動', {time: 3000, icon:1});
+					// layer.open({
+					// 	type: 1,
+					// 	title:"<b>登入成功</b>",
+					// 	skin: 'layui-layer-lan',
+					// 	shade: false,
+					// 	area: ['400px', '200px'], //宽高
+					// 	content: objThis._welcome.val(),
+					// 	time:3000,
+					//
+					// 	cancel: function(){
+					// 		layer.msg('您可以進行課程查詢或教室調動', {time: 3000, icon:1});
 						}
 					})
 				};

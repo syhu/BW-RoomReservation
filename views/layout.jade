@@ -130,27 +130,30 @@ html
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(style='font-size:20px;cursor:pointer;', data-toggle='dropdown')
-                span.fui-list
+                span#hamberger.fui-list
               ul.dropdown-menu
                 if user
                   li
                     a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown') ID:#{user}
                   li.divider
                   li
-                    a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  更改密碼
+                    a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  忘記密碼
                   li.divider
                   li
                     a.dropdown-toggle(onclick='information();', style='font-size:15px;', data-toggle='dropdown')  個人資訊
                   li.divider
                   li
-                    a.dropdown-toggle(onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
+                    a#logout.dropdown-toggle(onclick='logout();', style='font-size:15px;', data-toggle='dropdown')  登出
                 else
                   li.divider
                   li
-                    a.dropdown-toggle(onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
+                    a#login.dropdown-toggle(onclick='login();', style='font-size:15px', data-toggle='dropdown')  登入
                   li.divider
                   li
                     a.dropdown-toggle(onclick='signin();', style='font-size:15px', data-toggle='dropdown')  註冊
+                li.divider
+                li
+                  a.dropdown-toggle(onclick='forgetPassword();',style='font-size:15px;', data-toggle='dropdown')  忘記密碼
                 li.divider
                 li
                   a.dropdown-toggle(style='font-size:15px;', data-toggle='dropdown')  使用說明
