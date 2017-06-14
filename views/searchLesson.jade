@@ -7,7 +7,16 @@ block main
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
+    
+    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css')
+    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css')
+    script(src='javascripts/jquery.dataTables.js')  
+    script(src='javascripts/dataTables.buttons.min.js')  
+    script(src='javascripts/buttons.flash.min.js')  
+    script(src='javascripts/jszip.min.js')  
+    
     script(src='javascripts/page_js/searchLesson.js')  
+    
 
     div    
       #manager_center.panel(style='border:2px solid black;')
@@ -62,7 +71,7 @@ block main
                     div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                       .row
                         .col-md-12(style='height:650px;')
-                          table.table.table-condensed
+                           table.table.table-condensed#GenerateTable
                             tbody#lessonList
                               tr
                                 th(width='5%') #
@@ -75,7 +84,6 @@ block main
                                 th(width='20%', style='border-left:1px #ddd solid;') 詳細資料
                               tbody#lessonSearchList
                             tbody#emptyList
-                              
                               tr
                                 th(width='10%') #
                                 th(width='22.5%', style='border-left:1px #ddd solid;') 日期
@@ -85,7 +93,7 @@ block main
                               tbody#emptySearchList
                             tbody
                               tr#lessonloadingList(align='center')
-                                td(colspan='1')
+                                td(colspan='8')
                                   br
                                   span
                                     i.fa.fa-spinner.fa-pulse.fa-3x
@@ -93,13 +101,16 @@ block main
                                     br
                                     | 資料讀取中...
                               tr#nobodyList(align='center')
-                                td(colspan='1')
+                                td(colspan='8')
                                   br
                                   span#new(style='cursor:pointer;')
                                     i.fa.fa-exclamation.fa-3x
                                     br
                                     | 查無資料
-                    
-                        
-                        
-    
+                                    
+                          
+                          
+                          
+                          
+                          
+                          

@@ -284,7 +284,7 @@ var master = (function(){
 }());
 var myMaster
 $(function(){
-	setTimeout("layout._changeImageSize();",500)
+	setTimeout("layout._changeImageSize();",1000)
 	myMaster = new master();
 })
 

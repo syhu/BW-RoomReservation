@@ -75,6 +75,7 @@ var lessonManage = (function(){
 			this._form_lessonName = $(".form_lessonName");
 			this._form_contractName = $(".form_contractName");
 			this._form_telephone = $(".form_telephone");
+			this.Editlesson = '';
 			//編輯課程ID
       this._EditlessonIDName = $("#EditlessonIDName");
       this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
@@ -148,7 +149,7 @@ var lessonManage = (function(){
 						var data = JSON.parse(this._hiddenPositionData.val());
 						$.each(data,function(i,v){
 								if($(e.currentTarget).val() == v.classroom && objThis._lessonBuilding.val() == v.building && objThis._lessonFloor.val() == v.floor){
-										objThis.checkPeople  = v.people;
+										objThis.checkPeople  = parseInt(v.people);
 										// console.log(objThis.checkPeople)
 								}
 						})
@@ -200,18 +201,19 @@ var lessonManage = (function(){
 					else
 					{
 						objThis._form_people.removeClass("has-error");
+						//在判斷容納人數
+						if (objThis.checkPeople < objThis._lessonPeople.val())
+						{
+							check = false;
+							objThis._form_people.addClass("has-error");
+							errorText += '<b>輸入人數超出教室容量</b><br/>';
+						}
+						else
+						{
+							objThis._form_people.removeClass("has-error");
+						}
 					}
-					//在判斷容納人數
-					if (objThis.checkPeople < objThis._lessonPeople.val())
-					{
-						check = false;
-						objThis._form_people.addClass("has-error");
-						errorText += '<b>輸入人數超出教室容量</b><br/>';
-					}
-					else
-					{
-						objThis._form_people.removeClass("has-error");
-					}
+
 
 				}
 				//判斷上課時間
@@ -237,7 +239,7 @@ var lessonManage = (function(){
 				if(errorText != ''){
 							layer.msg(errorText, {time: 3000, icon:2,shade:[0.5,'black']});
 				}else{
-					alert("success")
+					objThis._updateLesson(objThis.Editlesson);
 				}
 
 
@@ -457,7 +459,7 @@ var lessonManage = (function(){
 				dataType: "json",
 				success: function(datas){
 						var data = datas.howLesson;
-						// console.log(data.length)
+						// console.log(data)
 						if(data.length > 0){
 							objThis._lessonloadingList.hide();
 							objThis._setAllPassLesson(data);
@@ -524,18 +526,7 @@ var lessonManage = (function(){
 				_td = $("<td />");
 				_input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
 				_input.bind("click",function(){
-						// bootbox.alert("編輯" + v.lessonID)
-						// objThis._EditlessonName.html("<font style='color:blue;'>" + v.name + "</font>  ");
-						// var arrTimes = v.lessonID.split('-');
-						// objThis._EditlessonTimes.html("第 <b style='color:red;'>" + arrTimes[2] + "</b> 次上課")
-						// objThis._EditlessonClass.val('');
-						// objThis._EditlessonClassTime.val(v.time);
-						// objThis._EditlessonPeriod.val(v.period);
-						// objThis._EditlessonPeople.val(v.people);
-						// objThis._EditlessonNote.val(v.note);
-						//
-						//
-						// objThis._bounce_edit.modal("show");
+						objThis.Editlesson = v.lessonID;
 
 						//移除error
 						objThis._form_class.removeClass('has-error');
@@ -550,34 +541,47 @@ var lessonManage = (function(){
 
 						var check = false;
 						$.each(data,function(n,m){
-							// console.log(m.building +  "   " +v.building )
-							// console.log(m.floor +  "   " +v.floor )
-							// console.log(m.classroom +  "   " +v.classroom )
-
 								if(m.building == v.building && m.floor == v.floor && m.classroom == v.lessonClass)	{
 									check = true;
 								}
 						})
 						//
-						if(!check)	objThis._lockTip.html("<br/><b style='font-size:8px;'>(<span style='color:red;'>*</span>此教室已上鎖，請更換教室)</b>");
-						else objThis._lockTip.html('');
+						if(!check)	{
+							objThis._lockTip.html("<br/><b style='font-size:8px;'>(<span style='color:red;'>*</span>此教室已上鎖，請更換教室)</b>");
+							objThis._lessonBuilding.val('請選擇');
+							objThis._lessonFloor.empty();
+							objThis._lessonClass.empty();
+							objThis._lessonPeople.val('')
+						}
+						else {
+							objThis._lockTip.html('');
+							objThis._lessonBuilding.val(v.building);
+							objThis._lessonFloor.empty().append("<option value='" + v.floor + "'>" + v.floor + "</option>").val(v.floor);
+							objThis._lessonClass.empty().append("<option value='" + v.lessonClass + "'>" + v.lessonClass + "</option>").val(v.lessonClass)
+							objThis._lessonPeople.val(v.people)
+						}
 
 						objThis._lessonName.html(v.name);
-						objThis._lessonBuilding.val(v.building);
 						// objThis._lessonBuilding.empty().append("<option value='" + v.building + "'>" + v.building + "</option>").val(v.building);
-						objThis._lessonFloor.empty().append("<option value='" + v.floor + "'>" + v.floor + "</option>").val(v.floor);
-						objThis._lessonClass.empty().append("<option value='" + v.lessonClass + "'>" + v.lessonClass + "</option>").val(v.lessonClass)
 						objThis._lessonTime.val(v.time);
 						objThis._lessonPeriod.val(v.period);
 						objThis._lessondetailName.val(v.contract)
 						objThis._lessondetailPhone.val(v.contractPhone)
-						objThis._lessonPeople.val(v.people)
 						objThis._lessonNote.val(v.note);
+						//人數
+						var data = JSON.parse(objThis._hiddenPositionData.val());
+						$.each(data,function(a,b){
+								if(objThis._lessonClass.val() == b.classroom && objThis._lessonBuilding.val() == b.building && objThis._lessonFloor.val() == b.floor){
+										objThis.checkPeople  = parseInt(b.people);
+										console.log(objThis.checkPeople)
+								}
+						})
 
 						objThis._bounce_editlesson.modal("show");
 
 				})
 				_td.append(_input);
+				//刪除
 				_input = $("<span />",{"class":"label label-danger btn-embossed","text":"刪除","style":"margin-left:10px;font-size:100%;"});
 				_input.bind("click",function(){
 						var arrTimes = v.lessonID.split('-');
@@ -616,6 +620,7 @@ var lessonManage = (function(){
 							setTimeout("$('.bootbox-input').val('')",500)
 				})
 				_td.append(_input);
+				//課程詳細
 				_input = $("<span />",{"class":"label label-default btn-embossed","text":"課程細節","style":"margin-left:10px;font-size:100%;"});
 				_input.bind("click",function(){
 					bootbox.alert("<b style='font-size:20px;'>課程細節</b><hr/>" +
@@ -669,16 +674,51 @@ var lessonManage = (function(){
 			});
 
 		},
+		//更新課程
+		_updateLesson:function(id){
+			var objThis = this;
+			var arr = new Array();
+			var obj = new Object;
+			obj.id = id;
+			obj.building = objThis._lessonBuilding.val();
+			obj.floor = objThis._lessonFloor.val();
+			obj.lessonClass = objThis._lessonClass.val();
+			obj.time = objThis._lessonTime.val();
+			obj.period = objThis._lessonPeriod.val();
+			obj.people = objThis._lessonPeople.val();
+			obj.note = objThis._lessonNote.val();
+
+			arr = arr.concat(obj)
+			$.ajax({
+				type:'post',
+				url:'/',
+				data:{strJson:JSON.stringify(arr)},
+				success:function(datas){
+					console.log(datas)
+					if(datas.success == 'yes'){
+						layer.msg('<b>編輯課程聯絡資料成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+						objThis._bounce_edit.modal('hide');
+						objThis._getlessonIDList();
+					}else if(datas == 'no'){
+						layer.msg('<b>已有相同的課程名稱及聯絡人</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}else {
+						layer.msg('<b>已有相同的課程縮寫</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+					}
+				}
+			})
+		},
 		//更新課程ID
 		_updateLessonID:function(id){
 			var objThis = this;
 			var arr = new Array();
 			var obj = new Object;
+
 			obj.id = id;
 			obj.name = objThis._EditlessonIDName.html();
 			obj.abbreviation = objThis._EditlessonIDabbreviation.val();
 			obj.contract = objThis._EditContractName.val();
 			obj.contractPhone = objThis._EditContractPhone.val();
+
 			arr = arr.concat(obj)
 			$.ajax({
 				type:'post',

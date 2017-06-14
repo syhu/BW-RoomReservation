@@ -24,6 +24,9 @@ var searchLesson = (function(){
       this._lessonloadingList = $("#lessonloadingList");
       this._nobodyList = $("#nobodyList");
 
+      //資料表
+      this.GenerateTable = $('#GenerateTable');
+
       this._start();
     },
 
@@ -35,6 +38,7 @@ var searchLesson = (function(){
       this._nobodyList.hide();
 
       var today = layout._showTime();
+      // objThis._GenerateDataTable();
       objThis._initialAll();
       objThis._getPositionList();
       objThis._filterTimeStart.val(today)
@@ -42,7 +46,6 @@ var searchLesson = (function(){
       $('input').iCheck('check');   //将输入框的状态设置为checked
 
     },
-
     _initialAll:function(){
 
       this._filterEmptyClass.on("ifClicked",$.proxy( function (e) {
@@ -91,6 +94,62 @@ var searchLesson = (function(){
         // this._filterEmptyClass = $("#filterEmptyClass");
       },this));
     },
+    _GenerateDataTable: function () {
+            var objThis = this;
+            this.Table = this._emptyList.dataTable(
+                {
+                    // columns: [
+                    //          { data: 'type' },
+                    //          { data: 'unit' },
+                    //          { data: 'source' },
+                    //          { data: 'com' },
+                    //          { data: 'time' },
+                    //          { data: 'status1' },
+                    //          { data: 'status2'},
+                    //          { data: 'status3'},
+                    //          { data: 'status4' },
+                    //          { data: 'detail' },
+                    //          {
+                    //              data: "unlock", render: function (data, type, row, a) {
+                    //
+                    //
+                    //                  _input = $("<button />", { "type": "button", "text": "解鎖", "class": "btn btn-default unlock", "c_id": data });
+                    //
+                    //
+                    //                  return _input[0].outerHTML;
+                    //              }
+                    //          }
+                    //
+                    //
+                    //
+                    // ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                      {
+                          extend: 'excel',
+                          text: '匯出Excel'
+                      },
+                    ],
+                    "oLanguage": {
+                        "sSearch": "搜尋： ",
+                        "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                        "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                        "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                        "sProcessing": "資料讀取中...",
+                        "sEmptyTable": "查無資料",
+                        sSearchPlaceholder: "請輸入關鍵字..",
+                        "sZeroRecords": "查無資料",
+                        sInfoEmpty: ""
+                    },
+                    "serverSide": false,
+                    "deferLoading": 57,
+                    "iDisplayLength": 25,
+                    "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "全部"]]
+                });
+            $('.dataTables_empty').html('無');
+
+
+      },
     //取得列表查詢
     _getlessonList:function(val){
       var objThis = this;
@@ -120,6 +179,7 @@ var searchLesson = (function(){
               if(objThis._filterEmptyClass.is(":checked")){
                 layer.msg('<b>空教室查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setemptyList(datas.success);
+
               }else{
                 layer.msg('<b>課程查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setlessonList(datas.success);
