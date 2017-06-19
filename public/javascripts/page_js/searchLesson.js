@@ -15,30 +15,32 @@ var searchLesson = (function(){
       this._btnFilter = $("#btnFilter");
       this._cancelFilter = $("#cancelFilter");
 
-      this._lessonList = $("#lessonList");
-      this._emptyList = $("#emptyList");
 
-      this._lessonSearchList = $("#lessonSearchList");
-      this._emptySearchList = $("#emptySearchList");
 
-      this._lessonloadingList = $("#lessonloadingList");
-      this._nobodyList = $("#nobodyList");
+      this._lessonloadingList = $(".lessonloadingList");
+
 
       //資料表
-      this.GenerateTable = $('#GenerateTable');
+      this._emptylistTable = $('#emptylistTable');
+      this._lessonlistTable = $('#lessonlistTable');
 
       this._start();
     },
 
     _start:function(){
       var objThis = this;
-      this._lessonList.hide();
-      this._emptyList.hide();
+      this._lessonlistTable.hide();
+      this._emptylistTable.hide();
       this._lessonloadingList.hide();
-      this._nobodyList.hide();
+
 
       var today = layout._showTime();
-      // objThis._GenerateDataTable();
+      objThis._EmptyDataTable();   /* 空教室列表初始化 */
+      objThis._LessonDataTable();   /* 空教室列表初始化 */
+
+      $("#lessonlistTable_wrapper").hide();
+      $("#emptylistTable_wrapper").hide();
+
       objThis._initialAll();
       objThis._getPositionList();
       objThis._filterTimeStart.val(today)
@@ -94,71 +96,75 @@ var searchLesson = (function(){
         // this._filterEmptyClass = $("#filterEmptyClass");
       },this));
     },
-    _GenerateDataTable: function () {
-            var objThis = this;
-            this.Table = this._emptyList.dataTable(
-                {
-                    // columns: [
-                    //          { data: 'type' },
-                    //          { data: 'unit' },
-                    //          { data: 'source' },
-                    //          { data: 'com' },
-                    //          { data: 'time' },
-                    //          { data: 'status1' },
-                    //          { data: 'status2'},
-                    //          { data: 'status3'},
-                    //          { data: 'status4' },
-                    //          { data: 'detail' },
-                    //          {
-                    //              data: "unlock", render: function (data, type, row, a) {
-                    //
-                    //
-                    //                  _input = $("<button />", { "type": "button", "text": "解鎖", "class": "btn btn-default unlock", "c_id": data });
-                    //
-                    //
-                    //                  return _input[0].outerHTML;
-                    //              }
-                    //          }
-                    //
-                    //
-                    //
-                    // ],
-                    dom: 'lBfrtip',
-                    buttons: [
-                      {
-                          extend: 'excel',
-                          text: '匯出Excel'
-                      },
-                    ],
-                    "oLanguage": {
-                        "sSearch": "搜尋： ",
-                        "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
-                        "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
-                        "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
-                        "sProcessing": "資料讀取中...",
-                        "sEmptyTable": "查無資料",
-                        sSearchPlaceholder: "請輸入關鍵字..",
-                        "sZeroRecords": "查無資料",
-                        sInfoEmpty: ""
-                    },
-                    "serverSide": false,
-                    "deferLoading": 57,
-                    "iDisplayLength": 25,
-                    "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "全部"]]
-                });
-            $('.dataTables_empty').html('無');
+    _LessonDataTable:function(){
+      var objThis = this;
+       var today = new Date();
 
+       var Table = this._lessonlistTable.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
 
-      },
+           objThis._lessonlistTable.fnClearTable();
+
+    },
+    _EmptyDataTable: function () {
+      var objThis = this;
+       var today = new Date();
+
+       var Table = this._emptylistTable.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
+
+           objThis._emptylistTable.fnClearTable();
+    },
     //取得列表查詢
     _getlessonList:function(val){
       var objThis = this;
-      objThis._nobodyList.hide();
 
-      objThis._lessonList.hide();
-      objThis._emptyList.hide();
-      objThis._lessonSearchList.hide();
-      objThis._emptySearchList.hide();
+      layer.msg('<b>資料查詢中</b>', { icon:0,shade:[0.5,'black']});
+
+      $("#emptylistTable_wrapper").hide();
+      $("#lessonlistTable_wrapper").hide();
+
+      objThis._lessonlistTable.hide();
+      objThis._emptylistTable.hide();
+
       $.ajax({
         type:'post',
         url:'/searchLessonDetail',
@@ -169,18 +175,20 @@ var searchLesson = (function(){
             if (data == 'no data')
             {
               layer.msg('<b>查無資料</b>', {time: 1500, icon:2,shade:[0.5,'black']});
-              objThis._nobodyList.show();
 
             }
             else
             {
-              objThis._nobodyList.hide();
+
+              $("#emptylistTable_wrapper").show();
 
               if(objThis._filterEmptyClass.is(":checked")){
                 layer.msg('<b>空教室查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setemptyList(datas.success);
 
               }else{
+                $("#lessonlistTable_wrapper").show();
+
                 layer.msg('<b>課程查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setlessonList(datas.success);
               }
@@ -200,8 +208,10 @@ var searchLesson = (function(){
       var _tr;
       var _td;
       // console.log(strJson)
+      objThis._emptylistTable.fnClearTable();
 
-      objThis._emptySearchList.empty();
+
+
       for (var data in strJson)
       {
         var emptyData = strJson[data].split(' ')
@@ -228,14 +238,11 @@ var searchLesson = (function(){
           _td = $("<td />",{"text":''});
         }
         _tr.append(_td);
-        objThis._emptySearchList.append(_tr);
+        objThis._emptylistTable.fnAddData(_tr);
+
       }
 
-
-
-
-      objThis._emptySearchList.show();
-      objThis._emptyList.show();
+      objThis._emptylistTable.show();
     },
     //查課程
     _setlessonList:function(strJson){
@@ -245,8 +252,8 @@ var searchLesson = (function(){
       var _td;
 
       console.log(strJson)
+      objThis._lessonlistTable.fnClearTable();
 
-      objThis._lessonSearchList.empty();
       $.each(strJson,function(i,v){
         _tr = $("<tr />");
         //#
@@ -292,12 +299,13 @@ var searchLesson = (function(){
         _td = $("<td />");
         _td.append(_input)
         _tr.append(_td)
-        objThis._lessonSearchList.append(_tr);
+        objThis._lessonlistTable.fnAddData(_tr);
 
       })
 
-      objThis._lessonSearchList.show();
-      objThis._lessonList.show();
+
+      objThis._lessonlistTable.show();
+
     },
     //取得地點
     _getPositionList:function(){

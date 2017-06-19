@@ -8,9 +8,10 @@ block main
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
     
-    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css')
-    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css')
-    script(src='javascripts/jquery.dataTables.js')  
+    link(rel='stylesheet', type='text/css', href='stylesheets/butons.dataTables.min.css')
+    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css')
+    //- link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css')
+    script(src='javascripts/jquery.dataTables.min.js')  
     script(src='javascripts/dataTables.buttons.min.js')  
     script(src='javascripts/buttons.flash.min.js')  
     script(src='javascripts/jszip.min.js')  
@@ -68,49 +69,42 @@ block main
                         button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
 
                   .col-md-12
-                    div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
+                    div(style='margin: 10px 10px 10px 10px;')
                       .row
-                        .col-md-12(style='height:650px;')
-                           table.table.table-condensed#GenerateTable
-                            tbody#lessonList
-                              tr
-                                th(width='5%') #
-                                th(width='15%', style='border-left:1px #ddd solid;') 課程名稱
-                                th(width='10%', style='border-left:1px #ddd solid;') 使用教室
-                                th(width='10%', style='border-left:1px #ddd solid;') 上課人數
-                                th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-                                th(width='10%', style='border-left:1px #ddd solid;') 聯絡人
-                                th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
-                                th(width='20%', style='border-left:1px #ddd solid;') 詳細資料
-                              tbody#lessonSearchList
-                            tbody#emptyList
-                              tr
-                                th(width='10%') #
-                                th(width='22.5%', style='border-left:1px #ddd solid;') 日期
-                                th(width='22.5%', style='border-left:1px #ddd solid;') 教室
-                                th(width='22.5%', style='border-left:1px #ddd solid;') 時段
-                                th(width='22.5%', style='border-left:1px #ddd solid;') 上鎖
-                              tbody#emptySearchList
-                            tbody
-                              tr#lessonloadingList(align='center')
-                                td(colspan='8')
-                                  br
-                                  span
-                                    i.fa.fa-spinner.fa-pulse.fa-3x
-                                    br
-                                    br
-                                    | 資料讀取中...
-                              tr#nobodyList(align='center')
-                                td(colspan='8')
-                                  br
-                                  span#new(style='cursor:pointer;')
-                                    i.fa.fa-exclamation.fa-3x
-                                    br
-                                    | 查無資料
-                                    
-                          
-                          
-                          
-                          
+                        table#lessonlistTable.table.table-bordered
+                          thead
+                            tr.title
+                              th #
+                              th 課程名稱
+                              th 使用教室
+                              th 上課人數
+                              th 時間 - 時段
+                              th 聯絡人
+                              th 聯絡電話
+                              th 詳細資料
+                          tbody
+                          tr.lessonloadingList
+                            td(colspan='8')
+                              .loading-box
+                                .circle
+                                  div
+                                span.txt 資料讀取中...  
+                                
+                        table#emptylistTable.table.table-bordered
+                          thead
+                            tr.title
+                              th #
+                              th 日期
+                              th 教室
+                              th 時段
+                              th 上鎖
+                          tbody
+                          tr.lessonloadingList
+                            td(colspan='5')
+                              .loading-box
+                                .circle
+                                  div
+                                span.txt 資料讀取中...
+
                           
                           
