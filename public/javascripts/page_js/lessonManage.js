@@ -113,10 +113,12 @@ var lessonManage = (function(){
 				objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>")
 				if($(e.currentTarget).val() != "請選擇"){
 						var data = JSON.parse(this._hiddenPositionData.val());
+						console.log(data)
 						$.each(data,function(i,v){
 								check = true;
 								if($(e.currentTarget).val() == v.building){
-									$("#filterFloor option").each(function(index,element){
+									$("#lessonFloor option").each(function(index,element){
+										console.log($(element).val())
 										if($(element).val() == v.floor )  check = false;
 									});
 									if(check){
@@ -130,8 +132,8 @@ var lessonManage = (function(){
 			//樓層change
 			this._lessonFloor.on("change",$.proxy(function(e){
 				var objThis = this;
+				objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
 				if($(e.currentTarget).val() != "請選擇"){
-					objThis._lessonClass.empty().append("<option value='請選擇'>請選擇</option>");
 					var data = JSON.parse(this._hiddenPositionData.val());
 					$.each(data,function(i,v){
 							if($(e.currentTarget).val() == v.floor && objThis._lessonBuilding.val() == v.building){
@@ -159,11 +161,11 @@ var lessonManage = (function(){
 					}
 			},this));
 
-			//tab1 課程聯絡
+			//tab1 課程細節˙
 			this._tab1.on("click",$.proxy(function(){
 				this._getAllPassLesson();		//取得課程聯絡列表
 			},this));
-			//tab2 課程細節
+			//tab2 課程聯絡
 			this._tab2.on("click",$.proxy(function(){
 				this._getlessonIDList();		//取得課程細節列表
 			},this));
@@ -556,8 +558,13 @@ var lessonManage = (function(){
 						else {
 							objThis._lockTip.html('');
 							objThis._lessonBuilding.val(v.building);
-							objThis._lessonFloor.empty().append("<option value='" + v.floor + "'>" + v.floor + "</option>").val(v.floor);
-							objThis._lessonClass.empty().append("<option value='" + v.lessonClass + "'>" + v.lessonClass + "</option>").val(v.lessonClass)
+							objThis._lessonBuilding.change();
+
+							objThis._lessonFloor.val(v.floor).change().val(v.floor);
+							objThis._lessonClass.val(v.lessonClass);
+
+							// objThis._lessonFloor.empty().append("<option value='" + v.floor + "'>" + v.floor + "</option>").val(v.floor);
+							// objThis._lessonClass.empty().append("<option value='" + v.lessonClass + "'>" + v.lessonClass + "</option>").val(v.lessonClass)
 							objThis._lessonPeople.val(v.people)
 						}
 
@@ -691,18 +698,19 @@ var lessonManage = (function(){
 			arr = arr.concat(obj)
 			$.ajax({
 				type:'post',
-				url:'/',
+				url:'/editLeesonDetail',
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
 					console.log(datas)
+					console.log('123')
 					if(datas.success == 'yes'){
-						layer.msg('<b>編輯課程聯絡資料成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
-						objThis._bounce_edit.modal('hide');
-						objThis._getlessonIDList();
-					}else if(datas == 'no'){
-						layer.msg('<b>已有相同的課程名稱及聯絡人</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+						layer.msg('<b>編輯課程細節成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+						objThis._bounce_editlesson.modal('hide');
+						objThis._getAllPassLesson();
+					}else if(datas.success == 'no'){
+						layer.msg('<b>變更課程失敗：時間及地點衝突</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 					}else {
-						layer.msg('<b>已有相同的課程縮寫</b>', {time: 1500, icon:2,shade:[0.5,'black']});
+						layer.msg('<b>變更課程失敗：沒有任何改變</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 					}
 				}
 			})
@@ -729,7 +737,7 @@ var lessonManage = (function(){
 						layer.msg('<b>編輯課程聯絡資料成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 						objThis._bounce_edit.modal('hide');
 						objThis._getlessonIDList();
-					}else if(datas == 'no'){
+					}else if(datas.success == 'no'){
 						layer.msg('<b>已有相同的課程名稱及聯絡人</b>', {time: 1500, icon:2,shade:[0.5,'black']});
 					}else {
 						layer.msg('<b>已有相同的課程縮寫</b>', {time: 1500, icon:2,shade:[0.5,'black']});

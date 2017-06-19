@@ -843,5 +843,85 @@ module.exports = {
         return ec;
       }
     })
+  },
+  editLeesonDetail : function(editData, sentTime, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function()
+    {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      var Position = require('./position_model.js');
+      var data = JSON.parse(editData);
+      console.log(data);
+      id = data[0].id;
+      building = data[0].building;
+      floor = data[0].floor;
+      lessonclass = data[0].lessonclass;
+      time = data[0].time;
+      period = data[0].period;
+      people = data[0].people;
+      note = data[0].note;
+
+      Lesson.find({ building: building, floor: floor, lessonclass: lessonclass, time: time, period: period }).sort({'time':'asc'}).exec(function(err, data)
+      {
+        console.log(data);
+        if (data.length > 1)
+        {
+          console.log('1');
+          mongoose.disconnect();
+          mongoose.connection.close();
+          console.log('disconnect successful');
+          callback('repeat')
+        }
+        else if (data.length == 1)
+        {
+          console.log(data[0].lessonID)
+          console.log(id)
+          if (data[0].lessonID != id)
+          {
+            console.log('2');
+            mongoose.disconnect();
+            mongoose.connection.close();
+            console.log('disconnect successful');
+            callback('repeat')
+          }
+          else
+          {
+            if (data[0].people != people)
+            {
+              Lesson.update({lessonID: id}, {$set: {people: people, modifyTime: sentTime}}, function(err)
+              {
+                console.log('3');
+                mongoose.disconnect();
+                mongoose.connection.close();
+                console.log('disconnect successful');
+                callback('success')
+              })
+            }
+            else
+            {
+              console.log('4');
+              mongoose.disconnect();
+              mongoose.connection.close();
+              console.log('disconnect successful');
+              callback('no change')
+            }
+          }
+        }
+        else if (data.length == 0)
+        {
+          Lesson.update({lessonID: id}, {$set: {building: building, floor: floor, lessonclass: lessonclass, time: time, period: period, people: people, modifyTime: sentTime}}, function(err)
+          {
+            mongoose.disconnect();
+            mongoose.connection.close();
+            console.log('disconnect successful');
+            callback('success')
+          })
+        }
+      })
+    })
   }
 }

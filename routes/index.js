@@ -654,6 +654,26 @@ router.post('/lessonManage', function(req, res, next){
   }
 })
 
+router.post('/editLeesonDetail', function(req, res, next){
+  var sentTime = getNowTime();
+  var data = req.body.strJson;
+  lesson.editLeesonDetail(data, sentTime, function(repeat){
+    console.log(repeat)
+    if (repeat == 'success')
+    {
+      res.send({ success: 'yes' })
+    }
+    else if (repeat == 'repeat')
+    {
+      res.send({ success: 'no' })
+    }
+    else if (repeat == 'no change')
+    {
+      res.send({ success: 'no change' })
+    }
+  })
+})
+
 router.post('/updateLessonAbbreviation', function(req, res, next){
   var data = req.body.strJson;
   var sentTime = getNowTime();
