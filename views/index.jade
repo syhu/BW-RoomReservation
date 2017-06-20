@@ -27,7 +27,7 @@ block main
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
-    
+  
     input#welcome(type='hidden', value="<div style='margin:15px;'><span class='fui-user'></span>#{user}，歡迎進入福智基金會網站。<br/><br/><br/><br/><br/></div>", <='', body='')
     
     
@@ -56,30 +56,31 @@ block main
                     img(alumb='true',_w="300",_h="300",src='images/03.jpg',onclick='window.open("images/03.jpg","_blank")')
                     img(alumb='true',_w="300",_h="300",src='images/02.jpg',onclick='window.open("images/02.jpg","_blank")')  
               .col-md-9
-                h3
+                h4
                   i.fa.fa-bookmark
                   strong 今日課表
                   
-                table.table.table-condensed(style='width:100%;')
-                  tr
-                    th 日期
-                    th
-                      input#filterTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
-                    th 地點
-                    th
-                      select#filterLocation.form-control(name='lessonBuilding')
-                              
-                  tr(style='border:0px solid #eee;')
-                    th(colspan='4')
-                      button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
-                      button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
+                //- table.table.table-condensed(style='width:100%;')
+                //-   tr
+                //-     th 日期
+                //-     th
+                //-       input#filterTime.date-picker.form-control(type='text', placeholder='請選擇時間', name='lessonTime')
+                //-     th 地點
+                //-     th
+                //-       select#filterLocation.form-control(name='lessonBuilding')
+                //-               
+                //-   tr(style='border:0px solid #eee;')
+                //-     th(colspan='4')
+                //-       button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+                //-       button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
 
                   
-                table.table
-                  tr
-                    th(width='5%') #
-                    th(width='30%', style='border-left:1px #ddd solid;') 課程名稱
-                    th(width='15%', style='border-left:1px #ddd solid;') 使用教室
-                    th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-                    th(width='15%', style='border-left:1px #ddd solid;') 詳細資料
-                  tbody#todayLessonList
+                table.table.table-bordered#todayLessonList
+                  thead
+                    tr
+                      th(width='5%') #
+                      th(width='30%', style='border-left:1px #ddd solid;') 課程名稱
+                      th(width='15%', style='border-left:1px #ddd solid;') 使用教室
+                      th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                      th(width='15%', style='border-left:1px #ddd solid;') 詳細資料
+                  tbody

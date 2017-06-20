@@ -18,28 +18,28 @@ block main
                   i.fa.fa-location-arrow      
                   strong(style='margin-left:5px;') 場地管理
                 br
-              table.table.table-condensed
-                tr
-                  th 大樓
-                  th
-                    select#filterBuilding.form-control
-                      option(value='請選擇') 請選擇
-                    
-                  th 樓層
-                  th
-                    select#filterFloor.form-control
-                      option(value='請選擇') 請選擇
-                      
-            
-                  th 教室
-                  th
-                    select#filterClass.form-control
-                      option(value='請選擇') 請選擇
-                    
-                tr(style='border:0px;')
-                  th(colspan='6')
-                    button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
-                    button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
+              //- table.table.table-condensed
+              //-   tr
+              //-     th 大樓
+              //-     th
+              //-       select#filterBuilding.form-control
+              //-         option(value='請選擇') 請選擇
+              //-       
+              //-     th 樓層
+              //-     th
+              //-       select#filterFloor.form-control
+              //-         option(value='請選擇') 請選擇
+              //-         
+              //- 
+              //-     th 教室
+              //-     th
+              //-       select#filterClass.form-control
+              //-         option(value='請選擇') 請選擇
+              //-       
+              //-   tr(style='border:0px;')
+              //-     th(colspan='6')
+              //-       button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+              //-       button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
         
             .col-md-12
               div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
@@ -47,17 +47,18 @@ block main
                   .col-md-12(style='height:50px;')
                     button#create.btn.btn-success.new.btn-embossed(style='float:right;margin-top:0px;') 新增地點
                   .col-md-12(style='height:650px;')
-                    table#lessonList.table.table-condensed
-                      tr
-                        th(width='5%') #
-                        th(width='10%', style='border-left:1px #ddd solid;') 大樓
-                        th(width='5%', style='border-left:1px #ddd solid;') 樓層
-                        th(width='10%', style='border-left:1px #ddd solid;') 教室
-                        th(width='10%', style='border-left:1px #ddd solid;') 容納人數
-                        th(width='25%', style='border-left:1px #ddd solid;') 備註
-                        th(width='10%', style='border-left:1px #ddd solid;') 上鎖
-                        th(width='25%', style='border-left:1px #ddd solid;') 操作
-                      tbody#area
+                    table#area.table.table-condensed
+                      thead
+                        tr
+                          th(width='5%') #
+                          th(width='10%', style='border-left:1px #ddd solid;') 大樓
+                          th(width='5%', style='border-left:1px #ddd solid;') 樓層
+                          th(width='10%', style='border-left:1px #ddd solid;') 教室
+                          th(width='10%', style='border-left:1px #ddd solid;') 容納人數
+                          th(width='25%', style='border-left:1px #ddd solid;') 備註
+                          th(width='10%', style='border-left:1px #ddd solid;') 上鎖
+                          th(width='25%', style='border-left:1px #ddd solid;') 操作
+                      tbody
                       tr#nobodyList(align='center')
                         td(colspan='8')
                           br
@@ -73,49 +74,14 @@ block main
                             br
                             br
                             | 資料讀取中...
-                      tr#positionnobodyList(align='center')
-                        td(colspan='8')
-                          br
-                          span#new(style='cursor:pointer;')
-                            i.fa.fa-exclamation.fa-3x
-                            br
-                            | 查無資料
-            .col-md-12
-              .paginationWrap.pagesCenter
-                nav
-                  ul#pageList.pagination
-                    li
-                      a(href='#') 第一頁
-                    li
-                      a(href='#', onclick='return false;')
-                        span(aria-hidden='true') 
-                        span.sr-only Previous
-                    li
-                      a(href='#') 1
-                    li
-                      a(href='#') 2
-                    li
-                      a(href='#') 3
-                    li
-                      a(href='#') 4
-                    li
-                      a(href='#') 5
-                    li
-                      a(href='#') 6
-                    li
-                      a(href='#') 7
-                    li
-                      a(href='#') 8
-                    li
-                      a(href='#') 9
-                    li
-                      a(href='#') 10
-                    li
-                      a(href='#', onclick='return false;')
-                        span(aria-hidden='true') »
-                        span.sr-only Next
-                    li
-                      a(href='#', onclick='return false;') 尾頁
+                      //- tr#positionnobodyList(align='center')
+                      //-   td(colspan='8')
+                      //-     br
+                      //-     span#new(style='cursor:pointer;')
+                      //-       i.fa.fa-exclamation.fa-3x
+                      //-       br
+                      //-       | 查無資料
+          
                       
   // 彈跳視窗 新增地點
   #bounce_area.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')

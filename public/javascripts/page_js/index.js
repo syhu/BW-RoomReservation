@@ -37,6 +37,7 @@ var master = (function(){
 		},
 		_start:function(){
 			var objThis = this;
+			objThis._LessonDataTable();   /* 今日課程列表初始化 */
 			objThis._setOwl();
 			objThis._initialAll(); //初始化   載入頁面剛進入標籤、內容、元素
 			objThis._resize_img();
@@ -91,6 +92,35 @@ var master = (function(){
 				location.href="/";
 			},this))
 
+
+		},
+		_LessonDataTable:function(){
+			var objThis = this;
+			 var today = new Date();
+
+			 var Table = this._todayLessonList.dataTable(
+					 {
+							 dom: 'lBfrtip',
+							 buttons: [
+							 ],
+							 "oLanguage": {
+									 "sSearch": "搜尋： ",
+									 "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+									 "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+									 "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+									 "sProcessing": "資料讀取中...",
+									 "sEmptyTable": "查無資料",
+									 sSearchPlaceholder: "請輸入關鍵字..",
+									 "sZeroRecords": "查無資料",
+									 sInfoEmpty: ""
+							 },
+							 "serverSide": false,
+							 "deferLoading": 57,
+							 "iDisplayLength": 10,
+							 "aLengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
+					 });
+
+					 objThis._todayLessonList.fnClearTable();
 
 		},
 		//設定輪播
@@ -163,7 +193,7 @@ var master = (function(){
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
 						var data = datas.success
-						console.log(datas)
+						// console.log(datas)
 
 						if(data != null){
 							if(data.length > 0){
@@ -179,44 +209,48 @@ var master = (function(){
 				var _tr;
 				var _td;
 
-				objThis._todayLessonList.empty();
+				objThis._todayLessonList.fnClearTable();
+				// objThis._todayLessonList.empty();
 				$.each(strJson,function(i,v){
-					_tr = $("<tr />");
+					if(v.checkSituation == 'success'){
+						_tr = $("<tr />");
 
-					//#
-					_td = $("<td />",{"text":(i+1)});
-					_tr.append(_td);
-					//課程名稱
-					_td = $("<td />",{"text":v.name});
-					_tr.append(_td);
-					//使用教室
-					_td = $("<td />",{"text": v.building+ v.lessonClass});
-					_tr.append(_td);
-					//時間
-					_td = $("<td />",{"text": v.time + '-' + v.period});
-					_tr.append(_td);
-					//詳細資料
-					_input = $("<span />",{"text":"詳細資料","style":"font-size:100%;","class":"label label-default btn-embossed"});
-					_input.bind("click",function(){
-						bootbox.alert("<b style='font-size:20px;'>課程資訊</b><hr/>" +
-									"課程名稱 ： " + v.name +
-									"<br/><br/>使用教室 ： " + v.building + v.lessonClass +
-									"<br/><br/>新增時間 ： " + v.createTime +
-									"<br/><br/>修改時間 ： " + v.modifyTime+
-									"<br/><br/>時間 - 時段 ： " + v.time + '-' + v.period+
-									"<br/><br/>上課人數 ： " + v.count +
-									"<br/><br/>上課限制人數 ： " + v.people +
-									"<br/><br/>聯絡人姓名 ： " + v.contract+
-									"<br/><br/>聯絡人電話 ： " + v.contractPhone +
-									"<br/><br/>簡易介紹 ： " + v.aim
+						//#
+						_td = $("<td />",{"text":(i+1)});
+						_tr.append(_td);
+						//課程名稱
+						_td = $("<td />",{"text":v.name});
+						_tr.append(_td);
+						//使用教室
+						_td = $("<td />",{"text": v.building+ v.lessonClass});
+						_tr.append(_td);
+						//時間
+						_td = $("<td />",{"text": v.time + '-' + v.period});
+						_tr.append(_td);
+						//詳細資料
+						_input = $("<span />",{"text":"詳細資料","style":"font-size:100%;","class":"label label-default btn-embossed"});
+						_input.bind("click",function(){
+							bootbox.alert("<b style='font-size:20px;'>課程資訊</b><hr/>" +
+										"課程名稱 ： " + v.name +
+										"<br/><br/>使用教室 ： " + v.building + v.lessonClass +
+										"<br/><br/>新增時間 ： " + v.createTime +
+										"<br/><br/>修改時間 ： " + v.modifyTime+
+										"<br/><br/>時間 - 時段 ： " + v.time + '-' + v.period+
+										"<br/><br/>上課人數 ： " + v.count +
+										"<br/><br/>上課限制人數 ： " + v.people +
+										"<br/><br/>聯絡人姓名 ： " + v.contract+
+										"<br/><br/>聯絡人電話 ： " + v.contractPhone +
+										"<br/><br/>簡易介紹 ： " + v.aim
 
-						)
-					})
-					_td = $("<td />");
-					_td.append(_input)
-					_tr.append(_td);
+							)
+						})
+						_td = $("<td />");
+						_td.append(_input)
+						_tr.append(_td);
 
-					objThis._todayLessonList.append(_tr);
+						objThis._todayLessonList.fnAddData(_tr);
+					}
+
 				})
 
 

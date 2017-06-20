@@ -34,6 +34,15 @@ html
     link(rel='stylesheet', href='stylesheets/alertify.bootstrap.css')
     link(rel='stylesheet', href='stylesheets/alertify.core.css')
     
+    //dataTables
+    link(rel='stylesheet', type='text/css', href='stylesheets/butons.dataTables.min.css')
+    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css')
+    //- link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css')
+    script(src='javascripts/jquery.dataTables.min.js')  
+    script(src='javascripts/dataTables.buttons.min.js')  
+    script(src='javascripts/buttons.flash.min.js')  
+    script(src='javascripts/jszip.min.js')  
+    
     //firebase
     script(src='https://www.gstatic.com/firebasejs/3.9.0/firebase.js')  
     //page_js
@@ -84,7 +93,7 @@ html
                     a#lesson_time(onclick='audit();', style='font-size:15px;')
                       i.fa.fa-eye.fa-lg                          
                       font 審核專區  
-                  li.divider                  
+                  li.divider                           
                   if user && (information[0].authorty == 'Hyper')
                     li
                       a#lesson_time(onclick='superfast();', style='font-size:15px;')

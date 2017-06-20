@@ -18,35 +18,34 @@ block main
                   h3
                     i.fa.fa-file-o                  
                     strong(style='margin-left:5px;') 申請常態課程
-                  br
-                table.table.table-condensed
-                  tr
-                    th 大樓
-                    th
-                      select#filterBuilding.form-control
-                        option(value='請選擇') 請選擇
-                    th 樓層
-                    th
-                      select#filterFloor.form-control
-                        option(value='請選擇') 請選擇
-                    th 教室
-                    th
-                      select#filterClass.form-control
-                        option(value='請選擇') 請選擇
-              
-                    th 時段
-                    th
-                      select#filterTimeZone.form-control
-                        option(value='請選擇') 請選擇
-                        option(value='時段一') 時段一
-                        option(value='時段二') 時段二
-                        option(value='時段三') 時段三
-                        option(value='時段四') 時段四
-                        option(value='時段五') 時段五
-                  tr
-                    th(colspan='8')
-                      button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
-                      button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
+              //-   table.table.table-condensed
+              //-     tr
+              //-       th 大樓
+              //-       th
+              //-         select#filterBuilding.form-control
+              //-           option(value='請選擇') 請選擇
+              //-       th 樓層
+              //-       th
+              //-         select#filterFloor.form-control
+              //-           option(value='請選擇') 請選擇
+              //-       th 教室
+              //-       th
+              //-         select#filterClass.form-control
+              //-           option(value='請選擇') 請選擇
+              //- 
+              //-       th 時段
+              //-       th
+              //-         select#filterTimeZone.form-control
+              //-           option(value='請選擇') 請選擇
+              //-           option(value='時段一') 時段一
+              //-           option(value='時段二') 時段二
+              //-           option(value='時段三') 時段三
+              //-           option(value='時段四') 時段四
+              //-           option(value='時段五') 時段五
+              //-     tr
+              //-       th(colspan='8')
+              //-         button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+              //-         button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
 
               .col-md-12
                 div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
@@ -54,14 +53,15 @@ block main
                     .col-md-12(style='height:50px;')
                       button.btn.btn-success.btn-embossed.new(style='float:right;margin-top:0px;') 新增課程
                       
-                    .col-md-12(style='height:400px;')
-                      table#lessonList.table.table-condensed
-                        tr
-                          th(width='5%') #
-                          th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
-                          th(width='15%', style='border-left:1px #ddd solid;') 使用教室
-                          th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-                        tbody#lesson
+                    .col-md-12
+                      table#lesson.table.table-condensed
+                        thead
+                          tr
+                            th(width='5%') #
+                            th(width='45%', style='border-left:1px #ddd solid;') 課程名稱
+                            th(width='15%', style='border-left:1px #ddd solid;') 使用教室
+                            th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                        tbody
                         tr#nobodyList(align='center')
                           td(colspan='4')
                             br
@@ -69,42 +69,7 @@ block main
                               i.fa.fa-plus-circle.fa-3x
                               br
                               | 新增課程
-              .col-md-12
-                .paginationWrap.pagesCenter
-                  nav
-                    ul#pageList.pagination
-                      li
-                        a(href='#') 第一頁
-                      li
-                        a(href='#', onclick='return false;')
-                          span(aria-hidden='true') 
-                          span.sr-only Previous
-                      li
-                        a(href='#') 1
-                      li
-                        a(href='#') 2
-                      li
-                        a(href='#') 3
-                      li
-                        a(href='#') 4
-                      li
-                        a(href='#') 5
-                      li
-                        a(href='#') 6
-                      li
-                        a(href='#') 7
-                      li
-                        a(href='#') 8
-                      li
-                        a(href='#') 9
-                      li
-                        a(href='#') 10
-                      li
-                        a(href='#', onclick='return false;')
-                          span(aria-hidden='true') »
-                          span.sr-only Next
-                      li
-                        a(href='#', onclick='return false;') 尾頁
+            
     #manager_right
     #lessonDetail.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
       .modal-dialog.modal-lg

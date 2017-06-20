@@ -27,6 +27,7 @@ var userManage = (function(){
     _start:function(){
       var objThis = this;
 
+      objThis._UserDataTable();   /* 使用者列表初始化 */
       this._loadingList.hide();
       this._nobodyList.hide();
 
@@ -66,6 +67,35 @@ var userManage = (function(){
             this._selectUserList(arr);
         },this))
     },
+    _UserDataTable:function(){
+			var objThis = this;
+			 var today = new Date();
+
+			 var Table = this._userList.dataTable(
+					 {
+							 dom: 'lBfrtip',
+							 buttons: [
+							 ],
+							 "oLanguage": {
+									 "sSearch": "搜尋： ",
+									 "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+									 "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+									 "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+									 "sProcessing": "資料讀取中...",
+									 "sEmptyTable": "查無資料",
+									 sSearchPlaceholder: "請輸入關鍵字..",
+									 "sZeroRecords": "查無資料",
+									 sInfoEmpty: ""
+							 },
+							 "serverSide": false,
+							 "deferLoading": 57,
+							 "iDisplayLength": 10,
+							 "aLengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
+					 });
+
+					 objThis._userList.fnClearTable();
+
+		},
     _checkAdmin:function(){
         return true;
      },
@@ -86,7 +116,8 @@ var userManage = (function(){
        var _td;
        var _tr;
       //  console.log(strJson)
-       objThis._userList.empty();
+      objThis._userList.fnClearTable();
+      //  objThis._userList.empty();
        $.each(strJson,function(i,v){
 
            _tr = $("<tr />");
@@ -226,7 +257,8 @@ var userManage = (function(){
 
            _tr.append(_td);
 
-           objThis._userList.append(_tr)
+          //  objThis._userList.append(_tr)
+           objThis._userList.fnAddData(_tr);
 
 
        });

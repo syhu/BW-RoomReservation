@@ -33,6 +33,7 @@ var feedback = (function(){
 
     _start:function(){
       var objThis = this;
+      objThis._FeedbackDataTable();   /* feedback列表初始化 */
 
       this._loadingList.hide();
       this._nobodyList.hide();
@@ -160,6 +161,35 @@ var feedback = (function(){
         }
       },this));
     },
+    _FeedbackDataTable:function(){
+      var objThis = this;
+       var today = new Date();
+
+       var Table = this._opinionList.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 5,
+               "aLengthMenu": [[5, 10, 20 -1], [5, 10, 20, "全部"]]
+           });
+
+           objThis._opinionList.fnClearTable();
+
+    },
     //取得ID
     _getOpinionID:function(){
       var Path = this._getPath();
@@ -252,7 +282,8 @@ var feedback = (function(){
       objThis._loadingList.show();
       objThis._nobodyList.hide();
 
-      objThis._opinionList.empty();
+      objThis._opinionList.fnClearTable();
+      // objThis._opinionList.empty();
       firebase.database().ref(Path).once('value').then(function(snapshot){
         var data = snapshot.val();
         // console.log(data)
@@ -356,7 +387,8 @@ var feedback = (function(){
             _td.append(_input)
             _tr.append(_td);
 
-            objThis._opinionList.append(_tr);
+            objThis._opinionList.fnAddData(_tr);
+            // objThis._opinionList.append(_tr);
           });
         }
       })
@@ -374,7 +406,7 @@ var feedback = (function(){
       objThis._loadingList.show();
       objThis._nobodyList.hide();
 
-      objThis._opinionList.empty();
+      objThis._opinionList.fnClearTable();
       firebase.database().ref(Path).once('value').then(function(snapshot){
         var data = snapshot.val();
         // console.log(data)
@@ -487,7 +519,8 @@ var feedback = (function(){
               _td.append(_input)
               _tr.append(_td);
 
-              objThis._opinionList.append(_tr);
+              objThis._opinionList.fnAddData(_tr);
+              // objThis._opinionList.append(_tr);
             }
           });
         }

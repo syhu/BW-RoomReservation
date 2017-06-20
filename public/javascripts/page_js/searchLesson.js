@@ -251,7 +251,7 @@ var searchLesson = (function(){
       var _tr;
       var _td;
 
-      console.log(strJson)
+      // console.log(strJson)
       objThis._lessonlistTable.fnClearTable();
 
       $.each(strJson,function(i,v){

@@ -38,28 +38,26 @@ var layout = (function(){
         $("html,body").animate({scrollTop:0},'slow');
       },this));
 
+			this._checkFeedback();
+			this._checkAudit();
 
       if(this._hiddenIdentity.val() == 'Admin') {
-					this._checkFeedback();
           this._user.attr({"class":"label label-success btn-embossed","style":"font-size:100%;"})
           this._user.bind("mouseover",function(){
             layer.tips('最高管理員', $("#user") ,{tips:3,time:1000});
           })
       }else if($("#hiddenIdentity").val() == 'Hyper'){
-				this._checkFeedback();
         this._user.attr({"class":"label label-info btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('超級管理員', $("#user") ,{tips:3,time:1000});
         });
       }else if($("#hiddenIdentity").val() == 'Owner'){
-				this._checkFeedback();
         this._user.attr({"class":"label label-warning btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('管理員', $("#user") ,{tips:3,time:1000});
         });
       }
       else{
-				this._checkFeedback();
         this._user.attr({"class":"label label-primary btn-embossed","style":"font-size:100%;"})
         this._user.bind("mouseover",function(){
           layer.tips('使用者', $("#user") ,{tips:3,time:1000});
@@ -176,6 +174,33 @@ var layout = (function(){
           $(".modal-overlay").hide();
           $("#" + type).hide();
     },
+		//課程審核提示
+		_checkAudit:function(){
+			var pathname = location.pathname.replace(/\//,'');
+			var authority = this._hiddenIdentity.val();
+			//先判斷是不是在本頁
+			if(pathname != 'audit'){
+				if(authority == 'Admin' || authority == 'Hyper'){
+					firebase.database().ref('/lessonNotice').once('value').then(function(e){
+						var data = e.val();
+						$.each(data,function(i,v){
+							$.each(v,function(n,m){
+								if(n == 'isReview' && m == '0'){
+									var fn = function(){
+									 var lessonName = v.lessonName
+									 if(lessonName.length >= 4){
+										 	lessonName = lessonName.substring(0,4) + "..."
+									 }
+									 var log =	alertify.log("<div onclick='_goAudit()'><div style='float:left;'><i class='fa fa-book fa-3x' aria-hidden='true'></i></div><div style='float:right;'>管理者您好，課程<br/> " + lessonName + " 尚未審核<br/>請點擊此連結前往</div></div><a href='#' class='close-icon'></a>", "", 0);
+									};
+									fn();
+								}
+							})
+						});
+					})
+				}
+			}
+		},
 		_checkFeedback:function(){
 			var pathname = location.pathname.replace(/\//,'');
 			var authority = this._hiddenIdentity.val();
@@ -215,6 +240,7 @@ var layout = (function(){
 
 				setTimeout("$('#alertify-logs').empty();",59000);
 				setTimeout("layout._checkFeedback()",60000);
+				setTimeout("layout._checkAudit()",60000);
 
 			}
 
@@ -281,6 +307,10 @@ function _showTime(){
 //
 function _goFeedback(){
 	location.href='/feedback'
+}
+
+function _goAudit(){
+	location.href='/audit'
 }
 
 //

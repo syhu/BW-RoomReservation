@@ -66,6 +66,7 @@ var lessonNormalManage = (function(){
 		},
 		_start:function(){
 			var objThis = this;
+			objThis._LessonDataTable();   /* 地點列表初始化 */
 			objThis._initialAll();
 			objThis._getlessonIDList();
 		},
@@ -150,6 +151,8 @@ var lessonNormalManage = (function(){
 													if(message.success == 'yes')
 													{
 														layer.msg('<b>申請課程成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+														var lessonName = objThis._lessonName.val()
+								            objThis._submitLesson(lessonName);
 													}
 													else if(message.success == 'no')
 													{
@@ -281,7 +284,53 @@ var lessonNormalManage = (function(){
 
 			},this))
 		},
+		_LessonDataTable:function(){
+      var objThis = this;
+       var today = new Date();
 
+       var Table = this._lesson.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
+
+           objThis._lesson.fnClearTable();
+
+    },
+		//firebase 儲存資料
+		_submitLesson(lessonName){
+			var Path = '/lessonNotice';
+			 //取得現在時間
+			 var today = new Date();
+			 var nowTime = today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			 var ConverTime = new Date(nowTime).getTime();
+
+
+			 var postData = {
+					 lessonName:lessonName,
+					 time: ConverTime,
+					 isReview : '0'
+			 };
+
+
+			 firebase.database().ref(Path).push(postData);
+		},
 		_checkSubmit:function(){  // 確認新增課程欄位判斷
 			var returnCheck = true;
 			var errorText = '';		//存放錯誤訊息
@@ -469,6 +518,9 @@ var lessonNormalManage = (function(){
 			var objThis = this;
 			var _td;
 			var _tr;
+
+			objThis._lesson.fnClearTable();
+
 			$.each(data,function(i,v){
 				switch(i%3){
 					case 0:
@@ -498,7 +550,8 @@ var lessonNormalManage = (function(){
 				_td = $("<td />",{"text":v.time + "-" + v.period});
 				_tr.append(_td)
 
-				objThis._lesson.append(_tr);
+				objThis._lesson.fnAddData(_tr);
+				// objThis._lesson.append(_tr);
 			})
 		}
 	}

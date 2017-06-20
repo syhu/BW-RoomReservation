@@ -3,7 +3,7 @@ extends layout
 block main
     link(rel='stylesheet', href='stylesheets/page_css/userManage.css')
     //- link(rel='stylesheet', href='stylesheets/customized.css')
-      
+    
     script(src='javascripts/page_js/userManage.js')  
 
     div    
@@ -40,31 +40,31 @@ block main
                         button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
 
                 #lessonForm.col-md-12(style='height:500px;;overflow-y:scroll;overflow-x:hidden;')
-                  table.table.table-condensed
-                    tr
-                      th(width='4%') #
-                      th(width='16%', style='border-left:1px #ddd solid;') 姓名 
-                      th(width='16%', style='border-left:1px #ddd solid;') 帳號
-                      th(width='24%', style='border-left:1px #ddd solid;') E-mail
-                      th(width='16%', style='border-left:1px #ddd solid;') 權限
-                      th(width='24%', style='border-left:1px #ddd solid;') 操作    
-                    tbody#userList
+                  table.table.table-condensed#userList
+                    thead
+                      tr
+                        th(width='4%') #
+                        th(width='16%', style='border-left:1px #ddd solid;') 姓名 
+                        th(width='16%', style='border-left:1px #ddd solid;') 帳號
+                        th(width='24%', style='border-left:1px #ddd solid;') E-mail
+                        th(width='16%', style='border-left:1px #ddd solid;') 權限
+                        th(width='24%', style='border-left:1px #ddd solid;') 操作    
                     tbody
-                      tr#loadingList(align='center')
-                        td(colspan='6')
+                    tr#loadingList(align='center')
+                      td(colspan='6')
+                        br
+                        span
+                          i.fa.fa-spinner.fa-pulse.fa-3x
                           br
-                          span
-                            i.fa.fa-spinner.fa-pulse.fa-3x
-                            br
-                            br
-                            | 資料讀取中...
-                      tr#nobodyList(align='center')
-                        td(colspan='6')
                           br
-                          span#new(style='cursor:pointer;')
-                            i.fa.fa-exclamation.fa-3x
-                            br
-                            | 查無資料
+                          | 資料讀取中...
+                      //- tr#nobodyList(align='center')
+                      //-   td(colspan='6')
+                      //-     br
+                      //-     span#new(style='cursor:pointer;')
+                      //-       i.fa.fa-exclamation.fa-3x
+                      //-       br
+                      //-       | 查無資料
                         
                         
     

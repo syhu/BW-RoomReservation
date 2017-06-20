@@ -64,3 +64,6 @@ function forgetPassword()
 {
   location.href= '/forgetPassword'
 }
+function classMoveManage(){
+  location.href='/classMoveManage'
+}

@@ -9,8 +9,12 @@ block main
     script(src='javascripts/jquery-ui.js')
     script(src='javascripts/jquery-ui.cache.js')
     script(src='javascripts/plugins.js')
-    script(src='javascripts/page_js/lessonManage.js')
       
+    
+    
+    script(src='javascripts/page_js/lessonManage.js')
+    
+    
     div      
       #manager_center.panel
         div(style='text-align: center;')   
@@ -33,47 +37,48 @@ block main
                     div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                       .row
                         .col-md-12(style='height:500px;')
-                          table.table.table-condensed
-                            tr
-                              th 地點
-                              th
-                                select#filterLocal.form-control
-                                  option(value='請選擇') 請選擇
-                              th 教室
-                              th
-                                select#filterClass.form-control
-                                  option(value='請選擇') 請選擇
-                                  option(value='教室一') 教室一
-                                  option(value='教室二') 教室二
-                                  option(value='教室三') 教室三
-                                  option(value='教室四') 教室四
-                                  option(value='教室五') 教室五
-                        
-                              th 時段
-                              th
-                                select#filterTimeZone.form-control
-                                  option(value='請選擇') 請選擇
-                                  option(value='A1') A1 (09:15 ~ 11:45)
-                                  option(value='A2') A2 (11:45 ~ 13:15)
-                                  option(value='P1') P1 (13:15 ~ 15:45)
-                                  option(value='P2') P2 (16:00 ~ 18:00)
-                                  option(value='P3') P3 (19:00 ~ 21:30)
-                            tr(style='border:0px;')
-                              th(colspan='6')
-                                button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
-                                button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
-                                
-                          table#lessonList.table.table-condensed
-                            tr
-                              th(width='5%') #
-                              th(width='15%', style='border-left:1px #ddd solid;') 課程名稱
-                              th(width='10%', style='border-left:1px #ddd solid;') 使用教室
-                              th(width='10%', style='border-left:1px #ddd solid;') 上課人數
-                              th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
-                              th(width='10%', style='border-left:1px #ddd solid;') 聯絡人
-                              th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
-                              th(width='20%', style='border-left:1px #ddd solid;') 操作
-                            tbody#lesson
+                          //- table.table.table-condensed
+                          //-   tr
+                          //-     th 地點
+                          //-     th
+                          //-       select#filterLocal.form-control
+                          //-         option(value='請選擇') 請選擇
+                          //-     th 教室
+                          //-     th
+                          //-       select#filterClass.form-control
+                          //-         option(value='請選擇') 請選擇
+                          //-         option(value='教室一') 教室一
+                          //-         option(value='教室二') 教室二
+                          //-         option(value='教室三') 教室三
+                          //-         option(value='教室四') 教室四
+                          //-         option(value='教室五') 教室五
+                          //- 
+                          //-     th 時段
+                          //-     th
+                          //-       select#filterTimeZone.form-control
+                          //-         option(value='請選擇') 請選擇
+                          //-         option(value='A1') A1 (09:15 ~ 11:45)
+                          //-         option(value='A2') A2 (11:45 ~ 13:15)
+                          //-         option(value='P1') P1 (13:15 ~ 15:45)
+                          //-         option(value='P2') P2 (16:00 ~ 18:00)
+                          //-         option(value='P3') P3 (19:00 ~ 21:30)
+                          //-   tr(style='border:0px;')
+                          //-     th(colspan='6')
+                          //-       button#cancelFilter.btn.btn-default.btn-embossed(type='button') 清除
+                          //-       button#btnFilter.btn.btn-primary.btn-embossed(type='button') 查詢
+                          //-       
+                          table#lesson.table.table-condensed
+                            thead
+                              tr
+                                th(width='5%') #
+                                th(width='15%', style='border-left:1px #ddd solid;') 課程名稱
+                                th(width='10%', style='border-left:1px #ddd solid;') 使用教室
+                                th(width='10%', style='border-left:1px #ddd solid;') 上課人數
+                                th(width='15%', style='border-left:1px #ddd solid;') 時間 - 時段
+                                th(width='10%', style='border-left:1px #ddd solid;') 聯絡人
+                                th(width='15%', style='border-left:1px #ddd solid;') 聯絡電話
+                                th(width='20%', style='border-left:1px #ddd solid;') 操作
+                            tbody
                             tr#lessonloadingList(align='center')
                               td(colspan='8')
                                 br
@@ -82,50 +87,15 @@ block main
                                   br
                                   | 資料讀取中...
                                 
-                            tr#lessonnobodyList(align='center')
-                              td(colspan='8')
-                                br
-                                span(style='cursor:pointer;')
-                                  i.fa.fa-exclamation.fa-3x
-                                  | 查無資料
+                            //- tr#lessonnobodyList(align='center')
+                            //-   td(colspan='8')
+                            //-     br
+                            //-     span(style='cursor:pointer;')
+                            //-       i.fa.fa-exclamation.fa-3x
+                            //-       | 查無資料
                                   
                                   
-                  .col-md-12
-                    .paginationWrap.pagesCenter
-                      nav
-                        ul#pageList.pagination
-                          li
-                            a(href='#') 第一頁
-                          li
-                            a(href='#', onclick='return false;')
-                              span(aria-hidden='true') 
-                              span.sr-only Previous
-                          li
-                            a(href='#') 1
-                          li
-                            a(href='#') 2
-                          li
-                            a(href='#') 3
-                          li
-                            a(href='#') 4
-                          li
-                            a(href='#') 5
-                          li
-                            a(href='#') 6
-                          li
-                            a(href='#') 7
-                          li
-                            a(href='#') 8
-                          li
-                            a(href='#') 9
-                          li
-                            a(href='#') 10
-                          li
-                            a(href='#', onclick='return false;')
-                              span(aria-hidden='true') »
-                              span.sr-only Next
-                          li
-                            a(href='#', onclick='return false;') 尾頁
+                  
           
           //- 課程聯絡
           div.tab-pane.fade.row#lessonIDManage
@@ -136,16 +106,20 @@ block main
                     div(style='margin: 20px 20px 20px 20px;overflow-y:scroll;overflow-x:hidden;')
                       .row
                         .col-md-12(style='height:500px;')
-                          table#lessonIDList.table.table-condensed
-                            tr
-                              th(width='5%') #
-                              th(width='10%', style='border-left:1px #ddd solid;') 上傳者
-                              th(width='12%', style='border-left:1px #ddd solid;') 課程名稱
-                              th(width='13%', style='border-left:1px #ddd solid;') 課程簡稱(代號)
-                              th(width='20%', style='border-left:1px #ddd solid;') 新增時間
-                              th(width='20%', style='border-left:1px #ddd solid;') 修改時間
-                              th(width='20%', style='border-left:1px #ddd solid;') 詳細資料
-                            tbody#lessonID
+                          table#lessonID.table.table-condensed
+                            thead
+                              tr
+                                th(width='5%') #
+                                th(width='10%', style='border-left:1px #ddd solid;') 上傳者
+                                th(width='12%', style='border-left:1px #ddd solid;') 課程名稱
+                                th(width='13%', style='border-left:1px #ddd solid;') 
+                                  | 課程簡稱 
+                                  br
+                                  | (代號)
+                                th(width='20%', style='border-left:1px #ddd solid;') 新增時間
+                                th(width='20%', style='border-left:1px #ddd solid;') 修改時間
+                                th(width='20%', style='border-left:1px #ddd solid;') 詳細資料
+                            tbody
                             tr(align='center')
                               td(colspan='7')
                                 br
@@ -162,13 +136,13 @@ block main
                                   br
                                   | 資料讀取中...
                                 
-                            tr#lessonIDnobodyList(align='center')
-                              td(colspan='7')
-                                br
-                                span(style='cursor:pointer;')
-                                  i.fa.fa-exclamation.fa-3x
-                                  br
-                                  | 查無資料
+                            //- tr#lessonIDnobodyList(align='center')
+                            //-   td(colspan='7')
+                            //-     br
+                            //-     span(style='cursor:pointer;')
+                            //-       i.fa.fa-exclamation.fa-3x
+                            //-       br
+                            //-       | 查無資料
             
         
         //- #lessonDetail.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')

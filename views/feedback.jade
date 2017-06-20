@@ -38,37 +38,8 @@ block main
                     
           if user && (information[0].authorty == 'Admin' || information[0].authorty == 'Hyper')      
             .col-md-12(style='height:650px;overflow-y:scroll;overflow-x:hidden;')
-              table.table.table-condensed
-                tr
-                  th(width='10%') 編號
-                  th(width='10%', style='border-left:1px #ddd solid;') 意見者
-                  th(width='10%', style='border-left:1px #ddd solid;') 標題
-                  th(width='10%', style='border-left:1px #ddd solid;') 選項
-                  th(width='30%', style='border-left:1px #ddd solid;') 內容
-                  th(width='10%', style='border-left:1px #ddd solid;') 意見時間
-                  th(width='10%', style='border-left:1px #ddd solid;') 狀態
-                  th(width='10%', style='border-left:1px #ddd solid;') 詳細
-                tbody#opinionList
-                tbody
-                  tr#loadingList(align='center')
-                    td(colspan='8')
-                      br
-                      span
-                        i.fa.fa-spinner.fa-pulse.fa-3x
-                        br
-                        br
-                        | 資料讀取中...
-                  tr#nobodyList(align='center')
-                    td(colspan='8')
-                      br
-                      span(style='cursor:pointer;')
-                        i.fa.fa-exclamation.fa-3x
-                        br
-                        | 查無資料
-          else
-            .row(style='padding:10px 20px 10px 20px;')
-              .col-md-12.bg-success(style='height:650px;overflow-y:scroll;overflow-x:hidden;')
-                table.table.table-condensed
+              table.table.table-condensed#opinionList
+                thead
                   tr
                     th(width='10%') 編號
                     th(width='10%', style='border-left:1px #ddd solid;') 意見者
@@ -78,23 +49,52 @@ block main
                     th(width='10%', style='border-left:1px #ddd solid;') 意見時間
                     th(width='10%', style='border-left:1px #ddd solid;') 狀態
                     th(width='10%', style='border-left:1px #ddd solid;') 詳細
-                  tbody#opinionList
+                tbody
+                tr#loadingList(align='center')
+                  td(colspan='8')
+                    br
+                    span
+                      i.fa.fa-spinner.fa-pulse.fa-3x
+                      br
+                      br
+                      | 資料讀取中...
+                  //- tr#nobodyList(align='center')
+                  //-   td(colspan='8')
+                  //-     br
+                  //-     span(style='cursor:pointer;')
+                  //-       i.fa.fa-exclamation.fa-3x
+                  //-       br
+                  //-       | 查無資料
+          else
+            .row(style='padding:10px 20px 10px 20px;')
+              .col-md-12.bg-success(style='height:650px;overflow-y:scroll;overflow-x:hidden;')
+                table.table.table-condensed#opinionList
+                  thead
+                    tr
+                      th(width='10%') 編號
+                      th(width='10%', style='border-left:1px #ddd solid;') 意見者
+                      th(width='10%', style='border-left:1px #ddd solid;') 標題
+                      th(width='10%', style='border-left:1px #ddd solid;') 選項
+                      th(width='30%', style='border-left:1px #ddd solid;') 內容
+                      th(width='10%', style='border-left:1px #ddd solid;') 意見時間
+                      th(width='10%', style='border-left:1px #ddd solid;') 狀態
+                      th(width='10%', style='border-left:1px #ddd solid;') 詳細
                   tbody
-                    tr#loadingList(align='center')
-                      td(colspan='8')
+                  tr#loadingList(align='center')
+                    td(colspan='8')
+                      br
+                      span
+                        i.fa.fa-spinner.fa-pulse.fa-3x
                         br
-                        span
-                          i.fa.fa-spinner.fa-pulse.fa-3x
-                          br
-                          br
-                          | 資料讀取中...
-                    tr#nobodyList(align='center')
-                      td(colspan='8')
                         br
-                        span(style='cursor:pointer;')
-                          i.fa.fa-exclamation.fa-3x
-                          br
-                          | 查無資料
+                        | 資料讀取中...
+                    //- tr#nobodyList(align='center')
+                    //-   td(colspan='8')
+                    //-     br
+                    //-     span(style='cursor:pointer;')
+                    //-       i.fa.fa-exclamation.fa-3x
+                    //-       br
+                    //-       | 查無資料
 
   //彈跳視窗黑屏
   #popupBackground.modal-overlay
@@ -144,8 +144,8 @@ block main
                     | 意見選項
                   select.form-control#opinionOption 
                     option(value='請選擇') 請選擇
-                    option(value='設計太棒') 設計太棒
-                    option(value='鬼斧神工') 鬼斧神工
+                    option(value='課程問題') 課程問題
+                    option(value='系統問題') 系統問題
                     option(value='其他') 其他
                 .form-group.form_text 
                   label

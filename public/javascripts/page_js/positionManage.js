@@ -45,6 +45,7 @@ var positionManage = (function(){
       var objThis = this;
       this._positionloadingList.hide();
       this._positionnobodyList.hide();
+      objThis._PositionDataTable();   /* 地點列表初始化 */
 
       objThis._initialAll();
       objThis._getPositionList();
@@ -179,6 +180,35 @@ var positionManage = (function(){
       }, this));
     },
 
+    _PositionDataTable:function(){
+      var objThis = this;
+       var today = new Date();
+
+       var Table = this._area.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
+
+           objThis._area.fnClearTable();
+
+    },
     _checkSubmit:function(){
       var objThis = this;
       var returnCheck = true;
@@ -284,7 +314,8 @@ var positionManage = (function(){
       var _tr;
       var _td;
       var _input;
-      objThis._area.empty();
+      objThis._area.fnClearTable();
+      // objThis._area.empty();
       console.log(strJson)
       $.each(strJson,function(i,v){
         var trClass;
@@ -458,7 +489,8 @@ var positionManage = (function(){
           _td.append(_input)
           _tr.append(_td);
 
-          objThis._area.append(_tr)
+          objThis._area.fnAddData(_tr);
+          // objThis._area.append(_tr)
       });
 
     }

@@ -11,7 +11,7 @@ var lessonManage = (function(){
 			// this._new = $(".new");
 			this._lesson = $("#lesson");
 			this._lessonloadingList = $("#lessonloadingList");
-			this._lessonnobodyList = $("#lessonnobodyList");
+			// this._lessonnobodyList = $("#lessonnobodyList");
 			this._lessonIDloadingList = $("#lessonIDloadingList");
 			this._lessonIDnobodyList = $("#lessonIDnobodyList");
 			this._bounce_editlesson = $("#bounce_editlesson");
@@ -97,8 +97,11 @@ var lessonManage = (function(){
 		},
 		_start:function(){
 			var objThis = this;
+			objThis._LessonDataTable();   /* 課程細節列表初始化 */
+			objThis._LessonIDDataTable();   /* 課程聯絡列表初始化 */
+
 			objThis._initialAll();
-			this._lessonnobodyList.hide();
+			// this._lessonnobodyList.hide();
 			this._lessonIDnobodyList.hide();
 			// this._getAllPassLesson();		//取得課程聯絡列表
 			this._getPositionList();
@@ -352,6 +355,67 @@ var lessonManage = (function(){
 			},this))
 
 		},
+		//課程細節列表初始化
+		_LessonDataTable:function(){
+      var objThis = this;
+       var today = new Date();
+
+       var Table = this._lesson.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
+
+           objThis._lesson.fnClearTable();
+
+    },
+		//課程聯絡列表初始化
+		_LessonIDDataTable:function(){
+      var objThis = this;
+       var today = new Date();
+
+       var Table = this._lessonID.dataTable(
+           {
+               dom: 'lBfrtip',
+               buttons: [
+               ],
+               "oLanguage": {
+                   "sSearch": "搜尋： ",
+                   "sLengthMenu": "<span>顯示筆數:_MENU_</span> ",
+                   "oPaginate": { "sFirst": "第一頁", "sLast": "最後一頁", "sNext": ">", "sPrevious": "<" },
+                   "sInfo": "第 _START_ - _END_ 筆資料。總共 _TOTAL_ 筆",
+                   "sProcessing": "資料讀取中...",
+                   "sEmptyTable": "查無資料",
+                   sSearchPlaceholder: "請輸入關鍵字..",
+                   "sZeroRecords": "查無資料",
+                   sInfoEmpty: ""
+               },
+               "serverSide": false,
+               "deferLoading": 57,
+               "iDisplayLength": 10,
+               "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]]
+           });
+
+           objThis._lessonID.fnClearTable();
+
+    },
+
 		_getlessonIDList:function(){
       var objThis = this;
 
@@ -379,8 +443,9 @@ var lessonManage = (function(){
       var _tr;
       var _td;
       var _input;
-      // console.log(strJson)
-      objThis._lessonID.empty();
+      console.log(strJson)
+			objThis._lessonID.fnClearTable();
+      // objThis._lessonID.empty();
       $.each(strJson,function(i,v){
         var trClass;
           switch(i%4){
@@ -412,10 +477,10 @@ var lessonManage = (function(){
           _td = $("<td />",{"text":v.abbreviation});
           _tr.append(_td);
           //新增時間
-          _td = $("<td />",{"nowrap":"nowrap","text":v.createTime});
+          _td = $("<td />",{"text":v.createTime});
           _tr.append(_td);
           //修改時間
-          _td = $("<td />",{"nowrap":"nowrap","text":v.modifyTime});
+          _td = $("<td />",{"text":v.modifyTime});
           _tr.append(_td);
           //詳細資料
           _input = $("<span />",{"class":"label label-success btn-embossed","text":"編輯","style":"font-size:100%;"});
@@ -450,7 +515,8 @@ var lessonManage = (function(){
 
           _tr.append(_td);
 
-          objThis._lessonID.append(_tr)
+					objThis._lessonID.fnAddData(_tr);
+          // objThis._lessonID.append(_tr)
       });
 		},
 		_getAllPassLesson:function(){	/* 插入課程 */
@@ -466,7 +532,7 @@ var lessonManage = (function(){
 							objThis._lessonloadingList.hide();
 							objThis._setAllPassLesson(data);
 						}else{
-							objThis._lessonnobodyList.show();
+							// objThis._lessonnobodyList.show();
 						}
 				},
 				beforeSend:function(){
@@ -485,8 +551,10 @@ var lessonManage = (function(){
 			var objThis = this;
 			var _td;
 			var _tr;
-			objThis._lesson.empty();
-			console.log(data)
+			objThis._lesson.fnClearTable();
+
+			// objThis._lesson.empty();
+			// console.log(data)
 			$.each(data,function(i,v){
 				switch(i%3){
 					case 0:
@@ -539,7 +607,7 @@ var lessonManage = (function(){
 						objThis._form_people.removeClass('has-error');
 						//
 						var data = JSON.parse(objThis._hiddenPositionData.val());
-						console.log(data )
+						// console.log(data )
 
 						var check = false;
 						$.each(data,function(n,m){
@@ -580,7 +648,7 @@ var lessonManage = (function(){
 						$.each(data,function(a,b){
 								if(objThis._lessonClass.val() == b.classroom && objThis._lessonBuilding.val() == b.building && objThis._lessonFloor.val() == b.floor){
 										objThis.checkPeople  = parseInt(b.people);
-										console.log(objThis.checkPeople)
+										// console.log(objThis.checkPeople)
 								}
 						})
 
@@ -617,8 +685,8 @@ var lessonManage = (function(){
 								},
 								callback:function(result){
 									if(result != ""){
-										console.log(result)
-										console.log(v.lessonID)
+										// console.log(result)
+										// console.log(v.lessonID)
 									}
 
 								}
@@ -643,7 +711,8 @@ var lessonManage = (function(){
 				})
 				_td.append(_input);
 				_tr.append(_td);
-				objThis._lesson.append(_tr);
+				// objThis._lesson.append(_tr);
+				objThis._lesson.fnAddData(_tr);
 			})
 		},
 		//新增課程ID
@@ -701,8 +770,6 @@ var lessonManage = (function(){
 				url:'/editLeesonDetail',
 				data:{strJson:JSON.stringify(arr)},
 				success:function(datas){
-					console.log(datas)
-					console.log('123')
 					if(datas.success == 'yes'){
 						layer.msg('<b>編輯課程細節成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
 						objThis._bounce_editlesson.modal('hide');

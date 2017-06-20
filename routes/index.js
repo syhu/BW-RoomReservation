@@ -1004,4 +1004,16 @@ router.post('/getAccountSession', function(req, res, next){
   }
 })
 
+/*** class Move Manage ***/
+router.get('/classMoveManage', function(req, res, next){
+  if(req.session.account && (req.session.information[0].authorty == 'Hyper' || req.session.information[0].authorty == 'Admin'))
+  {
+      res.render('classMoveManage', { user: req.session.userName, information: req.session.information});
+  }
+  else
+  {
+    res.redirect('/?identity=visitor');
+  }
+})
+
 module.exports = router;
