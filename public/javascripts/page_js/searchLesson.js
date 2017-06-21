@@ -29,17 +29,17 @@ var searchLesson = (function(){
 
     _start:function(){
       var objThis = this;
-      this._lessonlistTable.hide();
-      this._emptylistTable.hide();
+      // this._lessonlistTable.hide();
+      // this._emptylistTable.hide();
       this._lessonloadingList.hide();
 
 
       var today = layout._showTime();
       objThis._EmptyDataTable();   /* 空教室列表初始化 */
-      objThis._LessonDataTable();   /* 空教室列表初始化 */
+      objThis._LessonDataTable();   /* 課程列表初始化 */
 
-      $("#lessonlistTable_wrapper").hide();
-      $("#emptylistTable_wrapper").hide();
+      $("#lessonlistTable_wrapper").hide();   /* 課程列表隱藏 */
+      $("#emptylistTable_wrapper").hide();    /* 空教室列表隱藏 */
 
       objThis._initialAll();
       objThis._getPositionList();
@@ -159,11 +159,11 @@ var searchLesson = (function(){
 
       layer.msg('<b>資料查詢中</b>', { icon:0,shade:[0.5,'black']});
 
-      $("#emptylistTable_wrapper").hide();
-      $("#lessonlistTable_wrapper").hide();
+      $("#lessonlistTable_wrapper").hide();   /* 課程列表隱藏 */
+      $("#emptylistTable_wrapper").hide();    /* 空教室列表隱藏 */
 
-      objThis._lessonlistTable.hide();
-      objThis._emptylistTable.hide();
+      // objThis._lessonlistTable.hide();
+      // objThis._emptylistTable.hide();
 
       $.ajax({
         type:'post',
@@ -185,12 +185,14 @@ var searchLesson = (function(){
               if(objThis._filterEmptyClass.is(":checked")){
                 layer.msg('<b>空教室查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setemptyList(datas.success);
+                $("#lessonlistTable_wrapper").hide();   /* 課程列表隱藏 */
 
               }else{
                 $("#lessonlistTable_wrapper").show();
 
                 layer.msg('<b>課程查詢成功</b>', {time: 1500, icon:1,shade:[0.5,'black']});
                 objThis._setlessonList(datas.success);
+                $("#emptylistTable_wrapper").hide();    /* 空教室列表隱藏 */
               }
             }
         },
@@ -242,7 +244,7 @@ var searchLesson = (function(){
 
       }
 
-      objThis._emptylistTable.show();
+      // objThis._emptylistTable.show();
     },
     //查課程
     _setlessonList:function(strJson){
@@ -304,7 +306,7 @@ var searchLesson = (function(){
       })
 
 
-      objThis._lessonlistTable.show();
+      // objThis._lessonlistTable.show();
 
     },
     //取得地點
