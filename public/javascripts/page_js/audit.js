@@ -13,6 +13,7 @@ var aduit = (function(){
       this._lesson = $("#lesson");
 
       this.clickID = "";
+      this.clickLessonName = "";
       this._start();
     },
 
@@ -23,7 +24,7 @@ var aduit = (function(){
     },
 
     _initialAll:function(){
-  
+
 
       //審核通過
       this._btnSubmit.on('click',$.proxy(function(){
@@ -55,6 +56,48 @@ var aduit = (function(){
                       {
                         objThis._getAuditList();
                         layer.msg('<b>審核通過</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                        //更改通知資料
+                        var postData = {
+                            isReview:'1'
+                        };
+                        firebase.database().ref('/lessonNotice').once('value').then(function(e){
+                          var data = e.val();
+                          $.each(data,function(i,v){
+                            $.each(v,function(n,m){
+                              //判斷課程名稱
+                              if(n == 'lessonName' && m == objThis.clickLessonName){
+                                key = i;
+                                firebase.database().ref('/lessonNotice/' + key).update(postData);
+                                time = v.time
+                                time = new Date(time).toLocaleString();
+                                time = time.replace(/\-/g,'/').split(' ')[0];
+
+
+                                //判斷同一天的課程的資料
+                                firebase.database().ref('/lessonNotice').once('value').then(function(tt){
+                                    var tt = tt.val();
+                                    $.each(tt,function(t1,t2){
+                                      $.each(t2,function(t3,t4){
+                                        if(t3 == 'time' && t2.isReview == '0'){
+                                          cTime = t4;
+                                          cTime = new Date(cTime).toLocaleString();
+                                          cTime = cTime.replace(/\-/g,'/').split(' ')[0];
+                                          if(cTime == time){
+                                            key = t1;
+                                            var postData = {
+                                                isReview:'2'
+                                            };
+                                            firebase.database().ref('/lessonNotice/' + key).update(postData);
+                                          }
+                                        }
+                                      })
+                                    })
+                                })
+                              }
+
+                            })
+                          });
+                        })
                       }
                       else if(message.success == 'no')
                       {
@@ -107,6 +150,22 @@ var aduit = (function(){
                       {
                         objThis._getAuditList();
                         layer.msg('<b>審核不通過</b>', {time: 1500, icon:1,shade:[0.5,'black']});
+                        //更改通知資料
+                        var postData = {
+                            isReview:'2'
+                        };
+                        firebase.database().ref('/lessonNotice').once('value').then(function(e){
+                          var data = e.val();
+                          $.each(data,function(i,v){
+                            $.each(v,function(n,m){
+
+                              if(n == 'lessonName' && m == objThis.clickLessonName){
+                                key = i;
+                                firebase.database().ref('/lessonNotice/' + key).update(postData);
+                              }
+                            })
+                          });
+                        })
                       }
                     },
                     error: function (xhr)
@@ -198,6 +257,8 @@ var aduit = (function(){
             //審核
             _input = $("<span />",{"class":"label label-success btn-embossed","text":"審核","id":v.lessonID,"name":(i+1),"style":"font-size:100%"});
             _input.click(function(){
+              objThis.clickLessonName = v.name;
+              // console.log(objThis.clickLessonName)
               clickID = $(this).attr('id');
               clickName = $(this).attr('name');
             });
