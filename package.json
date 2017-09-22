@@ -1,6 +1,6 @@
 {
-  "name": "foundation",
-  "version": "0.0.0",
+  "name": "BW-RoomReservation",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

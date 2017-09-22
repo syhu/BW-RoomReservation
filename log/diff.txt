@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index 150c429..ed476a6 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+-  "name": "foundation",
+-  "version": "0.0.0",
++  "name": "BW-RoomReservation",
++  "version": "0.0.1",
+   "private": true,
+   "scripts": {
+     "start": "node ./bin/www"
