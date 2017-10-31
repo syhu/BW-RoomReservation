@@ -526,13 +526,16 @@ var lessonManage = (function(){
 				url: "/getAllPassLesson",
 				dataType: "json",
 				success: function(datas){
+						console.log('getAllPassLesson returned');
 						var data = datas.howLesson;
 						// console.log(data)
-						if(data.length > 0){
+						if(data instanceof Array && data.length > 0){
 							objThis._lessonloadingList.hide();
 							objThis._setAllPassLesson(data);
 						}else{
-							// objThis._lessonnobodyList.show();
+							//objThis._lessonnobodyList.show();
+							// no lsessons found
+							objThis._lessonloadingList.hide();
 						}
 				},
 				beforeSend:function(){

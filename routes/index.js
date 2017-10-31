@@ -810,11 +810,14 @@ router.post('/updateAuditLesson', function(req, res, next){
 router.post('/getAllPassLesson', function(req, res, next){
   lesson.searchLesson('', '', 'success', function(err, todayLesson)
   {
+	  console.log('todayLesson:');
+	  console.log(todayLesson);
+	  
     if(todayLesson != 'no data')
     {
       res.send({ success:'yes', howLesson: todayLesson});
     }
-    else if(todayLesson == 'no data')
+    else
     {
       res.send({ success:'no' });
     }
