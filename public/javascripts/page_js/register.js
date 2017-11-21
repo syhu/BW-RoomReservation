@@ -1,5 +1,12 @@
+// ref: https://stackoverflow.com/questions/46155/how-to-validate-email-address-in-javascript
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 var registered = (function(){
 	var _const;
+		
 	_const = function(){
 
 		this._agree = "";	//註冊同意
@@ -89,7 +96,7 @@ var registered = (function(){
 			objThis._getRandom();
 			//查詢帳號是否重複
 			this._searchAccount.on("click", $.proxy(function(e){
-				if(this._account.val() != "" && this._account.val().length >= 6 && this._account.val().length <= 20
+				if(this._account.val() != "" && this._account.val().length >= 4 && this._account.val().length <= 20
 				&& this._account.val().match(/[a-z]/i)){
 					$.ajax({
 						type: "post",
@@ -155,7 +162,11 @@ var registered = (function(){
 
 			//姓名 blur
 			objThis._name.on("blur",$.proxy(function(event){
-				objThis._name.val(objThis._name.val().replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,''))
+				objThis._name.val(objThis._name.val().replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,''));
+				
+				console.log('name: ');
+				console.log(objThis._name.val());
+				
 				//判斷姓名長度是否大於1，小於30  不能輸入特殊字元
 				if(objThis._name.val().length >= 2 && objThis._name.val().length <= 30 &&
 				!objThis._getSpeStr(objThis._name.val()))
@@ -197,7 +208,7 @@ var registered = (function(){
 			objThis._account.on("blur",$.proxy(function(event){
 				objThis._account.val(objThis._account.val().replace(/[^\a-\z\A-\Z0-9]/g,''))
 				//判斷帳號長度是否大於6，小於20  密碼包含英文字母(不分大小寫) 特殊字元只能支援底線
-				if(objThis._account.val().length >= 6 && objThis._account.val().length <= 20
+				if(objThis._account.val().length >= 4 && objThis._account.val().length <= 20
 				&& objThis._account.val().match(/[a-z]/i) &&
 				!objThis._getSpeStr2(objThis._account.val()))
 				{
@@ -229,7 +240,7 @@ var registered = (function(){
 			//帳號 focus
 			objThis._account.on("focus",$.proxy(function(event){
 				objThis._promptText.empty();
-				objThis._promptText.append("貼心小提示:帳號請輸入六個字以上，二十個字以下");
+				objThis._promptText.append("貼心小提示:帳號請輸入四個字以上，二十個字以下");
 			},this));
 			//帳號 限制長度輸入
 			objThis._account.bind("input",function(evt){
@@ -316,6 +327,20 @@ var registered = (function(){
 			//E-mail  blur
 			objThis._email.on("blur",$.proxy(function(event){
 				var email = objThis._email.val();
+				
+				// validate e-mail
+				var result = validateEmail(email);
+				if (result) {
+					objThis._form_email.removeClass("has-error");
+					objThis._form_email.addClass("has-success");
+					objThis._checkField[3] = 1;					
+				} else {
+					objThis._form_email.addClass("has-error");
+					objThis._form_email.removeClass("has-success");
+					objThis._checkField[3] = 0;					
+				}
+				
+				/*
 				var email_font = email.substr(0,email.indexOf("@"))
 				var email_format = email.substr(email.indexOf("@")+1)
 				//判斷是否為空  檢驗email格式 前面字串 + @ + domain .com
@@ -337,6 +362,8 @@ var registered = (function(){
 					objThis._form_email.removeClass("has-success");
 					objThis._checkField[3] = 0;
 				}
+				*/
+				
 			},this));
 			//信箱 focus
 			objThis._email.on("focus",$.proxy(function(event){
@@ -532,6 +559,8 @@ var registered = (function(){
 			objThis._chk.on("click",$.proxy(function(event){
 				// 驗證各個欄位
 				var check = true;
+				console.log(objThis._checkField);
+				
 				for(i=0;i<10;i++){
 					if(objThis._checkField[i] != 1) {
 						check = false;
