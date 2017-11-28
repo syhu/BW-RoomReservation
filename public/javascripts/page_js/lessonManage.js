@@ -77,16 +77,16 @@ var lessonManage = (function(){
 			this._form_telephone = $(".form_telephone");
 			this.Editlesson = '';
 			//編輯課程ID
-      this._EditlessonIDName = $("#EditlessonIDName");
-      this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
-      this._EditContractName = $("#EditContractName");
-      this._EditContractPhone = $("#EditContractPhone");
-      this._btnEditCancel = $("#btnEditCancel");
-      this._btnEditSubmit = $("#btnEditSubmit");
+			this._EditlessonIDName = $("#EditlessonIDName");
+			this._EditlessonIDabbreviation = $("#EditlessonIDabbreviation")
+			this._EditContractName = $("#EditContractName");
+			this._EditContractPhone = $("#EditContractPhone");
+			this._btnEditCancel = $("#btnEditCancel");
+			this._btnEditSubmit = $("#btnEditSubmit");
 			// this._editSelectId = $("#editSelectId")
 			this._form_editName = $(".form_editName");
 			this._form_editPhone = $(".form_editPhone");
-      this.EditlessonID = '';
+			this.EditlessonID = '';
 			this._lessonID = $("#lessonID")
 
 			//hidden
