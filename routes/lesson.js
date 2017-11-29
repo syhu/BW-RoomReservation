@@ -803,7 +803,7 @@ module.exports = {
             id = data[0].id;
             building = data[0].building;
             floor = data[0].floor;
-            lessonclass = data[0].lessonclass;
+            lessonClass = data[0].lessonClass;
             time = data[0].time;
             period = data[0].period;
             people = data[0].people;
@@ -812,7 +812,7 @@ module.exports = {
             Lesson.find({
                 building: building,
                 floor: floor,
-                lessonclass: lessonclass,
+                lessonClass: lessonClass,
                 time: time,
                 period: period
             }).sort({
@@ -865,7 +865,7 @@ module.exports = {
                         $set: {
                             building: building,
                             floor: floor,
-                            lessonclass: lessonclass,
+                            lessonClass: lessonClass,
                             time: time,
                             period: period,
                             people: people,
