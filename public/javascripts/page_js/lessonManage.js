@@ -729,8 +729,8 @@ var lessonManage = (function() {
                             "<br/><br/>上課時間：" + v.time +
                             "<br/><br/>上課時段：" + v.period +
                             "<br/><br/>上課人數：" + v.people +
-                            "<br/><br/>備註：" + v.note,
-                        //"<br/><br/><br/><br/><b style='font-size:20px;color:red;'>請輸入密碼</b>",
+                            "<br/><br/>備註：" + v.note +
+                        	"<br/><br/><br/><br/><b style='font-size:20px;color:red;'>請輸入課程名稱再次確認</b>",
 
                         //inputType:'password',
                         buttons: {
@@ -743,9 +743,13 @@ var lessonManage = (function() {
                                 className: 'btn-default btn-embossed'
                             }
                         },
-                        callback: function(result) {
-							console.log('delete lesson: ' + v.lessonID);
+                        callback: function (result) {
+							console.log('delete lesson: ' + v.lessonID + ' result: ' + result);
 							
+							// class name not matched, do not delete
+							if (result !== v.name) {
+								return;
+							}
 							// send API call to delete lesson
 							$.ajax({
 								type: 'post',
