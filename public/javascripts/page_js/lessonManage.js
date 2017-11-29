@@ -744,11 +744,40 @@ var lessonManage = (function() {
                             }
                         },
                         callback: function(result) {
+							console.log('delete lesson: ' + v.lessonID);
+							
+							// send API call to delete lesson
+							$.ajax({
+								type: 'post',
+								url: '/deleteLesson',
+								data: {
+									lessonID: v.lessonID
+								},
+								success: function(datas) {
+									if (datas.success == 'yes') {
+										layer.msg('<b>刪除課程成功!</b>', {
+											time: 1500,
+											icon: 1,
+											shade: [0.5, 'black']
+										});
+										objThis._bounce_editlesson.modal('hide');
+										objThis._getAllPassLesson();
+									} else {
+										layer.msg('<b>刪除課程失敗!</b>', {
+											time: 1500,
+											icon: 2,
+											shade: [0.5, 'black']
+										});
+									}
+								}
+							})							
+							/*
                             // result is password entered
                             if (result != "") {
                                 console.log(result)
-                                //console.log(v.lessonID)
+                                console.log(v.lessonID)
                             }
+							*/
 
                         }
                     })

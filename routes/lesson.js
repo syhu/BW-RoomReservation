@@ -923,5 +923,28 @@ module.exports = {
         }
       })
     })
-  }
+  },
+  deleteLesson : function(lessonID, callback)
+  {
+    mongoose.connect('mongodb://localhost/foundation');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+      console.log('mongoose opened !');
+      var Lesson = require('./lesson_model.js');
+      var Position = require('./position_model.js');
+
+      Lesson.remove({lessonID: lessonID}).exec(function(err, data)
+      {
+		mongoose.disconnect();
+		mongoose.connection.close();		  
+		  if (err) {
+			  return callback('failed');
+		  }
+		  else
+			  return callback('success');
+	  });
+	
+    });
+  }	
 }

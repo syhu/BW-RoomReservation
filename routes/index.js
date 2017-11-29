@@ -674,6 +674,22 @@ router.post('/editLeesonDetail', function(req, res, next){
   })
 })
 
+router.post('/deleteLesson', function(req, res, next){
+  var lessonID = req.body.lessonID;
+  lesson.deleteLesson(lessonID, function(result) {
+    console.log('deleteLesson result: ' + result);
+	  
+    if (result == 'success')
+    {
+      res.send({ success: 'yes' })
+    }
+	else
+    {
+      res.send({ success: 'no' })
+    }
+  })
+})
+
 router.post('/updateLessonAbbreviation', function(req, res, next){
   var data = req.body.strJson;
   var sentTime = getNowTime();
