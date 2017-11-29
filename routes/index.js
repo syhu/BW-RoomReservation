@@ -654,10 +654,10 @@ router.post('/lessonManage', function(req, res, next){
   }
 })
 
-router.post('/editLeesonDetail', function(req, res, next){
+router.post('/editLessonDetail', function(req, res, next){
   var sentTime = getNowTime();
   var data = req.body.strJson;
-  lesson.editLeesonDetail(data, sentTime, function(repeat){
+  lesson.editLessonDetail(data, sentTime, function(repeat){
     console.log(repeat)
     if (repeat == 'success')
     {

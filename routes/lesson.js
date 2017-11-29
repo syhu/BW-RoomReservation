@@ -844,7 +844,7 @@ module.exports = {
       }
     })
   },
-  editLeesonDetail : function(editData, sentTime, callback)
+  editLessonDetail : function(editData, sentTime, callback)
   {
     mongoose.connect('mongodb://localhost/foundation');
     var db = mongoose.connection;

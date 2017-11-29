@@ -877,7 +877,7 @@ var lessonManage = (function() {
             arr = arr.concat(obj)
             $.ajax({
                 type: 'post',
-                url: '/editLeesonDetail',
+                url: '/editLessonDetail',
                 data: {
                     strJson: JSON.stringify(arr)
                 },
