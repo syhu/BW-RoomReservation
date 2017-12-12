@@ -369,7 +369,7 @@ router.post('/lessonNormalManage', function(req, res, next) {
     var millionSecond = new Date(splitTime[0], splitTime[1] - 1, splitTime[2]).getTime();
     var userName = req.session.userName;
     var aim = '上課';
-
+	
     var currentTime = [];
     currentTime[0] = lessonTime;
     origMillionSecond = millionSecond;

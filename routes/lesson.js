@@ -289,7 +289,8 @@ module.exports = {
             function updateLessonID(id, num, thisTime, callback) {
                 var splitID = id.split('-');
                 formatDate(thisTime, function(newFormatTime) {
-                    splitID[0] = newFormatTime;
+					// we keep same initial ID header (easier for serial class management)
+                    //splitID[0] = newFormatTime;
                     splitID[2] = (num + 1);
                     newID = splitID.join('-');
                     callback(newID);
@@ -808,7 +809,7 @@ module.exports = {
             period = data[0].period;
             people = data[0].people;
             note = data[0].note;
-
+			
             Lesson.find({
                 building: building,
                 floor: floor,
@@ -819,6 +820,7 @@ module.exports = {
                 'time': 'asc'
             }).exec(function(err, data) {
                 console.log(data);
+				// overlap
                 if (data.length > 1) {
                     console.log('1');
                     mongoose.disconnect();
@@ -859,6 +861,7 @@ module.exports = {
                         }
                     }
                 } else if (data.length == 0) {
+					// no overlap
                     Lesson.update({
                         lessonID: id
                     }, {
@@ -890,8 +893,11 @@ module.exports = {
             var Lesson = require('./lesson_model.js');
             var Position = require('./position_model.js');
 
+			// get first header for lessonID for serial removal			
+			var id = lessonID.split('-');
+			var id_header = id[0];
             Lesson.remove({
-                lessonID: lessonID
+                lessonID: {'$regex': '^' + id_header}
             }).exec(function(err, data) {
                 mongoose.disconnect();
                 mongoose.connection.close();
