@@ -148,13 +148,14 @@ module.exports = {
                 doc.save(function(err, doc) {
                     if (err) {
                         console.log(err);
+                        callback(err);						
                     } else {
                         console.log(doc.count + ' save successful');
-                        mongoose.disconnect();
-                        mongoose.connection.close();
-                        console.log('disconnect successful');
                         callback();
                     }
+					mongoose.disconnect();
+					mongoose.connection.close();
+					console.log('disconnect successful');					
                 });
             } else if (mode == 'normal') {
                 doc = new Lesson({
@@ -181,14 +182,15 @@ module.exports = {
                 });
                 doc.save(function(err, doc) {
                     if (err) {
-                        console.log(err);
+                        console.error(err);
+                        callback(err);	
                     } else {
                         console.log(doc.count + ' save successful');
-                        mongoose.disconnect();
-                        mongoose.connection.close();
-                        console.log('disconnect successful');
                         callback();
                     }
+					mongoose.disconnect();
+					mongoose.connection.close();
+					console.log('disconnect successful');					
                 });
             }
         });
@@ -418,7 +420,11 @@ module.exports = {
         });
     },
     searchLesson: function(requireFirstDay, requireSecondDay, check, callback) {
-        mongoose.connect('mongodb://localhost/foundation');
+		try {
+	        mongoose.connect('mongodb://localhost/foundation');		
+		} catch (e) {
+			console.error(e);
+		};
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function() {

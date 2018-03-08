@@ -393,8 +393,17 @@ router.post('/lessonNormalManage', function(req, res, next) {
                             var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-' +
                                 applyLocation + '-' + applyPeriod;
                             var mode = 'normal';
-                            lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function() {
-                                res.send({
+                            lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, origMillionSecond, aim, lessonPeriod, lessonPeople, lessonNote, mode, contract, contractPhone, function(err) {
+
+								if (err) {
+									res.send({
+										success: "no"
+									});
+									return;
+								}								
+								
+								console.log('create normal lesson success');
+								res.send({
                                     success: "yes"
                                 });
                             });
@@ -403,8 +412,15 @@ router.post('/lessonNormalManage', function(req, res, next) {
                         var lessonIndex = data[0].id;
                         var lessonId = applyUseTime + '-' + lessonIndex + '-' + first + '-' +
                             applyLocation + '-' + applyPeriod;
-                        lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function() {
-                            res.send({
+                        lesson.createLesson(account, userName, lessonName, lessonId, lessonCount, lessonBuilding, lessonFloor, lessonClass, lessonTime, sentTime, millionSecond, aim, lessonPeriod, lessonPeople, lessonNote, function(err) {
+                            if (err) {
+								res.send({
+									success: "no"
+								});
+								return;
+							}
+							console.log('create single lesson success');
+							res.send({
                                 success: "yes"
                             });
                         });
